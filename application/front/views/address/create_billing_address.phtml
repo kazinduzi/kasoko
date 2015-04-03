@@ -1,0 +1,93 @@
+<?php if ($this->title): ?>
+    <div class="page-title">
+        <h1><?php echo $this->title; ?></h1>
+    </div>
+<?php endif; ?>
+
+<form action="/customer/address/create_billing_post/<?php echo $this->Customer->getAddressId(); ?>" method="post" id="form-validate">
+    <input type="hidden" name="csrf_token" value="<?php echo Security::token(); ?>">
+    <h2 class="legend">Contact Information</h2>
+    <ul class="form-list">
+        <li>
+            <div class="field-firstname">
+                <label for="firstname" class="required"><em>*</em>Firstname</label><br/>
+                <input type="text" name="firstname" id="firstname" title="Firstname" value="">
+            </div>
+            <div class="field-lastname">
+                <label for="lastname" class="required"><em>*</em>Lastname</label><br/>
+                <input type="text" name="lastname" id="lastname" title="Lastname" value="">
+            </div>
+        </li>
+        <li class="wide">
+            <label for="company">Company</label><br/>
+            <input type="text" name="company" value="" id="company" title="Company">
+        </li>
+        <li>
+            <div class="field-telephone">
+                <label for="telephone" class="required"><em>*</em>Telephone</label><br/>
+                <input type="tel" name="telephone" value="" id="telephone" title="Telephone">
+            </div>
+            <div class="field-mobile">
+                <label for="mobile">Mobile</label><br/>
+                <input type="tel" name="mobile" value="" id="mobile" title="Mobile">
+            </div>
+            <div class="field-fax">
+                <label for="fax">Fax</label><br/>
+                <input type="text" name="fax" value="" id="fax" title="Fax">
+            </div>
+        </li>
+    </ul>
+
+    <h2 class="legend">Address</h2>
+    <ul class="form-list">
+        <li class="wide">
+            <div>
+                <label for="address_1" class="required"><em>*</em>Address 1</label><br/>
+                <input type="text" name="address_1" value="" id="address_1" title="Address 1">
+            </div>
+            <div>
+                <label for="address_2">Address 2</label><br/>
+                <input type="text" name="address_2" value="" id="address_2" title="Address 2">
+            </div>
+        </li>
+        <li>
+            <div>
+                <label for="zipcode">Zipcode</label><br/>
+                <input type="text" name="zipcode" value="" id="zipcode" title="Zipcode">
+            </div>
+            <div>
+                <label for="city">City</label><br/>
+                <input type="text" name="city" value="" id="city" title="City">
+            </div>
+        </li>
+        <li>
+            <div>
+                <label for="country_id">Country</label><br/>
+                <select name="country_id" onchange="populateZonesByCountry(this.value);
+                        return false;">
+                    <option value="">Select the country</option>
+                    <?php foreach (Country::getAll() as $country) : ?>
+                        <?php $selected = $country['id'] == $this->Customer->getCountryId() ? 'selected="selected"' : null; ?>
+                        <option value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <label for="zone_id">Zone/Province</label><br/>
+                <select name="zone_id" title="Region|Province|Zone">
+                    <option value="">Select a zone</option>
+                    <?php if (isset($this->zones)): ?>
+                        <?php foreach ($this->zones as $zone) : ?>
+                            <option value="<?php echo $zone['id'] ?>" <?php echo ($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>            
+        </li>
+    </ul>
+
+    <div class="buttons-set">
+        <p class="required">* Required Fields</p>
+        <button type="submit" title="Save Address" class="btn btn-default"><span>Save Address</span></button>
+    </div>
+</form>

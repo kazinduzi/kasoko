@@ -1,0 +1,43 @@
+<footer id="footer" class="container">
+    <div class="col-sm-3">
+        <h3>Kasoko</h3>
+        <ul>
+            <li><a href="/page/view/terms-and-conditions-of-use">Terms and conditions of use</a></li>
+            <li><a href="/page/contact">Contact Us</a></li>            
+            <li><a href="/page/view/privacy-policy">Privacy and policy</a></li>
+        </ul>
+    </div>    
+    <div class="col-sm-3">
+        <h3>My Account</h3>
+        <ul>
+            <li><a href="/customer/account">My Account</a></li>
+            <li><a href="/customer/account/order">Order History</a></li>	    
+            <li>
+		<a href="/customer/wishlist">
+		    <?php if (Customer::getSingleton()->isLogged() && isset($_SESSION['wishlist'])) : ?>
+			<?php echo __('messages.wishlist'); ?> (<span id="wishlist-total"><?php echo count($_SESSION['wishlist']); ?></span>)
+		    <?php else: ?>
+			<?php echo __('messages.wishlist'); ?>
+		    <?php endif; ?>
+		</a>
+	    </li>
+	    <li><a href="/customer/newsletter">Newsletter</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-3">
+        <h3>Contact Us</h3>
+        <ul>
+            <li class="phone">(+31) 12 345678</li> <!-- Change your phone number //-->
+            <li class="mobile">(+257) 12 345 678</li> <!-- Change your mobile number //-->
+            <li class="email"><a href="mailto:info@yourstore.com">info@yourstore.com</a></li> <!-- Change your email address //-->
+        </ul>
+    </div>    
+</footer>
+<div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 text-left"> &copy; <?php echo date('Y'); ?> Kasoko e-commerce software. All Rights Reserved.</div>
+            <div class="col-sm-6 text-right">Powered by <a href="http://mvc.emmanuelndayiragije.com">kazinduzi framework</a></div>
+        </div>
+    </div>
+</div>

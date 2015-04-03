@@ -1,0 +1,28 @@
+<div class="checkout-heading">
+    <?php echo $progressHtml; ?>
+</div>
+
+<h1><?php echo $title; ?></h1>
+
+<form class="form" id="payment_method_form" method="post">
+    <ul>
+        <li>
+	    <input type="radio" name="payment_method" value="pp_standard" id="pp_standard" <?php echo (Session::instance()->get('payment_method') == 'pp_standard' ? 'checked' : ''); ?> />
+	    <label for="pp_standard">PayPal</label>
+        </li>
+        <li>
+	    <input type="radio" name="payment_method" value="bank_transfer" id="bank_transfer" <?php echo (Session::instance()->get('payment_method') == 'bank_transfer' ? 'checked' : ''); ?> />
+	    <label for="bank_transfer">Bank Transfer</label>
+        </li>
+        <li>
+	    <input type="radio" name="payment_method" value="cheque" id="cheque" <?php echo (Session::instance()->get('payment_method') == 'cheque' ? 'checked' : ''); ?> />
+	    <label for="cheque">Cheque / Money Order Instructions</label>
+	</li>
+    </ul>
+</form>
+
+<div class="buttons">
+    <div class="left">
+        <a id="button-payment-method" class="btn btn-primary">Continue</a>
+    </div>
+</div>

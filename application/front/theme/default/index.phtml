@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html lang="en-us" class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="en-us" class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="en-us" class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en-us" class="no-js"><!--<![endif]-->
+    <head>
+	<!-- Test if javascript is enabled -->
+	<script>(function(H) {
+		H.className = H.className.replace(/\bno-js\b/, 'js')
+	    })(document.documentElement);</script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title><?php echo ucfirst($title), ' - ', Kazinduzi::getAppName(); ?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="generator" content="Kazinduzi - open source web application framework">    
+	<?php echo Html::meta('keywords', (!empty($meta_keywords) ? $meta_keywords : 'Kazinduzi - Open Source MVC framework coded in PHP')); ?>
+	<?php echo Html::meta('description', (!empty($meta_description) ? $meta_description : 'Kazinduzi - Open Source MVC framework coded in PHP')); ?>
+	<?php echo Html::meta('author', 'Emmanuel Ndayiragije'); ?>
+	<?php echo Html::meta('copyright', 'copyright 2010 www.emmanuelndayiragije.com'); ?>
+	<link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700' rel='stylesheet' type='text/css'>
+	<link rel="shortcut icon" href="<?php echo HOME_URL; ?>/html/images/fav.ico" type="image/x-icon">
+	<!-- Append CSS stylesheets -->
+	<?php $this->appendStylesheets(); ?>
+	<link rel="stylesheet" href="/html/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/html/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/_theme/default/front/css/normalize.min.css">
+	<link rel="stylesheet" href="/_theme/default/front/css/main.css">
+	<link rel="stylesheet" href="/_theme/default/front/css/dropdown.css">
+	<link rel="stylesheet" href="/_theme/default/front/css/style.css">
+	<script src="/_theme/default/front/js/vendor/modernizr-2.8.0.min.js"></script>
+	<script>
+	/*<![CDATA[*/
+	var HOME_URL = '<?php echo htmlspecialchars(HOME_URL, ENT_QUOTES, Kazinduzi::$encoding); ?>';
+	/*]]>*/
+	</script>	
+    </head>
+    <body>
+	<div id="wrapper">
+	    <header>
+		<div class="header-top">
+		    <div id="top" style="position: fixed; z-index: 100; width: 100%;">
+			<ul class="links container">
+			    <li class="first">
+				<a href="/customer/account" title="Account"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.account'); ?></span></a>
+			    </li>
+			    <li>
+				<a href="/customer/wishlist/" title="Wishlist">
+				    <?php if (Customer::getSingleton()->isLogged() && isset($_SESSION['wishlist'])) : ?>
+    				    <i class="fa fa-heart-o"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.wishlist'); ?></span> (<span id="wishlist-total"><?php echo count($_SESSION['wishlist']); ?></span>)
+				    <?php else: ?>
+				    <i class="fa fa-heart-o"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.wishlist'); ?></span>
+				    <?php endif; ?>
+				</a>
+			    </li>			    
+			    <?php if (Customer::getSingleton()->isLogged()) : ?>
+    			    <li>
+				<a href="/customer/login/logout" title="Log In"><i class="fa fa-lock-alt"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.logout'); ?></span></a>
+    			    </li>
+			    <?php else : ?>
+    			    <li>
+				<a href="/customer/login" title="Log In"><i class="fa fa-unlock-alt"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.login'); ?></span></a>
+    			    </li>
+			    <li>
+				<a href="/checkout/checkout" title="Checkout" class="top-link-checkout"><i class="fa fa-check"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.checkout'); ?></span></a>
+			    </li>
+			    <?php endif; ?>
+			    <li class="last">
+				<a href="/cart/" title="Cart" id="cart-content" data-role="cart-content"><i class="fa fa-shopping-cart"></i> <?php echo __('messages.shopping_cart'); ?> (<span id="count-cart-item"><?php echo Cart::getSingleton()->getCountItems(); ?></span>)</a>
+			    </li>			    
+			</ul>
+		    </div>
+		    <div style="padding-top: 50px;">
+			<div class="container">
+			    <h1 class="logo">
+				<a href="/" title="Kasoko e-commerce V1">
+				    <img width="250" alt="Kasoko" src="/_theme/default/front/images/logo.png" class="img-responsive">				
+				</a>
+			    </h1>
+			    <div class="language-container">                    
+				<?php render($this->getTheme()->getName() . '/elements/currency.phtml'); ?>
+			    </div>
+			</div>
+		    </div>
+		</div>
+	    </header>
+	    <div class="container">
+		<div id="container" class="clearfix">
+		    <button id="pull" type="button" class="navbar-toggle collapsed toggleMenu" data-toggle="collapse" data-target=".navbar-collapse">
+			<i>Menu</i><span></span>
+		    </button>                        
+		    <div id="header" class="">
+			<?php render($this->getTheme()->getName() . '/elements/menu.phtml'); ?>
+		    </div>
+		    <div id="column-left">
+			<?php render($this->getTheme()->getName() . '/elements/left_block.phtml'); ?>
+		    </div>
+		    <div id="content">
+			<?php echo $content_for_layout; ?>
+		    </div>                    
+		</div>
+	    </div>
+	    <!-- Footer -->    
+	    <div class="footer-container">
+		<?php render($this->getTheme()->getName() . '/elements/newsletter_form.phtml', array('actionUrl' => '/newsletter/subscribe')); ?>
+		<?php render($this->getTheme()->getName() . '/elements/footer.phtml'); ?>
+	    </div>
+	    <!-- #footer -->
+	</div>
+	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="/html/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+	<script src="/html/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/_theme/default/front/js/default.js"></script>
+	<script src="/_theme/default/front/js/misc_functions.js"></script>
+	<!-- Append Javascripts -->
+	<?php $this->appendJavascripts(); ?>
+	<!--[if lt IE 9]>
+	<script src="/_theme/default/front/js/html5.js"></script>
+	<![endif]-->
+	<!--[if lt IE 7]>        
+	<script src="/_theme/default/front/js/pngfix.js"></script>
+	<![endif]-->
+		
+    </body>
+</html>

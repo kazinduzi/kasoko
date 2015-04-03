@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * Recursive 
+ */
+class Navigation
+{
+
+    static function recursive($category, $depth = 0)
+    {
+	$html = '';
+	if ($category->hasChildren() && $category->getActiveChildren()->count() && true === $category->isLive()) {
+	    $html .= '<span class="opener"></span>';
+	    $html .= '<ul class="level' . $depth . ' nav-submenu">' . PHP_EOL;
+	    foreach ($category->getChildren() as $child) {
+		$countLabel = $child->product ? ' (' . count($child->product) . ')' : null;
+		$html .= (true === $child->isLive()) ? '<li class="nav-item level' . ($depth + 1) . '"><a href="/category/view/' . \String::slugify($child->name) . '">' . $child->name . $countLabel . '</a>' : '' . PHP_EOL;
+		if ($child->hasChildren() && true === $child->isLive()) {
+		    $html .= self::recursive($child, ++$depth);
+		} else {
+		    $html .= '</li>' . PHP_EOL;
+		}
+	    }
+	    $html .= '</ul>' . PHP_EOL;
+	} else {
+	    $html .= '</li>' . PHP_EOL;
+	}
+	return $html;
+    }
+
+}
+?>
+
+<div style="margin-bottom: 15px">
+    <div class="title-bar">
+        <h2><?php echo __('messages.categories'); ?></h2>
+    </div>
+    <div class="cat-menu">
+	<?php
+	$navHtml = '<ul class="accordion accordion-style1 vertnav vertnav-side clearer">' . PHP_EOL;
+	$depth = 0;
+	foreach (Category::getInstance()->getAllActive() as $category) {
+	    if ($category->isTop() && $category->isLive()) {
+		$countLabel = $category->product ? ' (' . count($category->product) . ')' : null;
+		$navHtml .= '<li class="nav-item level' . $depth . '"><a href="/category/view/' . \String::slugify($category->name) . '">' . $category->name . $countLabel . '</a>' . PHP_EOL;
+		$navHtml .= Navigation::recursive($category);
+	    }
+	}
+	echo $navHtml . '</ul>' . PHP_EOL;
+	?>
+    </div>
+</div>
+
+<!-- Manufacturers -->
+<div style="margin-bottom: 15px">
+    <div class="title-bar">
+        <h2><?php echo __('messages.manufacturers'); ?></h2>
+    </div>
+    <div class="manufacturer-menu">
+        <ul>
+	    <?php foreach (\models\Manufacturer\Manufacturer::getInstance()->getAllActive() AS $manufacturer) : ?>
+    	    <li>
+    		<a href="/manufacturer/view_products/<?php echo String::slugify($manufacturer->name); ?>"><?php echo $manufacturer->name; ?></a>
+    	    </li>
+	    <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+
+<div style="margin-bottom: 15px">
+    <div class="title-bar">
+        <h2><?php echo __('messages.specials'); ?></h2>
+    </div>
+    <div class="special-menu">
+        <ul>
+	    <?php foreach (Product::getSpecials() as $specialProduct) : ?>
+    	    <li>
+    		<a href="/product/special/<?php echo String::slugify($specialProduct->slug); ?>"><?php echo($specialProduct->model); ?></a>
+    	    </li>
+	    <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

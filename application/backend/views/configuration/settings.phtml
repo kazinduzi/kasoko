@@ -1,0 +1,26 @@
+<div class="form-container">    
+    <form method="post" action="" class="clearfix">
+	<div class="form-group">
+	    <label>Shop email</label>
+	    <input class="form-control" type="text" name="shop_email" value="<?php echo \Configuration::get('shop_email');?>" >	    
+	</div>
+	<div class="form-group">
+	    <label>Shop name</label>
+	    <input class="form-control" type="text" name="shop_name" value="<?php echo \Configuration::get('shop_name');?>" >	    
+	</div>
+	<div class="form-group">
+	    <label>Shop logo</label>
+	    <input class="form-control" type="text" name="shop_logo" value="<?php echo \Configuration::get('shop_logo');?>" >	    
+	</div>
+	<div class="form-group">
+	    <label>Shop BaseURL</label>
+	    <input class="form-control" type="text" name="frontend_baseUrl" value="<?php echo \Configuration::get('frontend_baseUrl');?>" >	    
+	</div>
+	<div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+	    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+	    <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+	    <a href="/admin/settings" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+	</div>
+    </form>
+</div>
+

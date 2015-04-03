@@ -1,0 +1,83 @@
+<!doctype html>
+<!--[if lt IE 7]><html lang="en-us" class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="en-us" class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="en-us" class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en-us" class="no-js"><!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title><?php echo ucfirst($title . ' - ' . Kazinduzi::getAppName()); ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Kazinduzi - Open Source MVC framework coded in PHP">
+        <meta name="generator" content="Kazinduzi - open source web application framework">
+        <meta name="robots" content="all">
+        <link rel="shortcut icon" href="/html/images/fav.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/html/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/html/dropzone/css/dropzone.css">
+        <link rel="stylesheet" href="/html/admin_style.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/html/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+        <script src="/html/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/html/js/backend/dropzone.min.js"></script>
+        <script src="/html/js/backend/default.js"></script>
+        <script src="/html/ckeditor/sample.js"></script>
+        <!--<script src="/html/ckeditor/ckeditor.js"></script>-->
+	<script src="//cdn.ckeditor.com/4.4.4/standard/ckeditor.js"></script>
+    </head>
+    <body>
+        <div id="wrap" class="clearfix">
+	    <?php if (Auth::is_authenticated()) : ?>
+    	    <div class="main-nav navbar-collapse collapse">
+    		<ul class="main-nav nav navbar-nav">
+    		    <li class="first"><a href="/admin" title="dashboard"><?php echo __('Dashboard'); ?></a></li>
+    		    <li class="dropdown">
+    			<a href="#" data-toggle="dropdown" class="dropdown-toggle"><?php echo __('Catalog'); ?><b class="caret"></b></a>
+    			<ul class="dropdown-menu">
+    			    <li><a href="/admin/categories"><?php echo __('Categories'); ?></a></li>
+    			    <li><a href="/admin/products"><?php echo __('Products'); ?></a></li>
+    			    <li><a href="/admin/manufacturers"><?php echo __('Manufacturers'); ?></a></li>
+    			</ul>
+    		    </li>
+    		    <li><a href="/admin/orders/"><?php echo __('Orders'); ?></a></li>
+    		    <li><a href="/admin/customers/"><?php echo __('Customers'); ?></a></li>
+    		    <li class="dropdown">
+    			<a href="#" data-toggle="dropdown" class="dropdown-toggle"><?php echo __('CMS'); ?><b class="caret"></b></a>
+    			<ul class="dropdown-menu">
+    			    <li><a href="/admin/cms/">All pages</a></li>
+    			    <li><a href="/admin/cms/create_page">Add page</a></li>
+    			</ul>
+    		    </li>
+    		    <li class="dropdown">
+    			<a href="#" data-toggle="dropdown" class="dropdown-toggle"><?php echo __('Configuration'); ?><b class="caret"></b></a>
+    			<ul class="dropdown-menu">
+    			    <li><a href="/admin/configuration/currency/manager"><?php echo __('Currency manager'); ?></a></li>
+    			    <li><a href="/admin/configuration/settings"><?php echo __('Settings'); ?></a></li>
+    			</ul>			    
+    		    </li>
+    		    <li class="logout"><a href="/login/logout"><?php echo __('Logout'); ?></a></li>
+    		</ul>
+    	    </div>
+	    <?php endif; ?>
+
+            <!-- Login-Logout ribbon//-->
+	    <?php if (Auth::is_authenticated()) : ?>
+    	    <span class="auth-bar" >
+    		Welcome <a href="/admin/user/"><?php echo $_SESSION['user']['username']; ?></a> | <a href="/login/logout">Logout</a>
+    	    </span>
+	    <?php else : ?>
+    	    <div class="heading cf">
+    		<strong>Login</strong>
+    	    </div>
+	    <?php endif; ?>
+
+            <div id="main-holder" class="clearfix">
+		<?php echo $content_for_layout; ?>
+            </div>
+            <div class="separator-bottom clearfix"></div>
+	    <?php render('footer'); ?>
+        </div>
+	<script>
+	    CKEDITOR.replaceClass = 'wysiwyg';
+	</script>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<div class="account-login">
+    <div class="page-title">
+        <h1>Login or Create an Account</h1>
+    </div>
+    <form action="/customer/login" method="post" id="login-form" autocomplete="off">
+        <div class="col2-set">
+            <div class="col-1 new-users">
+                <div class="content">
+                    <h2>New Customers</h2>
+                    <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                </div>
+		<div class="buttons-set">
+                    <button type="button" title="Create an Account" class="btn btn-primary" onclick="window.location = '/customer/account/create';"><span>Create an Account</span></button>
+                </div>
+            </div>
+            <div class="col-2 registered-users">
+                <div class="content">
+                    <h2>Registered Customers</h2>
+                    <p>If you have an account with us, please log in.</p>
+                    <?php if ($this->error) : ?>
+                        <div class="error" style="color: red;">
+                            <span><?php echo $this->error; ?></span>
+                        </div>
+                    <?php endif; ?>
+                    <div class="form-list">
+                        <p class="form-group">
+                            <label for="email" class="required">E-mail address <em>*</em></label>                            
+			    <input type="email" name="login[username]" value="" id="email" class="form-control required-entry validate-email" title="E-mail address" placeholder="johndoe@domain.com">                            
+                        </p>
+                        <p class="form-group">
+                            <label for="pass" class="required">Password <em>*</em></label>
+                            <input type="password" name="login[password]" class="form-control required-entry validate-password" id="pass" title="Password" placeholder="password">                            
+                        </p>
+                    </div>
+		    <p class="required">(*) Required Fields</p>                                        
+                </div>
+		<div class="buttons-set">
+                    <a href="/customer/account/forgotpassword/" class="f-left">Forgot Your Password?</a>
+                    <button type="submit" class="btn btn-success" title="Login" name="send" id="send2"><span>Login</span></button>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</div>
+<script>
+    /* <![CDATA[ */
+    function toggleRememberMepopup(event) {
+	if ($('remember-me-popup')) {
+	    var viewportHeight = document.viewport.getHeight(),
+		    docHeight = $('body')[0].getHeight(),
+		    height = docHeight > viewportHeight ? docHeight : viewportHeight;
+	    $('remember-me-popup').toggle();
+	    $('window-overlay').setStyle({height: height + 'px'}).toggle();
+	}
+	Event.stop(event);
+    }
+    /* ]]> */
+</script>

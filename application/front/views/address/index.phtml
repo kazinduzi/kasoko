@@ -1,0 +1,62 @@
+<h1><?php echo $this->title; ?></h1>
+<div class="default-addresses">
+    <div class="col-set billing-address">
+        <h2>Billing address</h2>
+        <address>
+            <span><?php echo $this->Customer->getFullname(); ?></span><br/>
+            <?php
+            if ($this->Customer->getCompany())
+                echo '<span>' . $this->Customer->getCompany() . '</span><br/>';
+            if ($this->Customer->getAddress())
+                echo '<span>' . $this->Customer->getAddress() . '</span><br/>';
+            if ($this->Customer->getAddress_2())
+                echo '<span>' . $this->Customer->getAddress_2() . '</span><br/>';
+            if ($this->Customer->getCity())
+                echo '<span>' . $this->Customer->getCity() . '</span>, ';
+            if ($this->Customer->getZipcode())
+                echo '<span>' . $this->Customer->getZipcode() . '</span><br/>';
+            if ($this->Customer->getZone())
+                echo '<span>' . $this->Customer->getZone()->name . '</span>, ';
+            if ($this->Customer->getCountry())
+                echo '<span>' . $this->Customer->getCountry()->name . '</span>';
+            ?>
+        </address>
+        <p>
+            <a href="/customer/address/edit_billing_address/<?php echo $this->Customer->getAddressId(); ?>"><span>Change Billing Address</span></a>
+        </p>
+    </div>
+    <div class="col-set shipping-address">
+        <h2>Shipping address</h2>
+        <?php if (NULL !== $this->shipping_address) : ?>
+            <address>
+                <div>
+                    <span><?php echo isset($this->shipping_address->firstname) ? $this->shipping_address->firstname : null; ?></span>
+                    <span><?php echo isset($this->shipping_address->lastname) ? $this->shipping_address->lastname : null; ?></span>
+                    <br/>
+                    <span><?php echo isset($this->shipping_address->address_1) ? $this->shipping_address->address_1 : null; ?></span>
+                    <br/>
+                    <span><?php echo isset($this->shipping_address->address_2) ? $this->shipping_address->address_2 : null; ?></span>
+                    <br/>
+                    <span><?php echo isset($this->shipping_address->zipcode) ? $this->shipping_address->zipcode : null; ?></span>
+                    <span><?php echo isset($this->shipping_address->city) ? $this->shipping_address->city : null; ?></span>
+                    <br/>
+                    <span><?php echo isset($this->shipping_address->country_name) ? $this->shipping_address->country_name : null; ?></span>
+                    <br/>
+                    <span><?php echo isset($this->shipping_address->zone_name) ? $this->shipping_address->zone_name : null; ?></span>
+                    <br/>
+                    <span>T:<?php echo isset($this->shipping_address->phone) ? $this->shipping_address->phone : null; ?></span>
+                    <br/>
+                    <span>F:<?php echo isset($this->shipping_address->fax) ? $this->shipping_address->fax : null; ?></span>
+                    <br/>
+                </div>
+            </address>
+            <p>
+                <a href="/customer/address/edit_shipping_address"><span>Change shipping address</span></a>
+            </p>
+        <?php else : ?>
+            <p>
+                <a href="/customer/address/create_shipping_address"><span>Create new shipping address</span></a>
+            </p>
+        <?php endif; ?>
+    </div>
+</div>

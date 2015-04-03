@@ -1,0 +1,12 @@
+<form action="/newsletter/subscribe" method="post" id="newsletter-validate-detail">
+    <div class="block-content">
+	<p class="form-subscribe-header">
+	    <label for="newsletter">Signup for our newsletter</label>
+	    <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="newsletter[email]" id="newsletter" title="Sign up for our newsletter" class="form-control required-entry validate-email">
+	</p>
+	<div class="actions">
+	    <input type="hidden" name="newsletter[form_token]" value="<?php echo $token; ?>"/>
+	    <input type="submit" title="<?php echo __('messages.subscribe'); ?>" class="btn btn-primary" value="<?php echo __('messages.subscribe'); ?>"/>
+	</div>
+    </div>
+</form>

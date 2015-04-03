@@ -1,0 +1,125 @@
+<div class="form-container">    
+    <form method="post" action="" class="clearfix">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>        
+        <div style="display: inline-block; width:100%;">
+            <ul class="nav nav-tabs" id="tabbed-menu" style="">
+                <li class="active"><a href="#general" data-toggle="tab">General description</a></li>
+                <li><a href="#price" data-toggle="tab">Price</a></li>
+                <li><a href="#availability" data-toggle="tab">Availability</a></li>
+                <li><a href="#meta" data-toggle="tab">Meta</a></li>                
+                <li><a href="#associations" data-toggle="tab">Associations</a></li>
+            </ul>
+        </div>        
+        <div class="tab-content">
+            <!-- ./general -->
+            <div class="tab-pane active" id="general">
+                <div class="form-group">
+                    <label for="name" class="control-label">Product name * :</label>
+                    <input type="text" id="model" name="product[name]" required="required" title="Product name" placeholder="Product name" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label for="model" class="control-label">Product model * :</label>
+                    <input type="text" id="model" name="product[model]" required="required" title="Product model" placeholder="Product model" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label for="sku" class="control-label">Product SKU * :</label>
+                    <input type="text" id="sku" name="product[sku]" required="required" title="Product SKU" placeholder="Product SKU" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label for="description" class="control-label">Description :</label>
+                    <textarea name="product[description]" id="detailed_description_field" rows="10" class="form-control wysiwyg"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category" class="control-label">Associated categories * :</label>
+		    <?php foreach ($allCategories as $category) : ?>                        
+    		    <div class="checkbox">
+    			<label>
+    			    <input type="checkbox" id="category_field" name="product[category][]" value="<?php echo $category->getId(); ?>" /> <?php echo $category->name; ?>
+    			</label>
+    		    </div>
+		    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- ./price -->
+            <div class="tab-pane" id="price">
+                <div class="form-group">
+                    <label for="price_without_tax" class="control-label">Product price excluding taxes * : </label>
+                    <div class="input-group">
+                        <input type="text" id="price_without_tax" required="required" name="product[price]" class="form-control" value="" title="Product price excluding taxes *" placeholder="Price excl. taxes">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tax" class="control-label">Taxes * :</label>
+                    <div class="input-group">
+                        <input type="text" id="tax" required="required" name="product[tax]" class="form-control" value="" title="Produc's taxes *" placeholder="Produc's taxes">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>                
+            </div>
+
+
+            <!-- ./meta -->
+            <div class="tab-pane" id="meta">
+                <div class="form-group">
+                    <label for="meta_keywords" class="control-label">Meta-keywords :</label>
+                    <textarea name="product[meta_keywords]" id="meta_keywords" rows="2" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="meta_description" class="control-label">Meta-description :</label>
+                    <textarea name="product[meta_description]" id="meta_description" rows="3" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <!-- ./availability -->
+            <div class="tab-pane" id="availability">
+                <div class="form-group">
+                    <label for="tax" class="control-label">Available quantity * :</label>
+                    <input type="text" id="" name="product[quantity]" value="0" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="tax" class="control-label">Minimun available :</label>
+                    <input type="text" id="" name="product[minimum]" placeholder="Minimum avail. Qty" value="10" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="date_available" class="control-label">Date available</label>
+                    <input type="text" id="date_available" name="product[date_available]" placeholder="YYYY-mm-dd" value="" class="form-control"/>
+                </div>
+                <div class="form-group ">
+                    <label for="visible_create" class="control-label">Visibility</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="visible_create" name="product[visible]" value="1" checked="checked"/>
+                            This product is online.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ./association -->
+            <div class="tab-pane" id="associations">
+                <div class="form-group">
+                    <label for="manufacturer" class="control-label">Manufacturer :</label>
+                    <select name="product[manufacturer]">
+			<?php foreach ($activeManufacturers as $manufacturer) : ?>
+    			<option value="<?php echo $manufacturer->getId(); ?>"><?php echo $manufacturer->name; ?></option>
+			<?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+
+    </form>       
+</div>

@@ -1,0 +1,52 @@
+<div class="form-container">    
+    <form method="post" action="" class="clearfix">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/cms" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+
+        <div style="display: inline-block; width:100%;">
+            <ul class="nav nav-tabs" id="tabbed-menu" style="">
+                <li class="active"><a href="#general" data-toggle="tab">General description</a></li>
+                <li><a href="#meta" data-toggle="tab">Meta</a></li>                     
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="general">
+                <div class="form-group">
+                    <label for="name" class="control-label">Title * : </label>
+                    <input type="text" id="title" name="page[title]" required="required" title="Title" placeholder="Title" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label for="content" class="control-label">Content :</label>
+                    <textarea name="page[content]" id="detailed_content_field" rows="10" class="form-control wysiwyg"></textarea>
+                </div>
+                <div class="form-group ">
+                    <label for="visible_create" class="control-label">Visibility</label>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="visible_create" name="page[hidden]" value="1" checked="checked">
+                            Page is visible
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="meta">
+                <div class="group-form">
+                    <label for="meta_description" class="control-label">Meta Description :</label>
+                    <textarea name="page[meta_description]" id="meta_description" rows="6" placeholder="Make sure it uses keywords found within the page itself." class="form-control"></textarea>
+                </div>
+                <div class="group-form">
+                    <label for="meta_keywords" class="control-label">Meta Keywords :</label>
+                    <textarea name="page[meta_keywords]" id="meta_keywords" rows="3" placeholder="Don't repeat keywords over and over in a row. Rather, put in keyword phrases." class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/cms" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+    </form>
+</div>

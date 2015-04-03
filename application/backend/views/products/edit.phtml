@@ -1,0 +1,222 @@
+<style>
+    .existing-image .col-sm-6 {
+        position: relative;
+        margin-bottom: 30px;
+    }
+    .existing-image .col-sm-6 .btn-group {
+        position: absolute;
+        bottom: 5px;
+        right: 20px;
+    }
+    .thumbnail {
+        padding: 4px;
+        line-height: 1.42857143;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        -webkit-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        display: inline-block;
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 0
+    }
+    .thumbnail>img {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+    .existing-image #image-cover {
+	position: absolute;
+	top: 5px;
+	left: 20px;
+	font-size: 1.5em;
+	color: goldenrod;
+	z-index: 1;
+    }
+</style>
+<script>
+    var imageListUrl = '/admin/products/image_list/<?php echo $product->getId(); ?>';
+</script>
+
+<div class="form-container">    
+    <form method="post" action="" class="clearfix">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>        
+        <div style="display: inline-block; width:100%;">
+            <ul class="nav nav-tabs" id="tabbed-menu" style="">
+                <li class="active"><a href="#general" data-toggle="tab">General description</a></li>
+                <li><a href="#price" data-toggle="tab">Price</a></li>
+                <li><a href="#availability" data-toggle="tab">Availability</a></li>
+                <li><a href="#meta" data-toggle="tab">Meta</a></li>
+                <li><a href="#images" data-toggle="tab">Images</a></li>
+                <li><a href="#associations" data-toggle="tab">Associations</a></li>
+
+            </ul>
+        </div>        
+        <div class="tab-content">
+
+            <!-- ./general -->
+            <div class="tab-pane active" id="general">
+                <div class="form-group">
+                    <label for="name" class="control-label">Product name * :</label>
+                    <input type="text" id="model" name="product[name]" required="required" title="Product name" placeholder="Product name" class="form-control" value="<?php echo $product->name; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="model" class="control-label">Product model * :</label>
+                    <input type="text" id="model" name="product[model]" required="required" title="Product model" placeholder="Product model" class="form-control" value="<?php echo $product->model; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="sku" class="control-label">Product SKU * :</label>
+                    <input type="text" id="sku" name="product[sku]" required="required" title="Product SKU" placeholder="Product SKU" class="form-control" value="<?php echo $product->sku; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="description" class="control-label">Description :</label>
+                    <textarea name="product[description]" id="detailed_description_field" rows="10" class="form-control wysiwyg"><?php echo $product->description; ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category" class="control-label">Associated categories * :</label>
+		    <?php foreach ($allCategories as $category) : ?>
+			<?php
+			if (count($product->getCategories()) && in_array($category, $product->getCategories())) {
+			    $checked = 'checked="checked"';
+			} else {
+			    $checked = '';
+			}
+			?>
+    		    <div class="checkbox">
+    			<label>
+    			    <input type="checkbox" id="category_field" name="product[category][]" value="<?php echo $category->getId(); ?>" <?php echo $checked; ?> /> <?php echo $category->name; ?>
+    			</label>
+    		    </div>
+		    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- ./price -->
+            <div class="tab-pane" id="price">
+                <div class="form-group">
+                    <label for="price_without_tax" class="control-label">Product price excluding taxes * : </label>
+                    <div class="input-group">
+                        <input type="text" id="price_without_tax" required="required" name="product[price]" class="form-control" value="<?php echo sprintf('%0.2f', $product->price); ?>" title="Product price excluding taxes *" placeholder="Price excl. taxes">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tax" class="control-label">Taxes * :</label>
+                    <div class="input-group">
+                        <input type="text" id="tax" required="required" name="product[tax]" class="form-control" value="<?php echo sprintf('%0.2f', $product->tax); ?>" title="Produc's taxes *" placeholder="Produc's taxes">
+                        <span class="input-group-addon">€</span>
+                    </div>
+                </div>                
+            </div>
+
+            <!-- ./availability -->
+            <div class="tab-pane" id="availability">
+                <div class="form-group">
+                    <label for="tax" class="control-label">Available quantity * :</label>
+                    <input type="text" id="" name="product[quantity]" value="<?php echo $product->quantity; ?>" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="tax" class="control-label">Minimun available :</label>
+                    <input type="text" id="" name="product[minimum]" value="<?php echo $product->minimum; ?>" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="date_available" class="control-label">Date available</label>
+                    <input type="text" id="date_available" name="product[date_available]" value="<?php echo $product->date_available; ?>" class="form-control"/>
+                </div>
+                <div class="form-group ">
+                    <label for="visible_create" class="control-label">Visibility</label>
+                    <div class="checkbox">
+                        <label>
+			    <?php $checked = $product->status ? 'checked="checked"' : ''; ?>
+                            <input type="checkbox" id="visible_create" name="product[visible]" value="1" <?php echo $checked; ?>>
+                            This product is online.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ./images -->
+            <div class="tab-pane image-manager" id="images">
+                <div id="upload-dropzone" class="dropzone" rel="<?php echo $product->getId(); ?>" data-productid="<?php echo $product->getId(); ?>">
+                    <div class="dz-default dz-message">
+                        <span>
+                            Drop files to upload
+                            <span>Or</span>
+                            <button type="button" class="btn btn-info btn-upload">
+                                <i class="glyphicon glyphicon-upload"></i> Browse files
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="existing-image">
+		    <?php if (!count($product->getProductImages())) : ?>
+    		    <p><?php echo __('No images for this product'); ?></p>
+		    <?php else: ?>
+    		    <ul id="js-sort-image" class="row list-unstyled ui-sortable">
+			    <?php foreach ($product->getProductImages() as $image): ?>                    
+				<li class="col-sm-6 col-md-3 ui-state-default" data-sort-id="<?php echo $image->getId(); ?>">
+				    <?php if ($image->isCover()) : ?>
+	    			    <span id="image-cover" class="glyphicon glyphicon-star"></span>	            
+				    <?php endif; ?>
+				    <a href="" class="thumbnail">
+					<img src="<?php echo $image->getThumb(); ?>" alt="" width="150" />
+				    </a>
+				    <div class="btn-group">
+					<a class="image-update-btn btn btn-default btn-xs disabled js-sorted-position" href="#"><?php echo $image->getId(); ?></a>
+					<a class="image-update-btn btn btn-default btn-xs" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+					    <span class="glyphicon glyphicon-edit"></span>
+					</a>					
+					<a class="image-delete-btn btn btn-default btn-xs" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+					    <span class="glyphicon glyphicon-trash"></span>
+					</a>
+				    </div>
+				</li>                    
+			    <?php endforeach; ?>
+    		    </ul>
+		    <?php endif; ?>                    
+                </div>
+            </div>
+
+            <!-- ./meta -->
+            <div class="tab-pane" id="meta">
+                <div class="form-group">
+                    <label for="meta_keywords" class="control-label">Meta-keywords :</label>
+                    <textarea name="product[meta_keywords]" id="meta_keywords" rows="2" class="form-control"><?php echo $product->meta_keywords; ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="meta_description" class="control-label">Meta-description :</label>
+                    <textarea name="product[meta_description]" id="meta_description" rows="5" class="form-control"><?php echo $product->meta_description; ?></textarea>
+                </div>
+            </div>
+
+            <!-- ./association -->
+            <div class="tab-pane" id="associations">                
+                <div class="form-group col-md-4">
+                    <label for="manufacturer" class="control-label">Manufacturer :</label>
+                    <select name="product[manufacturer]" class="form-control">
+			<?php foreach ($activeManufacturers as $manufacturer) : ?>
+			    <?php $selected = ($manufacturer == $product->getManufacturer() ? 'selected' : ''); ?>
+    			<option value="<?php echo $manufacturer->getId(); ?>" <?php echo $selected; ?>><?php echo $manufacturer->name; ?></option>
+			<?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+
+    </form>       
+</div>

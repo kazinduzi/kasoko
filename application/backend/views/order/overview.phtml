@@ -1,0 +1,36 @@
+<?php if (!empty($orders)) : ?>   
+<div class="wrapper">
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed" id="customer_list">
+            <caption><?php echo __('List of orders');?></caption>
+            <thead>
+                <tr>    
+		    <th>Order number</th>
+		    <th>Date</th>
+		    <th>Items</th>
+		    <th>Shipped</th>
+		    <th>Total</th>
+		    <th class="actions">Actions</th>
+		</tr>
+		<?php foreach ($orders as $order) :?>
+		<tr>
+		    <td><a href="/admin/orders/view/<?php echo $order->getId();?>">
+			<?php echo $order->getId();?>
+			</a>
+		    </td>
+		    <td><?php echo date('d-m-Y', strtotime($order->added_date));?></td>
+		    <td><?php echo ($order->getItems() ? count($order->getItems()) : null);?></td>
+		    <td><?php echo $order->shipped; ?></td>
+		    <td><?php echo \String::currency_format($order->amount);?></td>
+		    <td class="actions">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-xs" title="Edit order" href="/admin/orders/edit/<?php echo $order->getId();?>"><i class="glyphicon glyphicon-edit"></i></a>
+                            
+			</div>
+                    </td>
+		</tr>
+		<?php endforeach;?>
+	</table>    
+    </div>
+    </div>
+<?php endif; ?>

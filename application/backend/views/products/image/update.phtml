@@ -1,0 +1,49 @@
+<style>
+    .img-thumbnail {
+	padding: 4px;
+	line-height: 1.42857143;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+	display: inline-block;
+	max-width: 100%;
+	height: auto;
+    }
+</style>
+<div class="form-container">
+    <form method="POST" action="" enctype="multipart/form-data" class="clearfix">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Preview : </label>
+                <p>
+                    <img src="<?php echo $imageProduct->getImage(); ?>" width="450" alt="" class="img-thumbnail"/>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+	    <div class="form-group">
+		<label for="cover" class="control-label">Cover : </label>
+		<input type="checkbox" id="cover" name="product_image_modification[cover]" value="1" <?php echo ($imageProduct->isCover() ? 'checked' : ''); ?>>
+	    </div>
+            <div class="form-group ">
+                <label for="title" class="control-label">Title : <?php echo $imageProduct->getTitle(); ?></label>
+                <input type="text" id="title" name="product_image_modification[title]" class="form-control" value="<?php echo $imageProduct->getTitle(); ?>" title="Title" placeholder="Title">
+            </div>
+            <div class="form-group ">
+                <label for="postscriptum" class="control-label">Post-scriptum : </label>
+                <textarea id="postscriptum" name="product_image_modification[postscriptum]" class="form-control" title="Post-scriptum" placeholder="Post-scriptum"><?php echo $imageProduct->getPostscriptum(); ?></textarea>
+            </div>
+            <div class="form-group ">
+                <label for="description" class="control-label">Description : </label>
+                <textarea id="description" name="product_image_modification[description]" class="form-control wysiwyg" title="Description" placeholder="Description"><?php echo $imageProduct->getDescription(); ?></textarea>
+            </div>
+        </div>        
+    </form>
+</div>

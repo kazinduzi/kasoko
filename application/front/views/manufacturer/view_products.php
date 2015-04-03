@@ -1,0 +1,92 @@
+<div class="manufacturer-info">
+    <h1><?php echo $manufacturer->name; ?></h1>
+</div>
+
+<div class="toolbar toolbar-top clearfix" role="toolbar">
+    <div class="sorter-container">
+	<div class="amount">
+	    <p><?php echo count($products); ?> Items</p>
+	</div>
+	<div class="limiter">
+	    <label for="limit-top">Show</label>
+	    <select id="limit-top" name="limit">
+		<?php
+		foreach ($limitOptions as $limitLabel => $limitOption) {
+		    $selected = $limit == $limitOption ? 'selected="selected"' : '';
+		    echo '<option value="/product/view_all?limit=' . $limitOption . '" ' . $selected . '>' . $limitLabel . '</option>';
+		}
+		?>                    
+	    </select>
+	    <span class="per-page">per page</span>
+	</div><!-- /.limiter -->
+	<div class="sort-by">
+	    <label for="sortby-top">Sort By</label>
+	    <select id="sortby-top" name="sortby">
+		<option value="/product/view_all?limit=8&amp;order=alpha">Name ascending</option>
+		<option value="/product/view_all?limit=8&amp;order=alpha_reverse">Name descending</option>
+		<option value="/product/view_all?limit=8&amp;order=min_price">Price ascending</option>
+		<option value="/product/view_all?limit=8&amp;order=max_price">Price descending</option>
+	    </select>
+	</div><!-- /.sort-by -->
+	<div class="view-mode">
+	    <span class="view-mode-label">Display as:</span>
+	    <span class="view-mode-btn">
+		<?php if ('grid' === $mode): ?>
+    		<span class="grid" title="Grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></span>
+    		<a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow" class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
+		<?php elseif ('list' === $mode) : ?>
+    		<a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow" class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
+    		<span class="list" title="List" class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></span>
+		<?php else : ?>
+    		<a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow" class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
+    		<a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow" class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
+		<?php endif; ?>
+	    </span>		    
+	</div><!-- /.view-mode -->
+    </div><!-- /.sorter -->
+</div>
+
+<div class="product-container <?php echo $mode; ?>">
+    <?php if (!count($products)) : ?>
+
+        <p>No products for this manufacturer</p>
+
+    <?php else : foreach ($products as $product) : ?>
+
+	    <div class="product-holder">
+		<div class="left-block">
+		    <?php if (count($product->getProductImages())) : ?>
+	    	    <div class="img-box">
+	    		<a href="/product/item/<?php echo String::slugify($product->slug); ?>">
+				<?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>    
+				    <img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
+				<?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image): ?>
+				    <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" title="<?php echo $product->name ?>" alt="<?php echo $product->name; ?>"/>
+				<?php else: ?>
+				    <img itemprop="image" src="/html/images/kasoko/280x196.png" alt="<?php echo $product->name; ?>" width="150">
+				<?php endif; ?>
+	    		</a>
+	    	    </div>
+		    <?php endif; ?>
+		    <div class="product-meta">
+			<div class="name">
+			    <a href="/product/item/<?php echo $product->slug; ?>"><?php echo $product->name ?></a>
+			</div>
+			<div class="price">
+			    <span><?php echo String::currency_format($product->price); ?></span>
+			</div>
+			<div class="product-description">
+			    <p class="description" itemprop="description"><?php echo \String::truncate($product->description, 100); ?></p>
+			</div>
+			<div class="cart">
+			    <a href="javascript:void(0);"class="btn btn-default" onclick="addToCart('<?php echo $product->getId(); ?>');"><span>Add to Cart</span></a>
+			</div>
+		    </div>
+		</div>
+	    </div>
+
+	    <?php
+	endforeach;
+    endif;
+    ?>
+</div>

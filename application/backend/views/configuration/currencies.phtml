@@ -1,0 +1,61 @@
+<div class="wrapper">
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed" id="currency_list">
+	    <caption>
+                <a id="currency-rate-update-button" class="form-submit-button btn btn-sm btn-default btn-info" title="Update currency's rate" href="" data-toggle="modal">
+                    Update currency rate
+                </a>
+            </caption>
+            <thead>
+                <tr>
+                    <th class="object-code">Code</th>
+                    <th>Symbol</th>
+		    <th>Default</th>
+		    <th>Rate</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+		<?php if (null === $currencies) : ?>                
+    		<tr><td colspan="5">No currency is found</td></tr>                    
+		<?php else: foreach ($currencies as $currency) : ?>                    
+			<tr>
+			    <td><?php echo $currency->getCode(); ?></td>
+			    <td><?php echo $currency->symbol; ?></td>
+			    <td><?php echo $currency->default; ?></td>
+			    <td><?php echo $currency->getRate(); ?></td>
+			    <td></td>
+			</tr>                
+			<?php
+		    endforeach;
+		endif;
+		?>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script>
+    $(document).on('click', '#currency-rate-update-button', function() {
+	var updateButton = $('#currency-rate-update-button');
+	$.ajax({
+	    url: '/admin/configuration/currency/manager/update_rate',
+	    data: {token: ("<?php echo Security::token(); ?>")},
+	    success: function(data) {
+		updateButton.removeClass('btn-info').addClass('btn-success').show(500, function() {
+		    setTimeout(function() {
+			updateButton.removeClass('btn-success').addClass('btn-info');
+		    }, 2000);
+		});
+	    },
+	    error: function(xhr, status, error) {
+		updateButton.removeClass('btn-info').addClass('btn-danger').show(500, function() {
+		    setTimeout(function() {
+			updateButton.removeClass('btn-danger').addClass('btn-info');
+		    }, 2000);
+		});
+	    }
+	});
+	return false;
+    });
+</script>

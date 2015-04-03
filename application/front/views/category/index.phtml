@@ -1,0 +1,50 @@
+<div class="category-home-wrap">
+    <div style="margin-bottom: 2rem;">
+        <img alt="" src="/html/images/kasoko/banner1.png"/>
+    </div>    
+    <div class="title-bar">
+        <h1>Latest articles <a href="/product/view_all?type=new" class="btn-all">+ <?php echo __('View all'); ?></a></h1>        
+    </div>
+    <div class="product-container">
+	<?php foreach (Product::getLatest() as $product) : ?>
+    	<div class="product-holder">
+		<?php if (count($product->getProductImages())): ?>
+		    <div class="img-box">
+			<a href="/product/item/<?php echo String::slugify($product->slug); ?>">
+			    <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>    
+	    		    <img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
+			    <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>    
+	    		    <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
+			    <?php else : ?>
+	    		    <img itemprop="image" src="/html/images/kasoko/280x196.png" alt="<?php echo $product->name; ?>" width="150">
+			    <?php endif; ?>
+			</a>
+		    </div>
+		<?php endif; ?>
+    	    <div class="product-meta">
+    		<div class="name">
+    		    <a href="/product/item/<?php echo String::slugify($product->slug); ?>"><?php echo $product->name ?></a>
+    		</div>
+    		<div class="product-description">
+    		    <p class="description" itemprop="description"><?php echo \String::truncate($product->description, 100); ?></p>
+    		</div>
+    		<div class="price"><?php echo String::currency_format($product->price); ?></div>
+    		<div class="cart">
+    		    <a href="javascript:void(0)" class="btn btn-default" onclick="addToCart('<?php echo $product->product_id; ?>');">Add to Cart</a>
+    		</div>
+    	    </div>
+    	</div>        
+	<?php endforeach; ?>        
+    </div>
+
+    <!--
+    <h2>List of categories</h2>
+    <ul>
+    <?php /* foreach ($categories as $category) :?>
+      <li>
+      <a href="/category/view/<?php echo String::slugify($category->name);?>"><?php echo $category->name;?></a> (<strong><?php echo count($category->product);?></strong> products)
+      </li>
+      <?php endforeach; */ ?>
+    </ul>
+    -->
+</div>

@@ -1,0 +1,57 @@
+<div class="wrapper">
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed" id="product_list">
+            <caption>Top level products
+                <a class="btn btn-default btn-primary action-btn" title="Add a new product" href="/admin/products/add" data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </caption>
+            <thead>
+                <tr>
+                    <th class="object-title">
+                        <a href="/admin/products?id_product=0&amp;product_order=id">ID</a>
+                    </th>
+                    <th class="object-title">
+                        <a href="/admin/products?id_product=0&amp;product_order=alpha">Name</a>
+                    </th>
+                    <th class="object-title">
+                        <a href="/admin/products?id_product=0&amp;product_order=alpha">SKU</a>
+                    </th>
+                    <th>
+                        <i class=""></i>
+                        <a href="/admin/products?id_product=0&amp;product_order=visible_reverse">Online</a>
+                    </th>                    
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (null === $products) : ?>                
+                    <tr><td colspan="5">No product is found</td></tr>                    
+                <?php else: foreach ($products as $product) : ?>                    
+                        <tr>
+                            <td><?php echo $product->getId(); ?></td>
+                            <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->name; ?></a></td>
+                            <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
+                            <td>
+                                <?php if ($product->status) : ?>
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                <?php else : ?>
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                <?php endif; ?>
+                            </td>                    
+                            <td class="actions">
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-xs" title="Browse this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-folder-open"></i></a>
+                                    <a class="btn btn-default btn-xs" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default btn-xs product-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>                
+                    <?php
+                    endforeach;
+                endif;
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>

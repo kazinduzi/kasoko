@@ -1,0 +1,22 @@
+<?php if ($customer->getShippingAddress()) : ?>
+<address>
+    <?php
+    echo $customer->getShippingAddress()->firstname . ' ' . $customer->getShippingAddress()->lastname . '<br/>';
+    echo $customer->getShippingAddress()->address_1 . '<br/>';
+    if ($customer->getShippingAddress()->address_2)
+	echo $customer->getShippingAddress()->address_2 . '<br/>';
+    if ($customer->getShippingAddress()->zipcode)
+	echo $customer->getShippingAddress()->zipcode . ', ';
+    if ($customer->getShippingAddress()->city)
+	echo $customer->getShippingAddress()->city . ', ';
+    if ($customer->getShippingAddress()->zone_name)
+	echo $customer->getShippingAddress()->zone_name . '<br/>';
+    if ($customer->getShippingAddress()->country_name)
+	echo $customer->getShippingAddress()->country_name . '<br/>';
+    if ($customer->getShippingAddress()->phone)
+	echo 'T:' . $customer->getShippingAddress()->phone . '<br/>';
+    if ($customer->getShippingAddress()->fax)
+	echo 'F:' . $customer->getShippingAddress()->fax . '<br/>';
+    ?>    
+</address>
+<?php endif; ?>

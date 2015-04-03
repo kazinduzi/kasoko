@@ -1,0 +1,83 @@
+<?php if ($this->title): ?>
+    <div class="page-title">
+        <h1><?php echo $this->title; ?></h1>
+    </div>
+<?php endif; ?>
+
+<form action="/customer/address/create_shipping_address_post/" method="post" id="form-validate">
+    <input type="hidden" name="csrf_token" value="<?php echo \Security::token(); ?>">
+    <h2 class="legend">Shipping Information</h2>
+    <div class="form-list">
+        <p class="field-firstname">
+	    <label for="firstname" class="required"><em>*</em>Firstname</label><br/>
+	    <input type="text" name="firstname" id="firstname" title="Firstname" value="" class="form-control required-entry">
+	</p>
+	<p class="field-lastname">
+	    <label for="lastname" class="required"><em>*</em>Lastname</label><br/>
+	    <input type="text" name="lastname" id="lastname" title="Lastname" value="" class="form-control required-entry">
+	</p>
+        <p class="field-telephone">
+	    <label for="telephone" class="required"><em>*</em>Telephone</label><br/>
+	    <input type="tel" name="phone" value="" id="telephone" title="Telephone" class="form-control required-entry">
+	</p>
+	<p class="field-mobile">
+	    <label for="mobile">Mobile</label><br/>
+	    <input type="tel" name="mobile" value="" id="mobile" title="Mobile" class="form-control">
+	</p>
+	<p class="field-fax">
+	    <label for="fax">Fax</label><br/>
+	    <input type="text" name="fax" value="" id="fax" title="Fax" class="form-control">
+	</p>        
+    </div>
+
+    <h2 class="legend">Shipping Address</h2>
+    <div class="form-list">
+        <p class="wide">
+            <label for="address_1" class="required"><em>*</em>Address 1</label><br/>
+	    <input type="text" name="address_1" value="" id="address_1" title="Address 1" class="form-control">
+	</p>
+	<p>
+	    <label for="address_2">Address 2</label><br/>
+	    <input type="text" name="address_2" value="" id="address_2" title="Address 2" class="form-control">	
+        </p>
+        <p>
+            <label for="zipcode">Zipcode</label><br/>
+	    <input type="text" name="zipcode" value="" id="zipcode" title="Zipcode" class="form-control">
+	</p>
+	<p>
+	    <label for="city">City</label><br/>
+	    <input type="text" name="city" value="" id="city" title="City" class="form-control">
+	</p>
+        
+        <div>
+            <p>
+                <label for="country_id">Country</label><br/>
+                <select name="country_id" onchange="populateZonesByCountry(this.value);
+                        return false;" class="form-control">
+                    <option value="">Select the country</option>
+                    <?php foreach (Country::getAll() as $country) : ?>
+                        <?php $selected = $country['id'] == $this->shipping_address->country_id ? 'selected="selected"' : null; ?>
+                        <option value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </p>
+            <p>
+                <label for="zone_id">Zone/Province</label><br/>
+                <select name="zone_id" title="Region|Province|Zone" class="form-control">
+                    <option value="">Select a zone</option>
+                    <?php if (isset($this->zones)): ?>
+                        <?php foreach ($this->zones as $zone) : ?>
+                            <option value="<?php echo $zone['id'] ?>" <?php echo ($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </p>            
+        </div>
+
+    </div>
+
+    <div class="buttons-set">
+        <p class="required">* Required Fields</p>
+        <button type="submit" title="Save Address" class="btn btn-success">Save Shipping Address</button>
+    </div>
+</form>

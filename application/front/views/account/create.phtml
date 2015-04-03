@@ -1,0 +1,123 @@
+<style type="text/css">
+    .block {
+        float: left;
+        width: 100%;
+        margin-bottom: 40px;
+        overflow: auto;
+    }
+    .block h2{background-color: #f3f3f3; padding: 5px; margin-bottom: 10px;}
+    label.required em {font-style: normal;color: #EB340A;}
+</style>
+
+<div class="page-title">
+    <h1>Create an Account</h1>
+</div>
+
+<p>If you already have an account with us, please login at the <a href="/customer/login">login page</a>.</p>
+
+<form action="" method="post" id="form-account">
+    <div class="block information">
+        <h2>Your Personal information</h2>
+        <div>
+            <div class="form-group">
+                <label class="required" for="firstname">Firstname<em>*</em></label>
+                <input type="text" name="firstname" value="" placeholder="John" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="required">Lastname<em>*</em></label>
+                <input type="text" name="lastname" value="" placeholder="Doe" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email" class="required">E-mail address<em>*</em></label>
+            <input type="email" name="email" value="" placeholder="johndoe@domain.com" class="form-control">
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="telephone">Telephone</label>
+                <input type="tel" name="telephone" value="" placeholder="Phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile</label><br />
+                <input type="tel" name="mobile" value="" placeholder="Mobile phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="fax">Fax</label>
+                <input type="text" name="fax" value="" placeholder="Fax" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <div class="block address">
+        <h2>Your Address</h2>
+        <div class="form-group">
+            <label for="company">Company</label>
+            <input type="text" name="company" value="" placeholder="Company" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="address_1" class="required">Address_1<em>*</em></label>
+            <input type="text" name="address_1" value="" placeholder="Address" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="address_2">Address_2</label>
+            <input type="text" name="address_2" value="" placeholder="Address 2" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="city" class="required">City<em>*</em></label>
+            <input type="text" name="city" value="" placeholder="City" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="zipcode" class="required">Zipcode<em>*</em></label>
+            <input type="text" name="zipcode" value="" placeholder="ZIP Code" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="country_id">Country</label>
+            <select name="country_id" onchange="populateZonesByCountry(this.value);
+                    return false;" class="form-control">
+                <option value="">Select the country</option>
+                <?php foreach ($this->countries as $country) : ?>
+                    <option value="<?php echo $country['id'] ?>"><?php echo $country['name'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="zone_id">Zone/Province</label>
+            <select name="zone_id" title="Region|Province|Zone" class="form-control">
+                <option value="">Select a zone</option>
+                <?php if (isset($this->zones)): ?>
+                    <?php foreach ($this->zones as $zone) : ?>
+                        <option value="<?php echo $zone['id'] ?>" <?php echo ($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="block password">
+        <h2>Your Password</h2>
+        <div>
+            <label for="city" class="required">Password<em>*</em></label>
+            <input type="password" name="password" value="" class="form-control">
+        </div>
+        <div>
+            <label for="confirm_password" class="required">Confirm password<em>*</em></label>
+            <input type="password" name="confirm_password" value="" class="form-control">
+        </div>
+    </div>
+
+    <div class="block newsletter">
+        <h2>Newsletter</h2>
+        <div>
+            <input id="newsletter" type="checkbox" name="newsletter" value="1">
+	    <label for="newsletter">Subscribe</label>
+            
+        </div>
+    </div>
+
+    <div class="buttons-set">
+        <p class="required">* Required Fields</p>
+        <button type="submit" title="Save" class="btn btn-success">Save</button>
+    </div>
+
+</form>

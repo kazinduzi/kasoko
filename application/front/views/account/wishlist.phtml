@@ -1,0 +1,42 @@
+<h1>My Wishlist</h1>
+
+<?php if (!empty($wishlistProducts)) : ?>
+    <div class="wishlist-info">
+        <table>
+    	<tr>
+    	    <th class="image">Image</th>
+    	    <th class="name">Product Name</th>
+    	    <th class="quantity">In Stock</th>
+    	    <th class="price">Unit Price</th>    	    
+	    <th class="actions">Actions</th>
+    	</tr>
+	    <?php foreach ($wishlistProducts as $product) : ?>
+		<tr>
+		    <td class="image">
+			<a href="/product/item/<?php echo String::slugify($product->slug); ?>">
+			    <img title="<?php echo $product->model; ?>" alt="<?php echo $product->model; ?>" src="<?php echo $product->getFirstProductImage()->getImage(); ?>" width="50" />
+			</a>
+		    </td>
+		    <td class="name">
+			<a href="/product/item/<?php echo String::slugify($product->slug); ?>"><?php echo $product->model; ?></a>
+		    </td>
+		    <td><span class="stockstatus"><?php echo $product->getStockStatus()->name; ?></span></td>
+		    <td class="price"><?php echo \String::currency_format($product->price); ?></td>
+		    <td style="text-align: center">
+			<div class="add-to-cart">
+			    <a href="javascript:void(0);" onclick="addToCart('<?php echo $product->getId(); ?>');"><i class="fa fa-shopping-cart"></i></a>
+			</div>
+			<div class="remove-from_wishlist">
+			    <a href="javascript:void(0);" onclick="removeFromWishList('<?php echo $product->getId(); ?>');"><i class="fa fa-trash-o"></i></a>
+			</div>
+		    </td>
+		</tr>
+	    <?php endforeach; ?>
+        </table>
+
+    <?php else: ?>
+
+        <div class="empty-cart">Your wish list is empty.</div>
+        <div class="center"><a class="btn btn-default" href="/"><span>Continue Shopping</span></a></div>
+
+    <?php endif; ?>

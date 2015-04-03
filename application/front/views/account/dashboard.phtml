@@ -1,0 +1,115 @@
+<style type="text/css"></style>
+<div class="dashboard">
+    <div class="page-title">
+        <h1>My Dashboard</h1>
+    </div>
+    <div class="welcome-msg">
+        <p class="hello"><strong><?php echo 'Hello, ', $this->Customer->getFullname(); ?></strong></p>
+        <p>From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.</p>
+    </div>
+
+    <div class="accont info">
+        <h2>Account Information</h2>
+        <div class="col-set">
+            <div class="col-left">
+                <div class="box-title">
+                    <h3>Contact Information</h3><a href="/customer/account/edit">Edit</a>
+                </div>
+                <div class="box-content">
+                    <p>
+                        <?php echo $this->Customer->getFullname(); ?><br>
+                        <?php echo $this->Customer->getEmail(); ?><br>
+                        <a href="/customer/account/edit/?changepass=1">Change Password</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-right">
+                <div class="box-title">
+                    <h3>Newsletter</h3><a href="/customer/newsletter">Edit</a>
+                </div>
+                <div class="box-content">
+                    <?php if (!$this->Customer->getNewsletter()): ?>
+                        <p>You are currently not subscribed to any newsletter.</p>
+                    <?php else: ?>
+                        <p>You are currently subscribed to our newsletter.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-set">
+            <div class="box-title">
+                <h2>Address</h2>
+                <a href="/customer/address">Manage Addresses</a>
+            </div>
+            <div class="addresses-content">
+                <div class="col-left">
+                    <h4>Billing address</h4>
+                    <?php if (!$this->Customer->getAddressId()) : ?>
+                        <span>You have no default billing address</span>
+                        <p>
+                            <a href="/customer/address/create_billing_address"><span>Create new billing address</span></a>
+                        </p>
+                    <?php else: ?>
+                        <address>
+                            <?php
+                            echo $this->Customer->getFullname() . '<br/>';
+                            if ($this->Customer->getCompany())
+                                echo $this->Customer->getCompany() . '<br/>';
+                            if ($this->Customer->getAddress())
+                                echo $this->Customer->getAddress() . '<br/>';
+                            if ($this->Customer->getAddress_2())
+                                echo $this->Customer->getAddress_2() . '<br/>';
+                            if ($this->Customer->getCity())
+                                echo $this->Customer->getCity() . ', ';
+                            if ($this->Customer->getZone())
+                                echo $this->Customer->getZone()->name . ', ';
+                            if ($this->Customer->getZipcode())
+                                echo $this->Customer->getZipcode() . '<br/>';
+                            if ($this->Customer->getCountry())
+                                echo $this->Customer->getCountry()->name . '<br/>';
+                            if ($this->Customer->getTelephone())
+                                echo 'T:' . $this->Customer->getTelephone() . '<br/>';
+                            if ($this->Customer->getFax())
+                                echo 'F:' . $this->Customer->getFax() . '<br/>';
+                            ?>
+                            <a href="/customer/address/edit_billing_address/<?php echo $this->Customer->getAddressId(); ?>">Edit Billing Address</a>
+                        </address>
+                    <?php endif; ?>
+                </div>
+                <div class="col-right">
+                    <h4>Shipping address</h4>
+                    <?php if (($shippingAddress = $this->Customer->getShippingAddress())) : ?>
+                        <address>
+                            <?php
+                            echo $shippingAddress->firstname . ' ' . $shippingAddress->lastname . '<br/>';
+                            echo $shippingAddress->address_1 . '<br/>';
+                            if ($shippingAddress->address_2)
+                                echo $shippingAddress->address_2 . '<br/>';
+                            if ($shippingAddress->zipcode)
+                                echo $shippingAddress->zipcode . ', ';
+                            if ($shippingAddress->city)
+                                echo $shippingAddress->city . ', ';
+                            if ($shippingAddress->zone_name)
+                                echo $shippingAddress->zone_name . '<br/>';
+                            if ($shippingAddress->country_name)
+                                echo $shippingAddress->country_name . '<br/>';
+                            if ($shippingAddress->phone)
+                                echo 'T:' . $shippingAddress->phone . '<br/>';
+                            if ($shippingAddress->fax)
+                                echo 'F:' . $shippingAddress->fax . '<br/>';
+                            ?>
+                            <a href="/customer/address/edit_shipping_address">Edit Shipping Address</a>
+                        </address>
+                    <?php else: ?>
+                        <span>You have no default shipping address</span>
+                        <p>
+                            <a href="/customer/address/create_shipping_address/"><span>Create new shipping address</span></a>
+                        </p>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

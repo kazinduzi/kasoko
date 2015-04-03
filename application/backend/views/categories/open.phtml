@@ -1,0 +1,69 @@
+<div class="wrapper">
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed" id="category_list">
+            <caption><?php echo __('Categories in') ?> "<?php echo $category->name; ?>"
+                <a class="btn btn-default btn-primary action-btn" title="Add a new category" href="/admin/categories/add" data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </caption>
+            <thead>
+                <tr>
+                    <th class="object-title">ID</th>
+                    <th>&nbsp;</th>
+                    <th class="object-title">Reference</th>
+                    <th class="object-title">Product title</th>
+                    <th>Online</th>
+                    <th>Position</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed">
+            <caption><?php echo __('Products in') ?> "<?php echo $category->name; ?>"
+                <a class="btn btn-default btn-primary action-btn" title="Add a new product" href="/admin/products/add" data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </caption>
+            <thead>
+                <tr>
+                    <th class="object-title">ID</th>
+                    <th>&nbsp;</th>
+                    <th class="object-title">SKU</th>
+                    <th class="object-title">Product title</th>
+                    <th>Online</th>
+                    <th>Position</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+		<?php if (count($products)): foreach ($products as $product) : ?>
+			<tr>
+			    <td><?php echo $product->getId(); ?></td>
+			    <td><img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" width="50" alt=""/></td>
+			    <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
+			    <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->model; ?></a></td>
+			    <td>
+				<?php if ($product->status) : ?>
+	    			<i class="glyphicon glyphicon-ok"></i>
+				<?php else : ?>
+	    			<i class="glyphicon glyphicon-remove"></i>
+				<?php endif; ?>
+			    </td>
+			    <td><?php echo $product->sort_order; ?></td>
+			    <th class="actions">
+		    <div class="btn-group">
+			<a class="btn btn-default btn-xs" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+			<a class="btn btn-default btn-xs category-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+		    </div>
+		    </th>
+		    </tr>
+		<?php endforeach;
+	    endif;
+	    ?>
+            </tbody>
+        </table>
+    </div>
+</div>
