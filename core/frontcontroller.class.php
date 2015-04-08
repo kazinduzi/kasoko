@@ -74,13 +74,11 @@ class FrontController
 
 	if ($this->Request->getParam('rt')) {
 	    $route = $this->Request->getParam('rt');
+	} elseif (null != $this->Request->serverParam('REQUEST_URI')) {
+	    $request_uri= strtok($this->Request->serverParam('REQUEST_URI'), '?');
+	    $route = ltrim($request_uri, '/admin/');
 	}
-	// If .htaccess file doesn't exist, we extract the route from the $_SERVER['REQUEST_URI']
-	else if (!is_file(KAZINDUZI_PATH . DS . '.htaccess')) {
-	    $request_uri = $this->Request->serverParam('REQUEST_URI');
-	    $route = substr($request_uri, 10);
-	}
-
+	
 	// If route is present find which controller and action
 	if (isset($route)) {
 	    $route = str_replace(array('//', '../'), '/', trim($route, '/'));

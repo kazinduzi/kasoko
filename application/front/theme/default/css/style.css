@@ -227,7 +227,7 @@ width: 100%;
 #column-left .manufacturer-menu ul li,
 #column-left .special-menu ul li {
     border-bottom: 1px solid #EEE;
-    padding: 3px 0;
+    padding: 6px 0;
 }
 
 #column-left .cat-menu ul li:first-child,
@@ -1210,8 +1210,7 @@ h2{
 .accordion li {
     float: left;
     display: block;
-    width: 100% !important;
-    padding: 0 !important;
+    width: 100%;
     margin: 0;
     list-style-type: none;
     cursor: pointer;
@@ -1223,8 +1222,7 @@ h2{
 }
 #column-left ul.accordion li.nav-item a {
     display: inline-block;
-    width: 100%;
-    line-height: 2.5em;
+    width: 100%;    
     margin-left: 0;
 }
 #column-left ul.accordion li a.parent:hover {

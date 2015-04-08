@@ -26,19 +26,46 @@ class CategoryController extends BaseController
     }
 
     public function view()
-    {
+    {	
 	$category = Category::getByName($this->getArg());
 	$type = $this->getRequest()->getParam('type');
-	$limit = $this->getRequest()->getParam('limit');
-	$limit = !empty($limit) ? $limit : 8;
+	$limit = !empty($limit = $this->getRequest()->getParam('limit')) ? $limit : 8;
+	$order = $this->getRequest()->getParam('order');
+	$page = !empty($page = $this->getRequest()->getParam('page')) ? $page : 0;
 	//
 	$template = $this->getTemplate();
 	$template->meta_keywords = $category->meta_keyword;
 	$template->meta_description = $category->meta_description;
 	$template->category = $category;
-	$template->products = null !== $category->getProducts() ? array_slice($category->getProducts(), 0, $limit) : array();
+	$template->products = $products = $category->getProducts(array('limit' => $limit, 'order' => $order, 'type' => $type));
 	$template->limit = $limit;
-	$template->limitOptions = array('4' => 4, '8' => 8, '12' => 12, '50' => 50, 'All' => 100000);
+	$template->order = $order;
+	$template->page = $page;
+	$template->offset = $page * $limit;
+	$template->type = $type;
+	$template->limitOptions = array(
+	    '4' => 4, 
+	    '8' => 8, 
+	    '12' => 12, 
+	    '50' => 50, 
+	    'All' => 100000
+	);
+	$template->sortOptions = array(
+	    \Category::SORT_ALPHA => __('Name A to Z'), 
+	    \Category::SORT_ALPHA_REV => __('Name Z to A'), 
+	    \Category::SORT_PRICE_MIN => __('Price Lowest'), 
+	    \Category::SORT_PRICE_MAX => __('Price Highest')
+	);
+	
+	// Pagination
+	$paginateTemplate = new Template('category/pagination', 'phtml');
+	$paginateTemplate->total = iterator_count($products);
+	$paginateTemplate->page = $page;
+	$paginateTemplate->limit = $limit;
+	$paginateTemplate->order = $order;
+	$paginateTemplate->categoryUrl = '/category/view/' . \String::slugify($category->name);
+	$template->paginationHtml = $paginateTemplate->render();
+	
     }
 
 }

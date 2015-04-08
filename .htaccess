@@ -3,7 +3,8 @@ RewriteBase /
 #### Back-end ####
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^admin(.*)$ admin.php?rt=$1 [L,QSA]
+#RewriteRule ^admin(.*)$ admin.php?rt=$1 [L,QSA]
+RewriteRule ^admin(.*)$ /admin.php/$1 [L,QSA]
 
 #### Front-end ####
 SetEnv APPLICATION_ENV "development"
@@ -11,6 +12,7 @@ SetEnv APPLICATION_ENV "development"
 RewriteRule ^_theme/(.*)/front/(images|img|css|javascript|js)/(.*) /application/front/theme/$1/$2/$3 [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php?rt=$1 [L,QSA]
+#RewriteRule ^(.*)$ /index.php?rt=$1 [L,QSA]
+RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
 
 ErrorDocument 500 "<h2>Apache server error</h2>Kazinduzi application failed to start properly"

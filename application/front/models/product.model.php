@@ -60,9 +60,32 @@ class Product extends Model
      * @param integer $limit
      * @return array
      */
-    public static function getLatest($limit = self::LIMIT_DEFAULT)
+    public static function getLatest(array $opts = array())
     {
-	return static::model()->findBySql(sprintf("SELECT * FROM `product` ORDER BY `product_id` DESC LIMIT 0, %d;", (int) $limit));
+	$order_qry = '';
+	$limit = empty($opts['limit']) ? self::LIMIT_DEFAULT : $opts['limit'];
+	if (empty($opts['order'])) {
+	    $order_qry .= 'ORDER BY `product_id` DESC';
+	} else {
+	    switch ($opts['order']){
+		case 'alpha':
+		    $order_qry .= 'order by `name` ASC';
+		    break;
+		case 'alpha_reverse':
+		    $order_qry .= 'ORDER BY `name` DESC';
+		    break;
+		case 'price_min':
+		    $order_qry .= 'ORDER BY `price` ASC';
+		    break;
+		case 'price_max':
+		    $order_qry .= 'ORDER BY `price` DESC';
+		    break;
+		default :
+		    $order_qry .= 'ORDER BY `product_id` DESC';
+		    break;
+	    }
+	}		
+	return static::model()->findBySql(sprintf("SELECT * FROM `product` %s LIMIT 0, %d;", $order_qry, (int)$limit));
     }
 
     /**

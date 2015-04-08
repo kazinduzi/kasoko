@@ -21,10 +21,10 @@
                 <div class="sort-by">
                     <label for="sortby-top">Sort By</label>
                     <select id="sortby-top" name="sortby">
-                        <option value="/product/view_all?limit=8&amp;order=alpha">Name ascending</option>
-                        <option value="/product/view_all?limit=8&amp;order=alpha_reverse">Name descending</option>
-                        <option value="/product/view_all?limit=8&amp;order=min_price">Price ascending</option>
-                        <option value="/product/view_all?limit=8&amp;order=max_price">Price descending</option>
+                        <?php foreach ($sortOptions as $sort => $label) :?>
+			<?php $selected = $order == $sort ? 'selected="selected"' : ''; ?>
+			    <option <?=$selected;?> value="?limit=<?php echo $limit;?>&amp;order=<?php echo $sort;?>"><?php echo $label;?></option>
+			<?php endforeach; ?>
                     </select>
                 </div><!-- /.sort-by -->
                 <div class="view-mode">

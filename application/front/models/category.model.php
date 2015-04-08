@@ -4,6 +4,15 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Category extends Model
 {
+    const LIMIT_DEFAULT = 10;
+    const CATEGORY_TABLE = 'category';
+    const PRODUCT_TABLE = 'product';
+    const CATEGORY_PRODUCT_TABLE = 'category_product';
+    //
+    const SORT_ALPHA = 'alpha';
+    const SORT_ALPHA_REV = 'alpha_reverse';
+    const SORT_PRICE_MIN = 'price_min';
+    const SORT_PRICE_MAX = 'price_max';
 
     /**
      * Static get the category model by SEO name
@@ -14,8 +23,7 @@ class Category extends Model
     public static function getByName($seo_name)
     {
 	self::$db = Kazinduzi::db();
-	$table = strtolower(get_class());
-	self::$db->execute("SELECT * FROM `{$table}` WHERE `seo_name` = '" . static::$db->real_escape_string($seo_name) . "' LIMIT 1");
+	self::$db->execute("SELECT * FROM `" . self::CATEGORY_TABLE . "` WHERE `seo_name` = '" . static::$db->real_escape_string($seo_name) . "' LIMIT 1");
 	$values = self::$db->fetchAssocRow();
 	if (!$values) {
 	    throw new \Exception('Empty data');
@@ -27,7 +35,7 @@ class Category extends Model
      * Table name of the category
      * @var string
      */
-    public $table = 'category';
+    public $table = self::CATEGORY_TABLE;
 
     /**
      * The primary key category table
@@ -43,7 +51,7 @@ class Category extends Model
 
     /**
      * Place for relations of our models
-     * {$hasMany} | {$hasOne} | {$belongTo} | {$hasMany_through}
+     * {$hasMany} | {$hasOne} | {$yelongTo} | {$hasMany_through}
      * @var array
      */
     public $hasMany = array(
@@ -208,9 +216,24 @@ class Category extends Model
      *
      * @return mixed
      */
-    public function getProducts()
+    public function getProducts(array $opts = array())
     {
-	return $this->product;
-    }
+	$opts['order'] = !empty($opts['order']) ? $opts['order'] : self::SORT_ALPHA;
+	$products = $this->product ?: array();        
+	uasort($products, function ($x, $y) use($opts) {	    
+	    switch ($opts['order']){
+		default :
+		case self::SORT_ALPHA:
+		    return strcasecmp($x->name, $y->name);			
+		case self::SORT_ALPHA_REV:
+		    return strcasecmp($y->name, $x->name);			
+		case self::SORT_PRICE_MIN:
+		    return ($x->price - $y->price);
+		case self::SORT_PRICE_MAX:
+		    return ($y->price - $x->price);		    
+	    }	       
+	});	
+	return new \ArrayIterator($products);	
+    }    
 
 }

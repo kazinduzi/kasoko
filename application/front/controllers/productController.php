@@ -126,26 +126,48 @@ class ProductController extends BaseController
 	$template->title = __('View all');
 	$type = $this->getRequest()->getParam('type');
 	$limit = $this->getRequest()->getParam('limit');
+	$order = $this->getRequest()->getParam('order');
 	$limit = !empty($limit) ? $limit : 8;
 	switch ($type) {
 	    case 'new':
 	    default :
 		$template->setFilename('product/view_all');
 		$template->title = __('Latest products');
-		$template->products = Product::getLatest($limit);
+		$template->products = Product::getLatest(array('limit'=>$limit, 'order' => $order, 'type'=>$type));
 		$template->limit = $limit;
+		$template->order = $order;
+		$template->type = $type;
 		$template->limitOptions = array('4' => 4, '8' => 8, '12' => 12, '50' => 50, 'All' => 100000);
 		break;
 	    case 'offers':
 		$template->setFilename('product/view_all');
 		$template->title = __('Sale products');
 		$template->products = '';
+		$template->limit = $limit;
+		$template->order = $order;
+		$template->type = $type;
 		break;
 	    case 'special':
 		$template->setFilename('product/view_all');
 		$template->title = __('Special products');
 		$template->products = '';
+		$template->limit = $limit;
+		$template->order = $order;
+		$template->type = $type;
 	}
+	$template->limitOptions = array(
+	    '4' => 4, 
+	    '8' => 8, 
+	    '12' => 12, 
+	    '50' => 50, 
+	    'All' => 100000
+	);
+	$template->sortOptions = array(
+	    \Category::SORT_ALPHA => __('Name A to Z'), 
+	    \Category::SORT_ALPHA_REV => __('Name Z to A'), 
+	    \Category::SORT_PRICE_MIN => __('Price Lowest'), 
+	    \Category::SORT_PRICE_MAX => __('Price Highest')
+	);
     }
 
     protected function updateViewed(Product $product)
