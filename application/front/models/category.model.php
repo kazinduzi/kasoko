@@ -223,13 +223,13 @@ class Category extends Model
 	uasort($products, function ($x, $y) use($opts) {	    
 	    switch ($opts['order']){
 		default :
-		case self::SORT_ALPHA:
+		case \Category::SORT_ALPHA:
 		    return strcasecmp($x->name, $y->name);			
-		case self::SORT_ALPHA_REV:
+		case \Category::SORT_ALPHA_REV:
 		    return strcasecmp($y->name, $x->name);			
-		case self::SORT_PRICE_MIN:
+		case \Category::SORT_PRICE_MIN:
 		    return ($x->price - $y->price);
-		case self::SORT_PRICE_MAX:
+		case \Category::SORT_PRICE_MAX:
 		    return ($y->price - $x->price);		    
 	    }	       
 	});	
