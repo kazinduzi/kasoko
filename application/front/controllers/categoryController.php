@@ -29,9 +29,11 @@ class CategoryController extends BaseController
     {	
 	$category = Category::getByName($this->getArg());
 	$type = $this->getRequest()->getParam('type');
-	$limit = !empty($limit = $this->getRequest()->getParam('limit')) ? $limit : 8;
+	$limit = $this->getRequest()->getParam('limit');
+	$limit = !empty($limit) ? $limit : 8;
 	$order = $this->getRequest()->getParam('order');
-	$page = !empty($page = $this->getRequest()->getParam('page')) ? $page : 0;
+	$page = $this->getRequest()->getParam('page');
+	$page = !empty($page) ? $page : 0;
 	//
 	$template = $this->getTemplate();
 	$template->meta_keywords = $category->meta_keyword;

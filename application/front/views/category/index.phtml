@@ -6,7 +6,7 @@
         <h1>Latest articles <a href="/product/view_all?type=new" class="btn-all">+ <?php echo __('View all'); ?></a></h1>        
     </div>
     <div class="product-container">
-	<?php foreach (Product::getLatest() as $product) : ?>
+	<?php foreach (Product::getLatest(8) as $product) : ?>
     	<div class="product-holder">
 		<?php if (count($product->getProductImages())): ?>
 		    <div class="img-box">

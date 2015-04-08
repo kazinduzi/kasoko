@@ -47,7 +47,7 @@
 
         <div class="product-container <?php echo $mode; ?>">
             <ul class="product-col-3">
-		<?php foreach ($products as $product) : ?>
+		<?php foreach (new \LimitIterator($products, $offset, $limit) as $product) : ?>
     		<li class="product-holder">
     		    <article itemscope="" itemtype="http://schema.org/Product">
     			<div class="img-box">
@@ -84,5 +84,8 @@
 		<?php endforeach; ?>
             </ul>
         </div>
+	<div class="pagination-wrap">
+	    <?php echo $this->paginationHtml;?>
+	</div>
     </article>
 </div>

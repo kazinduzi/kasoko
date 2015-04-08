@@ -26,6 +26,12 @@ class Product extends Model
     const MANUFACTURER_PRODUCT_TABLE = 'product_manufacturer';
     const CATEGORY_PRODUCT_TABLE = 'category_product';
     const SPECIAL_PRODUCT_TABLE = 'product_special';
+    
+    //
+    const SORT_ALPHA = 'alpha';
+    const SORT_ALPHA_REV = 'alpha_reverse';
+    const SORT_PRICE_MIN = 'price_min';
+    const SORT_PRICE_MAX = 'price_max';
 
     /**
      * Static get the category model by SKU name
@@ -50,9 +56,24 @@ class Product extends Model
      * 
      * @return type
      */
-    public static function getAll()
+    public static function getAll(array $opts = array())
     {
-	return static::getInstance()->findAll();
+	$products = static::getInstance()->findAll();
+	$opts['order'] = !empty($opts['order']) ? $opts['order'] : self::SORT_ALPHA;
+	uasort($products, function ($x, $y) use($opts) {	    
+	    switch ($opts['order']){
+		default :
+		case \Product::SORT_ALPHA:
+		    return strcasecmp($x->name, $y->name);			
+		case \Product::SORT_ALPHA_REV:
+		    return strcasecmp($y->name, $x->name);			
+		case \Product::SORT_PRICE_MIN:
+		    return ($x->price - $y->price);
+		case \Product::SORT_PRICE_MAX:
+		    return ($y->price - $x->price);		    
+	    }	       
+	});	
+	return new \ArrayIterator($products);	
     }
 
     /**
@@ -60,32 +81,10 @@ class Product extends Model
      * @param integer $limit
      * @return array
      */
-    public static function getLatest(array $opts = array())
+    public static function getLatest($limit = self::LIMIT_DEFAULT)
     {
-	$order_qry = '';
-	$limit = empty($opts['limit']) ? self::LIMIT_DEFAULT : $opts['limit'];
-	if (empty($opts['order'])) {
-	    $order_qry .= 'ORDER BY `product_id` DESC';
-	} else {
-	    switch ($opts['order']){
-		case 'alpha':
-		    $order_qry .= 'order by `name` ASC';
-		    break;
-		case 'alpha_reverse':
-		    $order_qry .= 'ORDER BY `name` DESC';
-		    break;
-		case 'price_min':
-		    $order_qry .= 'ORDER BY `price` ASC';
-		    break;
-		case 'price_max':
-		    $order_qry .= 'ORDER BY `price` DESC';
-		    break;
-		default :
-		    $order_qry .= 'ORDER BY `product_id` DESC';
-		    break;
-	    }
-	}		
-	return static::model()->findBySql(sprintf("SELECT * FROM `product` %s LIMIT 0, %d;", $order_qry, (int)$limit));
+	$products = self::model()->findBySql('SELECT * FROM `product` ORDER BY `product_id` DESC LIMIT 0, ' . (int)$limit);		
+	return new \ArrayIterator($products);	
     }
 
     /**

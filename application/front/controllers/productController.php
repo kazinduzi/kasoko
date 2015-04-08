@@ -60,6 +60,9 @@ class ProductController extends BaseController
 	);
     }
 
+    /**
+     * 
+     */
     public function view()
     {
 	$productId = $this->getArg(0);
@@ -122,38 +125,35 @@ class ProductController extends BaseController
      */
     public function viewAll()
     {
-	$template = $this->getTemplate()->setViewSuffix('phtml');
-	$template->title = __('View all');
+	$template = $this->getTemplate()->setViewSuffix('phtml');	
 	$type = $this->getRequest()->getParam('type');
 	$limit = $this->getRequest()->getParam('limit');
-	$order = $this->getRequest()->getParam('order');
 	$limit = !empty($limit) ? $limit : 8;
+	$order = $this->getRequest()->getParam('order');
+	$page = $this->getRequest()->getParam('page');
+	$page = !empty($page) ? $page : 0;
+	
+	$template->title = __('View all');
+	$template->offset = $page * $limit;
+	$template->limit = $limit;
+	$template->order = $order;
+	$template->type = $type;	
 	switch ($type) {
 	    case 'new':
 	    default :
 		$template->setFilename('product/view_all');
-		$template->title = __('Latest products');
-		$template->products = Product::getLatest(array('limit'=>$limit, 'order' => $order, 'type'=>$type));
-		$template->limit = $limit;
-		$template->order = $order;
-		$template->type = $type;
-		$template->limitOptions = array('4' => 4, '8' => 8, '12' => 12, '50' => 50, 'All' => 100000);
+		$template->title = __('All products');
+		$template->products = $products = \Product::getAll(array('limit' => $limit, 'order' => $order, 'type' => $type));		
 		break;
 	    case 'offers':
 		$template->setFilename('product/view_all');
 		$template->title = __('Sale products');
-		$template->products = '';
-		$template->limit = $limit;
-		$template->order = $order;
-		$template->type = $type;
+		$template->products = '';		
 		break;
 	    case 'special':
 		$template->setFilename('product/view_all');
 		$template->title = __('Special products');
-		$template->products = '';
-		$template->limit = $limit;
-		$template->order = $order;
-		$template->type = $type;
+		$template->products = '';		
 	}
 	$template->limitOptions = array(
 	    '4' => 4, 
@@ -168,6 +168,14 @@ class ProductController extends BaseController
 	    \Category::SORT_PRICE_MIN => __('Price Lowest'), 
 	    \Category::SORT_PRICE_MAX => __('Price Highest')
 	);
+	
+	// Pagination
+	$paginateTemplate = new Template('product/pagination', 'phtml');
+	$paginateTemplate->total = iterator_count($products);
+	$paginateTemplate->page = $page;
+	$paginateTemplate->limit = $limit;
+	$paginateTemplate->order = $order;	
+	$template->paginationHtml = $paginateTemplate->render();
     }
 
     protected function updateViewed(Product $product)
