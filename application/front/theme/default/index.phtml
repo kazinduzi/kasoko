@@ -65,7 +65,7 @@
 			    </li>
 			    <?php endif; ?>
 			    <li class="last">
-				<a href="/cart/" title="Cart" id="cart-content" data-role="cart-content"><i class="fa fa-shopping-cart"></i> <?php echo __('messages.shopping_cart'); ?> (<span id="count-cart-item"><?php echo Cart::getSingleton()->getCountItems(); ?></span>)</a>
+				<a href="/cart/" title="Cart" id="cart-content" data-role="cart-content"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.shopping_cart'); ?></span> (<span id="count-cart-item"><?php echo Cart::getSingleton()->getCountItems(); ?></span>)</a>
 			    </li>			    
 			</ul>
 		    </div>

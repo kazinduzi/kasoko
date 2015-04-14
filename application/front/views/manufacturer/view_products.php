@@ -13,7 +13,7 @@
 		<?php
 		foreach ($limitOptions as $limitLabel => $limitOption) {
 		    $selected = $limit == $limitOption ? 'selected="selected"' : '';
-		    echo '<option value="/product/view_all?limit=' . $limitOption . '" ' . $selected . '>' . $limitLabel . '</option>';
+		    echo '<option value="?limit=' . $limitOption . '" ' . $selected . '>' . $limitLabel . '</option>';
 		}
 		?>                    
 	    </select>
@@ -22,10 +22,10 @@
 	<div class="sort-by">
 	    <label for="sortby-top">Sort By</label>
 	    <select id="sortby-top" name="sortby">
-		<option value="/product/view_all?limit=8&amp;order=alpha">Name ascending</option>
-		<option value="/product/view_all?limit=8&amp;order=alpha_reverse">Name descending</option>
-		<option value="/product/view_all?limit=8&amp;order=min_price">Price ascending</option>
-		<option value="/product/view_all?limit=8&amp;order=max_price">Price descending</option>
+		<?php foreach ($sortOptions as $sort => $label) :?>
+		<?php $selected = $order == $sort ? 'selected="selected"' : ''; ?>
+		    <option <?=$selected;?> value="?limit=<?php echo $limit;?>&amp;order=<?php echo $sort;?>"><?php echo $label;?></option>
+		<?php endforeach; ?>		
 	    </select>
 	</div><!-- /.sort-by -->
 	<div class="view-mode">
@@ -47,30 +47,28 @@
 </div>
 
 <div class="product-container <?php echo $mode; ?>">
-    <?php if (!count($products)) : ?>
-
-        <p>No products for this manufacturer</p>
-
-    <?php else : foreach ($products as $product) : ?>
-
+    <?php if (count($products) < 1) : ?>
+        <p>This category has no products</p>
+    <?php else : ?>	
+	<?php foreach (new \LimitIterator($products, $offset, $limit) as $product) :?>
 	    <div class="product-holder">
 		<div class="left-block">
-		    <?php if (count($product->getProductImages())) : ?>
+		    <?php if (count($product->getProductImages()) > 0) : ?>
 	    	    <div class="img-box">
 	    		<a href="/product/item/<?php echo String::slugify($product->slug); ?>">
 				<?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>    
 				    <img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
-				<?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image): ?>
-				    <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" title="<?php echo $product->name ?>" alt="<?php echo $product->name; ?>"/>
+				<?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+				    <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" title="<?php echo $product->name ?>" alt="<?php echo $product->name ?>"/>
 				<?php else: ?>
-				    <img itemprop="image" src="/html/images/kasoko/280x196.png" alt="<?php echo $product->name; ?>" width="150">
+				    <img itemprop="image" src="/html/images/kasoko/280x196.png" alt="<?php echo $product->name; ?>" width="100%">                        
 				<?php endif; ?>
 	    		</a>
 	    	    </div>
 		    <?php endif; ?>
 		    <div class="product-meta">
 			<div class="name">
-			    <a href="/product/item/<?php echo $product->slug; ?>"><?php echo $product->name ?></a>
+			    <a href="/product/item/<?php echo String::slugify($product->slug); ?>"><?php echo $product->name ?></a>
 			</div>
 			<div class="price">
 			    <span><?php echo String::currency_format($product->price); ?></span>
@@ -83,10 +81,10 @@
 			</div>
 		    </div>
 		</div>
-	    </div>
-
-	    <?php
-	endforeach;
-    endif;
-    ?>
+	    </div>    
+	<?php endforeach; ?>
+	<div class="pagination-wrap">
+	    <?php echo $this->paginationHtml;?>
+	</div>
+    <?php endif; ?>
 </div>

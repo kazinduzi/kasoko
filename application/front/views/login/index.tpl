@@ -5,14 +5,14 @@
             <label class="lbl" for="username">Username:</label>
             <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                <input type="text" class="form-control" name="username" id="username">
+                <input type="text" class="form-control" name="username" id="username" autocomplete="off">
             </div>
         </div>
         <div class="rowB input form-group">
             <label class="lbl" for="password">Password:</label>
             <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                <input type="password" class="form-control" name="password" id="password">
+                <input type="password" class="form-control" name="password" id="password" autocomplete="off">
             </div>
         </div>
         <div class="checkbox">

@@ -1,0 +1,10 @@
+<div>
+    <ul class="pagination">
+    <?php for ($i = 0; $i < ceil($total / $limit); $i++) :?>
+	<?php  if (1 == ceil($total / $limit)) break; ?>
+	<li class="<?php echo ($i==$page?'active':'');?>">
+	    <a href="/manufacturer/view_products/<?php echo String::slugify($manufacturer->name);?>?<?php echo http_build_query(array('limit'=>$limit, 'order'=>$order, 'page'=>$i));?>"><?php echo $i+1;?></a>
+	</li>
+    <?php endfor;?>
+    </ul>
+</div>

@@ -5,8 +5,12 @@ namespace models\Manufacturer;
 defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Manufacturer extends \Model
-{
-
+{ 
+    const SORT_ALPHA = 'alpha';
+    const SORT_ALPHA_REV = 'alpha_reverse';
+    const SORT_PRICE_MIN = 'price_min';
+    const SORT_PRICE_MAX = 'price_max';
+    
     const MANUFACTURER_TABLE = 'manufacturer';
     const MANUFACTURER_PRIMARY_KEY = 'manufacturer_id';
 
@@ -52,9 +56,24 @@ class Manufacturer extends \Model
      * 
      * @return array
      */
-    public function getProducts()
+    public function getProducts(array $opts = array())
     {
-        return $this->products;
+        $opts['order'] = !empty($opts['order']) ? $opts['order'] : Manufacturer::SORT_ALPHA;
+	$products = $this->products ?: array();        
+	uasort($products, function ($x, $y) use($opts) {	    
+	    switch ($opts['order']){
+		default :
+		case Manufacturer::SORT_ALPHA:
+		    return strcasecmp($x->name, $y->name);			
+		case Manufacturer::SORT_ALPHA_REV:
+		    return strcasecmp($y->name, $x->name);			
+		case Manufacturer::SORT_PRICE_MIN:
+		    return ($x->price - $y->price);
+		case Manufacturer::SORT_PRICE_MAX:
+		    return ($y->price - $x->price);		    
+	    }	       
+	});	
+	return new \ArrayIterator($products);
     }
 
     /**
@@ -85,14 +104,6 @@ class Manufacturer extends \Model
         $whereClause = sprintf('slug=\'%s\'', $this->getDbo()->real_escape_string($slug));
         return $this->findByAttr('*', $whereClause);
     }
-
-    public function getProductsByLimit($limit)
-    {
-        if ($limit > 0 && count($this->products) > $limit) {
-            return array_slice($this->products, 0, $limit);
-        } else {
-            return $this->products;
-        }
-    }
+    
 
 }
