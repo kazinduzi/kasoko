@@ -41,31 +41,31 @@
 		    <div id="top" style="position: fixed; z-index: 100; width: 100%;">
 			<ul class="links container">
 			    <li class="first">
-				<a href="/customer/account" title="Account"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.account'); ?></span></a>
+				<a href="/customer/account" title="Account"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.account'); ?></span></a>
 			    </li>
 			    <li>
 				<a href="/customer/wishlist/" title="Wishlist">
 				    <?php if (Customer::getSingleton()->isLogged() && isset($_SESSION['wishlist'])) : ?>
-    				    <i class="fa fa-heart-o"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.wishlist'); ?></span> (<span id="wishlist-total"><?php echo count($_SESSION['wishlist']); ?></span>)
+    				    <i class="fa fa-heart-o"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.wishlist'); ?></span> (<span id="wishlist-total"><?php echo count($_SESSION['wishlist']); ?></span>)
 				    <?php else: ?>
-				    <i class="fa fa-heart-o"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.wishlist'); ?></span>
+				    <i class="fa fa-heart-o"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.wishlist'); ?></span>
 				    <?php endif; ?>
 				</a>
 			    </li>			    
 			    <?php if (Customer::getSingleton()->isLogged()) : ?>
     			    <li>
-				<a href="/customer/login/logout" title="Log In"><i class="fa fa-lock-alt"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.logout'); ?></span></a>
+				<a href="/customer/login/logout" title="Log In"><i class="fa fa-lock-alt"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.logout'); ?></span></a>
     			    </li>
 			    <?php else : ?>
     			    <li>
-				<a href="/customer/login" title="Log In"><i class="fa fa-unlock-alt"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.login'); ?></span></a>
+				<a href="/customer/login" title="Log In"><i class="fa fa-unlock-alt"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.login'); ?></span></a>
     			    </li>
 			    <li>
-				<a href="/checkout/checkout" title="Checkout" class="top-link-checkout"><i class="fa fa-check"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.checkout'); ?></span></a>
+				<a href="/checkout/checkout" title="Checkout" class="top-link-checkout"><i class="fa fa-check"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.checkout'); ?></span></a>
 			    </li>
 			    <?php endif; ?>
 			    <li class="last">
-				<a href="/cart/" title="Cart" id="cart-content" data-role="cart-content"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo __('messages.shopping_cart'); ?></span> (<span id="count-cart-item"><?php echo Cart::getSingleton()->getCountItems(); ?></span>)</a>
+				<a href="/cart/" title="Cart" id="cart-content" data-role="cart-content"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.shopping_cart'); ?></span> (<span id="count-cart-item"><?php echo Cart::getSingleton()->getCountItems(); ?></span>)</a>
 			    </li>			    
 			</ul>
 		    </div>
