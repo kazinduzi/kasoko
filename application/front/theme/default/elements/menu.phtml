@@ -1,43 +1,45 @@
-<div id="header-bar">
-    <ul id="nav" class="nav clearfix">
-        <li class="level0 level-top">
-            <a href="/" class="home"></a>
-        </li>
-	<?php
-	$navHtml = '';
-	foreach (\Category::getInstance()->findAll() as $category) {
-	    if ($category->isTop() && $category->isLive()) {
-		$navHtml .= '<li><a href="/category/view/' . \String::slugify($category->name) . '">' . $category->name . '</a>' . PHP_EOL;
-		$navHtml .= recursive($category);
-	    }
-	}
-	echo $navHtml;
+<div class="container">
+    <div id="header-bar" class="">
+        <ul id="nav" class="nav clearfix">
+            <li class="level0 level-top">
+                <a href="/" class="home">Home</a>
+            </li>
+            <?php
+            $navHtml = '';
+            foreach (\Category::getInstance()->findAll() as $category) {
+                if ($category->isTop() && $category->isLive()) {
+                    $navHtml .= '<li><a href="/category/view/' . \String::slugify($category->name) . '">' . $category->name . '</a>' . PHP_EOL;
+                    $navHtml .= recursive($category);
+                }
+            }
+            echo $navHtml;
 
-	function recursive($category)
-	{
-	    $html = '';
-	    if (false === $category->isLive()) {
-		return $html;
-	    }
-	    if ($category->hasChildren()) {
-		$html .= '<ul>';
-		foreach ($category->getChildren() as $child) {
-		    $html .= true === $child->isLive() ? '<li><a href="/category/view/' . \String::slugify($child->name) . '">' . $child->name . '</a>' : '' . PHP_EOL;
-		    if ($child->hasChildren()) {
-			$html .= recursive($child);
-		    } else {
-			$html .= '</li>' . PHP_EOL;
-		    }
-		}
-		$html .= '</ul>' . PHP_EOL;
-	    } else {
-		$html .= '</li>' . PHP_EOL;
-	    }
-	    return $html;
-	}
-	?>
-	<li class="level0 level-top">
-            <a class="level-top" href="/page/contact" title=""><?php echo __('messages.contact'); ?></a>
-        </li>
-    </ul>
+            function recursive($category)
+            {
+                $html = '';
+                if (false === $category->isLive()) {
+                    return $html;
+                }
+                if ($category->hasChildren()) {
+                    $html .= '<ul>';
+                    foreach ($category->getChildren() as $child) {
+                        $html .= true === $child->isLive() ? '<li><a href="/category/view/' . \String::slugify($child->name) . '">' . $child->name . '</a>' : '' . PHP_EOL;
+                        if ($child->hasChildren()) {
+                            $html .= recursive($child);
+                        } else {
+                            $html .= '</li>' . PHP_EOL;
+                        }
+                    }
+                    $html .= '</ul>' . PHP_EOL;
+                } else {
+                    $html .= '</li>' . PHP_EOL;
+                }
+                return $html;
+            }
+            ?>
+            <li class="level0 level-top">
+                <a class="level-top" href="/page/contact" title=""><?php echo __('messages.contact'); ?></a>
+            </li>
+        </ul>
+    </div>
 </div>

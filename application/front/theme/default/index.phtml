@@ -40,7 +40,7 @@
 	<div id="wrapper">
 	    <header>
 		<div class="header-top">
-		    <div id="top" style="position: fixed; z-index: 100; width: 100%;">
+		    <div id="top">
 			<ul class="links container">
 			    <li class="first">
 				<a href="/customer/account" title="Account"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.account'); ?></span></a>
@@ -56,11 +56,11 @@
 			    </li>			    
 			    <?php if (Customer::getSingleton()->isLogged()) : ?>
     			    <li>
-				<a href="/customer/login/logout" title="Log In"><i class="fa fa-lock-alt"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.logout'); ?></span></a>
+				<a href="/customer/login/logout" title="Log In"><i class="fa fa-lock"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.logout'); ?></span></a>
     			    </li>
 			    <?php else : ?>
     			    <li>
-				<a href="/customer/login" title="Log In"><i class="fa fa-unlock-alt"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.login'); ?></span></a>
+				<a href="/customer/login" title="Log In"><i class="fa fa-unlock"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.login'); ?></span></a>
     			    </li>
 			    <li>
 				<a href="/checkout/checkout" title="Checkout" class="top-link-checkout"><i class="fa fa-check"></i> <span class="hidden-xs hidden-sm"><?php echo __('messages.checkout'); ?></span></a>
@@ -71,8 +71,8 @@
 			    </li>			    
 			</ul>
 		    </div>
-		    <div style="padding-top: 50px;">
-			<div class="container">
+		    <div class="container">
+			<div class="row col-xs-12">
 			    <h1 class="logo">
 				<a href="/" title="Kasoko e-commerce V1">
 				    <img width="250" alt="Kasoko" src="/_theme/default/front/images/logo.png" class="img-responsive">				
@@ -85,14 +85,14 @@
 		    </div>
 		</div>
 	    </header>
+            <button id="pull" type="button" class="navbar-toggle collapsed toggleMenu" data-toggle="collapse" data-target=".navbar-collapse">
+                <i>Menu</i><span></span>
+            </button>                        
+            <div id="header" class="menu_container">
+                <?php render($this->getTheme()->getName() . '/elements/menu.phtml'); ?>
+            </div>
 	    <div class="container">
-		<div id="container" class="clearfix">
-		    <button id="pull" type="button" class="navbar-toggle collapsed toggleMenu" data-toggle="collapse" data-target=".navbar-collapse">
-			<i>Menu</i><span></span>
-		    </button>                        
-		    <div id="header" class="">
-			<?php render($this->getTheme()->getName() . '/elements/menu.phtml'); ?>
-		    </div>
+		<div id="container" class="clearfix">		    
 		    <div id="column-left">
 			<?php render($this->getTheme()->getName() . '/elements/left_block.phtml'); ?>
 		    </div>

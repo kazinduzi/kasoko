@@ -42,7 +42,13 @@
 		<?php if (count($products)): foreach ($products as $product) : ?>
 			<tr>
 			    <td><?php echo $product->getId(); ?></td>
-			    <td><img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" width="50" alt=""/></td>
+                            <td>
+                            <?php if (null !== $cover = $product->getCoverProductImage()) :?>
+                                <img src="<?php echo $cover->getThumb(); ?>" width="50" alt=""/>
+                            <?php else :?>
+                                <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" width="50" alt=""/>
+                            <?php endif;?>
+                            </td>
 			    <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
 			    <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->model; ?></a></td>
 			    <td>

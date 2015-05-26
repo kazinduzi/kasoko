@@ -27,7 +27,7 @@
                 <?php else: foreach ($pages as $page) : ?>                    
                         <tr>
                             <td><?php echo $page->getId(); ?></td>
-                            <td><a href="/admin/cms/edit/<?php echo $page->getId(); ?>"><?php echo $page->title; ?></a></td>
+                            <td><a href="/admin/cms/edit_page/<?php echo $page->getId(); ?>"><?php echo $page->title; ?></a></td>
                             <td>
                                 <?php if (!empty($page->hidden)) : ?>
                                     <i class="glyphicon glyphicon-ok"></i>

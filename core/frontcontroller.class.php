@@ -75,16 +75,15 @@ class FrontController
 	if ($this->Request->getParam('rt')) {
 	    $route = $this->Request->getParam('rt');
 	} elseif (null != $this->Request->serverParam('REQUEST_URI')) {
-	    $uri = strtok($this->Request->serverParam('REQUEST_URI'), '?');
-	    $route = (strpos($uri, '/admin/') === 0) ? ltrim($uri, '/admin/') : $uri;
+	    $route = preg_replace('#/admin\/?#', '/', strtok($this->Request->serverParam('REQUEST_URI'), '?'));	    
 	}
-		
+        
 	// If route is present find which controller and action
 	if (isset($route)) {
 	    $route = str_replace(array('//', '../'), '/', trim($route, '/'));
 	    $routeParts = array_filter(explode('/', rtrim($route, '/')));
 	}
-
+        
 	// If no path is provided, thus http://localhost | http://hostname,
 	// then we make sure to get default controller and default action
 	if (empty($routeParts)) {
