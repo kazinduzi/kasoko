@@ -75,7 +75,7 @@ class FrontController
 	if ($this->Request->getParam('rt')) {
 	    $route = $this->Request->getParam('rt');
 	} elseif (null != $this->Request->serverParam('REQUEST_URI')) {
-	    $route = preg_replace('#/admin\/?#', '/', strtok($this->Request->serverParam('REQUEST_URI'), '?'));	    
+	    $route = preg_replace('#\/admin\/?#', '', strtok($this->Request->serverParam('REQUEST_URI'), '?'));	    
 	}
         
 	// If route is present find which controller and action
@@ -148,7 +148,7 @@ class FrontController
 	    render('error404.phtml', array('No controller is available'));
 	    exit(1);
 	}
-	require_once CONTROLLERS_PATH . DS . Inflector::pathize($controller) . 'Controller.php';
+	//require_once CONTROLLERS_PATH . DS . Inflector::pathize($controller) . 'Controller.php';
 	$class = ucfirst($controller . 'Controller');
 	$this->CallableController = $class::getInstance($this->Request, $this->Response);
 	if (!in_array($this->getAction(), get_class_methods(ucfirst($controller) . 'Controller'))) {

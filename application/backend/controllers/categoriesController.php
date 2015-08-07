@@ -48,6 +48,7 @@ class CategoriesController extends Admin_controller
                 $category->image = $data['image'];
                 $category->parent_id = (int)$data['parent'];
                 $category->status = $data['visible']?true:false;
+                $category->in_menu = $data['in_menu']?true:false;
                 $datetime = new DateTime('now');
                 $category->date_added = $datetime->format('Y-m-d H:i:s');                
                 $category->save();
@@ -85,6 +86,7 @@ class CategoriesController extends Admin_controller
                 $category->image = $data['image'];
                 $category->parent_id = (int)$data['parent'];
                 $category->status = $data['visible']?true:false;
+                $category->in_menu = $data['in_menu']?true:false;
                 $datetime = new DateTime('now');
                 $category->date_modified = $datetime->format('Y-m-d H:i:s');                
                 $category->save();

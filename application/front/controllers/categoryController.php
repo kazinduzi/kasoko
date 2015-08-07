@@ -17,9 +17,10 @@ class CategoryController extends BaseController
     public function index()
     {
 	$template = $this->getTemplate();
-	$template->title = "Category controller";
+	$template->title = "Kasoko Ecommerce Software, Kasoko Online Shop";
 	try {
 	    $this->categories = Category::getInstance()->findAll();
+            $this->featured_products = Category::getByName('featured')->getProducts();
 	} catch (Exception $e) {
 	    throw $e;
 	}

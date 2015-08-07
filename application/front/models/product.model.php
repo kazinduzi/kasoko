@@ -21,6 +21,12 @@ use library\Currency;
 class Product extends Model
 {
 
+    const MINIMUM_QTY_STOCK = 10;
+    const IN_STOCK_STATUS = 1;
+    const PRE_ORDER_STOCK_STATUS = 2;
+    const OUT_OF_STOCK_STATUS = 3;
+    const LIMITED_STOCK_STATUS = 4;
+    
     const LIMIT_DEFAULT = 10;
     const PRODUCT_TABLE = 'product';
     const MANUFACTURER_PRODUCT_TABLE = 'product_manufacturer';
@@ -370,6 +376,25 @@ class Product extends Model
 	    $this->getDbo()->rollback();
 	    throw $e;
 	}
+    }
+    
+    /**
+     * Update the product quantity
+     * 
+     * @param integer $qty
+     * @return \Product
+     */
+    public function updateQty($qty)
+    {
+        if (filter_var($qty, FILTER_VALIDATE_INT)) {
+            $quantity = (int)$this->quantity - $qty;
+            $this->set('quantity', $quantity);
+            if ($quantity <= $this->minimum) {
+                $this->set('stock_status_id', self::OUT_OF_STOCK_STATUS);
+            }
+            $this->save();        
+        }
+        return $this;
     }
 
 }

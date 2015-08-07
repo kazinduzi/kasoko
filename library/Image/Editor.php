@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
  *
@@ -14,53 +13,66 @@ namespace library\Image;
 
 abstract class Editor
 {
-
+    /**
+     * @var Editor
+     */
     private static $instance;
 
     /**
      * Get singleton instance
-     *
+     * 
      * @param string $editor
      */
-    public static function instance($editor = 'Gd')
+    public static function getInstance() 
     {
-	if (!self::$instance) {
-	    $editorClassName = '\library\Image\\' . $editor . '_Editor';
-	    self::$instance = new $editorClassName();
-	}
-	return self::$instance;
+        $imageConfig = \Config::instance('image');
+        if (null === $imageConfig) {
+            $editor = 'gd';            
+        } else {
+            $editor = $imageConfig->get('library');
+        }     
+        if (!self::$instance) {
+            $editorClassName = '\library\Image\\'.ucfirst($editor).'_Editor';
+            self::$instance = new $editorClassName(NULL, $imageConfig);
+        }
+        return self::$instance;
     }
 
     protected $file = null;
     protected $size = null;
     protected $mime_type = null;
-    protected $default_mime_type = 'image/jpeg';
-    protected $quality = 90;
-
-    public function __construct($file = null)
-    {
-	$this->file = $file;
+    protected $default_mime_type = 'image/jpeg'; 
+    protected $config;
+    protected $quality;
+    protected $library;
+    
+    private function __construct($file, \Config $config = null) 
+    {        
+        $this->file = $file;
+        $this->config = $config;
     }
 
-    abstract public function load();
-
+    abstract protected function load();
     abstract public function save($dest_filename = null);
-
     abstract public function resize($max_w, $max_h, $crop = false);
-
     abstract public function multi_resize($sizes);
-
     abstract public function crop($src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false);
-
     abstract public function rotate($angle);
-
-    abstract public function flip($horz, $vert);
-
+    abstract public function flip($direction);
     abstract public function stream($mime_type = null);
 
-    public function getSize()
+    public function getSize() 
     {
-	return $this->size;
+        return $this->size;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -70,13 +82,13 @@ abstract class Editor
      * @param integer $height
      * @return boolean
      */
-    protected function updateSize($width = null, $height = null)
+    protected function updateSize($width = null, $height = null) 
     {
-	$this->size = array(
-	    'width' => (int) $width,
-	    'height' => (int) $height
-	);
-	return $this;
+       $this->size = array(
+           'width'  => (int)$width,
+           'height' => (int)$height
+       );
+       return $this;
     }
 
     /**
@@ -84,10 +96,10 @@ abstract class Editor
      * @param type $quality
      * @return \Library\Image\Editor
      */
-    public function setQuality($quality)
+    public function setQuality($quality) 
     {
-	$this->quality = $quality;
-	return $this;
+        $this->quality = $quality;
+        return $this;
     }
 
     /**
@@ -97,37 +109,72 @@ abstract class Editor
      * @param type $extension
      * @return type
      */
-    public function generateFilename($suffix = null, $dest_path = null, $extension = null)
+    public function generateFilename($suffix = null, $dest_path = null, $extension = null) 
     {
-	// $suffix will be appended to the destination filename, just before the extension
-	if (!$suffix) {
-	    $suffix = $this->getSuffix();
-	}
-	$info = pathinfo($this->file);
-	$dir = $info['dirname'];
-	$ext = $info['extension'];
-	$name = basename($this->file, ".$ext");
-	$new_ext = strtolower($extension ? $extension : $ext);
-	if (!is_null($dest_path) && $_dest_path = realpath($dest_path)) {
-	    $dir = $_dest_path;
-	}
-	return $dir . DS . "{$name}-{$suffix}.{$new_ext}";
+        // $suffix will be appended to the destination filename, just before the extension
+        if (!$suffix) {
+            $suffix = $this->getSuffix();
+        }
+        $info = pathinfo($this->file);
+        $dir  = $info['dirname'];
+        $ext  = $info['extension'];
+        $name = basename($this->file, ".$ext");
+        $new_ext = strtolower($extension ? $extension : $ext);
+        if (!is_null($dest_path) && $_dest_path = realpath($dest_path)) {
+            $dir = $_dest_path;
+        }
+        return $dir . DS . "{$name}-{$suffix}.{$new_ext}";
     }
 
     /**
-     * Builds and returns proper suffix for file based on height and width.
-     *
-     * @since 3.5.0
-     * @access public
-     *
-     * @return string suffix
-     */
-    public function getSuffix()
+    * Builds and returns proper suffix for file based on height and width.
+    *
+    * @since 3.5.0
+    * @access public
+    *
+    * @return string suffix
+    */
+    public function getSuffix() 
     {
-	if (!$this->getSize()) {
-	    return false;
-	}
-	return "{$this->size['width']}x{$this->size['height']}";
+        if (!$this->getSize()) {
+            return false;
+        }
+        return "{$this->size['width']}x{$this->size['height']}";
     }
 
+    /**
+     * Creates a new color usable by all drivers.
+     *
+     * @param   string   $hex    The hex code of the color
+     * @return  array    rgba representation of the hex and alpha values.
+     */
+    protected function create_hex_color($hex) 
+    {
+        if ($hex == null) {
+            $red = 0;
+            $green = 0;
+            $blue = 0;
+        } else {
+            // Check if theres a # in front
+            if (substr($hex, 0, 1) == '#') {
+                $hex = substr($hex, 1);
+            }
+            // Break apart the hex
+            if (strlen($hex) == 6) {
+                $red   = hexdec(substr($hex, 0, 2));
+                $green = hexdec(substr($hex, 2, 2));
+                $blue  = hexdec(substr($hex, 4, 2));
+            } else {
+                $red   = hexdec(substr($hex, 0, 1).substr($hex, 0, 1));
+                $green = hexdec(substr($hex, 1, 1).substr($hex, 1, 1));
+                $blue  = hexdec(substr($hex, 2, 1).substr($hex, 2, 1));
+            }
+        }
+        return array(
+            'red' => $red,
+            'green' => $green,
+            'blue' => $blue,
+        );
+    }
+    
 }

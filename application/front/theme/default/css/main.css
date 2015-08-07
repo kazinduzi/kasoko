@@ -11,12 +11,12 @@
    ========================================================================== */
 .clearfix:after,
 .group:after {
-	visibility: hidden;
-	display: block;
-	content: "";
-	clear: both;
-	height: 0;
-	}
+    visibility: hidden;
+    display: block;
+    content: "";
+    clear: both;
+    height: 0;
+}
 * html .group, 
 * html .clearfix             { zoom: 1; } /* IE6 */
 

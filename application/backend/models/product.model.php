@@ -42,6 +42,18 @@ class Product extends Model
 	}
 	return new static($values);
     }
+    
+    /**
+     * Get stock statuses
+     * 
+     * @return array
+     */
+    public static function getStockStatuses()
+    {
+        $db = Kazinduzi::db();
+	$db->query('SELECT * FROM `stock_status`');
+	return $db->fetchObjectList();
+    }
 
     /**
      * Table name of the product
@@ -289,7 +301,7 @@ class Product extends Model
     {
 	$this->getDbo()->query(sprintf("SELECT `ss`.* FROM `stock_status` AS `ss` JOIN `product` AS `p` USING (`stock_status_id`) WHERE `p`.`product_id` = %d", $this->getId()));
 	return $this->getDbo()->fetchObjectRow();
-    }
+    }    
 
     /**
      *

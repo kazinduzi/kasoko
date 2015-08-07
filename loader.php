@@ -57,6 +57,17 @@ function autoloader_db($className)
     require_once $db_file;
 }
 
+function autoloader_controller($className)
+{
+    $className = preg_replace('/Controller$/', '', $className);
+    $camelcase_class = strtolower(preg_replace('/([a-z])([A-Z])/', '$1/$2', $className));
+    $controller_path = CONTROLLERS_PATH . DS . ($camelcase_class) . 'Controller.php';
+    if (!is_file($controller_path)) {
+	return false;
+    }
+    require_once $controller_path;
+}
+
 function autoloader_psr0($className)
 {
     $className = ltrim($className, '\\');
@@ -79,5 +90,6 @@ spl_autoload_register('autoloader_library');
 spl_autoload_register('autoloader_db');
 spl_autoload_register('autoloader_classes');
 spl_autoload_register('autoloader_helpers');
+spl_autoload_register('autoloader_controller');
 spl_autoload_register('autoloader_psr0');
 ini_set('unserialize_callback_func', 'spl_autoload_call');

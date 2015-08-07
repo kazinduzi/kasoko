@@ -7,6 +7,14 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
  */
 class CartController extends BaseController
 {
+    protected $cart;
+    
+    public function __construct(\Request $req = null, \Response $res = null)
+    {
+        header('X-Robots-Tag: noindex, nofollow', true);
+        parent::__construct($req, $res);
+        $this->cart = new Cart;
+    }
 
     /**
      *
@@ -14,7 +22,7 @@ class CartController extends BaseController
     public function index()
     {
 	$this->Template->setViewSuffix('phtml');
-	$this->Template->Cart = new Cart();
+	$this->Template->Cart = $this->cart;
     }
 
     /**
@@ -23,28 +31,31 @@ class CartController extends BaseController
      */
     public function add()
     {
-	if (!is_numeric($this->Request->postParam('product_id'))) {
+	if (FALSE === filter_var($this->Request->postParam('product_id'), FILTER_VALIDATE_INT)) {
 	    throw new Exception('Invalid product id');
-	}
-	if (isset($_POST['options'])) {
-	    $key = (int) $_POST['product_id'] . ':' . base64_encode(serialize($_POST['options']));
+	}        
+	if (!empty($_POST['options'])) {
+	    $key = (int)$this->Request->postParam('product_id') . ':' . base64_encode(serialize($this->Request->postParam['options']));
 	} else {
-	    $key = (int) $_POST['product_id'];
-	}
-	// Create the cart
-	$cart = new Cart();
-	$result = $cart->add($key, (int) $_POST['quantity']);
-	if ($result instanceof Cart) {
+	    $key = (int)$this->Request->postParam('product_id');
+	}	
+        $product = new Product($this->Request->postParam('product_id'));
+        if ($product->quantity - $this->Request->postParam('quantity') < 0) {
+            throw new Exception(sprintf(__('The selected quantity is greater than the actual product\'s quantity [%s]'), $product->getName()));
+        }
+        // Add to cart
+	$cart = $this->cart->add($key, (int)$this->Request->postParam('quantity'));
+	if ($cart instanceof Cart) {
 	    echo json_encode(
 		    array(
 			'saved' => true,
-			'count' => $result->getCountItems()
+			'count' => $cart->getCountItems()
 		    )
 	    );
 	} else {
 	    echo json_encode(array('saved' => false));
 	}
-	die;
+	exit();
     }
 
     /**
@@ -53,11 +64,11 @@ class CartController extends BaseController
      */
     public function update()
     {
-	if (!($this->Request->postParam('quantity'))){
+	if (empty($quantity = $this->Request->postParam('quantity'))) {
 	    throw new Exception('Invalid quantity');
 	}
 	$cart = new Cart();
-	foreach ($this->Request->postParam('quantity') as $key => $qty) {
+	foreach ($quantity as $key => $qty) {
 	    try {
 		$cart->update($key, $qty);
 	    } catch (Exception $e) {

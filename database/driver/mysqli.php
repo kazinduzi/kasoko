@@ -686,6 +686,10 @@ class Driver_mysqli extends Database
      */
     public function query($sql = null, $real = true)
     {
+        /**
+         * 
+         * @deprecated use instead execute() 
+         */
         if (!$this->conn instanceof mysqli) {
             $this->connect();
         }

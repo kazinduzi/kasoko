@@ -93,6 +93,16 @@ class Category extends Model
     {
 	return (bool) $this->status === 1;
     }
+    
+    /**
+     * Check  if category is visible
+     * 
+     * @return boolean
+     */
+    public function visibleInMenu()
+    {
+	return (bool)($this->in_menu || is_null($this->in_menu));
+    }
 
     /**
      * Does the category have children?

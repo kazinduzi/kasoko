@@ -7,7 +7,7 @@
             <?php
             $navHtml = '';
             foreach (\Category::getInstance()->findAll() as $category) {
-                if ($category->isTop() && $category->isLive()) {
+                if ($category->isTop() && $category->isLive() && $category->visibleInMenu()) {
                     $navHtml .= '<li><a href="/category/view/' . \String::slugify($category->name) . '">' . $category->name . '</a>' . PHP_EOL;
                     $navHtml .= recursive($category);
                 }

@@ -1,9 +1,9 @@
 function addToCart(product_id, quantity) {
     quantity = typeof(quantity)!='undefined'?quantity : 1;
     $.ajax({
-        url: HOME_URL + '/cart/add',
+        url: '/cart/add',
         type: 'post',
-        data: 'product_id='+product_id+'&quantity='+quantity,
+        data: {product_id: product_id, quantity: quantity},
         dataType: 'json',
         success: function(json) {
             if (json.saved) $('#count-cart-item').html(json.count);
@@ -16,7 +16,7 @@ function addToCart(product_id, quantity) {
 
 function removeFromCart(product_id) {
     $.ajax({
-        url: HOME_URL + '/cart/remove',
+        url: '/cart/remove',
         type: 'post',
         data: {product_id: product_id},
         dataType: 'json',
@@ -28,7 +28,7 @@ function removeFromCart(product_id) {
 
 function addToWishList(product_id) {
     $.ajax({
-        url: HOME_URL + '/customer/wishlist/add',
+        url: '/customer/wishlist/add',
         type: 'post',
         data: 'product_id=' + product_id,
         dataType: 'json',
@@ -42,7 +42,7 @@ function addToWishList(product_id) {
 
 function removeFromWishList(product_id) {
     $.ajax({
-        url: HOME_URL + '/customer/wishlist/remove',
+        url: '/customer/wishlist/remove',
         type: 'post',
         data: 'product_id=' + product_id,
         dataType: 'json',
@@ -59,7 +59,7 @@ function removeFromWishList(product_id) {
 
 function addToCompare(product_id) {
     $.ajax({
-        url: HOME_URL + '/product/compare/add',
+        url: '/product/compare/add',
         type: 'post',
         data: 'product_id=' + product_id,
         dataType: 'json',
@@ -87,8 +87,8 @@ function setSelectedShipping(addressId) {
 
 function populateZonesByCountry(countryid, target) {       
     if (target) {
-	target.load(HOME_URL + '/customer/address/zone/' + countryid); 
+	target.load('/customer/address/zone/' + countryid); 
     } else {
-	$('select[name="zone_id"]').load(HOME_URL + '/customer/address/zone/' + countryid); 
+	$('select[name="zone_id"]').load('/customer/address/zone/' + countryid); 
     }
 }

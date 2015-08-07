@@ -31,6 +31,7 @@ class ProductsController extends Admin_controller
 	$template->product = $product;
 	$template->allCategories = Category::getInstance()->getAll();
 	$template->activeManufacturers = \models\Manufacturer\Manufacturer::getInstance()->getAllActive();
+        $template->stock_statuses = \Product::getStockStatuses();
 	if ($this->Request->isPost()) {
 	    $savemode = $_POST['save_mode'];
 	    $data = $_POST['product'];
@@ -43,11 +44,12 @@ class ProductsController extends Admin_controller
 		$product->meta_description = $data['meta_description'];
 		$product->sku = $data['sku'];
 		$product->upc = '';
-		$product->quantity = (int) $data['quantity'];
+		$product->quantity = (int)$data['quantity'];
 		$product->shipping = 1;
 		$product->price = $data['price'];
 		$product->date_available = $data['date_available'];
 		$product->minimum = $data['minimum'];
+                $product->stock_status_id = (int)$data['stock_status_id'];
 		$product->sort_order = 0;
 		$product->status = $data['visible'];
 		$product->viewed = 0;
@@ -72,6 +74,7 @@ class ProductsController extends Admin_controller
 	$template->setFilename('products/add');
 	$template->title = __('Add new product');
 	$template->allCategories = Category::getInstance()->getAll();
+        $template->stock_statuses = \Product::getStockStatuses();
 	if ($this->Request->isPost()) {
 	    $savemode = $_POST['save_mode'];
 	    $data = $_POST['product'];
@@ -92,6 +95,7 @@ class ProductsController extends Admin_controller
 		$product->tax = $data['tax'];
 		$product->date_available = $data['date_available'];
 		$product->minimum = $data['minimum'];
+                $product->stock_status_id = (int)$data['stock_status_id'];
 		$product->sort_order = 0;
 		$product->status = $data['visible'];
 		$product->viewed = 0;

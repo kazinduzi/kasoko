@@ -22,13 +22,12 @@ class Category extends Model
      */
     public static function getByName($seo_name)
     {
-	self::$db = Kazinduzi::db();
-	self::$db->execute("SELECT * FROM `" . self::CATEGORY_TABLE . "` WHERE `seo_name` = '" . static::$db->real_escape_string($seo_name) . "' LIMIT 1");
-	$values = self::$db->fetchAssocRow();
-	if (!$values) {
-	    throw new \Exception('Empty data');
+	$db = Kazinduzi::db()->clear();
+	$db->execute("SELECT * FROM `" . self::CATEGORY_TABLE . "` WHERE `seo_name` = '" . $db->real_escape_string($seo_name) . "' LIMIT 1");
+	if (null !== $values = $db->fetchAssocRow()) {
+            return new static($values);	    
 	}
-	return new static($values);
+	throw new \Exception(sprintf('Empty data for "%s"', $seo_name));
     }
 
     /**
@@ -100,6 +99,16 @@ class Category extends Model
     public function isLive()
     {
 	return (bool) $this->status === true;
+    }
+    
+    /**
+     * Check  if category is visible
+     * 
+     * @return boolean
+     */
+    public function visibleInMenu()
+    {
+	return (bool)($this->in_menu || is_null($this->in_menu));
     }
 
     /**

@@ -366,12 +366,13 @@ class CheckoutCheckoutController extends BaseController
 		    'total' => number_format($product->price * floatval($qty), 2),
 		    'tax' => number_format(floatval($qty) * $product->tax, 2)
 		);
+                $product->updateQty($qty);                
 	    }
 
 	    // Create order	    
 	    if ($orderId = Order::create($orderData)) {
 		$this->getSession()->add('order_id', $orderId);
-		$this->sendInvoiceMail($customer, $orderId, $orderData);
+		$this->sendInvoiceMail($customer, $orderId, $orderData);                
 	    } 
 	    
 	    Cart::getSingleton()->clear();

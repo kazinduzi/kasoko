@@ -30,6 +30,7 @@ defined('MODEL_EXT') OR define('MODEL_EXT', '.model.php');
 /**
  *  define the site path
  */
+define('BASE_PATH', __DIR__);
 defined('KAZINDUZI_PATH') OR define('KAZINDUZI_PATH', realpath(dirname(__FILE__)));
 defined('CORE_PATH') OR define('CORE_PATH', realpath(KAZINDUZI_PATH . DS . 'core'));
 defined('LIB_PATH') OR define('LIB_PATH', realpath(KAZINDUZI_PATH . DS . 'library'));
@@ -64,16 +65,15 @@ require_once 'loader.php';
  * Set the include path for the whole kazinduzi
  */
 $includePaths = array(
-    KAZINDUZI_PATH,
+    CORE_PATH,
+    LIB_PATH,
+    DB_PATH,
+    APP_PATH,    
     APP_PATH . DS . 'configs',
     KAZINDUZI_PATH . DS . 'includes',
     CONTROLLERS_PATH,
     VIEWS_PATH,
-    LIB_PATH,
-    CORE_PATH,
-    APP_PATH,
-    DB_PATH,
-    WIDGETS_PATH,
+    WIDGETS_PATH,  
     KAZINDUZI_PATH . DS . 'helpers',
     KAZINDUZI_PATH . DS . 'elements',
     KAZINDUZI_PATH . DS . 'html',
@@ -86,11 +86,11 @@ set_include_path(join(PATH_SEPARATOR, $includePaths));
 /**
  * include the init|functions|bootstrap  *
  */
-require_once 'Kazinduzi.php';
-require_once 'init.php';
-require_once 'common_functions.php';
-if (file_exists('install.php')) {
-    require_once 'install.php';
+require_once __DIR__ . '/Kazinduzi.php';
+require_once __DIR__ . '/includes/init.php';
+require_once __DIR__ . '/includes/common_functions.php';
+if (file_exists(__DIR__ . '/install.php')) {
+    require_once __DIR__ . '/install.php';
 }
 
 /**
@@ -106,11 +106,26 @@ $session->start();
 require_once APP_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 /*
+try{
+    $imageEditor = \library\Image\Editor::getInstance();
+    $imageEditor->setFile(BASE_PATH . '/html/images/Desert.jpg');
+    //$imageEditor->setQuality(80);
+    //$imageEditor->flip('vertical');
+    //$imageEditor->rotate(45, 0xffffff)->resize(800, 600)->save();
+    $imageEditor->resize(300, 300, true)->save(BASE_PATH . '/html/images/dddd.jpg');
+} catch (Exception $e) {
+    print_r($e);
+}
+
+var_dump(\Helpers\Image::getThumbnail('/html/images/Desert.jpg', 200, 200));
+
+echo __('Hello, world! :user', array(':user'=>'<strong>Manuel</strong>'));
+
 $solrConfig = \Kazinduzi::getConfig('solr');
 $client = new Solarium\Client($solrConfig);
 var_dump($client);
- * 
- */
+* 
+*/
 
 /*
 echo formatBytes(KAZINDUZI_START_MEMORY) . ' <=> ' . formatBytes(memory_get_usage()) . "\n";

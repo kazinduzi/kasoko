@@ -1,4 +1,13 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
+/**
+ * Kazinduzi Framework (http://framework.kazinduzi.com/)
+ *
+ * @author    Emmanuel Ndayiragije <endayiragije@gmail.com>
+ * @link      http://kazinduzi.com
+ * @copyright Copyright (c) 2010-2013 Kazinduzi. (http://www.kazinduzi.com)
+ * @license   http://kazinduzi.com/page/license MIT License
+ * @package   Kazinduzi
+ */
 
 class Inflector {
 	// Cached inflections
@@ -43,22 +52,22 @@ class Inflector {
 		if (isset(Inflector::$cache[$key]))
 			return Inflector::$cache[$key];
 
-		if ($irregular = array_search($str, Inflector::$irregular)) {
+		if($irregular = array_search($str, Inflector::$irregular)){
 			$str = $irregular;
 		}
-		elseif (preg_match('/us$/', $str)) {
+		elseif (preg_match('/us$/', $str)){
 			// http://en.wikipedia.org/wiki/Plural_form_of_words_ending_in_-us
 			// Already singular, do nothing
 		}
-		elseif (preg_match('/[sxz]es$/', $str) OR preg_match('/[^aeioudgkprt]hes$/', $str)) {
+		elseif (preg_match('/[sxz]es$/', $str) OR preg_match('/[^aeioudgkprt]hes$/', $str)){
 			// Remove "es"
 			$str = substr($str, 0, -2);
 		}
-		elseif (preg_match('/[^aeiou]ies$/', $str)) {
+		elseif (preg_match('/[^aeiou]ies$/', $str)){
 			// Replace "ies" with "y"
 			$str = substr($str, 0, -3).'y';
 		}
-		elseif (substr($str, -1) === 's' AND substr($str, -2) !== 'ss') {
+		elseif (substr($str, -1) === 's' AND substr($str, -2) !== 'ss'){
 			// Remove singular "s"
 			$str = substr($str, 0, -1);
 		}
@@ -99,7 +108,7 @@ class Inflector {
 		// Cache key name
 		$key = 'plural_'.$str.$count;
 
-		if (isset(Inflector::$cache[$key])) {
+		if (isset(Inflector::$cache[$key])){
 			return Inflector::$cache[$key];
         }
 
@@ -185,5 +194,5 @@ class Inflector {
         $str = $uppercase(str_replace('_',' ',preg_replace('/_id$/', '',$str)));
         return Inflector::$cache[$key] = $str;
     }
-
+    
 }

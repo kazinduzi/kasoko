@@ -6,7 +6,7 @@ $config = array(
     'endpoint' => array(
 	'localhost' => array(
 	    'host' => 'localhost',
-	    'port' => 8080,
+	    'port' => 8983,
 	    'path' => '/solr/core_kasoko/',
 	)
     )

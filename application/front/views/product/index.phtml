@@ -1,6 +1,9 @@
 <?php
 $this->title = $product->model;
 ?>
+<div class="product-title">
+    <h1><?php echo $product->model; ?></h1>
+</div>
 <div id="product-view" class="product-info">
     <div class="left-col1">
         <div class="image">
@@ -23,8 +26,7 @@ $this->title = $product->model;
 	<?php endif; ?>
     </div>
 
-    <div class="right-col1">
-        <h1><?php echo $product->model; ?></h1>
+    <div class="right-col1">        
         <div class="description">           
             <div class="product-manifacturer">
                 <span>Brand: </span>

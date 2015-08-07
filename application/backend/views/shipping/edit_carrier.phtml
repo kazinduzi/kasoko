@@ -1,0 +1,28 @@
+<div class="form-container">    
+    <form method="post" action="" class="clearfix">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/shipping/carriers" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>        
+        <div style="display: inline-block; width:100%;">
+            <ul class="nav nav-tabs" id="tabbed-menu" style="">
+                <li class="active"><a href="#general" data-toggle="tab">General</a></li>
+            </ul>
+        </div>        
+        <div class="tab-content">
+            <!-- ./general -->
+            <div class="tab-pane active" id="general">
+                <div class="form-group">
+                    <label for="name" class="control-label">Carrier name * :</label>
+                    <input type="text" id="model" name="carrier[name]" required="required" title="Carrarier name" placeholder="Carrier name" class="form-control" value="<?php echo (!empty($carrier->name) ? $carrier->name : ''); ?>">
+                </div>
+                <div class="form-group">
+                    <label for="name" class="control-label">Transit time * :</label>
+                    <input type="text" id="model" name="carrier[delay]" required="required" title="Transit time" placeholder="Transit time" class="form-control" value="<?php echo (!empty($carrier->delay) ? $carrier->delay : ''); ?>">
+                </div>
+            </div>            
+        </div>
+    </form>
+</div>
+

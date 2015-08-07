@@ -9,8 +9,9 @@
         <div style="display: inline-block; width:100%;">
             <ul class="nav nav-tabs" id="tabbed-menu">
                 <li class="active"><a href="#general" data-toggle="tab">General description</a></li>
+                <li><a href="#visibility" data-toggle="tab">Visibility</a></li>
                 <li><a href="#seo" data-toggle="tab">SEO</a></li>
-                <li><a href="#banner" data-toggle="tab">Banner</a></li>        
+                <li><a href="#images" data-toggle="tab">Images</a></li>                
             </ul>
         </div>
         <div class="tab-content">
@@ -37,17 +38,7 @@
     			<option value="<?php echo $aCategory->getId(); ?>" <?php echo $selected; ?>><?php echo $aCategory->name; ?></option>
 			<?php endforeach; ?>
                     </select>
-                </div>
-                <div class="form-group ">
-                    <label for="visible_create" class="control-label">Visibility</label>
-                    <div class="checkbox">
-                        <label>
-			    <?php $checked = $category->status ? 'checked="checked"' : ''; ?>
-                            <input type="checkbox" id="visible_create" name="category[visible]" value="1" <?php echo $checked; ?>>
-                            This category is online.
-                        </label>
-                    </div>
-                </div>
+                </div>                
             </div>
             <div class="tab-pane" id="seo">
                 <div class="group-form">
@@ -59,11 +50,33 @@
                     <textarea name="category[meta_keywords]" id="meta_keywords" rows="3" placeholder="Don't repeat keywords over and over in a row. Rather, put in keyword phrases." class="form-control"><?php echo $category->meta_keyword; ?></textarea>
                 </div>
             </div>            
-            <div class="tab-pane" id="banner">
+            <div class="tab-pane" id="images">
                 <div class="form-group">
-                    <label for="banner" class="control-label">Banner :</label>
-                    <input type="text" id="banner" name="category[image]" value="<?php echo (isset($category->image) ? $category->image : ''); ?>" class="form-control" placeholder="path/to/image.jpg"/>
+                    <label for="image" class="control-label">Banner :</label>
+                    <input type="text" id="image" name="category[image]" value="<?php echo (isset($category->image) ? $category->image : ''); ?>" class="form-control" placeholder="path/to/image.jpg"/>
                 </div>
+            </div>            
+            <div class="tab-pane" id="visibility">
+                <div class="form-group ">
+                    <label for="visible_create" class="control-label">Visibility</label>
+                    <div class="checkbox">
+                        <label>
+			    <?php $checked = $category->status ? 'checked="checked"' : ''; ?>
+                            <input type="checkbox" id="visible_create" name="category[visible]" value="1" <?php echo $checked; ?>>
+                            This category is online.
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label for="visible_create" class="control-label">Visible in menu</label>
+                    <div class="checkbox">
+                        <label>
+			    <?php $checked = $category->in_menu ? 'checked="checked"' : ''; ?>
+                            <input type="checkbox" id="visible_create" name="category[in_menu]" value="1" <?php echo $checked; ?>>
+                            This category is online.
+                        </label>                        
+                    </div>
+                </div>                    
             </div>
         </div>
 

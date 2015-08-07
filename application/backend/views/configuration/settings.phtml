@@ -2,7 +2,7 @@
     <form method="post" action="" class="clearfix">
 	<div class="form-group">
 	    <label>Shop email</label>
-	    <input class="form-control" type="text" name="shop_email" value="<?php echo \Configuration::get('shop_email');?>" >	    
+            <input class="form-control" type="email" name="shop_email" value="<?php echo \Configuration::get('shop_email');?>" >	    
 	</div>
 	<div class="form-group">
 	    <label>Shop name</label>
@@ -14,7 +14,7 @@
 	</div>
 	<div class="form-group">
 	    <label>Shop BaseURL</label>
-	    <input class="form-control" type="text" name="frontend_baseUrl" value="<?php echo \Configuration::get('frontend_baseUrl');?>" >	    
+	    <input class="form-control" type="url" name="frontend_baseUrl" value="<?php echo \Configuration::get('frontend_baseUrl');?>" >	    
 	</div>
 	<div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
 	    <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
