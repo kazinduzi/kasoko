@@ -13,26 +13,34 @@
                     </th>
                     <th class="object-title">
                         <a href="#">Name</a>
-                    </th>
-                    <th class="object-title">
-                        <a href="#">Logo</a>
-                    </th>
-                    <th class="object-title">
-                        <a href="#">Delay</a>
-                    </th>
+                    </th>                                        
                     <th>
                         <i class=""></i>
-                        <a href="#">Status</a>
-                    </th>
-                    <th>
-                        <i class=""></i>
-                        <a href="#">Free Shipping</a>
-                    </th> 
+                        <a href="#">Active</a>
+                    </th>                    
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                
+                <?php foreach ($carriers as $carrier) :?>
+                <tr>
+                    <td><?php echo $carrier->getId();?></td>
+                    <td><?php echo $carrier->name;?></td>
+                    <td>
+                        <?php if ($carrier->isActive()) :?>
+                            <i class="glyphicon glyphicon-ok"></i>
+                        <?php else :?>
+                            <i class="glyphicon glyphicon-remove"></i>
+                        <?php endif; ?>
+                    </td>
+                    <td class="actions">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-xs" title="Edit <?php echo $carrier->name;?>" href="/admin/shipping/edit_carrier/<?php echo $carrier->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a class="btn btn-default btn-xs product-delete" title="Delete <?php echo $carrier->name;?>" href="/admin/shipping/delete/<?php echo $carrier->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach;?>                
             </tbody>
         </table>
     </div>

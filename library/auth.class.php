@@ -11,7 +11,8 @@ defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
  * @license   http://kazinduzi.com/page/license MIT License
  * @package   Kazinduzi
  */
-use library\password;
+use \library\password;
+use \PasswordCompat\binary;
 
 class Auth
 {

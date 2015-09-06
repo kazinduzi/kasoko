@@ -23,6 +23,7 @@ class ShippingController extends Admin_controller
     {
         $this->title = __('Shipping carriers');
         $this->getTemplate()->setFilename('shipping/carriers');
+        $this->carriers = (new Carrier())->findAll();
     }
     
     public function handling()
@@ -33,9 +34,31 @@ class ShippingController extends Admin_controller
     
     public function editCarrier()
     {
+        $id = $this->getArg();
         $this->title = __('Carrier');
         $this->getTemplate()->setFilename('shipping/edit_carrier');
-        $this->carrier = new Carrier();
+        $this->carrier = $carrier = new Carrier($id);
+        if ($this->getRequest()->isPost()) {
+            try{
+                $carrier->name = $_POST['carrier']['name'];
+                $carrier->shipping_method = $_POST['carrier']['shipping_method'];
+                $carrier->setActive($_POST['carrier']['active']);
+                $carrier->deleted = 0;
+                $carrier->max_width = 0;
+                $carrier->max_height = 0;
+                $carrier->max_depth = 0;
+                $carrier->max_weight = 0.00;
+                $carrier->save();
+                if ('stay' === $this->getRequest()->postParam('save_mode')) {
+		    $this->redirect('/admin/shipping/edit_carrier/'.$carrier->getId());
+		} else {
+		    $this->redirect('/admin/shipping/carriers');
+		}
+            } catch (Exception $e){
+                print_r($e);
+            }
+            
+        }
     }
     
     public function editHandling()

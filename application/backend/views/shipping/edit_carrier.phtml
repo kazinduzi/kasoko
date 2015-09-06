@@ -14,12 +14,16 @@
             <!-- ./general -->
             <div class="tab-pane active" id="general">
                 <div class="form-group">
-                    <label for="name" class="control-label">Carrier name * :</label>
+                    <label for="" class="control-label">Carrier name * :</label>
                     <input type="text" id="model" name="carrier[name]" required="required" title="Carrarier name" placeholder="Carrier name" class="form-control" value="<?php echo (!empty($carrier->name) ? $carrier->name : ''); ?>">
                 </div>
                 <div class="form-group">
-                    <label for="name" class="control-label">Transit time * :</label>
-                    <input type="text" id="model" name="carrier[delay]" required="required" title="Transit time" placeholder="Transit time" class="form-control" value="<?php echo (!empty($carrier->delay) ? $carrier->delay : ''); ?>">
+                    <label for="" class="control-label">Shipping Method *:</label>
+                    <input type="text" id="model" name="carrier[shipping_method]" required="required" title="Shipping method" placeholder="Shipping method" class="form-control" value="<?php echo (!empty($carrier->shipping_method) ? $carrier->shipping_method : ''); ?>">
+                </div>
+                <div class="form-group">
+                    <label for="active" class="control-label">Active *:</label>
+                    <input type="checkbox" id="active" name="carrier[active]" title="Active" class="" value="1" <?php echo ($carrier->getId() && $carrier->isActive() ? 'checked' : ''); ?>>
                 </div>
             </div>            
         </div>

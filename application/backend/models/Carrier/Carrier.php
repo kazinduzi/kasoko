@@ -18,35 +18,15 @@ class Carrier extends \Model
         $this->active = (bool)$active;
         return $this;
     }
-    
-    /**
-     * 
-     * @param boolean $free
-     * @return \models\Carrier\Carrier
-     */
-    public function setFree($free)
-    {
-        $this->is_free = (bool)$free;
-        return $this;
-    }
-    
+            
     /**
      * 
      * @return boolean
      */
     public function isActive()
     {
-        return (bool)$this->active === true;
-    }
-    
-    /**
-     * 
-     * @return boolean
-     */
-    public function isFree()
-    {
-        return (bool)$this->is_free === true;
-    }
+        return $this->active == true;
+    }   
     
     /**
      * 
