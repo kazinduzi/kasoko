@@ -96,7 +96,7 @@ class Client extends CoreClient
      * @internal a string compare is used instead of version_compare because
      *  version_compare returns false for a compare of 1.0.0 with 1.0
      *
-     * @param  string  $version
+     * @param  string $version
      * @return boolean
      */
     public static function checkExact($version)
@@ -123,7 +123,7 @@ class Client extends CoreClient
      * - 2 (the actual version is lower)
      * - 1.3 (the actual version is lower)
      *
-     * @param  string  $version
+     * @param  string $version
      * @return boolean
      */
     public static function checkMinimal($version)

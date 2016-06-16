@@ -39,7 +39,7 @@ class CategoriesController extends Admin_controller
                 $data = $_POST['category'];
                 $category = new Category();
                 $category->name = $data['name'];
-                $category->seo_name = \String::slugify($data['name']);
+                $category->seo_name = \Stringify::slugify($data['name']);
                 $category->description = $data['description'];
                 $category->top = 0;
                 $category->sort_order = 0;
@@ -77,7 +77,7 @@ class CategoriesController extends Admin_controller
                 $data = $_POST['category'];
                 $savemode = $_POST['save_mode'];
                 $category->name = $data['name'];
-                $category->seo_name = \String::slugify($data['name']);
+                $category->seo_name = \Stringify::slugify($data['name']);
                 $category->description = $data['description'];
                 $category->top = 0;
                 $category->sort_order = 0;

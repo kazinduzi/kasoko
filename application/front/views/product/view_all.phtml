@@ -51,7 +51,7 @@
     		<li class="product-holder">
     		    <article itemscope="" itemtype="http://schema.org/Product">
     			<div class="img-box">
-    			    <a href="/product/item/<?php echo String::slugify($product->slug); ?>">
+					<a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>">
 				    <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>    
 					<img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
 					<span class="mask"></span>
@@ -66,14 +66,16 @@
     			<div class="product-meta">
     			    <div class="product-info">
     				<h3 class="name">
-    				    <a href="/product/item/<?php echo String::slugify($product->slug); ?>"><span itemprop="name"><?php echo $product->model; ?></span></a>
+						<a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>"><span
+									itemprop="name"><?php echo $product->model; ?></span></a>
     				</h3>
     			    </div>
     			    <div class="product-price">
-    				<span><?php echo String::currency_format($product->price); ?></span>
+						<span><?php echo Stringify::currency_format($product->price); ?></span>
     			    </div>
     			    <div class="product-description">
-    				<p class="description" itemprop="description"><?php echo \String::truncate($product->description, 100); ?></p>
+						<p class="description"
+						   itemprop="description"><?php echo \Stringify::truncate($product->description, 100); ?></p>
     			    </div>
     			    <div class="cart">
     				<a href="javascript:void(0);" class="btn btn-default" onclick="addToCart('<?php echo $product->product_id; ?>');">Add to Cart</a>

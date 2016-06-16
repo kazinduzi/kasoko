@@ -10,23 +10,11 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 class Cart
 {
 
+    private static $_instance;
     private $db = false;
     private $config = array();
     private $session = false;
     private $data = array();
-    private static $_instance;
-
-    /**
-     * Create a singleton for the Customer
-     * @return mixed
-     */
-    public static function getSingleton()
-    {
-	if (static::$_instance === null) {
-	    static::$_instance = new static();
-	}
-	return static::$_instance;
-    }
 
     /**
      *
@@ -34,13 +22,25 @@ class Cart
      */
     public function __construct(array $data = array())
     {
-	$this->data = $data;
-	$this->db = \Kazinduzi::db();
-	$this->config = \Kazinduzi::getConfig('session');
-	$this->session = \Kazinduzi::session();
-	if (!$this->session->get('cart') || !is_array($this->session->get('cart'))) {
-	    $this->session->add('cart', $this->data);
-	}
+        $this->data = $data;
+        $this->db = \Kazinduzi::db();
+        $this->config = \Kazinduzi::getConfig('session');
+        $this->session = \Kazinduzi::session();
+        if (!$this->session->get('cart') || !is_array($this->session->get('cart'))) {
+            $this->session->add('cart', $this->data);
+        }
+    }
+
+    /**
+     * Create a singleton for the Customer
+     * @return mixed
+     */
+    public static function getSingleton()
+    {
+        if (static::$_instance === null) {
+            static::$_instance = new static();
+        }
+        return static::$_instance;
     }
 
     /**
@@ -52,21 +52,21 @@ class Cart
      */
     public function add($productid, $qty = 1, array $options = null)
     {
-	if (!$options) {
-	    $key = $productid;
-	} else {
-	    $key = $productid . ':' . base64_encode(serialize($options));
-	}
-	if (is_numeric($qty) && ((int) $qty > 0)) {
-	    if (!array_key_exists($key, $__cart_data = $this->session->get('cart'))) {
-		$__cart_data[$key] = (int) $qty;
-	    } else {
-		$__cart_data[$key] += (int) $qty;
-	    }
-	    $this->session->add('cart', $__cart_data);
-	    return $this;
-	}
-	return false;
+        if (!$options) {
+            $key = $productid;
+        } else {
+            $key = $productid . ':' . base64_encode(serialize($options));
+        }
+        if (is_numeric($qty) && ((int)$qty > 0)) {
+            if (!array_key_exists($key, $__cart_data = $this->session->get('cart'))) {
+                $__cart_data[$key] = (int)$qty;
+            } else {
+                $__cart_data[$key] += (int)$qty;
+            }
+            $this->session->add('cart', $__cart_data);
+            return $this;
+        }
+        return false;
     }
 
     /**
@@ -77,15 +77,15 @@ class Cart
      */
     public function update($key, $qty)
     {
-	if (!is_numeric($qty))
-	    throw new Exception('Invalid quantity provided', 1000);
-	if ((int) $qty && ((int) $qty > 0) && array_key_exists($key, $data = $this->session->get('cart'))) {
-	    $data[$key] = (int) $qty;
-	    $this->session->add('cart', $data);
-	} else {
-	    $this->remove($key);
-	}
-	return $this;
+        if (!is_numeric($qty))
+            throw new Exception('Invalid quantity provided', 1000);
+        if ((int)$qty && ((int)$qty > 0) && array_key_exists($key, $data = $this->session->get('cart'))) {
+            $data[$key] = (int)$qty;
+            $this->session->add('cart', $data);
+        } else {
+            $this->remove($key);
+        }
+        return $this;
     }
 
     /**
@@ -95,25 +95,13 @@ class Cart
      */
     public function remove($key)
     {
-	if (array_key_exists($key, $data = $this->session->get('cart'))) {
-	    if (isset($data[$key])) {
-		unset($data[$key]);
-	    }
-	    $this->session->add('cart', $data);
-	}
-	return $this;
-    }
-
-    /**
-     * Clear or destroy the cart
-     * @return boolean
-     */
-    public function clear()
-    {
-	if ($this->session->get('cart')) {
-	    $this->session->remove('cart');
-	}
-	return true;
+        if (array_key_exists($key, $data = $this->session->get('cart'))) {
+            if (isset($data[$key])) {
+                unset($data[$key]);
+            }
+            $this->session->add('cart', $data);
+        }
+        return $this;
     }
 
     /**
@@ -122,8 +110,20 @@ class Cart
      */
     public function destroy()
     {
-	$this->clear();
-	return true;
+        $this->clear();
+        return true;
+    }
+
+    /**
+     * Clear or destroy the cart
+     * @return boolean
+     */
+    public function clear()
+    {
+        if ($this->session->get('cart')) {
+            $this->session->remove('cart');
+        }
+        return true;
     }
 
     /**
@@ -131,31 +131,15 @@ class Cart
      */
     public function getSubTotal()
     {
-	$sub_total = 0.0;
-	if ($this->hasProducts()) {
-	    foreach ($this->session->get('cart') as $id => $qty) {
-		$product_id = explode(':', $id);
-		$Product = new Product($product_id[0]);
-		$sub_total += $Product->price * (float) $qty;
-	    }
-	}
-	return $sub_total;
-    }
-
-    /**
-     * @todo
-     */
-    public function getTotal()
-    {
-	$total = 0.0;
-	if ($this->hasProducts()) {
-	    foreach ($this->session->get('cart') as $id => $qty) {
-		$product_id = explode(':', $id);
-		$Product = new Product($product_id[0]);
-		$total += ($Product->price + $Product->tax) * $qty;
-	    }
-	}
-	return $total;
+        $sub_total = 0.0;
+        if ($this->hasProducts()) {
+            foreach ($this->session->get('cart') as $id => $qty) {
+                $product_id = explode(':', $id);
+                $Product = new Product($product_id[0]);
+                $sub_total += $Product->price * (float)$qty;
+            }
+        }
+        return $sub_total;
     }
 
     /**
@@ -164,7 +148,23 @@ class Cart
      */
     public function hasProducts()
     {
-	return count($this->session->get('cart')) > 0;
+        return count($this->session->get('cart')) > 0;
+    }
+
+    /**
+     * @todo
+     */
+    public function getTotal()
+    {
+        $total = 0.0;
+        if ($this->hasProducts()) {
+            foreach ($this->session->get('cart') as $id => $qty) {
+                $product_id = explode(':', $id);
+                $Product = new Product($product_id[0]);
+                $total += $Product->price * (float)$qty * (100.0 + $Product->tax) / 100.0;
+            }
+        }
+        return $total;
     }
 
     /**
@@ -173,16 +173,16 @@ class Cart
      */
     public function hasShipping()
     {
-	static $shipping = false;
-	foreach ($this->session->get('cart') as $id => $qty) {
-	    $product_id = explode(':', $id);
-	    $Product = new Product($product_id[0]);
-	    if ($Product->shipping) {
-		$shipping = true;
-		break;
-	    }
-	}
-	return $shipping;
+        static $shipping = false;
+        foreach ($this->session->get('cart') as $id => $qty) {
+            $product_id = explode(':', $id);
+            $Product = new Product($product_id[0]);
+            if ($Product->shipping) {
+                $shipping = true;
+                break;
+            }
+        }
+        return $shipping;
     }
 
     /**
@@ -192,9 +192,9 @@ class Cart
      */
     public function getContent()
     {
-	if (!$this->hasProducts())
-	    throw new Exception(1000, 'Cart is empty');
-	return $this->session->get('cart');
+        if (!$this->hasProducts())
+            throw new Exception(1000, 'Cart is empty');
+        return $this->session->get('cart');
     }
 
     /**
@@ -204,13 +204,13 @@ class Cart
      */
     public function getCountItems()
     {
-	if (!$this->hasProducts())
-	    return 0;
-	$count = 0;
-	foreach ($this->session->get('cart') as $id => $qty) {
-	    $count += (int) $qty;
-	}
-	return $count;
+        if (!$this->hasProducts())
+            return 0;
+        $count = 0;
+        foreach ($this->session->get('cart') as $id => $qty) {
+            $count += (int)$qty;
+        }
+        return $count;
     }
 
 }

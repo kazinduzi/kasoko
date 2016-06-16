@@ -78,15 +78,15 @@ class Escaper
      * @var array
      */
     protected $supportedEncodings = array(
-        'iso-8859-1',   'iso8859-1',    'iso-8859-5',   'iso8859-5',
-        'iso-8859-15',  'iso8859-15',   'utf-8',        'cp866',
-        'ibm866',       '866',          'cp1251',       'windows-1251',
-        'win-1251',     '1251',         'cp1252',       'windows-1252',
-        '1252',         'koi8-r',       'koi8-ru',      'koi8r',
-        'big5',         '950',          'gb2312',       '936',
-        'big5-hkscs',   'shift_jis',    'sjis',         'sjis-win',
-        'cp932',        '932',          'euc-jp',       'eucjp',
-        'eucjp-win',    'macroman'
+        'iso-8859-1', 'iso8859-1', 'iso-8859-5', 'iso8859-5',
+        'iso-8859-15', 'iso8859-15', 'utf-8', 'cp866',
+        'ibm866', '866', 'cp1251', 'windows-1251',
+        'win-1251', '1251', 'cp1252', 'windows-1252',
+        '1252', 'koi8-r', 'koi8-ru', 'koi8r',
+        'big5', '950', 'gb2312', '936',
+        'big5-hkscs', 'shift_jis', 'sjis', 'sjis-win',
+        'cp932', '932', 'euc-jp', 'eucjp',
+        'eucjp-win', 'macroman'
     );
 
     /**
@@ -100,7 +100,7 @@ class Escaper
     public function __construct($encoding = null)
     {
         if ($encoding !== null) {
-            $encoding = (string) $encoding;
+            $encoding = (string)$encoding;
             if ($encoding === '') {
                 throw new Exception\InvalidArgumentException(
                     get_class($this) . ' constructor parameter does not allow a blank value'
@@ -119,23 +119,13 @@ class Escaper
         }
 
         if (defined('ENT_SUBSTITUTE')) {
-            $this->htmlSpecialCharsFlags|= ENT_SUBSTITUTE;
+            $this->htmlSpecialCharsFlags |= ENT_SUBSTITUTE;
         }
 
         // set matcher callbacks
         $this->htmlAttrMatcher = array($this, 'htmlAttrMatcher');
-        $this->jsMatcher       = array($this, 'jsMatcher');
-        $this->cssMatcher      = array($this, 'cssMatcher');
-    }
-
-    /**
-     * Return the encoding that all output/input is expected to be encoded in.
-     *
-     * @return string
-     */
-    public function getEncoding()
-    {
-        return $this->encoding;
+        $this->jsMatcher = array($this, 'jsMatcher');
+        $this->cssMatcher = array($this, 'cssMatcher');
     }
 
     /**
@@ -168,6 +158,97 @@ class Escaper
 
         $result = preg_replace_callback('/[^a-z0-9,\.\-_]/iSu', $this->htmlAttrMatcher, $string);
         return $this->fromUtf8($result);
+    }
+
+    /**
+     * Converts a string to UTF-8 from the base encoding. The base encoding is set via this
+     * class' constructor.
+     *
+     * @param string $string
+     * @throws Exception\RuntimeException
+     * @return string
+     */
+    protected function toUtf8($string)
+    {
+        if ($this->getEncoding() === 'utf-8') {
+            $result = $string;
+        } else {
+            $result = $this->convertEncoding($string, 'UTF-8', $this->getEncoding());
+        }
+
+        if (!$this->isUtf8($result)) {
+            throw new Exception\RuntimeException(sprintf(
+                'String to be escaped was not valid UTF-8 or could not be converted: %s', $result
+            ));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Return the encoding that all output/input is expected to be encoded in.
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Encoding conversion helper which wraps iconv and mbstring where they exist or throws
+     * and exception where neither is available.
+     *
+     * @param string $string
+     * @param string $to
+     * @param array|string $from
+     * @throws Exception\RuntimeException
+     * @return string
+     */
+    protected function convertEncoding($string, $to, $from)
+    {
+        if (function_exists('iconv')) {
+            $result = iconv($from, $to, $string);
+        } elseif (function_exists('mb_convert_encoding')) {
+            $result = mb_convert_encoding($string, $to, $from);
+        } else {
+            throw new Exception\RuntimeException(
+                get_class($this)
+                . ' requires either the iconv or mbstring extension to be installed'
+                . ' when escaping for non UTF-8 strings.'
+            );
+        }
+
+        if ($result === false) {
+            return ''; // return non-fatal blank string on encoding errors from users
+        }
+        return $result;
+    }
+
+    /**
+     * Checks if a given string appears to be valid UTF-8 or not.
+     *
+     * @param string $string
+     * @return bool
+     */
+    protected function isUtf8($string)
+    {
+        return ($string === '' || preg_match('/^./su', $string));
+    }
+
+    /**
+     * Converts a string from UTF-8 to the base encoding. The base encoding is set via this
+     * class' constructor.
+     * @param string $string
+     * @return string
+     */
+    protected function fromUtf8($string)
+    {
+        if ($this->getEncoding() === 'utf-8') {
+            return $string;
+        }
+
+        return $this->convertEncoding($string, $this->getEncoding(), 'UTF-8');
     }
 
     /**
@@ -304,87 +385,6 @@ class Escaper
             $ord = hexdec(bin2hex($chr));
         }
         return sprintf('\\%X ', $ord);
-    }
-
-    /**
-     * Converts a string to UTF-8 from the base encoding. The base encoding is set via this
-     * class' constructor.
-     *
-     * @param string $string
-     * @throws Exception\RuntimeException
-     * @return string
-     */
-    protected function toUtf8($string)
-    {
-        if ($this->getEncoding() === 'utf-8') {
-            $result = $string;
-        } else {
-            $result = $this->convertEncoding($string, 'UTF-8', $this->getEncoding());
-        }
-
-        if (!$this->isUtf8($result)) {
-            throw new Exception\RuntimeException(sprintf(
-                'String to be escaped was not valid UTF-8 or could not be converted: %s', $result
-            ));
-        }
-
-        return $result;
-    }
-
-    /**
-     * Converts a string from UTF-8 to the base encoding. The base encoding is set via this
-     * class' constructor.
-     * @param string $string
-     * @return string
-     */
-    protected function fromUtf8($string)
-    {
-        if ($this->getEncoding() === 'utf-8') {
-            return $string;
-        }
-
-        return $this->convertEncoding($string, $this->getEncoding(), 'UTF-8');
-    }
-
-    /**
-     * Checks if a given string appears to be valid UTF-8 or not.
-     *
-     * @param string $string
-     * @return bool
-     */
-    protected function isUtf8($string)
-    {
-        return ($string === '' || preg_match('/^./su', $string));
-    }
-
-    /**
-     * Encoding conversion helper which wraps iconv and mbstring where they exist or throws
-     * and exception where neither is available.
-     *
-     * @param string $string
-     * @param string $to
-     * @param array|string $from
-     * @throws Exception\RuntimeException
-     * @return string
-     */
-    protected function convertEncoding($string, $to, $from)
-    {
-        if (function_exists('iconv')) {
-            $result = iconv($from, $to, $string);
-        } elseif (function_exists('mb_convert_encoding')) {
-            $result = mb_convert_encoding($string, $to, $from);
-        } else {
-            throw new Exception\RuntimeException(
-                get_class($this)
-                . ' requires either the iconv or mbstring extension to be installed'
-                . ' when escaping for non UTF-8 strings.'
-            );
-        }
-
-        if ($result === false) {
-            return ''; // return non-fatal blank string on encoding errors from users
-        }
-        return $result;
     }
 }
 

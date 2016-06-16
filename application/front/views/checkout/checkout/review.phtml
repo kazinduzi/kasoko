@@ -24,7 +24,7 @@
 	    <?php $Product = $Product_data['product']; ?>
                 <tr>
 		    <td class="image">
-			<a href="/product/item/<?php echo String::slugify($Product->slug); ?>">
+			<a href="/product/item/<?php echo Stringify::slugify($Product->slug); ?>">
 			<?php if ($Product->getCoverProductImage() instanceof \library\Product\Image) : ?>
 			    <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>" src="<?php echo $Product->getCoverProductImage()->getThumb(); ?>" width="100" />
 			<?php elseif ($Product->getFirstProductImage() instanceof \library\Product\Image) : ?>
@@ -34,18 +34,18 @@
 			<?php endif; ?>
 			</a>
 		    </td>
-                    <td><a href="/product/item/<?php echo String::slugify($Product->slug); ?>"><?php echo $Product->model; ?></a></td>
+                    <td><a href="/product/item/<?php echo Stringify::slugify($Product->slug); ?>"><?php echo $Product->model; ?></a></td>
                     <td><?php echo $Product->sku; ?></td>
-                    <td class="a-right"><?php echo String::currency_format($Product->price); ?></td>
+                    <td class="a-right"><?php echo Stringify::currency_format($Product->price); ?></td>
                     <td class="a-right"><?php echo $Product_data['qty'] ?></td>
-                    <td class="a-right"><?php echo String::currency_format($Product->price * $Product_data['qty']); ?></td>
+                    <td class="a-right"><?php echo Stringify::currency_format($Product->price * $Product_data['qty']); ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="5" class="a-right sub-total">Sub-total</td>
-                <td class="a-right"><?php echo String::currency_format($sub_total); ?></td>
+                <td class="a-right"><?php echo Stringify::currency_format($sub_total); ?></td>
             </tr>
             <tr style="display: none;">
                 <td colspan="4" class="a-right vat"><strong>Shipping</strong></td>
@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <td colspan="5" class="a-right total"><strong>Grand Total</strong></td>
-                <td class="a-right"><?php echo String::currency_format($grand_total); ?></td>
+                <td class="a-right"><?php echo Stringify::currency_format($grand_total); ?></td>
             </tr>
         </tfoot>
     </table>

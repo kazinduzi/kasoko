@@ -39,24 +39,23 @@ class GoogleMapImage
         $this->locations[] = $location;
     }
 
-    public function getUrl()
+    public function __toString()
     {
-        $markers = array();
-        foreach ($this->locations as $location)
-        {
-          $markers[] = 'color:blue|label:'.$location->getIp().'|'.$location->getLatitude().','.$location->getLongitude();
-        }
-        $markers = '&markers='.implode('&markers=', $markers);
-        return 'http://maps.google.com/maps/api/staticmap?zoom='.$this->zoom.'&size='.$this->width.'x'.$this->height.'&maptype='.$this->maptype.'&sensor='.($this->sensor ? 'true' : 'false').$markers;
+        return $this->getHTMLImageTag();
     }
 
     public function getHTMLImageTag()
     {
-        return '<img src="'.$this->getUrl().'" width="'.$this->width.'" height="'.$this->height.'" />';
+        return '<img src="' . $this->getUrl() . '" width="' . $this->width . '" height="' . $this->height . '" />';
     }
 
-    public function __toString()
+    public function getUrl()
     {
-        return $this->getHTMLImageTag();
+        $markers = array();
+        foreach ($this->locations as $location) {
+            $markers[] = 'color:blue|label:' . $location->getIp() . '|' . $location->getLatitude() . ',' . $location->getLongitude();
+        }
+        $markers = '&markers=' . implode('&markers=', $markers);
+        return 'http://maps.google.com/maps/api/staticmap?zoom=' . $this->zoom . '&size=' . $this->width . 'x' . $this->height . '&maptype=' . $this->maptype . '&sensor=' . ($this->sensor ? 'true' : 'false') . $markers;
     }
 }

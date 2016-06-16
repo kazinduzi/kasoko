@@ -19,8 +19,8 @@
 		<td><?php echo date('d-m-Y', strtotime($customerOrder->added_date));?></td>
 		<td><?php echo ($customerOrder->getItems() ? count($customerOrder->getItems()) : null);?></td>
 		<td><?php echo $customerOrder->shipped; ?></td>
-		<td><?php echo \String::currency_format($customerOrder->amount);?></td>		
-	    </tr>
+			<td><?php echo \Stringify::currency_format($customerOrder->amount); ?></td>
+		</tr>
 	    <?php endforeach;?>
 	</table>
     </div>

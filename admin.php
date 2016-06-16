@@ -20,8 +20,7 @@ if (!empty($_GET['rt']) && $_GET['rt'] == 'favicon.ico') {
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', getenv('APPLICATION_ENV')?getenv('APPLICATION_ENV'):'development');
-
+define('ENVIRONMENT', getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development');
 defined('DS') OR define('DS', DIRECTORY_SEPARATOR);
 defined('PS') OR define('PS', PATH_SEPARATOR);
 defined('EXT') OR define('EXT', '.php');
@@ -55,20 +54,20 @@ require_once 'loader.php';
  * Set the include path for the whole kazinduzi
  */
 set_include_path(
-        get_include_path()
-        . PS . KAZINDUZI_PATH
-        . PS . APP_PATH . DS . 'configs'
-        . PS . KAZINDUZI_PATH . DS . 'includes'
-        . PS . CONTROLLERS_PATH
-        . PS . VIEWS_PATH
-        . PS . LIB_PATH
-        . PS . CORE_PATH
-        . PS . APP_PATH
-        . PS . DB_PATH
-        . PS . WIDGETS_PATH
-        . PS . KAZINDUZI_PATH . DS . 'helpers'
-        . PS . KAZINDUZI_PATH . DS . 'elements'
-        . PS . KAZINDUZI_PATH . DS . 'html'
+    get_include_path()
+    . PS . KAZINDUZI_PATH
+    . PS . APP_PATH . DS . 'configs'
+    . PS . KAZINDUZI_PATH . DS . 'includes'
+    . PS . CONTROLLERS_PATH
+    . PS . VIEWS_PATH
+    . PS . LIB_PATH
+    . PS . CORE_PATH
+    . PS . APP_PATH
+    . PS . DB_PATH
+    . PS . WIDGETS_PATH
+    . PS . KAZINDUZI_PATH . DS . 'helpers'
+    . PS . KAZINDUZI_PATH . DS . 'elements'
+    . PS . KAZINDUZI_PATH . DS . 'html'
 );
 
 require_once 'Kazinduzi.php';
