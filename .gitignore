@@ -2,3 +2,4 @@
 configs/database.php
 cache/
 html/images/kasoko
+vendor/*
