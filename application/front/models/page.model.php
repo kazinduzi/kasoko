@@ -11,7 +11,7 @@ class Page extends Model
 
     /**
      * Get all pages
-     * 
+     *
      * @return array
      */
     public static function getAll()

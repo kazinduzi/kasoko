@@ -26,23 +26,13 @@ abstract class Cache
      */
     public static function getInstance()
     {
-	if (isset(self::$instance)) {
-	    return self::$instance;
-	}
-	$config = Kazinduzi::getConfig('cache')->toArray();
-	$cacheClassName = 'Cache' . ucfirst($config['driver']);
-	self::$instance = new $cacheClassName($config);
-	return self::$instance;
-    }
-
-    /**
-     * Overload the __clone() method to prevent cloning
-     * @return  void
-     * @throws  Cache_Exception
-     */
-    private function __clone()
-    {
-	throw new Exception('Cloning of this object is forbidden');
+        if (isset(self::$instance)) {
+            return self::$instance;
+        }
+        $config = Kazinduzi::getConfig('cache')->toArray();
+        $cacheClassName = 'Cache' . ucfirst($config['driver']);
+        self::$instance = new $cacheClassName($config);
+        return self::$instance;
     }
 
     /**
@@ -92,8 +82,18 @@ abstract class Cache
      */
     protected function _sanitize_id($id)
     {
-	// Change slashes and spaces to underscores
-	return str_replace(array('/', '\\', ' '), '_', $id);
+        // Change slashes and spaces to underscores
+        return str_replace(array('/', '\\', ' '), '_', $id);
+    }
+
+    /**
+     * Overload the __clone() method to prevent cloning
+     * @return  void
+     * @throws  Cache_Exception
+     */
+    private function __clone()
+    {
+        throw new Exception('Cloning of this object is forbidden');
     }
 
 }

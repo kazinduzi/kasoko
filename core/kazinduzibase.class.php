@@ -5,24 +5,23 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 /**
  *  Set a liberal script execution time limit
  */
-if (function_exists("set_time_limit") == true AND @ ini_get("safe_mode") == 0) {
+if (function_exists('set_time_limit') == true AND @ ini_get('safe_mode') == 0) {
     @set_time_limit(0);
 }
 
-if (@ini_get("short_open_tag") != "On") {
-    ini_set("short_open_tag", "On");
+if (@ini_get('short_open_tag') != 'On') {
+    ini_set('short_open_tag', 'On');
 }
 
 
 /**
  *  Define a custom error handler so we can log PHP errors
  */
-if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
-    // Kill magic quotes
-    @set_magic_quotes_runtime(0);
+if (version_compare(PHP_VERSION, '5.3.0') >= 0 && PHP_MAJOR_VERSION < 7) {
+    set_magic_quotes_runtime(0);
 }
-@ini_set('magic_quotes_sybase', 0);
 
+ini_set('magic_quotes_sybase', 0);
 
 
 /**
@@ -42,7 +41,7 @@ if (KAZINDUZI_DEBUG) {
 if (!@ini_get('zlib.output_compression')) { //turn on compression
     @ini_set('zlib.output_compression', 1);
 }
-if ((int) @ini_get('zlib.output_compression_level') < 0) { //set compression level to 6
+if ((int)@ini_get('zlib.output_compression_level') < 0) { //set compression level to 6
     @ini_set('zlib.output_compression_level', 6);
 }
 /**
@@ -64,6 +63,8 @@ if (defined('ENVIRONMENT')) {
         case 'testing':
         case 'production':
             error_reporting(0);
+            ini_set('display_errors', false);
+            ini_set('display_startup_errors', false);
             break;
         default:
             exit('The application environment is not set correctly.');
@@ -90,7 +91,7 @@ abstract class KazinduziBase
     // Security check that is added to all generated PHP files
     const FILE_SECURITY = '<?php defined(\'KAZINDUZI_PATH\') or die(\'No direct script access allowed.\');';
     // Format of cache files: header, cache name, and data
-    const FILE_CACHE = ":header \n\n// :name\n\n:data\n";
+    const FILE_CACHE = ':header \n\n// :name\n\n:data\n';
 
     /**
      *  Application title
@@ -193,8 +194,8 @@ abstract class KazinduziBase
          * This constant defines whether the application should be in debug mode or not. Defaults to false.
          */
         isset($config['debug']) ?
-                        defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', $config['debug']) :
-                        defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', false);
+            defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', $config['debug']) :
+            defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', false);
 
         /**
          * Set default language
@@ -202,7 +203,6 @@ abstract class KazinduziBase
         if (isset($config['lang'])) {
             self::$language = $config['lang'];
         }
-
 
 
         /**
@@ -248,30 +248,62 @@ abstract class KazinduziBase
         /**
          * Determine if we are running in safe mode
          */
-        self::$safe_mode = (bool) ini_get('safe_mode');
+        self::$safe_mode = (bool)ini_get('safe_mode');
 
 
         if (function_exists('mb_internal_encoding')) { // Set the MB extension encoding to the same character set
             mb_internal_encoding(self::getCharset());
         }
+
         /**
-         *
+         * Set overall the encoding
          */
-        if (function_exists('iconv_set_encoding')) { // Using UTF-8 for everything.
-            iconv_set_encoding("internal_encoding", self::getCharset());
-            iconv_set_encoding("output_encoding", self::getCharset());
+        if (function_exists('iconv') && PHP_VERSION_ID < 50600) {
+            iconv_set_encoding('internal_encoding', self::getCharset());
+            iconv_set_encoding('input_encoding', self::getCharset());
+            iconv_set_encoding('output_encoding', self::getCharset());
+        } elseif (PHP_VERSION_ID >= 50600) {
+            ini_set('default_charset', self::getCharset());
         }
 
         /**
          * Set the Timezone
          */
         isset($config['date.timezone']) ?
-                        // If date.timezone is set in the configuration, affect it to the app.
-                        self::setTimeZone($config['date.timezone']) :
-                        // Else set system timezone to UTC timezone as default
-                        self::setTimeZone('UTC');
+            // If date.timezone is set in the configuration, affect it to the app.
+            self::setTimeZone($config['date.timezone']) :
+            // Else set system timezone to UTC timezone as default
+            self::setTimeZone('UTC');
         //
         unset($config);
+    }
+
+    /**
+     * Or redifine the config($group) static method for fetching config file
+     * @param type $group
+     * @return type
+     */
+    public static function config($group = null)
+    {
+        return self::$config = Config::instance($group);
+    }
+
+    /**
+     *
+     * @param string $name
+     */
+    public static function setAppName($name)
+    {
+        self::$title = empty($name) ? 'Kazinduzi, the PHP web application framework' : $name;
+    }
+
+    /**
+     * Set the system encoding charset if is set in configuration
+     * @param type $value
+     */
+    public static function setCharset($charset = 'UTF-8')
+    {
+        self::$encoding = $charset;
     }
 
     /**
@@ -282,7 +314,7 @@ abstract class KazinduziBase
     {
         // Prevent malicious GLOBALS overload attack
         if (isset($_REQUEST['GLOBALS']) || isset($_FILES['GLOBALS'])) {
-            echo "Global variable overload attack detected! Request aborted.\n";
+            echo 'Global variable overload attack detected! Request aborted.\n';
             exit(1);
         }
         // Get the variable names of all globals
@@ -290,11 +322,33 @@ abstract class KazinduziBase
 
         // Remove the standard global variables from the list
         $global_variables = array_diff(
-                $global_variables, array('_COOKIE', '_ENV', '_GET', '_FILES', '_POST', '_REQUEST', '_SERVER', '_SESSION', 'GLOBALS')
+            $global_variables, array('_COOKIE', '_ENV', '_GET', '_FILES', '_POST', '_REQUEST', '_SERVER', '_SESSION', 'GLOBALS')
         );
         // Unset the global variable, effectively disabling register_globals
         foreach ($global_variables as $name) {
             unset($GLOBALS[$name]);
+        }
+    }
+
+    /**
+     * @return type
+     */
+    public static function getCharset()
+    {
+        return self::$encoding;
+    }
+
+    /**
+     * Sets the time zone used by this application.
+     * This is a simple wrapper of PHP function date_default_timezone_set().
+     * @param string $value the time zone used by this application.
+     * @see http://php.net/manual/en/function.date-default-timezone-set.php
+     * @since 1.0.9
+     */
+    public static function setTimeZone($value)
+    {
+        if (function_exists('date_default_timezone_set')) {
+            date_default_timezone_set($value);
         }
     }
 
@@ -309,21 +363,21 @@ abstract class KazinduziBase
 
     /**
      *
-     * @param string $name
-     */
-    public static function setAppName($name)
-    {
-        self::$title = empty($name) ? 'Kazinduzi, the PHP web application framework' : $name;
-    }
-
-    /**
-     *
      * @return \Session object
      */
     public static function session()
     {
         session_name(self::getConfig('session')->get('session_name'));
         return Session::instance(self::getConfig('session')->get('type'));
+    }
+
+    /**
+     * @param type $group
+     * @return type
+     */
+    public static function getConfig($group = null)
+    {
+        return self::$config = Config::instance($group);
     }
 
     /**
@@ -381,25 +435,6 @@ abstract class KazinduziBase
      * @param type $group
      * @return type
      */
-    public static function getConfig($group = null)
-    {
-        return self::$config = Config::instance($group);
-    }
-
-    /**
-     * Or redifine the config($group) static method for fetching config file
-     * @param type $group
-     * @return type
-     */
-    public static function config($group = null)
-    {
-        return self::$config = Config::instance($group);
-    }
-
-    /**
-     * @param type $group
-     * @return type
-     */
     public static function configAsArray($group = null)
     {
         return Config::instance($group)->as_array();
@@ -448,37 +483,6 @@ abstract class KazinduziBase
     public static function getTimeZone()
     {
         return date_default_timezone_get();
-    }
-
-    /**
-     * Sets the time zone used by this application.
-     * This is a simple wrapper of PHP function date_default_timezone_set().
-     * @param string $value the time zone used by this application.
-     * @see http://php.net/manual/en/function.date-default-timezone-set.php
-     * @since 1.0.9
-     */
-    public static function setTimeZone($value)
-    {
-        if (function_exists('date_default_timezone_set')) {
-            date_default_timezone_set($value);
-        }
-    }
-
-    /**
-     * Set the system encoding charset if is set in configuration
-     * @param type $value
-     */
-    public static function setCharset($charset = 'UTF-8')
-    {
-        self::$encoding = $charset;
-    }
-
-    /**
-     * @return type
-     */
-    public static function getCharset()
-    {
-        return self::$encoding;
     }
 
 }

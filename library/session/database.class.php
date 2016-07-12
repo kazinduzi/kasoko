@@ -5,45 +5,33 @@
  *
  * @author Emmanuel_Leonie
  */
-
-final class SessionDatabase extends Session {
+final class SessionDatabase extends Session
+{
+    /**
+     * @var type
+     */
+    public $sessionTableName = 'session';
+    /**
+     * @var type
+     */
+    public $autoCreateSessionTable = true;
     /**
      *
      * @var type
      */
     private $db;
-
-    /**
-     * @var type
-     */
-    public $sessionTableName = 'session';
-
-    /**
-     * @var type
-     */
-    public $autoCreateSessionTable = true;
-
     /**
      *
      * @var type
      */
     private $oldSessionId;
 
-
-    /**
-     * Returns a value indicating whether to use custom session storage.
-     * This method overrides the parent implementation and always returns true.
-     * @return boolean whether to use custom storage.
-     */
-    public function getUseCustomStorage() {
-        return true;
-    }
-
     /**
      *
      * @param array $configs
      */
-    public function __construct(array $configs = null) {
+    public function __construct(array $configs = null)
+    {
 
         $configs = !isset($configs) ? self::$configs : $configs;
 
@@ -69,11 +57,39 @@ final class SessionDatabase extends Session {
     }
 
     /**
+     * Returns a value indicating whether to use custom session storage.
+     * This method overrides the parent implementation and always returns true.
+     * @return boolean whether to use custom storage.
+     */
+    public function getUseCustomStorage()
+    {
+        return true;
+    }
+
+    /**
+     * Session open handler.
+     * Do not call this method directly.
+     * @param string $savePath session save path
+     * @param string $sessionName session name
+     * @return boolean whether session is opened successfully
+     */
+    public function openSession($savePath, $sessionName)
+    {
+        if ($this->autoCreateSessionTable) {
+            $this->createSessionTable($this->db, $this->sessionTableName);
+        }
+        $sql = sprintf("DELETE FROM `%s` WHERE `expire` < %s", $this->sessionTableName, time());
+        $this->db->setQuery($sql);
+        return (boolean)$this->db->execute();
+    }
+
+    /**
      * Creates the session DB table.
      * @param $db the database connection
      * @param string $tableName the name of the table to be created
      */
-    private function createSessionTable($db, $tableName) {
+    private function createSessionTable($db, $tableName)
+    {
         $sql = "CREATE TABLE IF NOT EXISTS `{$tableName}` (
                     `id` char(160) not null COMMENT 'This length is because some session.hash_function like SHA512 produce a 128 chars long string',
                     `expire` int(10) not null,
@@ -87,28 +103,13 @@ final class SessionDatabase extends Session {
     }
 
     /**
-     * Session open handler.
-     * Do not call this method directly.
-     * @param string $savePath session save path
-     * @param string $sessionName session name
-     * @return boolean whether session is opened successfully
-     */
-    public function openSession($savePath, $sessionName) {
-        if ($this->autoCreateSessionTable) {
-            $this->createSessionTable($this->db, $this->sessionTableName);
-        }
-        $sql = sprintf("DELETE FROM `%s` WHERE `expire` < %s", $this->sessionTableName, time());
-        $this->db->setQuery($sql);
-        return (boolean)$this->db->execute();
-    }
-
-    /**
      * Session read handler.
      * Do not call this method directly.
      * @param string $id session ID
      * @return string the session data
      */
-    public function readSession($id) {
+    public function readSession($id)
+    {
         $now = time();
         $sql = "SELECT * FROM `{$this->sessionTableName}` WHERE `expire` > '$now' AND `id` = '$id'";
         $this->db->setQuery($sql);
@@ -129,9 +130,10 @@ final class SessionDatabase extends Session {
      * @param string $data session data
      * @return boolean whether session write is successful
      */
-    public function writeSession($id, $data) {
+    public function writeSession($id, $data)
+    {
         // When session_regenerate_id(), update sesion_id in the DB
-        if ( $this->oldSessionId && $this->oldSessionId <> $id ) {
+        if ($this->oldSessionId && $this->oldSessionId <> $id) {
             $sql = sprintf("UPDATE `%s` SET `id` = '{$id}' WHERE `id` = '%s'", $this->sessionTableName, $this->oldSessionId);
             $this->db->setQuery($sql);
             $this->db->execute();
@@ -139,11 +141,10 @@ final class SessionDatabase extends Session {
         // exception must be caught in session write handler
         // http://us.php.net/manual/en/function.session-set-save-handler.php
         try {
-            $sql = sprintf("INSERT INTO `%s` (id, data, expire, ip_address, user_agent) VALUES ('%s', '%s', %s, '%s', '%s')", $this->sessionTableName, $id, $data, time()+$this->getTimeout(), Request::getInstance()->ip_address(), Request::getInstance()->user_agent()) . " ON DUPLICATE KEY UPDATE `data` ='{$data}'";
+            $sql = sprintf("INSERT INTO `%s` (id, data, expire, ip_address, user_agent) VALUES ('%s', '%s', %s, '%s', '%s')", $this->sessionTableName, $id, $data, time() + $this->getTimeout(), Request::getInstance()->ip_address(), Request::getInstance()->user_agent()) . " ON DUPLICATE KEY UPDATE `data` ='{$data}'";
             $this->db->setQuery($sql);
             $this->db->execute();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             if (KAZINDUZI_DEBUG) {
                 echo $e->getMessage();
             }
@@ -152,13 +153,15 @@ final class SessionDatabase extends Session {
         }
         return true;
     }
+
     /**
      * Session destroy handler.
      * Do not call this method directly.
      * @param string $id session ID
      * @return boolean whether session is destroyed successfully
      */
-    public function destroySession($id) {
+    public function destroySession($id)
+    {
         $sql = sprintf("DELETE FROM `%s` WHERE `id` = '%s'", $this->sessionTableName, $id);
         $this->db->setQuery($sql);
         $this->db->execute();
@@ -172,7 +175,8 @@ final class SessionDatabase extends Session {
      * @param integer $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
      * @return boolean whether session is GCed successfully
      */
-    public function gcSession($maxLifetime = 10) {
+    public function gcSession($maxLifetime = 10)
+    {
         if (!$this->db->connected()) {
             return false;
         }
@@ -182,7 +186,7 @@ final class SessionDatabase extends Session {
         // Remove expired sessions from the database.
         $this->db->setQuery($sql);
         echo $sql;
-        return (boolean) $this->db->execute();
+        return (boolean)$this->db->execute();
     }
 
 }

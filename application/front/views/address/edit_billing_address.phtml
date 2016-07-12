@@ -4,78 +4,101 @@
     </div>
 <?php endif; ?>
 
-<form action="/customer/address/edit_billing_address_post/<?php echo $this->Customer->getAddressId(); ?>" method="post" id="form-validate">
+<form action="/customer/address/edit_billing_address_post/<?php echo $this->Customer->getAddressId(); ?>" method="post"
+      id="form-validate">
     <input type="hidden" name="csrf_token" value="<?php echo Security::token(); ?>">
+
     <h2 class="legend">Contact Information</h2>
+
     <div class="form-list">
         <p>
-            <div class="field-firstname">
-                <label for="firstname" class="required"><em>*</em>Firstname</label><br/>
-                <input type="text" name="firstname" id="firstname" title="Firstname" value="<?php echo $this->Customer->getFirstname(); ?>" class="form-control">
-            </div>
-            <div class="field-lastname">
-                <label for="lastname" class="required"><em>*</em>Lastname</label><br/>
-                <input type="text" name="lastname" id="lastname" title="Lastname" value="<?php echo $this->Customer->getLastname(); ?>" class="form-control">
-            </div>
+
+        <div class="field-firstname">
+            <label for="firstname" class="required"><em>*</em>Firstname</label><br/>
+            <input type="text" name="firstname" id="firstname" title="Firstname"
+                   value="<?php echo $this->Customer->getFirstname(); ?>" class="form-control">
+        </div>
+        <div class="field-lastname">
+            <label for="lastname" class="required"><em>*</em>Lastname</label><br/>
+            <input type="text" name="lastname" id="lastname" title="Lastname"
+                   value="<?php echo $this->Customer->getLastname(); ?>" class="form-control">
+        </div>
         </p>
         <p class="wide">
             <label for="company">Company</label><br/>
-            <input type="text" name="company" value="<?php echo $this->Customer->getCompany(); ?>" id="company" title="Company" class="form-control">
+            <input type="text" name="company" value="<?php echo $this->Customer->getCompany(); ?>" id="company"
+                   title="Company" class="form-control">
         </p>
+
         <p>
-            <div class="field-telephone">
-                <label for="telephone" class="required"><em>*</em>Telephone</label><br/>
-                <input type="tel" name="telephone" value="<?php echo $this->Customer->getTelephone(); ?>" id="telephone" title="Telephone" class="form-control">
-            </div>
-            <div class="field-mobile">
-                <label for="mobile">Mobile</label><br/>
-                <input type="tel" name="mobile" value="<?php echo $this->Customer->getMobile(); ?>" id="mobile" title="Mobile" class="form-control">
-            </div>
-            <div class="field-fax">
-                <label for="fax">Fax</label><br/>
-                <input type="text" name="fax" value="<?php echo $this->Customer->getFax(); ?>" id="fax" title="Fax" class="form-control">
-            </div>
+
+        <div class="field-telephone">
+            <label for="telephone" class="required"><em>*</em>Telephone</label><br/>
+            <input type="tel" name="telephone" value="<?php echo $this->Customer->getTelephone(); ?>" id="telephone"
+                   title="Telephone" class="form-control">
+        </div>
+        <div class="field-mobile">
+            <label for="mobile">Mobile</label><br/>
+            <input type="tel" name="mobile" value="<?php echo $this->Customer->getMobile(); ?>" id="mobile"
+                   title="Mobile" class="form-control">
+        </div>
+        <div class="field-fax">
+            <label for="fax">Fax</label><br/>
+            <input type="text" name="fax" value="<?php echo $this->Customer->getFax(); ?>" id="fax" title="Fax"
+                   class="form-control">
+        </div>
         </p>
     </div>
 
     <h2 class="legend">Address</h2>
+
     <div class="form-list">
         <p class="wide">
             <label for="address_1" class="required"><em>*</em>Address 1</label><br/>
-	    <input type="text" name="address_1" value="<?php echo $this->Customer->getAddress(); ?>" id="address_1" title="Address 1" class="form-control">
-	</p>
-	<p>
-	    <label for="address_2">Address 2</label><br/>
-	    <input type="text" name="address_2" value="<?php echo $this->Customer->getAddress_2(); ?>" id="address_2" title="Address 2" class="form-control">
+            <input type="text" name="address_1" value="<?php echo $this->Customer->getAddress(); ?>" id="address_1"
+                   title="Address 1" class="form-control">
         </p>
+
+        <p>
+            <label for="address_2">Address 2</label><br/>
+            <input type="text" name="address_2" value="<?php echo $this->Customer->getAddress_2(); ?>" id="address_2"
+                   title="Address 2" class="form-control">
+        </p>
+
         <p>
             <label for="zipcode">Zipcode</label><br/>
-	    <input type="text" name="zipcode" value="<?php echo $this->Customer->getZipcode(); ?>" id="zipcode" title="Zipcode" class="form-control">
-	</p>
-	<p>
-	    <label for="city">City</label><br/>
-	    <input type="text" name="city" value="<?php echo $this->Customer->getCity(); ?>" id="city" title="City" class="form-control">
+            <input type="text" name="zipcode" value="<?php echo $this->Customer->getZipcode(); ?>" id="zipcode"
+                   title="Zipcode" class="form-control">
         </p>
+
+        <p>
+            <label for="city">City</label><br/>
+            <input type="text" name="city" value="<?php echo $this->Customer->getCity(); ?>" id="city" title="City"
+                   class="form-control">
+        </p>
+
         <p>
             <label for="country_id">Country</label><br/>
-	    <select name="country_id" onchange="populateZonesByCountry(this.value);
+            <select name="country_id" onchange="populateZonesByCountry(this.value);
 		    return false;" class="form-control">
-		<option value="">Select the country</option>
-		<?php foreach ($this->countries as $country) : ?>
-		    <?php $selected = $country['id'] == $this->Customer->getCountryId() ? 'selected="selected"' : null; ?>
-		    <option value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
-		<?php endforeach; ?>
-	    </select>
-	</p>
-            <label for="zone_id">Zone/Province</label><br/>
-	    <select name="zone_id" title="Region|Province|Zone" class="form-control">
-		<option value="">Select a zone</option>
-		<?php if (isset($this->zones)): ?>
-		    <?php foreach ($this->zones as $zone) : ?>
-			<option value="<?php echo $zone['id'] ?>" <?php echo ($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
-		    <?php endforeach; ?>
-		<?php endif; ?>
-	    </select>                        
+                <option value="">Select the country</option>
+                <?php foreach ($this->countries as $country) : ?>
+                    <?php $selected = $country['id'] == $this->Customer->getCountryId() ? 'selected="selected"' : null; ?>
+                    <option
+                        value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        <label for="zone_id">Zone/Province</label><br/>
+        <select name="zone_id" title="Region|Province|Zone" class="form-control">
+            <option value="">Select a zone</option>
+            <?php if (isset($this->zones)): ?>
+                <?php foreach ($this->zones as $zone) : ?>
+                    <option
+                        value="<?php echo $zone['id'] ?>" <?php echo($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
         </p>
     </div>
 

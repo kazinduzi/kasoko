@@ -1,25 +1,25 @@
-<?php if ($customer->getAddressId()) : ?>    
+<?php if ($customer->getAddressId()) : ?>
     <address>
-	<?php
-	echo $customer->getFullname() . '<br/>';
-	if ($customer->getCompany())
-	    echo $customer->getCompany() . '<br/>';
-	if ($customer->getAddress())
-	    echo $customer->getAddress() . '<br/>';
-	if ($customer->getAddress_2())
-	    echo $customer->getAddress_2() . '<br/>';
-	if ($customer->getCity())
-	    echo $customer->getCity() . ', ';
-	if ($customer->getZone())
-	    echo $customer->getZone()->name . ', ';
-	if ($customer->getZipcode())
-	    echo $customer->getZipcode() . '<br/>';
-	if ($customer->getCountry())
-	    echo $customer->getCountry()->name . '<br/>';
-	if ($customer->getTelephone())
-	    echo 'Phone:' . $customer->getTelephone() . '<br/>';
-	if ($customer->getFax())
-	    echo 'Fax:' . $customer->getFax() . '<br/>';
-	?>	
+        <?php
+        echo $customer->getFullname() . '<br/>';
+        if ($customer->getCompany())
+            echo $customer->getCompany() . '<br/>';
+        if ($customer->getAddress())
+            echo $customer->getAddress() . '<br/>';
+        if ($customer->getAddress_2())
+            echo $customer->getAddress_2() . '<br/>';
+        if ($customer->getCity())
+            echo $customer->getCity() . ', ';
+        if ($customer->getZone())
+            echo $customer->getZone()->name . ', ';
+        if ($customer->getZipcode())
+            echo $customer->getZipcode() . '<br/>';
+        if ($customer->getCountry())
+            echo $customer->getCountry()->name . '<br/>';
+        if ($customer->getTelephone())
+            echo 'Phone:' . $customer->getTelephone() . '<br/>';
+        if ($customer->getFax())
+            echo 'Fax:' . $customer->getFax() . '<br/>';
+        ?>
     </address>
 <?php endif; ?>

@@ -25,42 +25,6 @@ class Security
     public static $token_expiration = 7200;
 
     /**
-     * Generate and store a unique token which can be used to help prevent
-     * $token = Security::token();
-     * You can insert this token into your forms as a hidden field.
-     * This provides a basic, but effective, method of preventing CSRF attacks.	 *
-     * @param   boolean  force a new token to be generated?
-     * @return  string
-     * @uses    Session::instance
-     */
-    public static function token($new = false)
-    {
-        $session = Session::instance();
-        $token = $session->get(self::$token_name);
-        $isExpired = (time() - (int) $session->get('token_expiration_time')) > 0 ? true : false;
-        if ($new === true || !$token || $isExpired) {
-            $token = self::generateToken();
-            $session->set(self::$token_name, $token);
-            $session->set('token_expiration_time', time() + self::$token_expiration);
-        }
-        return $token;
-    }
-
-    /**
-     * Generate the secure random string
-     * 
-     * @return string
-     */
-    protected static function generateToken()
-    {
-        if (version_compare(PHP_VERSION, '5.3.4', '>=') && function_exists('openssl_random_pseudo_bytes')) {
-            return base64_encode(openssl_random_pseudo_bytes(32));
-        } else {
-            return sha1(uniqid(mt_rand(), true));
-        }
-    }
-
-    /**
      * Check if the given token matches the currently stored security token.
      * @param   string   token to check
      * @return  boolean
@@ -85,8 +49,8 @@ class Security
      */
     public static function compareStrings($expected, $actual)
     {
-        $expected = (string) $expected;
-        $actual = (string) $actual;
+        $expected = (string)$expected;
+        $actual = (string)$actual;
         $lenExpected = strlen($expected);
         $lenActual = strlen($actual);
         $len = min($lenExpected, $lenActual);
@@ -96,6 +60,42 @@ class Security
         }
         $result |= $lenExpected ^ $lenActual;
         return ($result === 0);
+    }
+
+    /**
+     * Generate and store a unique token which can be used to help prevent
+     * $token = Security::token();
+     * You can insert this token into your forms as a hidden field.
+     * This provides a basic, but effective, method of preventing CSRF attacks.     *
+     * @param   boolean  force a new token to be generated?
+     * @return  string
+     * @uses    Session::instance
+     */
+    public static function token($new = false)
+    {
+        $session = Session::instance();
+        $token = $session->get(self::$token_name);
+        $isExpired = (time() - (int)$session->get('token_expiration_time')) > 0 ? true : false;
+        if ($new === true || !$token || $isExpired) {
+            $token = self::generateToken();
+            $session->set(self::$token_name, $token);
+            $session->set('token_expiration_time', time() + self::$token_expiration);
+        }
+        return $token;
+    }
+
+    /**
+     * Generate the secure random string
+     *
+     * @return string
+     */
+    protected static function generateToken()
+    {
+        if (version_compare(PHP_VERSION, '5.3.4', '>=') && function_exists('openssl_random_pseudo_bytes')) {
+            return base64_encode(openssl_random_pseudo_bytes(32));
+        } else {
+            return sha1(uniqid(mt_rand(), true));
+        }
     }
 
     /**

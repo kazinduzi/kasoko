@@ -6,16 +6,16 @@
  * @author Emmanuel_Leonie
  */
 class B extends Model
-{    
-    public $table = 'B';   
-    protected $id;   
+{
+    public $table = 'B';
     public $belongsTo = array(
-       'A' => array(
-           'foreign_key' => 'a_id',
+        'A' => array(
+            'foreign_key' => 'a_id',
         ),
     );
-   
-    public static function getInstance() 
+    protected $id;
+
+    public static function getInstance()
     {
         static $Instance;
         if ($Instance === null) {

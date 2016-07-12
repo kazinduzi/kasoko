@@ -1,43 +1,58 @@
 <?php if (!$this->customer->getId()) : ?>
     <div class="checkout-password" style="margin-bottom: 3rem; width:100%">
         <h2>Account</h2>
-	<p>
-	    <span class="required">*</span> <label>E-Mail</label><br />
-	    <input type="email" name="billing[email]" value="" placeholder="johndoe@domain.com" class="form-control" required="">
-	</p>
-	<p>	    
-	    <span class="required">*</span> <label>Password</label><br />
-	    <input type="password" name="billing[password]" value="" class="form-control" />
-	</p>
-	<p>
-	    <span class="required">*</span> <label>Password Confirm</label> <br />
-	    <input type="password" name="billing[confirm_password]" value="" class="form-control" />	    
-	</p>
+
+        <p>
+            <span class="required">*</span> <label>E-Mail</label><br/>
+            <input type="email" name="billing[email]" value="" placeholder="johndoe@domain.com" class="form-control"
+                   required="">
+        </p>
+
+        <p>
+            <span class="required">*</span> <label>Password</label><br/>
+            <input type="password" name="billing[password]" value="" class="form-control"/>
+        </p>
+
+        <p>
+            <span class="required">*</span> <label>Password Confirm</label> <br/>
+            <input type="password" name="billing[confirm_password]" value="" class="form-control"/>
+        </p>
     </div>
 <?php endif; ?>
 
 <div class="left" id="register-personal">
     <h2>Your Personal Details</h2>
+
     <p>
-        <span class="required">*</span> <label>First Name</label><br />
-        <input type="text" name="billing[firstname]" value="<?php echo $customer->getFirstName(); ?>" placeholder="John" class="form-control" required="">
+        <span class="required">*</span> <label>First Name</label><br/>
+        <input type="text" name="billing[firstname]" value="<?php echo $customer->getFirstName(); ?>" placeholder="John"
+               class="form-control" required="">
     </p>
+
     <p>
-        <span class="required">*</span> <label>Last Name</label><br />
-        <input type="text" name="billing[lastname]" value="<?php echo $customer->getLastname(); ?>" placeholder="Doe" class="form-control" required="">
-    </p>    
-    <p>
-        <span class="required">*</span> <label>Telephone</label><br />
-        <input type="tel" name="billing[telephone]" value="<?php echo $customer->getTelephone(); ?>" placeholder="Phone" class="form-control" required="" >
+        <span class="required">*</span> <label>Last Name</label><br/>
+        <input type="text" name="billing[lastname]" value="<?php echo $customer->getLastname(); ?>" placeholder="Doe"
+               class="form-control" required="">
     </p>
+
     <p>
-        <label>Mobile</label><br />
-        <input type="tel" name="billing[mobile]" value="<?php echo $customer->getMobile(); ?>" placeholder="Mobile phone" class="form-control">
+        <span class="required">*</span> <label>Telephone</label><br/>
+        <input type="tel" name="billing[telephone]" value="<?php echo $customer->getTelephone(); ?>" placeholder="Phone"
+               class="form-control" required="">
     </p>
+
     <p>
-        <label>Fax</label><br />
-        <input type="text" name="billing[fax]" value="<?php echo $customer->getFax(); ?>" placeholder="Fax" class="form-control">
+        <label>Mobile</label><br/>
+        <input type="tel" name="billing[mobile]" value="<?php echo $customer->getMobile(); ?>"
+               placeholder="Mobile phone" class="form-control">
     </p>
+
+    <p>
+        <label>Fax</label><br/>
+        <input type="text" name="billing[fax]" value="<?php echo $customer->getFax(); ?>" placeholder="Fax"
+               class="form-control">
+    </p>
+
     <p>
         <span class="required">*</span> <label>Country</label><br/>
         <select name="billing[country_id]" id="billing_country_id" class="form-control" onchange="populateZonesByCountry(this.value);
@@ -45,7 +60,8 @@
             <option value="">Select the country</option>
             <?php foreach ($countries as $country) : ?>
                 <?php $selected = $country['id'] == $customer->getCountryId() ? 'selected="selected"' : null; ?>
-                <option value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
+                <option
+                    value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
             <?php endforeach; ?>
         </select>
     </p>
@@ -54,7 +70,8 @@
         <select name="billing[zone_id]" class="form-control" id="zone_id">
             <?php if (isset($zones)): ?>
                 <?php foreach ($zones as $zone) : ?>
-                    <option value="<?php echo $zone['id'] ?>" <?php echo ($zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                    <option
+                        value="<?php echo $zone['id'] ?>" <?php echo($zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
                 <?php endforeach; ?>
             <?php else : ?>
                 <option value="">Select a zone</option>
@@ -64,56 +81,72 @@
 </div>
 <div class="right" id="register-address">
     <h2>Your Address</h2>
+
     <p>
-        <label>Company</label><br />
-        <input type="text" name="billing[company]" value="<?php echo $customer->getCompany(); ?>" placeholder="Company" class="form-control"/>
-    </p>    
+        <label>Company</label><br/>
+        <input type="text" name="billing[company]" value="<?php echo $customer->getCompany(); ?>" placeholder="Company"
+               class="form-control"/>
+    </p>
+
     <p id="company-id-display">
-        <span id="company-id-required" class="required">*</span> <label>Company ID</label><br />
-        <input type="text" name="billing[company_id]" value="<?php echo $customer->getCompany() ?>" class="form-control"/>
+        <span id="company-id-required" class="required">*</span> <label>Company ID</label><br/>
+        <input type="text" name="billing[company_id]" value="<?php echo $customer->getCompany() ?>"
+               class="form-control"/>
     </p>
+
     <p>
-        <span class="required">*</span> <label>Address 1</label><br />
-        <input type="text" name="billing[address_1]" value="<?php echo $customer->getAddress(); ?>" placeholder="Address" class="form-control"/>
+        <span class="required">*</span> <label>Address 1</label><br/>
+        <input type="text" name="billing[address_1]" value="<?php echo $customer->getAddress(); ?>"
+               placeholder="Address" class="form-control"/>
     </p>
+
     <p>
-        <label>Address 2</label><br />
-        <input type="text" name="billing[address_2]" value="<?php echo $customer->getAddress_2(); ?>" placeholder="Address 2" class="form-control"/>
+        <label>Address 2</label><br/>
+        <input type="text" name="billing[address_2]" value="<?php echo $customer->getAddress_2(); ?>"
+               placeholder="Address 2" class="form-control"/>
     </p>
+
     <p>
-        <span class="required">*</span> <label>City</label><br />
-        <input type="text" name="billing[city]" value="<?php echo $customer->getCity(); ?>" placeholder="City" class="form-control"/>
+        <span class="required">*</span> <label>City</label><br/>
+        <input type="text" name="billing[city]" value="<?php echo $customer->getCity(); ?>" placeholder="City"
+               class="form-control"/>
     </p>
+
     <p>
-        <span id="payment-postcode-required" class="required">*</span> <label>Zipcode</label><br />
-        <input type="text" name="billing[zipcode]" value="<?php echo $customer->getZipcode(); ?>" placeholder="ZIP code" class="form-control"/>
+        <span id="payment-postcode-required" class="required">*</span> <label>Zipcode</label><br/>
+        <input type="text" name="billing[zipcode]" value="<?php echo $customer->getZipcode(); ?>" placeholder="ZIP code"
+               class="form-control"/>
     </p>
 </div>
 
 <div style="clear: both; padding-top: 15px;">
     <p>
-        <input type="checkbox" name="billing[newsletter]" value="1" id="newsletter" <?php echo ($customer->getNewsletter() ? 'checked' : '') ?> />
+        <input type="checkbox" name="billing[newsletter]" value="1"
+               id="newsletter" <?php echo($customer->getNewsletter() ? 'checked' : '') ?> />
         <label for="newsletter">I wish to subscribe to the Your Store newsletter.</label>
     </p>
     <?php if ($shipping_required) : ?>
         <p>
-            <input type="checkbox" name="billing[use_for_shipping]" value="1" id="billing_for_shipping_yes" checked="checked" title="Ship to this address" onclick="$('shipping:same_as_billing').checked = true;" />
+            <input type="checkbox" name="billing[use_for_shipping]" value="1" id="billing_for_shipping_yes"
+                   checked="checked" title="Ship to this address"
+                   onclick="$('shipping:same_as_billing').checked = true;"/>
             <label for="billing_for_shipping_yes">Ship to this address.</label>
-        </p>    
+        </p>
     <?php endif; ?>
 
     <?php if ($agree) : ?>
-        <div class="buttons">	    
+        <div class="buttons">
             <div class="right">
-		<span class="agree_wrap">I have read and agree to the <a href="#">Terms of use</a> <input type="checkbox" name="terms_agree" id="terms_agree" value="1" style="vertical-align:text-top"/></span>
+                <span class="agree_wrap">I have read and agree to the <a href="#">Terms of use</a> <input
+                        type="checkbox" name="terms_agree" id="terms_agree" value="1" style="vertical-align:text-top"/></span>
                 <a class="btn btn-primary" id="button-register">Continue</a>
             </div>
         </div>
     <?php else : ?>
         <div class="buttons">
-	    <div class="left">
-		<a href="javascript:void();" class="btn btn-default">Go back</a>
-	    </div>
+            <div class="left">
+                <a href="javascript:void();" class="btn btn-default">Go back</a>
+            </div>
             <div class="right">
                 <a id="button-register" class="btn btn-primary">Continue</a>
             </div>
@@ -121,10 +154,10 @@
     <?php endif; ?>
 </div>
 
-<input type="hidden" name="csrf_token" value="<?php echo Security::token(); ?>" />
+<input type="hidden" name="csrf_token" value="<?php echo Security::token(); ?>"/>
 
 <script>
-    var populateZonesByCountry = function(countryid) {
+    var populateZonesByCountry = function (countryid) {
         $('select[id="zone_id"]').load('/customer/address/zone/' + countryid);
     }
 </script>

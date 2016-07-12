@@ -1,0 +1,24 @@
+<div class="form-container">
+    <form method="post" action="" class="clearfix">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/attributeGroup" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="name">Name attributeGroup</label>
+                <input type="text" name="name" value="<?=$attributeGroup->name;?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="required">Required</label>
+                <input id="required" type="checkbox" name="required" value="1" <?php echo ($attributeGroup->required == 1 ? 'checked':'')?>>
+            </div>
+        </div>
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/attributeGroup" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+    </form>
+</div>

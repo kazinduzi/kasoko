@@ -4,8 +4,10 @@
     </div>
 <?php endif; ?>
 
-<form action="/customer/address/create_billing_post/<?php echo $this->Customer->getAddressId(); ?>" method="post" id="form-validate">
+<form action="/customer/address/create_billing_post/<?php echo $this->Customer->getAddressId(); ?>" method="post"
+      id="form-validate">
     <input type="hidden" name="csrf_token" value="<?php echo Security::token(); ?>">
+
     <h2 class="legend">Contact Information</h2>
     <ul class="form-list">
         <li>
@@ -68,7 +70,8 @@
                     <option value="">Select the country</option>
                     <?php foreach (Country::getAll() as $country) : ?>
                         <?php $selected = $country['id'] == $this->Customer->getCountryId() ? 'selected="selected"' : null; ?>
-                        <option value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
+                        <option
+                            value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -78,11 +81,12 @@
                     <option value="">Select a zone</option>
                     <?php if (isset($this->zones)): ?>
                         <?php foreach ($this->zones as $zone) : ?>
-                            <option value="<?php echo $zone['id'] ?>" <?php echo ($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                            <option
+                                value="<?php echo $zone['id'] ?>" <?php echo($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
-            </div>            
+            </div>
         </li>
     </ul>
 

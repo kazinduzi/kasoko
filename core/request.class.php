@@ -5,27 +5,35 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 class Request
 {
 
+    private static $instance;
+    public $mime_types = array(
+        'text/html' => 'html',
+        'application/xhtml+xml' => 'html',
+        'application/xml' => 'xml',
+        'text/xml' => 'xml',
+        'text/javascript' => 'js',
+        'application/javascript' => 'js',
+        'application/x-javascript' => 'js',
+        'application/json' => 'json',
+        'text/x-json' => 'json',
+        'application/rss+xml' => 'rss',
+        'application/atom+xml' => 'atom',
+        '*/*' => 'html',
+        'default' => 'html',
+    );
     private $getVars = array();
     private $postVars = array();
     private $serverVars = array();
     private $ipAddress = false;
     private $userAgent = false;
-    public $mime_types = array(
-	'text/html' => 'html',
-	'application/xhtml+xml' => 'html',
-	'application/xml' => 'xml',
-	'text/xml' => 'xml',
-	'text/javascript' => 'js',
-	'application/javascript' => 'js',
-	'application/x-javascript' => 'js',
-	'application/json' => 'json',
-	'text/x-json' => 'json',
-	'application/rss+xml' => 'rss',
-	'application/atom+xml' => 'atom',
-	'*/*' => 'html',
-	'default' => 'html',
-    );
-    private static $instance;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->configs = Kazinduzi::getConfig()->toArray();
+    }
 
     /**
      * Get Singleton instance
@@ -33,19 +41,11 @@ class Request
      */
     public static function getInstance()
     {
-	if (empty(self::$instance)) {
-	    return self::$instance = new self();
-	} else {
-	    return self::$instance;
-	}
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-	$this->configs = Kazinduzi::getConfig()->toArray();
+        if (empty(self::$instance)) {
+            return self::$instance = new self();
+        } else {
+            return self::$instance;
+        }
     }
 
     /**
@@ -54,7 +54,7 @@ class Request
      */
     public function getParams()
     {
-	return $this->getVars = & $_GET;
+        return $this->getVars = &$_GET;
     }
 
     /**
@@ -64,10 +64,10 @@ class Request
      */
     public function getParam($key)
     {
-	if (array_key_exists($key, $_GET)) {
-	    return $_GET[$key];
-	}
-	return null;
+        if (array_key_exists($key, $_GET)) {
+            return $_GET[$key];
+        }
+        return null;
     }
 
     /**
@@ -76,7 +76,7 @@ class Request
      */
     public function postParams()
     {
-	return $this->postVars = &$_POST;
+        return $this->postVars = &$_POST;
     }
 
     /**
@@ -86,10 +86,10 @@ class Request
      */
     public function postParam($key)
     {
-	if (array_key_exists($key, $_POST)) {
-	    return $_POST[$key];
-	}
-	return null;
+        if (array_key_exists($key, $_POST)) {
+            return $_POST[$key];
+        }
+        return null;
     }
 
     /**
@@ -98,7 +98,7 @@ class Request
      */
     public function serverParams()
     {
-	return $this->serverVars = &$_SERVER;
+        return $this->serverVars = &$_SERVER;
     }
 
     /**
@@ -108,18 +108,10 @@ class Request
      */
     public function serverParam($key)
     {
-	if (array_key_exists($key, $_SERVER)) {
-	    return $_SERVER[$key];
-	}
-	return null;
-    }
-
-    /**
-     * Returns the HTTP request method as a lowercase symbol ('get, for example)
-     */
-    public function getMethod()
-    {
-	return strtolower(isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'get');
+        if (array_key_exists($key, $_SERVER)) {
+            return $_SERVER[$key];
+        }
+        return null;
     }
 
     /**
@@ -127,7 +119,15 @@ class Request
      */
     public function isGet()
     {
-	return $this->getMethod() == 'get';
+        return $this->getMethod() == 'get';
+    }
+
+    /**
+     * Returns the HTTP request method as a lowercase symbol ('get, for example)
+     */
+    public function getMethod()
+    {
+        return strtolower(isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'get');
     }
 
     /**
@@ -135,7 +135,7 @@ class Request
      */
     public function isPost()
     {
-	return $this->getMethod() == 'post';
+        return $this->getMethod() == 'post';
     }
 
     /**
@@ -143,7 +143,7 @@ class Request
      */
     public function isPut()
     {
-	return isset($_SERVER['REQUEST_METHOD']) ? $this->getMethod() == 'put' : false;
+        return isset($_SERVER['REQUEST_METHOD']) ? $this->getMethod() == 'put' : false;
     }
 
     /**
@@ -151,7 +151,7 @@ class Request
      */
     public function isDelete()
     {
-	return $this->getMethod() == 'delete';
+        return $this->getMethod() == 'delete';
     }
 
     /**
@@ -159,50 +159,20 @@ class Request
      */
     public function isHead()
     {
-	return $this->getMethod() == 'head';
-    }
-
-    /**
-     * Validate IP Address
-     *
-     * Updated version suggested by Geert De Deckere
-     *
-     * @param	string
-     * @return	string
-     */
-    public function valid_ip($ip)
-    {
-	$ip_segments = explode('.', $ip);
-	// Always 4 segments needed
-	if (count($ip_segments) != 4) {
-	    return false;
-	}
-	// IP can not start with 0
-	if ($ip_segments[0][0] == '0') {
-	    return false;
-	}
-	// Check each segment
-	foreach ($ip_segments as $segment) {
-	    // IP segments must be digits and can not be
-	    // longer than 3 digits or greater then 255
-	    if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3) {
-		return false;
-	    }
-	}
-	return true;
+        return $this->getMethod() == 'head';
     }
 
     /**
      * User Agent
      *
-     * @return	string
+     * @return    string
      */
     public function user_agent()
     {
-	if ($this->userAgent !== false) {
-	    return $this->userAgent;
-	}
-	return $this->userAgent = (!isset($_SERVER['HTTP_USER_AGENT'])) ? false : substr($_SERVER['HTTP_USER_AGENT'], 0, 128);
+        if ($this->userAgent !== false) {
+            return $this->userAgent;
+        }
+        return $this->userAgent = (!isset($_SERVER['HTTP_USER_AGENT'])) ? false : substr($_SERVER['HTTP_USER_AGENT'], 0, 128);
     }
 
     /**
@@ -215,32 +185,81 @@ class Request
      */
     public function ip_address()
     {
-	if ($this->ipAddress !== false) {
-	    return $this->ipAddress;
-	}
-	if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $this->isAjax()) {
-	    $this->ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	} elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-	    $this->ipAddress = $_SERVER['HTTP_CLIENT_IP'];
-	} elseif ($_SERVER['REMOTE_ADDR']) {
-	    $this->ipAddress = $_SERVER['REMOTE_ADDR'];
-	} elseif ($_SERVER['HTTP_CLIENT_IP']) {
-	    $this->ipAddress = $_SERVER['HTTP_CLIENT_IP'];
-	} elseif ($_SERVER['HTTP_X_FORWARDED_FOR']) {
-	    $this->ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	}
-	if ($this->ipAddress === false) {
-	    $this->ipAddress = '0.0.0.0';
-	    return $this->ipAddress;
-	}
-	if (strpos($this->ipAddress, ',') !== false) {
-	    $x = explode(',', $this->ipAddress);
-	    $this->ipAddress = trim(end($x));
-	}
-	if (!$this->valid_ip($this->ipAddress)) {
-	    $this->ipAddress = '0.0.0.0';
-	}
-	return $this->ipAddress;
+        if ($this->ipAddress !== false) {
+            return $this->ipAddress;
+        }
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $this->isAjax()) {
+            $this->ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $this->ipAddress = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif ($_SERVER['REMOTE_ADDR']) {
+            $this->ipAddress = $_SERVER['REMOTE_ADDR'];
+        } elseif ($_SERVER['HTTP_CLIENT_IP']) {
+            $this->ipAddress = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif ($_SERVER['HTTP_X_FORWARDED_FOR']) {
+            $this->ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        if ($this->ipAddress === false) {
+            $this->ipAddress = '0.0.0.0';
+            return $this->ipAddress;
+        }
+        if (strpos($this->ipAddress, ',') !== false) {
+            $x = explode(',', $this->ipAddress);
+            $this->ipAddress = trim(end($x));
+        }
+        if (!$this->valid_ip($this->ipAddress)) {
+            $this->ipAddress = '0.0.0.0';
+        }
+        return $this->ipAddress;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function isAjax()
+    {
+        return $this->isXmlHttpRequest();
+    }
+
+    /**
+     * Returns true if the request's 'X-Requested-With' header contains
+     * 'XMLHttpRequest'. (The Prototype Javascript library sends this header with
+     * every Ajax request.)
+     */
+    public function isXmlHttpRequest()
+    {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strstr(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']), 'xmlhttprequest');
+    }
+
+    /**
+     * Validate IP Address
+     *
+     * Updated version suggested by Geert De Deckere
+     *
+     * @param    string
+     * @return    string
+     */
+    public function valid_ip($ip)
+    {
+        $ip_segments = explode('.', $ip);
+        // Always 4 segments needed
+        if (count($ip_segments) != 4) {
+            return false;
+        }
+        // IP can not start with 0
+        if ($ip_segments[0][0] == '0') {
+            return false;
+        }
+        // Check each segment
+        foreach ($ip_segments as $segment) {
+            // IP segments must be digits and can not be
+            // longer than 3 digits or greater then 255
+            if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -253,20 +272,20 @@ class Request
      */
     public function getRemoteIp()
     {
-	if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-	    return $_SERVER['HTTP_CLIENT_IP'];
-	}
-	if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-	    foreach ((strstr($_SERVER['HTTP_X_FORWARDED_FOR'], ',') ? split(',', $_SERVER['HTTP_X_FORWARDED_FOR']) : array($_SERVER['HTTP_X_FORWARDED_FOR'])) as $remote_ip) {
-		if ($remote_ip == 'unknown' ||
-			preg_match('/^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.) {3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/', $remote_ip) ||
-			preg_match('/^([0-9a-fA-F]{4}|0)(\:([0-9a-fA-F]{4}|0)) {7}$/', $remote_ip)
-		) {
-		    return $remote_ip;
-		}
-	    }
-	}
-	return empty($_SERVER['REMOTE_ADDR']) ? '' : $_SERVER['REMOTE_ADDR'];
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            foreach ((strstr($_SERVER['HTTP_X_FORWARDED_FOR'], ',') ? split(',', $_SERVER['HTTP_X_FORWARDED_FOR']) : array($_SERVER['HTTP_X_FORWARDED_FOR'])) as $remote_ip) {
+                if ($remote_ip == 'unknown' ||
+                    preg_match('/^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.) {3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/', $remote_ip) ||
+                    preg_match('/^([0-9a-fA-F]{4}|0)(\:([0-9a-fA-F]{4}|0)) {7}$/', $remote_ip)
+                ) {
+                    return $remote_ip;
+                }
+            }
+        }
+        return empty($_SERVER['REMOTE_ADDR']) ? '' : $_SERVER['REMOTE_ADDR'];
     }
 
     /**
@@ -274,7 +293,7 @@ class Request
      */
     public function getRequestUri()
     {
-	return $this->getProtocol() . $this->getHostWithPort();
+        return $this->getProtocol() . $this->getHostWithPort();
     }
 
     /**
@@ -282,7 +301,7 @@ class Request
      */
     public function getProtocol()
     {
-	return $this->isSsl() ? 'https://' : 'http://';
+        return $this->isSsl() ? 'https://' : 'http://';
     }
 
     /**
@@ -290,33 +309,7 @@ class Request
      */
     public function isSsl()
     {
-	return isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === true || $_SERVER['HTTPS'] == 'on');
-    }
-
-    /**
-     * Returns the interpreted path to requested resource
-     */
-    public function getPath()
-    {
-	return strstr($_SERVER['REQUEST_URI'], '?') ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-    }
-
-    /**
-     * Returns the standard port number for this request's protocol
-     */
-    public function getStandardPort()
-    {
-	return $this->isSsl() ? 443 : 80;
-    }
-
-    /**
-     * Returns a port suffix like ':8080' if ( the port number of this request
-     * is not the default HTTP port 80 or HTTPS port 443.
-     */
-    public function getPortString()
-    {
-	$port = $this->getPort();
-	return $port == $this->getStandardPort() ? '' : ($port ? ':' . $this->getPort() : '');
+        return isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === true || $_SERVER['HTTPS'] == 'on');
     }
 
     /**
@@ -325,7 +318,7 @@ class Request
      */
     public function getHostWithPort()
     {
-	return $this->getHost() . $this->getPortString();
+        return $this->getHost() . $this->getPortString();
     }
 
     /**
@@ -334,7 +327,33 @@ class Request
      */
     public function getHost()
     {
-	return $this->host ? $_SERVER['SERVER_NAME'] : 'localhost';
+        return $this->host ? $_SERVER['SERVER_NAME'] : 'localhost';
+    }
+
+    /**
+     * Returns a port suffix like ':8080' if ( the port number of this request
+     * is not the default HTTP port 80 or HTTPS port 443.
+     */
+    public function getPortString()
+    {
+        $port = $this->getPort();
+        return $port == $this->getStandardPort() ? '' : ($port ? ':' . $this->getPort() : '');
+    }
+
+    /**
+     * Returns the standard port number for this request's protocol
+     */
+    public function getStandardPort()
+    {
+        return $this->isSsl() ? 443 : 80;
+    }
+
+    /**
+     * Returns the interpreted path to requested resource
+     */
+    public function getPath()
+    {
+        return strstr($_SERVER['REQUEST_URI'], '?') ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
     }
 
     /**
@@ -343,7 +362,7 @@ class Request
      */
     public function &getSession()
     {
-	return (array) $_SESSION;
+        return (array)$_SESSION;
     }
 
     /**
@@ -352,8 +371,8 @@ class Request
      */
     public function resetSession()
     {
-	$_SESSION = array();
-	return true;
+        $_SESSION = array();
+        return true;
     }
 
     /**
@@ -362,7 +381,7 @@ class Request
      */
     public function &getCookies()
     {
-	return (array) $_COOKIE;
+        return (array)$_COOKIE;
     }
 
     /**
@@ -371,7 +390,7 @@ class Request
      */
     public function &getEnv()
     {
-	return (array) $_SERVER;
+        return (array)$_SERVER;
     }
 
     /**
@@ -380,22 +399,12 @@ class Request
      */
     public function getServerSoftware()
     {
-	if (!empty($_SERVER['SERVER_SOFTWARE'])) {
-	    if (preg_match('/^([a-zA-Z]+)/', $_SERVER['SERVER_SOFTWARE'], $match)) {
-		return strtolower($match[0]);
-	    }
-	}
-	return false;
-    }
-
-    /**
-     * Returns true if the request's 'X-Requested-With' header contains
-     * 'XMLHttpRequest'. (The Prototype Javascript library sends this header with
-     * every Ajax request.)
-     */
-    public function isXmlHttpRequest()
-    {
-	return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strstr(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']), 'xmlhttprequest');
+        if (!empty($_SERVER['SERVER_SOFTWARE'])) {
+            if (preg_match('/^([a-zA-Z]+)/', $_SERVER['SERVER_SOFTWARE'], $match)) {
+                return strtolower($match[0]);
+            }
+        }
+        return false;
     }
 
     /**
@@ -404,16 +413,7 @@ class Request
      */
     public function xhr()
     {
-	return $this->isXmlHttpRequest();
-    }
-
-    /**
-     *
-     * @return type
-     */
-    public function isAjax()
-    {
-	return $this->isXmlHttpRequest();
+        return $this->isXmlHttpRequest();
     }
 
     /**
@@ -423,7 +423,7 @@ class Request
      */
     public function getRawPost()
     {
-	return empty($_ENV['RAW_POST_DATA']) ? '' : $_ENV['RAW_POST_DATA'];
+        return empty($_ENV['RAW_POST_DATA']) ? '' : $_ENV['RAW_POST_DATA'];
     }
 
 }

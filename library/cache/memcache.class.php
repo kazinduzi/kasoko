@@ -5,7 +5,7 @@
  *
  * @author Emmanuel_Leonie
  */
-class CacheMemcache extends Cache 
+class CacheMemcache extends Cache
 {
 
     /**
@@ -25,20 +25,20 @@ class CacheMemcache extends Cache
      */
     protected $_flag;
 
-	/**
+    /**
      * The configuration for memcache config data
      * @var array
      */
     protected $_config = array();
 
 
-   /**
-    * Constructor of the Memcache Class
-    *
-    * @param array $config
-    * @throws Exception
-    */
-    protected function __construct(array $config) 
+    /**
+     * Constructor of the Memcache Class
+     *
+     * @param array $config
+     * @throws Exception
+     */
+    protected function __construct(array $config)
     {
         $this->_config = $config;
         // Check for the memcache extention
@@ -67,26 +67,11 @@ class CacheMemcache extends Cache
     }
 
     /**
-     * Test if a cache is available for the given id and (if yes) return it (false else)
-     *
-     * @param  string  $id  Cache id
-     * @return string|false cached datas
-     */
-    public function load($id) 
-    {
-        $tmp = $this->_memcache->get($this->_sanitize_id($id));
-        if (is_array($tmp) && isset($tmp[0])) {
-            return $tmp[0];
-        }
-        return false;
-    }
-
-    /**
      * Test if a cache is available or not (for the given id)
      * @param  string $id Cache id
      * @return mixed|false (a cache is not available) or "last modified" timestamp (int) of the available cache record
      */
-    public function test($id) 
+    public function test($id)
     {
         $tmp = $this->_memcache->get($id);
         if (is_array($tmp)) {
@@ -101,9 +86,24 @@ class CacheMemcache extends Cache
      * @param type $default
      * @return type
      */
-    public function get($id) 
+    public function get($id)
     {
         return $this->load($id);
+    }
+
+    /**
+     * Test if a cache is available for the given id and (if yes) return it (false else)
+     *
+     * @param  string $id Cache id
+     * @return string|false cached datas
+     */
+    public function load($id)
+    {
+        $tmp = $this->_memcache->get($this->_sanitize_id($id));
+        if (is_array($tmp) && isset($tmp[0])) {
+            return $tmp[0];
+        }
+        return false;
     }
 
     /**
@@ -113,7 +113,7 @@ class CacheMemcache extends Cache
      * @param type $ttl
      * @return type
      */
-    public function set($id, $data, $ttl = 3600) 
+    public function set($id, $data, $ttl = 3600)
     {
         if ($ttl > self::CACHE_CEILING) {
             $ttl = self::CACHE_CEILING + time(); // Set the lifetime to maximum cache time
@@ -122,9 +122,9 @@ class CacheMemcache extends Cache
         } else {
             $ttl = 0; // Normalise the lifetime
         }
-        try{
+        try {
             $bool = @$this->_memcache->set($this->_sanitize_id($id), array($data, time(), $ttl), $this->_flag, $ttl);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             print_r($e);
         }
         return $bool;
@@ -138,7 +138,7 @@ class CacheMemcache extends Cache
      * @param int $ttl
      * @return bool
      */
-    public function add($id, $data, $ttl = 60) 
+    public function add($id, $data, $ttl = 60)
     {
         return $this->_memcached->add($this->_sanitize_id($id), array($data, time(), $ttl), $ttl);
     }
@@ -150,7 +150,7 @@ class CacheMemcache extends Cache
      * @param int $timeout
      * @return bool
      */
-    public function delete($id, $timeout = 0) 
+    public function delete($id, $timeout = 0)
     {
         return $this->_memcache->delete($this->_sanitize_id($id), $timeout);
     }
@@ -161,7 +161,7 @@ class CacheMemcache extends Cache
      * @param  string $id Cache id
      * @return boolean True if no problem
      */
-    public function remove($id, $timeout = 0) 
+    public function remove($id, $timeout = 0)
     {
         return $this->_memcache->delete($id, $timeout);
     }
@@ -170,14 +170,14 @@ class CacheMemcache extends Cache
      *
      * @return type
      */
-    public function deleteAll() 
+    public function deleteAll()
     {
         $result = $this->_memcache->flush();
         // We must sleep after flushing, or overwriting will not work!
         // @see http://php.net/manual/en/function.memcache-flush.php#81420
-        $time = time()+1; //one second future
-        while(time() < $time);
-            return $result;
+        $time = time() + 1; //one second future
+        while (time() < $time) ;
+        return $result;
     }
 
     /**
@@ -185,29 +185,29 @@ class CacheMemcache extends Cache
      *
      * @return bool
      */
-    public function clean() 
+    public function clean()
     {
         $result = $this->_memcache->flush();
-        $time = time()+1; //one second future
-        while(time() < $time);
+        $time = time() + 1; //one second future
+        while (time() < $time) ;
         return $result;
     }
 
     /**
      * Cache Info
-     * @return 	mixed 	array on success, false on failure
+     * @return    mixed    array on success, false on failure
      */
-    public function info() 
+    public function info()
     {
         return $this->_memcache->getStats();
     }
 
     /**
      * Get Cache Metadata
-     * @param 	mixed	key to get cache metadata on
-     * @return 	mixed	false on failure, array on success.
+     * @param    mixed    key to get cache metadata on
+     * @return    mixed    false on failure, array on success.
      */
-    public function metadata($id) 
+    public function metadata($id)
     {
         $stored = $this->_memcache->get($id);
         if (count($stored) !== 3) {
@@ -227,7 +227,7 @@ class CacheMemcache extends Cache
      * @param type $step
      * @return type
      */
-    public function increment($id, $step = 1) 
+    public function increment($id, $step = 1)
     {
         return $this->_memcache->increment($id, $step);
     }
@@ -238,7 +238,7 @@ class CacheMemcache extends Cache
      * @param type $step
      * @return type
      */
-    public function decrement($id, $step = 1) 
+    public function decrement($id, $step = 1)
     {
         return $this->_memcache->decrement($id, $step);
     }

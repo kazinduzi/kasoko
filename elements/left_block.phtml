@@ -1,0 +1,48 @@
+<div style="margin-bottom: 15px">
+    <div class="title-bar">
+        <h2><?php echo __('Categories'); ?></h2>
+    </div>
+    <div class="cat-menu">
+        <ul>
+            <?php foreach (Category::getInstance()->findAll() as $category) : ?>
+                <li>
+                    <a href="/category/view/<?php echo String::slugify($category->name); ?>">
+                        <?php echo $category->name; ?>
+                        <strong><?php echo $category->product ? '(' . count($category->product) . ')' : null; ?></strong>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+
+<!-- Manufacturers -->
+<div style="margin-bottom: 15px">
+    <div class="title-bar">
+        <h2><?php echo __('Manufacturers'); ?></h2>
+    </div>
+    <div class="manufacturer-menu">
+        <ul>
+            <?php foreach (\models\Manufacturer\Manufacturer::getInstance()->getAllActive() AS $manufacturer) : ?>
+                <li>
+                    <a href="/manufacturer/view_products/<?php echo String::slugify($manufacturer->name); ?>"><?php echo $manufacturer->name; ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+
+<div style="margin-bottom: 15px">
+    <div class="title-bar">
+        <h2><?php echo __('Specials'); ?></h2>
+    </div>
+    <div class="special-menu">
+        <ul>
+            <?php foreach (Product::getSpecials() AS $specialProduct) : ?>
+                <li>
+                    <a href="/product/special/<?php echo String::slugify($specialProduct->model); ?>"><?php echo($specialProduct->model); ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

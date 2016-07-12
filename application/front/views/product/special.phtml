@@ -4,65 +4,74 @@ $this->title = $product->model;
 <div id="product-view" class="product-info">
     <div class="left-col1">
         <div class="image">
-	    <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>    
-    	    <img src="<?php echo $product->getCoverProductImage()->getImage(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>" id="image" class="img-responsive"/>
-	    <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
-    	    <img src="<?php echo $product->getFirstProductImage()->getImage(); ?>" title="<?php echo $product->name ?>" alt="<?php echo $product->name ?>" id="image" class="img-responsive">
-	    <?php else: ?>
-    	    <img src="/html/images/kasoko/280x196.png" alt="<?php echo $product->model; ?>" width="100%">
-	    <?php endif; ?>
-        </div>        
-	<?php if (isset($images)) : ?>
-    	<div class="image-additional" id="image-additional">
-		<?php foreach ($images as $image) : ?>
-		    <a href="<?php echo $image->getImage(); ?>" data-image="<?php echo $image->getImage(); ?>" data-zoom-image="<?php echo $image->getImage(); ?>">
-			<img src="<?php echo $image->getThumb(); ?>" title="<?php echo $image->getTitle(); ?>" alt="" width="75" style="max-width: 100%"/>
-		    </a>
-		<?php endforeach; ?>
-    	</div>
-	<?php endif; ?>
+            <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>
+                <img src="<?php echo $product->getCoverProductImage()->getImage(); ?>"
+                     title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>" id="image"
+                     class="img-responsive"/>
+            <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                <img src="<?php echo $product->getFirstProductImage()->getImage(); ?>"
+                     title="<?php echo $product->name ?>" alt="<?php echo $product->name ?>" id="image"
+                     class="img-responsive">
+            <?php else: ?>
+                <img src="/html/images/kasoko/280x196.png" alt="<?php echo $product->model; ?>" width="100%">
+            <?php endif; ?>
+        </div>
+        <?php if (isset($images)) : ?>
+            <div class="image-additional" id="image-additional">
+                <?php foreach ($images as $image) : ?>
+                    <a href="<?php echo $image->getImage(); ?>" data-image="<?php echo $image->getImage(); ?>"
+                       data-zoom-image="<?php echo $image->getImage(); ?>">
+                        <img src="<?php echo $image->getThumb(); ?>" title="<?php echo $image->getTitle(); ?>" alt=""
+                             width="75" style="max-width: 100%"/>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="right-col1">
         <h1><?php echo $product->model; ?></h1>
-        <div class="description">           
+
+        <div class="description">
             <div class="product-manifacturer">
                 <span>Brand: </span>
-		<?php if ($product_manufacturer): ?>
-    		<a href="/manufacturer/view_products/<?php echo String::slugify($product_manufacturer->slug); ?>"><?php echo $product_manufacturer->name; ?></a>
-		<?php endif; ?>
-            </div>            
+                <?php if ($product_manufacturer): ?>
+                    <a href="/manufacturer/view_products/<?php echo Stringify::slugify($product_manufacturer->slug); ?>"><?php echo $product_manufacturer->name; ?></a>
+                <?php endif; ?>
+            </div>
             <div class="product-upc">
                 <span>Product code: </span>
-		<?php echo $product->sku; ?>
+                <?php echo $product->sku; ?>
             </div>
             <div class="product-stockstatus">
-                <span>Available: </span> 
+                <span>Available: </span>
                 <i class="fa fa-check-square-o"></i>
                 <span class="stockstatus"><?php echo $product->getStockStatus()->name; ?></span>
             </div>
         </div>
         <div class="price">
-            <span>Price:</span> <?php echo String::currency_format($product->price); ?>
+            <span>Price:</span> <?php echo Stringify::currency_format($product->price); ?>
         </div>
         <div class="cart">
             <div class="qty">
-		<label for="qty">Quantity:</label>
-		<input type="number" min="1" step="1" id="qty" name="quantity" class="w50" size="2" value="1">                              
+                <label for="qty">Quantity:</label>
+                <input type="number" min="1" step="1" id="qty" name="quantity" class="w50" size="2" value="1">
             </div>
 	    <span>
 		<input type="hidden" name="product_id" size="2" value="<?php echo $product->getId(); ?>">
 		<button type="button" value="Add to Cart" id="button-cart" class="btn btn-default">
-		    <span><span>Add to Cart</span></span>
-		</button>
+            <span><span>Add to Cart</span></span>
+        </button>
 	    </span>
         </div>
-	<div class="action-box clearfix">
-	    <ul>
-		<li><a href="javascript:void(0)" onclick="addToWishList('<?php echo $product->getId(); ?>');"><i class="fa fa-heart-o"></i> Add to Wish List</a></li>
-		<li><a href="javascript:void(0)" onclick="addToCompare('<?php echo $product->getId(); ?>');"><i class="fa fa-retweet"></i> Add to Compare</a></li>
-	    </ul>
-	</div>
+        <div class="action-box clearfix">
+            <ul>
+                <li><a href="javascript:void(0)" onclick="addToWishList('<?php echo $product->getId(); ?>');"><i
+                            class="fa fa-heart-o"></i> Add to Wish List</a></li>
+                <li><a href="javascript:void(0)" onclick="addToCompare('<?php echo $product->getId(); ?>');"><i
+                            class="fa fa-retweet"></i> Add to Compare</a></li>
+            </ul>
+        </div>
     </div>
     <div class="clear"></div>
 </div>
@@ -74,29 +83,37 @@ $this->title = $product->model;
     </div>
     <?php if ($product->getRelated()) : ?>
         <div class="related">
-    	<h3>Related product(s)</h3>
-    	<div class="box-product">
-		<?php foreach ($product->getRelated() as $relatedProduct) : ?>
-		    <div>
-			<div class="name"><a href="/product/item/<?php echo $relatedProduct->slug; ?>"><span><?php echo $relatedProduct->name; ?></span></a></div>
-			<div class="image">
-			    <a href="/product/item/<?php echo String::slugify($relatedProduct->slug); ?>">
-				<?php if ($relatedProduct->getCoverProductImage() instanceof \library\Product\Image) : ?>
-	    			<img src="<?php echo $relatedProduct->getCoverProductImage()->getThumb(); ?>" title="<?php echo $relatedProduct->name; ?>" alt="<?php echo $relatedProduct->name; ?>">                                
-				<?php elseif ($relatedProduct->getFirstProductImage() instanceof \library\Product\Image) : ?>
-	    			<img src="<?php echo $relatedProduct->getFirstProductImage()->getThumb(); ?>" title="<?php echo $relatedProduct->name; ?>" alt="<?php echo $relatedProduct->name; ?>">                                
-				<?php endif; ?>
-			    </a>
-			</div>
-			<div class="price">
-			    <span><?php echo String::currency_format($relatedProduct->price); ?></span>
-			</div>
-			<div class="cart">
-			    <a onclick="addToCart('<?php echo $relatedProduct->getId(); ?>');" class="btn btn-success button">Add to Cart</a>
-			</div>
-		    </div>
-		<?php endforeach; ?>
-    	</div>
+            <h3>Related product(s)</h3>
+
+            <div class="box-product">
+                <?php foreach ($product->getRelated() as $relatedProduct) : ?>
+                    <div>
+                        <div class="name"><a
+                                href="/product/item/<?php echo $relatedProduct->slug; ?>"><span><?php echo $relatedProduct->name; ?></span></a>
+                        </div>
+                        <div class="image">
+                            <a href="/product/item/<?php echo Stringify::slugify($relatedProduct->slug); ?>">
+                                <?php if ($relatedProduct->getCoverProductImage() instanceof \library\Product\Image) : ?>
+                                    <img src="<?php echo $relatedProduct->getCoverProductImage()->getThumb(); ?>"
+                                         title="<?php echo $relatedProduct->name; ?>"
+                                         alt="<?php echo $relatedProduct->name; ?>">
+                                <?php elseif ($relatedProduct->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                    <img src="<?php echo $relatedProduct->getFirstProductImage()->getThumb(); ?>"
+                                         title="<?php echo $relatedProduct->name; ?>"
+                                         alt="<?php echo $relatedProduct->name; ?>">
+                                <?php endif; ?>
+                            </a>
+                        </div>
+                        <div class="price">
+                            <span><?php echo Stringify::currency_format($relatedProduct->price); ?></span>
+                        </div>
+                        <div class="cart">
+                            <a onclick="addToCart('<?php echo $relatedProduct->getId(); ?>');"
+                               class="btn btn-success button">Add to Cart</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     <?php endif; ?>
 </div>

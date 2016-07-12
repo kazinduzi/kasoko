@@ -1,4 +1,5 @@
 <?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+
 /**
  * Session provides session-level data management and the related configurations.
  *
@@ -43,29 +44,25 @@
  *
  * @author Emmanuel_Leonie
  */
-abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
+abstract class Session implements ArrayAccess, IteratorAggregate, Countable
+{
 
     /**
-     *
-     * @var type
+     * @var  array  session instances
      */
-    private $_data = array();
-
+    public static $instances = array();
     /**
-     *
+     * @var type of session to be used (default|database)
+     */
+    public static $default = "default";
+    /**
      * @var type
      */
-    private $_encrypted = false;
-
+    protected static $configs = array();
     /**
      * @var type
      */
     public $ip = false;
-
-    /**
-     * @var type
-     */
-    public $ua = false;
 
     /**
      * @var type
@@ -76,40 +73,47 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @var type
      */
     //public $session_match_ip = false;
-
     /**
      * @var type
      */
-	protected static $configs = array();
+    public $ua = false;
+    /**
+     *
+     * @var type
+     */
+    private $_data = array();
+    /**
+     *
+     * @var type
+     */
+    private $_encrypted = false;
 
     /**
-     * @var  array  session instances
+     * This abstract may not have been instantiated
+     * @throws Exception
      */
-    public static $instances = array();
-
-    /**
-     * @var type of session to be used (default|database)
-     */
-    public static $default = "default";
+    private function __construct()
+    {
+    }
 
     /**
      * Get the singleton Object for the session
      * @param type $type
      * @return session object
      */
-    public static function instance($type = null) {
+    public static function instance($type = null)
+    {
         if (null === $type) {
             $type = Kazinduzi::getConfig('session')->get('type'); //->set('type', self::$default)->get('type');
         }
         // Get the session type
         if (isset(self::$instances[$type])) {
             return self::$instances[$type];
-        }
-        else {
+        } else {
             // Load the configuration for the session
             self::$configs = Kazinduzi::getConfig('session')->as_array();
             // Set the session class name
-            $class = 'Session'.ucfirst($type);
+            $class = 'Session' . ucfirst($type);
             // camel case classes
             $class_path = strtolower(preg_replace('/([a-z])([A-Z])/', '$1/$2', $class)) . CLASS_EXT;
             // Include the appropriated class session
@@ -127,12 +131,6 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
-     * This abstract may not have been instantiated
-     * @throws Exception
-     */
-    private function __construct() {}
-
-    /**
      * Session object is rendered to a serialized string. If encryption is
      * enabled, the session will be encrypted. If not, the output string will
      * be encoded using [base64_encode].
@@ -142,9 +140,10 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @return  string
      * @uses    Encrypt::encode
      */
-    public function __toString() {
+    public function __toString()
+    {
         $data = serialize($this->_data);
-        if ( $this->_encrypted ) {
+        if ($this->_encrypted) {
             // Encrypt the data using the default key
             $data = Encrypt::instance($this->_encrypted)->encode($data);
         } else {
@@ -155,9 +154,37 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
+     * This method initiates the application session component.
+     * If the the session already started, return true.
+     * In any other case, initialize and start the session, if security are tuned, then check it.
+     *
+     * @return bool
+     */
+    public function start()
+    {
+        if ($this->isStarted()) return true;
+        $this->init();
+        $this->open();
+        // check security
+        $this->security_check();
+        register_shutdown_function(array($this, 'close'));
+        $this->_data = &$_SESSION;
+        return true;
+    }
+
+    /**
+     * @return boolean whether the session has started
+     */
+    public function isStarted()
+    {
+        return '' !== session_id();
+    }
+
+    /**
      * initializing the session
      */
-    private function init() {
+    private function init()
+    {
         // Need to destroy any existing sessions started with session.auto_start
         if (session_id()) {
             session_unset();
@@ -188,25 +215,13 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
-     * Returns a value indicating whether to use custom session storage.
-     * This method should be overriden to return true if custom session storage handler should be used.
-     * If returning true, make sure the methods {@link openSession}, {@link closeSession}, {@link readSession},
-     * {@link writeSession}, {@link destroySession}, and {@link gcSession} are overridden in child
-     * class, because they will be used as the callback handlers.
-     * The default implementation always return false.
-     * @return boolean whether to use custom storage.
-     */
-    public function getUseCustomStorage() {
-        return false;
-    }
-
-    /**
      * Starts the session if it has not started yet.
      * @return boolean
      */
-    private function open() {
+    private function open()
+    {
         // Sync up the session cookie with Cookie parameters
-		$this->getCookieParams();
+        $this->getCookieParams();
 
         if ($this->getUseCustomStorage()) {
             // use this object as the session handler
@@ -242,79 +257,54 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
-     * This method initiates the application session component.
-     * If the the session already started, return true.
-     * In any other case, initialize and start the session, if security are tuned, then check it.
-     *
-     * @return bool
+     * @return array the session cookie parameters.
+     * @see http://us2.php.net/manual/en/function.session-get-cookie-params.php
      */
-    public function start() {
-        if ($this->isStarted()) return true;
-        $this->init();
-        $this->open();
-        // check security
-        $this->security_check();
-        register_shutdown_function(array($this, 'close'));
-        $this->_data = &$_SESSION;
-        return true;
+    public function getCookieParams()
+    {
+        return session_get_cookie_params();
+    }
+
+    /**
+     * Returns a value indicating whether to use custom session storage.
+     * This method should be overriden to return true if custom session storage handler should be used.
+     * If returning true, make sure the methods {@link openSession}, {@link closeSession}, {@link readSession},
+     * {@link writeSession}, {@link destroySession}, and {@link gcSession} are overridden in child
+     * class, because they will be used as the callback handlers.
+     * The default implementation always return false.
+     * @return boolean whether to use custom storage.
+     */
+    public function getUseCustomStorage()
+    {
+        return false;
     }
 
     /**
      *
      * @return boolean
      */
-    protected function security_check() {
-        if (self::$configs['session_match_useragent'] && isset($_SESSION['ua']) && ($this->ua!=$_SESSION['ua']))
-        {
+    protected function security_check()
+    {
+        if (self::$configs['session_match_useragent'] && isset($_SESSION['ua']) && ($this->ua != $_SESSION['ua'])) {
             $this->destroy();
             throw new Exception('The UserAgent doesn\'t match.');
         }
-        if (self::$configs['session_match_ip'] && isset($_SESSION['ip']) && ($this->ip!=$_SESSION['ip']))
-        {
+        if (self::$configs['session_match_ip'] && isset($_SESSION['ip']) && ($this->ip != $_SESSION['ip'])) {
             $this->destroy();
             throw new Exception('The IP address doesn\'t match.');
         }
     }
 
     /**
-	 * Restarts the current session.
-	 * @return  boolean
-	 */
-    public function restart() {
-        // then restart the session
-		session_start();
-		$this->_data =& $_SESSION;
-		return true;
-    }
-
-    /**
-	 * Generate a new session id and return it.
-	 * @return  string
-	 */
-	public function regenerate($delete_old_session = true)	{
-		session_regenerate_id($delete_old_session);
-		return session_id();
-	}
-
-    /**
-     * Ends the current session and store session data.
-     */
-    public function close() {
-        if ('' !== session_id()) {
-            session_write_close();
-        }
-        return true;
-    }
-
-    /**
      * Frees all session variables and destroys all data registered to a session.
-	 * Completely destroy the current session.
-	 *
-	 *     $success = $session->destroy();
-	 *
-	 * @return  boolean
-	 */
-    public function destroy() {
+     * Completely destroy the current session.
+     *
+     *     $success = $session->destroy();
+     *
+     * @return  boolean
+     */
+    public function destroy()
+    {
         if ('' !== session_id()) {
             $this->_data = array();
             @session_unset();
@@ -333,60 +323,87 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
-     * @return boolean whether the session has started
+     * Method to set or get the session_name
+     * @param (stirng|null) $name
+     * @return string
      */
-    public function isStarted() {
-        return '' !== session_id();
+    public function name($name = null)
+    {
+        return session_name($name);
     }
+
     /**
-     * @return string the current session ID
+     * Restarts the current session.
+     * @return  boolean
      */
-    public function id() {
+    public function restart()
+    {
+        // then restart the session
+        session_start();
+        $this->_data =& $_SESSION;
+        return true;
+    }
+
+    /**
+     * Generate a new session id and return it.
+     * @return  string
+     */
+    public function regenerate($delete_old_session = true)
+    {
+        session_regenerate_id($delete_old_session);
         return session_id();
+    }
+
+    /**
+     * Ends the current session and store session data.
+     */
+    public function close()
+    {
+        if ('' !== session_id()) {
+            session_write_close();
+        }
+        return true;
     }
 
     /**
      * retrive the session id
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return session_id();
     }
 
     /**
      * @param string $value the session ID for the current session
      */
-    public function setId($value) {
+    public function setId($value)
+    {
         session_id($value);
         return $this;;
     }
+
     /**
      * @return string the current session name
      */
-    public function getSessionName() {
+    public function getSessionName()
+    {
         return session_name();
     }
 
     /**
      * @param string $value the session name for the current session, must be an alphanumeric string, defaults to PHPSESSID
      */
-    public function setSessionName($value) {
+    public function setSessionName($value)
+    {
         session_name($value);
-    }
-
-    /**
-     * Method to set or get the session_name
-     * @param (stirng|null) $name
-     * @return string
-     */
-    public function name($name=null) {
-        return session_name($name);
     }
 
     /**
      * @return string the current session save path, defaults to '/tmp'.
      */
-    public function getSavePath() {
+    public function getSavePath()
+    {
         return session_save_path();
     }
 
@@ -394,21 +411,13 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $value the current session save path
      * @throws CException if the path is not a valid directory
      */
-    public function setSavePath($value) {
+    public function setSavePath($value)
+    {
         if (is_dir($value)) {
             session_save_path($value);
+        } else {
+            throw new Exception('session.savePath [<strong>' . $value . '</strong>] is not a valid directory.');
         }
-        else {
-            throw new Exception('session.savePath [<strong>'.$value.'</strong>] is not a valid directory.');
-        }
-    }
-
-    /**
-     * @return array the session cookie parameters.
-     * @see http://us2.php.net/manual/en/function.session-get-cookie-params.php
-     */
-    public function getCookieParams() {
-        return session_get_cookie_params();
     }
 
     /**
@@ -418,14 +427,14 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param array $value cookie parameters, valid keys include: lifetime, path, domain, secure.
      * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
      */
-    public function setCookieParams(array $value) {
+    public function setCookieParams(array $value)
+    {
         $params = session_get_cookie_params();
         extract($params);
         extract($value);
         if (isset($httponly)) {
             session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
-        }
-        else {
+        } else {
             session_set_cookie_params($lifetime, $path, $domain, $secure);
         }
 
@@ -434,28 +443,27 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     /**
      * @return string how to use cookie to store session ID. Defaults to 'Allow'.
      */
-    public function getCookieMode() {
-        if ( ini_get('session.use_cookies') === '0' ) return 'none';
-        else if ( ini_get('session.use_only_cookies') === '0' ) return 'allow';
+    public function getCookieMode()
+    {
+        if (ini_get('session.use_cookies') === '0') return 'none';
+        else if (ini_get('session.use_only_cookies') === '0') return 'allow';
         else return 'only';
     }
 
     /**
      * @param string $value how to use cookie to store session ID. Valid values include 'none', 'allow' and 'only'.
      */
-    public function setCookieMode($value) {
+    public function setCookieMode($value)
+    {
         if ($value === 'none') {
             ini_set('session.use_cookies', '0');
-        }
-        else if ($value === 'allow') {
+        } else if ($value === 'allow') {
             ini_set('session.use_cookies', '1');
             ini_set('session.use_only_cookies', '0');
-        }
-        else if ( $value === 'only' ) {
+        } else if ($value === 'only') {
             ini_set('session.use_cookies', '1');
             ini_set('session.use_only_cookies', '1');
-        }
-        else {
+        } else {
             throw new Exception('Session.cookie mode can only be "none", "allow" or "only".');
         }
     }
@@ -463,7 +471,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     /**
      * @return integer the probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
      */
-    public function getGCProbability()  {
+    public function getGCProbability()
+    {
         return (int)ini_get('session.gc_probability');
     }
 
@@ -471,13 +480,13 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param integer $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
      * @throws CException if the value is beyond [0,100]
      */
-    public function setGCProbability($value) {
+    public function setGCProbability($value)
+    {
         $value = (int)$value;
-        if ( $value >= 0 && $value <= 100 ) {
+        if ($value >= 0 && $value <= 100) {
             ini_set('session.gc_probability', $value);
             ini_set('session.gc_divisor', '100');
-        }
-        else {
+        } else {
             throw new Exception('Session.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.');
         }
     }
@@ -485,30 +494,35 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     /**
      * @return boolean whether transparent sid support is enabled or not, defaults to false.
      */
-    public function getUseTransparentSession() {
+    public function getUseTransparentSession()
+    {
         return ini_get('session.use_trans_sid') == 1;
     }
 
     /**
      * @param boolean $value whether transparent sid support is enabled or not.
      */
-    public function setUseTransparentSession($value) {
+    public function setUseTransparentSession($value)
+    {
         ini_set('session.use_trans_sid', $value ? '1' : '0');
     }
 
     /**
      * @return integer the number of seconds after which data will be seen as 'garbage' and cleaned up, defaults to 1440 seconds.
      */
-    public function getTimeout() {
+    public function getTimeout()
+    {
         return (int)ini_get('session.gc_maxlifetime');
     }
 
     /**
      * @param integer $value the number of seconds after which data will be seen as 'garbage' and cleaned up
      */
-    public function setTimeout($value) {
+    public function setTimeout($value)
+    {
         ini_set('session.gc_maxlifetime', $value);
     }
+
     /**
      * Session open handler.
      * This method should be overridden if {@link useCustomStorage} is set true.
@@ -517,7 +531,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $sessionName session name
      * @return boolean whether session is opened successfully
      */
-    public function openSession($savePath, $sessionName) {
+    public function openSession($savePath, $sessionName)
+    {
         return true;
     }
 
@@ -527,9 +542,11 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * Do not call this method directly.
      * @return boolean whether session is closed successfully
      */
-    public function closeSession() {
+    public function closeSession()
+    {
         return true;
     }
+
     /**
      * Session read handler.
      * This method should be overridden if {@link useCustomStorage} is set true.
@@ -537,7 +554,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $id session ID
      * @return string the session data
      */
-    public function readSession($id) {
+    public function readSession($id)
+    {
         return '';
     }
 
@@ -549,7 +567,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $data session data
      * @return boolean whether session write is successful
      */
-    public function writeSession($id, $data)  {
+    public function writeSession($id, $data)
+    {
         return true;
     }
 
@@ -560,7 +579,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $id session ID
      * @return boolean whether session is destroyed successfully
      */
-    public function destroySession($id) {
+    public function destroySession($id)
+    {
         return true;
     }
 
@@ -571,37 +591,41 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param integer $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
      * @return boolean whether session is GCed successfully
      */
-    public function gcSession($maxLifetime) {
+    public function gcSession($maxLifetime)
+    {
         return true;
     }
-
-
-    //------ The following methods enable Session to be Map-like -----
 
     /**
      * Returns an iterator for traversing the session variables.
      * This method is required by the interface IteratorAggregate.
      * @return SessionIterator an iterator for traversing the session variables.
      */
-    public function getIterator()  {
+    public function getIterator()
+    {
         return new SessionIterator($this->_data);
     }
 
-    /**
-     * Returns the number of items in the session.
-     * @return integer the number of session variables
-     */
-    public function getCount() {
-        return count($this->_data);
-    }
+
+    //------ The following methods enable Session to be Map-like -----
 
     /**
      * Returns the number of items in the session.
      * This method is required by Countable interface.
      * @return integer number of items in the session.
      */
-    public function count() {
+    public function count()
+    {
         return $this->getCount();
+    }
+
+    /**
+     * Returns the number of items in the session.
+     * @return integer the number of session variables
+     */
+    public function getCount()
+    {
+        return count($this->_data);
     }
 
     /**
@@ -609,7 +633,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param type $offset
      * @return type
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->_data[$offset]);
     }
 
@@ -618,7 +643,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param type $offset
      * @param self $value
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_array($value)) $value = new self($value);
         if ($offset === null) {
             $this->_data[] = $value;
@@ -632,7 +658,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param type $offset
      * @return type
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->_data[$offset];
     }
 
@@ -640,15 +667,28 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      *
      * @param type $offset
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->_data[$offset]);
     }
 
     /**
      * @return array the list of session variable names
      */
-    public function getKeys()  {
+    public function getKeys()
+    {
         return array_keys($this->_data);
+    }
+
+    /**
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function __set($key, $value)
+    {
+        return $this->set($key, $value);
     }
 
     /**
@@ -657,7 +697,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param mixed $value
      * @return Session
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -669,13 +710,11 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
+     * @return string the current session ID
      */
-    public function __set($key, $value) {
-        return $this->set($key, $value);
+    public function id()
+    {
+        return session_id();
     }
 
     /**
@@ -687,7 +726,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @return mixed the session variable value, or $defaultValue if the session variable does not exist.
      * @since 1.1.2
      */
-    public function & get($key, $defaultValue=null) {
+    public function & get($key, $defaultValue = null)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -705,7 +745,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $key
      * @return mixed
      */
-    public function & __get($key) {
+    public function & __get($key)
+    {
         return $this->get($key, null);
     }
 
@@ -715,7 +756,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @return bool
      * @throws Exception
      */
-    public function __isset($key) {
+    public function __isset($key)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -731,7 +773,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param string $name - programmatic name of a key, in a <key,value> pair in the current namespace
      * @return true
      */
-    public function __unset($key) {
+    public function __unset($key)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -747,7 +790,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param mixed $key the session variable name
      * @return mixed the session variable value, null if no such variable exists
      */
-    public function itemAt($key) {
+    public function itemAt($key)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -763,7 +807,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param mixed $key session variable name
      * @param mixed $value session variable value
      */
-    public function add($key, $value) {
+    public function add($key, $value)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -775,13 +820,13 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
 
-
     /**
      * Removes a session variable.
      * @param mixed $key the name of the session variable to be removed
      * @return mixed the removed value, null if no such session variable.
      */
-    public function remove($key) {
+    public function remove($key)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -799,7 +844,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     /**
      * Removes all session variables
      */
-    public function clear() {
+    public function clear()
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -812,7 +858,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
      * @param mixed $key session variable name
      * @return boolean whether there is the named session variable
      */
-    public function contains($key) {
+    public function contains($key)
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
@@ -823,21 +870,21 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable {
     }
 
     /**
-	 * Returns the current session array. The returned array can also be
-	 * assigned by reference.
-	 * // Get a copy of the current session data
-	 * $data = $session->toArray();
-	 * // Assign by reference for modification
-	 * $data =& $session->toArray();
-	 * @return array the list of all session variables in array
-	 */
-    public function & toArray() {
+     * Returns the current session array. The returned array can also be
+     * assigned by reference.
+     * // Get a copy of the current session data
+     * $data = $session->toArray();
+     * // Assign by reference for modification
+     * $data =& $session->toArray();
+     * @return array the list of all session variables in array
+     */
+    public function & toArray()
+    {
         if ($this->id() === '') {
             throw new Exception("The session is not started yet");
         }
         return $this->_data;
     }
-
 
 
 }

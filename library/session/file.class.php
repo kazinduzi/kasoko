@@ -5,8 +5,8 @@
  *
  * @author Emmanuel_Leonie
  */
-
-final class SessionFile extends Session {
+final class SessionFile extends Session
+{
 
     /**
      *
@@ -18,10 +18,11 @@ final class SessionFile extends Session {
      *
      * @param array $configs
      */
-    public function __construct(array $configs = null) {
+    public function __construct(array $configs = null)
+    {
         $configs = !isset($configs) ? self::$configs : $configs;
-        self::$savePath = KAZINDUZI_PATH .DIRECTORY_SEPARATOR . 'tmp';
-        session_save_path( self::$savePath );
+        self::$savePath = KAZINDUZI_PATH . DIRECTORY_SEPARATOR . 'tmp';
+        session_save_path(self::$savePath);
     }
 
     /**
@@ -29,7 +30,8 @@ final class SessionFile extends Session {
      * This method overrides the parent implementation and always returns true.
      * @return boolean whether to use custom storage.
      */
-    public function getUseCustomStorage() {
+    public function getUseCustomStorage()
+    {
         return true;
     }
 
@@ -39,7 +41,8 @@ final class SessionFile extends Session {
      * @param type $sessionName
      * @return boolean
      */
-    public function openSession($savePath, $sessionName) {
+    public function openSession($savePath, $sessionName)
+    {
         //$savePath = self::$savePath;
         if (!is_dir(self::$savePath)) {
             mkdir(self::$savePath, 0777);
@@ -52,7 +55,8 @@ final class SessionFile extends Session {
      *
      * @return boolean
      */
-    public function closeSession() {
+    public function closeSession()
+    {
         return true;
     }
 
@@ -61,7 +65,8 @@ final class SessionFile extends Session {
      * @param type $id
      * @return type
      */
-    public function readSession($id) {
+    public function readSession($id)
+    {
         $file = self::$savePath . DIRECTORY_SEPARATOR . $id . '.session';
         return file_exists($file) ? unserialize(file_get_contents($file)) : array();
     }
@@ -72,7 +77,8 @@ final class SessionFile extends Session {
      * @param type $data
      * @return type
      */
-    public function writeSession($id, $data) {
+    public function writeSession($id, $data)
+    {
         if (!is_dir(self::$savePath)) {
             mkdir(self::$savePath, 0777, true);
         }
@@ -84,7 +90,8 @@ final class SessionFile extends Session {
      * @param type $id
      * @return boolean
      */
-    public function destroySession($id) {
+    public function destroySession($id)
+    {
         $sess_file = self::$savePath . DIRECTORY_SEPARATOR . $id . '.session';
         if (file_exists($sess_file)) {
             unlink($sess_file);
@@ -97,8 +104,9 @@ final class SessionFile extends Session {
      * @param type $maxlifetime
      * @return boolean
      */
-    public function gcSession($maxlifetime) {
-        foreach (glob(self::$savePath.DS."*.session") as $sess_file) {
+    public function gcSession($maxlifetime)
+    {
+        foreach (glob(self::$savePath . DS . "*.session") as $sess_file) {
             if (filemtime($sess_file) + $maxlifetime < time() && file_exists($sess_file)) {
                 unlink($sess_file);
             }

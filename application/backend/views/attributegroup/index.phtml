@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <h2>Attributegroup</h2>
+    <a class="btn btn-default btn-primary action-btn" title="Add a new attributegroup" href="/admin/attributegroup/add" data-toggle="modal">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+    </a>
+    <div class="container attribute-group">
+        <table class="table table-striped table-condensed fa-border">
+            <tr>
+                <th>Attribute group</th>
+                <th>Nr. Values</th>
+                <th class="actions"></th>
+            </tr>
+            <?php foreach($attributeGroups as $attributeGroup) :?>
+                <tr>
+                    <td><?php echo $attributeGroup->name;?></td>
+                    <td><?php echo count($attributeGroup->getAttributes());?></td>
+                    <td>
+                        <div class="btn-group-action">
+                            <div class="btn-group pull-right">
+                                <a href="/admin/attributegroup/view/<?=$attributeGroup->getId();?>" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </a>
+                                <a href="/admin/attributegroup/edit/<?=$attributeGroup->getId();?>" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                                <a href="" title="Delete" class="delete btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+        <ul>
+            <li>
+                <a href="/admin/attributegroup/add_attribute"><i class="glyphicon glyphicon-plus"></i> Add attribute</a>
+            </li>
+        </ul>
+    </div>
+</div>

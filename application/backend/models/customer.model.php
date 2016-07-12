@@ -28,36 +28,36 @@ class customer extends Model
      * @var integer
      */
     protected $id;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param mixed $id
      */
     public function __construct($id = null)
     {
         parent::__construct($id);
-    }    
-    
+    }
+
     /**
-     * 
+     *
      * @param string $email
      * @return type
      */
     public function findByEmail($email)
     {
         $where = sprintf("email='%s'", $email);
-        return $this->findByAttr('*', $where);        
+        return $this->findByAttr('*', $where);
     }
-    
+
     /**
      * Add customer by array
-     * 
+     *
      * @param array $data
      * @return \customer
      * @throws \Exception
      */
-    public function addByArray(array $data) 
+    public function addByArray(array $data)
     {
         if (!$data) {
             throw new \Exception('Invalid data for model provided at line:' . __LINE__);
@@ -66,10 +66,10 @@ class customer extends Model
         $this->saveRecord();
         return $this;
     }
-    
+
     /**
      * Edit customer by array
-     * 
+     *
      * @param array $data
      * @return type
      * @throws \Exception
@@ -82,10 +82,10 @@ class customer extends Model
         $this->values = $data;
         return $this->saveRecord();
     }
-    
+
     public function delete()
     {
         return parent::delete();
     }
-    
+
 }

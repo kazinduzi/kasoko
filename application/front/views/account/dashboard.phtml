@@ -5,11 +5,14 @@
     </div>
     <div class="welcome-msg">
         <p class="hello"><strong><?php echo 'Hello, ', $this->Customer->getFullname(); ?></strong></p>
-        <p>From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.</p>
+
+        <p>From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and
+            update your account information. Select a link below to view or edit information.</p>
     </div>
 
     <div class="accont info">
         <h2>Account Information</h2>
+
         <div class="col-set">
             <div class="col-left">
                 <div class="box-title">
@@ -73,7 +76,8 @@
                             if ($this->Customer->getFax())
                                 echo 'F:' . $this->Customer->getFax() . '<br/>';
                             ?>
-                            <a href="/customer/address/edit_billing_address/<?php echo $this->Customer->getAddressId(); ?>">Edit Billing Address</a>
+                            <a href="/customer/address/edit_billing_address/<?php echo $this->Customer->getAddressId(); ?>">Edit
+                                Billing Address</a>
                         </address>
                     <?php endif; ?>
                 </div>

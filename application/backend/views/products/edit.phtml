@@ -50,18 +50,17 @@
             <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>        
         <div style="display: inline-block; width:100%;">
-            <ul class="nav nav-tabs" id="tabbed-menu" style="">
+            <ul class="nav nav-tabs" id="tabbed-menu">
                 <li class="active"><a href="#general" data-toggle="tab">General description</a></li>
                 <li><a href="#price" data-toggle="tab">Price</a></li>
                 <li><a href="#availability" data-toggle="tab">Availability</a></li>
                 <li><a href="#meta" data-toggle="tab">Meta</a></li>
                 <li><a href="#images" data-toggle="tab">Images</a></li>
                 <li><a href="#associations" data-toggle="tab">Associations</a></li>
-
+                <li><a href="#options" data-toggle="tab">Options</a></li>
             </ul>
         </div>        
         <div class="tab-content">
-
             <!-- ./general -->
             <div class="tab-pane active" id="general">
                 <div class="form-group">
@@ -82,20 +81,14 @@
                 </div>
                 <div class="form-group">
                     <label for="category" class="control-label">Associated categories * :</label>
-		    <?php foreach ($allCategories as $category) : ?>
-			<?php
-			if (count($product->getCategories()) && in_array($category, $product->getCategories())) {
-			    $checked = 'checked="checked"';
-			} else {
-			    $checked = '';
-			}
-			?>
-    		    <div class="checkbox">
-    			<label>
-    			    <input type="checkbox" id="category_field" name="product[category][]" value="<?php echo $category->getId(); ?>" <?php echo $checked; ?> /> <?php echo $category->name; ?>
-    			</label>
-    		    </div>
-		    <?php endforeach; ?>
+                    <?php foreach ($allCategories as $category) : ?>
+                    <?php $checked = count($product->getCategories()) && in_array($category, $product->getCategories()) ?  'checked="checked"' : ''; ?>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="category_field" name="product[category][]" value="<?php echo $category->getId(); ?>" <?php echo $checked; ?> /> <?php echo $category->name; ?>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -169,14 +162,16 @@
 				    <a href="" class="thumbnail">
 					<img src="<?php echo $image->getThumb(); ?>" alt="" width="150" />
 				    </a>
-				    <div class="btn-group">
-					<a class="image-update-btn btn btn-default btn-xs disabled js-sorted-position" href="#"><?php echo $image->getId(); ?></a>
-					<a class="image-update-btn btn btn-default btn-xs" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
-					    <span class="glyphicon glyphicon-edit"></span>
-					</a>					
-					<a class="image-delete-btn btn btn-default btn-xs" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
-					    <span class="glyphicon glyphicon-trash"></span>
-					</a>
+				    <div class="btn-group pull-right">
+                        <a class="image-update-btn btn btn-default disabled js-sorted-position" href="#<?php echo $image->getId(); ?>">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+                        <a class="image-update-btn btn btn-default" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                        <a class="image-delete-btn btn btn-default" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </a>
 				    </div>
 				</li>                    
 			    <?php endforeach; ?>
@@ -202,14 +197,65 @@
                 <div class="form-group col-md-4">
                     <label for="manufacturer" class="control-label">Manufacturer :</label>
                     <select name="product[manufacturer]" class="form-control">
-			<?php foreach ($activeManufacturers as $manufacturer) : ?>
-			    <?php $selected = ($manufacturer == $product->getManufacturer() ? 'selected' : ''); ?>
-    			<option value="<?php echo $manufacturer->getId(); ?>" <?php echo $selected; ?>><?php echo $manufacturer->name; ?></option>
-			<?php endforeach; ?>
+                        <?php foreach ($activeManufacturers as $manufacturer) : ?>
+                            <?php $selected = ($manufacturer == $product->getManufacturer() ? 'selected' : ''); ?>
+                            <option value="<?php echo $manufacturer->getId(); ?>" <?php echo $selected; ?>><?php echo $manufacturer->name; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>
 
+            <!-- ./Options -->
+            <div class="tab-pane" id="options">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <a class="btn btn-default"  id="add-product-attribute-configuration" href="/admin/products/build-attribute-combinations?product_id=<?php echo $product->getId();?>">
+                            <i class="glyphicon glyphicon-plus-sign"></i> Add combination
+                        </a>
+                    </div>
+                </div>
+
+                <?php if (count($productAttributes)) :?>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-condensed">
+                            <tr>
+                                <td>ID</td>
+                                <th>Combinations</th>
+                                <th>Impact on price</th>
+                                <th>Impact on qty</th>
+                                <th class="actions">Actions</th>
+                            </tr>
+                            <?php foreach($productAttributes as $productAttribute) :?>
+                                <tr>
+                                    <td><?php echo $productAttribute->getId();?></td>
+                                    <td>
+                                        <?php $variation_label = '';
+                                        foreach($productAttribute->getAttributes() as $attribute) {
+                                            $variation_label .= $attribute->getValueLabel() . '-';
+                                        }
+                                        print trim($variation_label, '-');
+                                        ?>
+                                    </td>
+                                    <td><?php echo $productAttribute->getPriceImpact();?></td>
+                                    <td><?php echo $productAttribute->getQuantityImpact();?></td>
+                                    <td class="actions">
+                                        <div class="btn-group btn-group-sm">
+                                            <a class="btn btn-default" title="" href="/admin/products/build-attribute-combinations/<?php echo $productAttribute->getId();?>?product_id=<?php echo $product->getId();?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                            <a class="btn btn-default product-delete" title="Delete this product and all its contents" href="/admin/products/delete-attribute-combinations/<?php echo $productAttribute->getId();?>?product_id=<?php echo $product->getId();?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                <?php else:?>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="alert alert-info" roles="alert"><strong>Product has no attribute-combinations</strong></div>
+                        </div>
+                    </div>
+                <?php endif;?>
+            </div>
         </div>
 
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">

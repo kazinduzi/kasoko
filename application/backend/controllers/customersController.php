@@ -5,9 +5,6 @@
  * @author Emmanuel_Leonie
  */
 
-use \Request;
-use \Response;
-
 class customersController extends Admin_controller
 {
     public function __construct(Request $req, Response $res)

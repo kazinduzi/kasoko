@@ -35,7 +35,7 @@ class cmsController extends Admin_controller
 		$savemode = $_POST['save_mode'];
 		$pageData = $this->getRequest()->postParam('page');
 		$page->title = trim($pageData['title']);
-		$page->slug = String::slugify($pageData['title']);
+			$page->slug = Stringify::slugify($pageData['title']);
 		$page->meta_keywords = $pageData['meta_keywords'];
 		$page->meta_description = $pageData['meta_description'];
 		$page->content = $pageData['content'];
@@ -65,7 +65,7 @@ class cmsController extends Admin_controller
 		$page = new Page();
 		$pageData = $this->getRequest()->postParam('page');
 		$page->title = trim($pageData['title']);
-		$page->slug = String::slugify($pageData['title']);
+			$page->slug = Stringify::slugify($pageData['title']);
 		$page->meta_keywords = $pageData['meta_keywords'];
 		$page->meta_description = $pageData['meta_description'];
 		$page->content = $pageData['content'];

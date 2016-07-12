@@ -5,8 +5,17 @@
         margin-bottom: 40px;
         overflow: auto;
     }
-    .block h2{background-color: #f3f3f3; padding: 5px; margin-bottom: 10px;}
-    label.required em {font-style: normal;color: #EB340A;}
+
+    .block h2 {
+        background-color: #f3f3f3;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    label.required em {
+        font-style: normal;
+        color: #EB340A;
+    }
 </style>
 
 <div class="page-title">
@@ -18,6 +27,7 @@
 <form action="" method="post" id="form-account">
     <div class="block information">
         <h2>Your Personal information</h2>
+
         <div>
             <div class="form-group">
                 <label class="required" for="firstname">Firstname<em>*</em></label>
@@ -38,7 +48,7 @@
                 <input type="tel" name="telephone" value="" placeholder="Phone" class="form-control">
             </div>
             <div class="form-group">
-                <label for="mobile">Mobile</label><br />
+                <label for="mobile">Mobile</label><br/>
                 <input type="tel" name="mobile" value="" placeholder="Mobile phone" class="form-control">
             </div>
             <div class="form-group">
@@ -50,6 +60,7 @@
 
     <div class="block address">
         <h2>Your Address</h2>
+
         <div class="form-group">
             <label for="company">Company</label>
             <input type="text" name="company" value="" placeholder="Company" class="form-control">
@@ -86,7 +97,8 @@
                 <option value="">Select a zone</option>
                 <?php if (isset($this->zones)): ?>
                     <?php foreach ($this->zones as $zone) : ?>
-                        <option value="<?php echo $zone['id'] ?>" <?php echo ($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                        <option
+                            value="<?php echo $zone['id'] ?>" <?php echo($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>
@@ -96,6 +108,7 @@
 
     <div class="block password">
         <h2>Your Password</h2>
+
         <div>
             <label for="city" class="required">Password<em>*</em></label>
             <input type="password" name="password" value="" class="form-control">
@@ -108,10 +121,11 @@
 
     <div class="block newsletter">
         <h2>Newsletter</h2>
+
         <div>
             <input id="newsletter" type="checkbox" name="newsletter" value="1">
-	    <label for="newsletter">Subscribe</label>
-            
+            <label for="newsletter">Subscribe</label>
+
         </div>
     </div>
 

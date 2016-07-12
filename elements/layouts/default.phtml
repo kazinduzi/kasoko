@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en-us" class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]>
+<html lang="en-us" class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]>
+<html lang="en-us" class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en-us" class="no-js"><!--<![endif]-->
+<head>
+    <!-- Test if javascript is enabled -->
+    <script>(function (H) {
+            H.className = H.className.replace(/\bno-js\b/, 'js')
+        })(document.documentElement);</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><?php echo ucfirst($title), ' - ', Kazinduzi::getAppName(); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Kazinduzi - open source web application framework">
+    <?php echo Html::meta('keywords', (!empty($meta_keywords) ? $meta_keywords : 'Kazinduzi - Open Source MVC framework coded in PHP')); ?>
+    <?php echo Html::meta('description', (!empty($meta_description) ? $meta_description : 'Kazinduzi - Open Source MVC framework coded in PHP')); ?>
+    <?php echo Html::meta('author', 'Emmanuel Ndayiragije'); ?>
+    <?php echo Html::meta('copyright', 'copyright 2010 www.emmanuelndayiragije.com'); ?>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700' rel='stylesheet'
+          type='text/css'>
+    <link rel="shortcut icon" href="<?php echo HOME_URL; ?>/html/images/fav.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/html/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/html/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/html/normalize.css">
+    <link rel="stylesheet" href="/html/main.css">
+    <?php echo Html::css('style', array('all')); ?>
+    <script src="/html/js/vendor/modernizr-2.8.0.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <header>
+        <div class="header-top">
+            <div id="top">
+                <ul class="links">
+                    <li class="first"><a href="/customer/account" title="Account"><i class="fa fa-user"></i> My Account</a>
+                    </li>
+                    <li><a href="/customer/account/wishlist/" title="Wishlist"><i class="fa fa-heart-o"></i> My Wishlist</a>
+                    </li>
+                    <li><a href="/checkout/checkout" title="Checkout" class="top-link-checkout"><i
+                                class="fa fa-check"></i> Checkout</a></li>
+                    <?php if (Customer::getSingleton()->isLogged()) : ?>
+                        <li><a href="/customer/account/logout" title="Log In"><i class="fa fa-lock-alt"></i> Logout</a>
+                        </li>
+                    <?php else : ?>
+                        <li><a href="/customer/account/login" title="Log In"><i class="fa fa-unlock-alt"></i> Login</a>
+                        </li>
+                    <?php endif; ?>
+                    <li class="last"><a href="/cart/" title="Cart" id="cart-content" data-role="cart-content"><i
+                                class="fa fa-shopping-cart"></i> Shopping Cart (<span
+                                id="count-cart-item"><?php echo Cart::getSingleton()->getCountItems(); ?></span>)</a>
+                    </li>
+                </ul>
+                <h1 class="logo">
+                    <a href="/" title="Kasoko e-commerce V1">Kasoko v1.0</a>
+                </h1>
+
+                <div class="language-container">
+                    <?php render('currency'); ?>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="" style="width:960px; margin: 0 auto;">
+        <div id="container">
+            <div id="header">
+                <?php render('menu'); ?>
+            </div>
+            <div id="column-left">
+                <?php render('left_block'); ?>
+            </div>
+            <div id="content">
+                <?php echo $content_for_layout; ?>
+            </div>
+            <?php render('footer'); ?>
+        </div>
+    </div>
+</div>
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/html/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+<script src="/html/bootstrap/js/bootstrap.min.js"></script>
+<script src="/html/js/front/default.js"></script>
+<script src="/html/js/front/misc_funtions.js"></script>
+<!--[if lt IE 9]>
+<?php echo Html::js('html5'); ?>
+<![endif]-->
+<!--[if lt IE 7]>
+<?php echo Html::js('pngfix'); ?>
+<![endif]-->
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-52575293-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+</body>
+</html>
+<?php
+echo '<p>Time taken for rendering this page: <strong>' . \number_format(\microtime(true) - KAZINDUZI_START_TIME, 5, ',', '.') . " sec.</strong></p>";

@@ -1,68 +1,86 @@
 <div class="my-account">
     <div class="page-title">
-    <h1>Edit Account Information</h1>
+        <h1>Edit Account Information</h1>
     </div>
     <form action="/customer/account/editPost/" method="post" id="form-validate">
         <div class="fieldset">
-            <input name="csrf_token" type="hidden" value="<?php echo Security::token();?>"/>
+            <input name="csrf_token" type="hidden" value="<?php echo Security::token(); ?>"/>
+
             <h2 class="legend">Account Information</h2>
+
             <div class="form-list">
                 <div class="fields">
                     <p class="field name-firstname">
-			<label for="firstname" class="required"><em>*</em>First Name</label>
-			<input type="text" id="firstname" name="firstname" value="<?php echo $this->Customer->getFirstname();?>" title="First Name" maxlength="255" class="form-control required-entry"/>			
-		    </p>
-		    <p class="field name-lastname">
-			<label for="lastname" class="required"><em>*</em>Last Name</label>
-			<input type="text" id="lastname" name="lastname" value="<?php echo $this->Customer->getLastname();?>" title="Last Name" maxlength="255" class="form-control required-entry"/>			
-		    </p>                    
-                </div>  
+                        <label for="firstname" class="required"><em>*</em>First Name</label>
+                        <input type="text" id="firstname" name="firstname"
+                               value="<?php echo $this->Customer->getFirstname(); ?>" title="First Name" maxlength="255"
+                               class="form-control required-entry"/>
+                    </p>
+
+                    <p class="field name-lastname">
+                        <label for="lastname" class="required"><em>*</em>Last Name</label>
+                        <input type="text" id="lastname" name="lastname"
+                               value="<?php echo $this->Customer->getLastname(); ?>" title="Last Name" maxlength="255"
+                               class="form-control required-entry"/>
+                    </p>
+                </div>
                 <p>
                     <label for="email" class="required"><em>*</em>Email Address</label>
-                    <input type="text" name="email" id="email" value="<?php echo $this->Customer->getEmail();?>" title="Email Address" class="form-control required-entry validate-email"/>                    
-                </p>  
+                    <input type="text" name="email" id="email" value="<?php echo $this->Customer->getEmail(); ?>"
+                           title="Email Address" class="form-control required-entry validate-email"/>
+                </p>
+
                 <p class="control">
-                    <input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Change Password" class="checkbox" <?php echo ($this->changepassword ? 'checked' :'');?>/>
+                    <input type="checkbox" name="change_password" id="change_password" value="1"
+                           onclick="setPasswordForm(this.checked)" title="Change Password"
+                           class="checkbox" <?php echo($this->changepassword ? 'checked' : ''); ?>/>
                     <label for="change_password">Change Password</label>
-                </p>  
+                </p>
             </div>
         </div>
         <div class="fieldset" id="password_fieldset" style="display: none;">
             <h2 class="legend">Change Password</h2>
+
             <div class="form-list">
                 <p>
                     <label for="current_password" class="required"><em>*</em>Current Password</label>
-		    <input type="password" title="Current Password" class="form-control" name="current_password" id="current_password"/>		
+                    <input type="password" title="Current Password" class="form-control" name="current_password"
+                           id="current_password"/>
                 </p>
+
                 <p class="fields">
                     <label for="password" class="required"><em>*</em>New Password</label>
-		    <input type="password" title="New Password" class="form-control validate-password" name="password" id="password"/>
-		</p>
-		<p>
-		    <label for="confirmation" class="required"><em>*</em>Confirm New Password</label>
-		    <input type="password" title="Confirm New Password" class="form-control validate-cpassword" name="confirmation" id="confirmation" />                  
+                    <input type="password" title="New Password" class="form-control validate-password" name="password"
+                           id="password"/>
+                </p>
+
+                <p>
+                    <label for="confirmation" class="required"><em>*</em>Confirm New Password</label>
+                    <input type="password" title="Confirm New Password" class="form-control validate-cpassword"
+                           name="confirmation" id="confirmation"/>
                 </p>
             </div>
         </div>
         <div class="buttons-set">
             <p class="required">Required Fields (*)</p>
+
             <p class="back-link"><a href="/customer/account/">Back</a></p>
             <button type="submit" title="Save" class="btn btn-success">Save</button>
         </div>
     </form>
-<script type="text/javascript">
-//<![CDATA[
-    function setPasswordForm(cheched) {
-        if(cheched) {
-            $('#current_password').closest('#password_fieldset').show();
-        }else{
-            $('#password_fieldset').closest('#password_fieldset').hide();
+    <script type="text/javascript">
+        //<![CDATA[
+        function setPasswordForm(cheched) {
+            if (cheched) {
+                $('#current_password').closest('#password_fieldset').show();
+            } else {
+                $('#password_fieldset').closest('#password_fieldset').hide();
+            }
         }
-    }
-    <?php if ($this->changepassword): ?>
+        <?php if ($this->changepassword): ?>
         setPasswordForm(true);
-    <?php endif; ?>
-//]]>
-</script>
+        <?php endif; ?>
+        //]]>
+    </script>
 </div>
 

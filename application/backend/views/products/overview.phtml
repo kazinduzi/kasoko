@@ -11,6 +11,7 @@
                     <th class="object-title">
                         <a href="/admin/products?id_product=0&amp;product_order=id">ID</a>
                     </th>
+                    <th></th>
                     <th class="object-title">
                         <a href="/admin/products?id_product=0&amp;product_order=alpha">Name</a>
                     </th>
@@ -26,10 +27,17 @@
             </thead>
             <tbody>
                 <?php if (null === $products) : ?>                
-                    <tr><td colspan="5">No product is found</td></tr>                    
+                    <tr>
+                        <td colspan="5">No product is found</td>
+                    </tr>
                 <?php else: foreach ($products as $product) : ?>                    
                         <tr>
                             <td><?php echo $product->getId(); ?></td>
+                            <td>
+                                <?php if ($product->getThumbImage()) :?>
+                                    <img class="img-thumbnail" src="<?php echo $product->getThumbImage();?>" width="50" alt="">
+                                <?php endif?>
+                            </td>
                             <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->name; ?></a></td>
                             <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
                             <td>
@@ -40,10 +48,10 @@
                                 <?php endif; ?>
                             </td>                    
                             <td class="actions">
-                                <div class="btn-group">
-                                    <a class="btn btn-default btn-xs" title="Browse this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-folder-open"></i></a>
-                                    <a class="btn btn-default btn-xs" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
-                                    <a class="btn btn-default btn-xs product-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-default" title="Browse this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-folder-open"></i></a>
+                                    <a class="btn btn-default" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default product-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
                                 </div>
                             </td>
                         </tr>                

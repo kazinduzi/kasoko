@@ -10,9 +10,11 @@
  *
  * @author Emmanuel_Leonie
  */
-class Testobserver extends Observer {
+class Testobserver extends Observer
+{
 
-    public function update(&$sender, $arg) {
+    public function update(&$sender, $arg)
+    {
         switch ($arg) {
             case 'changed':
                 echo 'Changed<br />';
@@ -29,15 +31,19 @@ class Testobserver extends Observer {
     }
 }
 
-class TestObservable extends Observable {
+class TestObservable extends Observable
+{
 
-    public function changed() {
+    public function changed()
+    {
         echo 'Observable is changed<br/>';
         //Notify all attached observers to this
         $this->notifyAll('changed');
     }
+
     //
-    public function deleted() {
+    public function deleted()
+    {
         echo 'Observable is deleted<br/>';
         //Notify all attached observers to this
         $this->notifyAll('deleted');

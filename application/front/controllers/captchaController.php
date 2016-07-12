@@ -11,15 +11,15 @@ class CaptchaController extends BaseController
 
     public function index()
     {
-	$captcha = new Captcha;
-	$captcha->sessionVar = self::CAPTCHA_SESSION_KEY;
-	$captcha->imageFormat = 'png';
-	$captcha->lineWidth = 2;
-	$captcha->scale = 3;
-	$captcha->blur = true;
-	// Image generation
-	$captcha->createImage();
-	die();
+        $captcha = new Captcha;
+        $captcha->sessionVar = self::CAPTCHA_SESSION_KEY;
+        $captcha->imageFormat = 'png';
+        $captcha->lineWidth = 2;
+        $captcha->scale = 3;
+        $captcha->blur = true;
+        // Image generation
+        $captcha->createImage();
+        die();
     }
 
 }

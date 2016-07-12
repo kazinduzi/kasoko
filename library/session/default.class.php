@@ -5,9 +5,11 @@
  *
  * @author Emmanuel_Leonie
  */
-final class SessionDefault extends Session {
+final class SessionDefault extends Session
+{
 
-    public function __construct($configs = null) {
+    public function __construct($configs = null)
+    {
         $configs = !isset($configs) ? self::$configs : $configs;
         if (!$this->ua) {
             $this->ua = Request::getInstance()->user_agent();

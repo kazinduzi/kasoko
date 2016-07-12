@@ -1,18 +1,20 @@
 <h1>My newsletter settings</h1>
 <div class="content">
     <?php if (!$this->Customer->newsletter): ?>
-	<p>You are currently not subscribed to any newsletter.</p>	
+        <p>You are currently not subscribed to any newsletter.</p>
     <?php else: ?>
-	<p>You are currently subscribed to our newsletter. If you want to unsubscribe to not receive our newsletter anymore, uncheck de checkbox here below to confirm your unsubscription.</p>	
+        <p>You are currently subscribed to our newsletter. If you want to unsubscribe to not receive our newsletter
+            anymore, uncheck de checkbox here below to confirm your unsubscription.</p>
     <?php endif; ?>
-	<form action="" method="post">
-	    <p>
-		<input type="checkbox" name="newsletter-subscribe" value="1" id="newsletter-checkbox" checked="checked">
-		<label for="newsletter-checkbox">Subscribe to our newsletter</label>
-	    </p>
-	    <p>
-		<button class="btn btn-success" type="submit">Save</button>
-	    </p>
-	</form>	
+    <form action="" method="post">
+        <p>
+            <input type="checkbox" name="newsletter-subscribe" value="1" id="newsletter-checkbox" checked="checked">
+            <label for="newsletter-checkbox">Subscribe to our newsletter</label>
+        </p>
+
+        <p>
+            <button class="btn btn-success" type="submit">Save</button>
+        </p>
+    </form>
 </div>
 

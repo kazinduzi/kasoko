@@ -11,12 +11,14 @@
             <tr>
                 <th>ID</th>
                 <th>Value</th>
+                <th>Label-Value</th>
                 <th class="actions"></th>
             </tr>
             <?php foreach ($attributes as $attribute) : ?>
                 <tr>
                     <td><?php echo $attribute->getId(); ?></td>
                     <td><?php echo $attribute->value; ?></td>
+                    <td><?php echo $attribute->value_label; ?></td>
                     <td>
                         <div class="btn-group-action">
                             <div class="btn-group pull-right">

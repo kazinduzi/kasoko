@@ -1,0 +1,23 @@
+<h2>Add attribute</h2>
+<form action="" method="post">
+    <div class="form-group">
+        <label for="">Attribute group</label>
+        <select class="form-control" name="attributeGroupId">
+            <?php foreach ($this->attributeGroups as $attributeGroup) :?>
+                <?php $selected = (isset($attributeGroupId) && $attributeGroupId == $attributeGroup->getId() ? 'selected="selected"' : ''); ?>
+                <option value="<?php echo $attributeGroup->getId();?>" <?php echo $selected;?>><?php echo $attributeGroup->name;?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="name">Value</label>
+        <input class="form-control" type="text" name="value" value="<?php echo (!empty($attribute->value) ? $attribute->value : '');?>" placeholder="Value attribute">
+    </div>
+    <div class="form-group">
+        <label for="name">Value label</label>
+        <input class="form-control" type="text" name="value_label" value="<?php echo (!empty($attribute->value_label) ? $attribute->value_label : '');?>" placeholder="Value attribute to display">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success" type="submit">Apply</button>
+    </div>
+</form>

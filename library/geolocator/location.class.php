@@ -1,5 +1,5 @@
 <?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
- 
+
 class Location
 {
     private $yqlUrl = 'http://query.yahooapis.com/v1/public/yql';
@@ -27,20 +27,37 @@ class Location
         $this->locator = $locator;
     }
 
-    private function initialize()
+    public function toArray()
     {
-        if ($this->initialized === true)
-        {
-            return;
-        }
-        $this->initialized = true;
-        $this->locator->initializeLocation($this);
+        return array(
+            'ip' => $this->getIp(),
+            'countryCode' => $this->getCountryCode(),
+            'countryName' => $this->getCountryName(),
+            'regionCode' => $this->getRegionCode(),
+            'regionName' => $this->getRegionName(),
+            'city' => $this->getCity(),
+            'zipPostalCode' => $this->getZipPostalCode(),
+            'latitude' => $this->getLatitude(),
+            'longitude' => $this->getLongitude(),
+            'timezone' => $this->getTimezone(),
+            'gmtOffset' => $this->getGmtOffset(),
+            'dstOffset' => $this->getDstOffset()
+        );
     }
 
     public function getIp()
     {
         $this->initialize();
         return $this->ip;
+    }
+
+    private function initialize()
+    {
+        if ($this->initialized === true) {
+            return;
+        }
+        $this->initialized = true;
+        $this->locator->initializeLocation($this);
     }
 
     public function getCountryCode()
@@ -107,23 +124,5 @@ class Location
     {
         $this->initialize();
         return $this->dstoffset;
-    }
-
-    public function toArray()
-    {
-        return array(
-            'ip'            => $this->getIp(),
-            'countryCode'   => $this->getCountryCode(),
-            'countryName'   => $this->getCountryName(),
-            'regionCode'    => $this->getRegionCode(),
-            'regionName'    => $this->getRegionName(),
-            'city'          => $this->getCity(),
-            'zipPostalCode' => $this->getZipPostalCode(),
-            'latitude'      => $this->getLatitude(),
-            'longitude'     => $this->getLongitude(),
-            'timezone'      => $this->getTimezone(),
-            'gmtOffset'     => $this->getGmtOffset(),
-            'dstOffset'     => $this->getDstOffset()
-        );
     }
 }

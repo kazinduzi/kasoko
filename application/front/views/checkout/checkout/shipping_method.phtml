@@ -3,16 +3,18 @@
 </div>
 <h1><?php echo $this->title; ?></h1>
 <form methoh="post" class="form" id="shipping_methods">
-    <ul>        
+    <ul>
         <li>
-	    <input type="radio" name="shipping_method" value="flat.flat" id="flat.flat" <?php echo (Session::instance()->get('shipping_method') == 'flat.flat' ? 'checked' : ''); ?> />
-	    <label for="flat.flat">Flat Rate</label>
-	    <label for="flat.flat">$0.00</label>
-        </li>        
+            <input type="radio" name="shipping_method" value="flat.flat"
+                   id="flat.flat" <?php echo(Session::instance()->get('shipping_method') == 'flat.flat' ? 'checked' : ''); ?> />
+            <label for="flat.flat">Flat Rate</label>
+            <label for="flat.flat">$0.00</label>
+        </li>
         <li>
-	    <input type="radio" name="shipping_method" value="free.free" id="free.free" <?php echo (Session::instance()->get('shipping_method') == 'free.free' ? 'checked' : ''); ?> />
-	    <label for="free.free">Free Shipping</label>
-	    <label for="free.free">$0.00</label>
+            <input type="radio" name="shipping_method" value="free.free"
+                   id="free.free" <?php echo(Session::instance()->get('shipping_method') == 'free.free' ? 'checked' : ''); ?> />
+            <label for="free.free">Free Shipping</label>
+            <label for="free.free">$0.00</label>
         </li>
     </ul>
 </form>

@@ -2,70 +2,76 @@
 $this->title = 'Kasoko Cart';
 ?>
 
-<h1><?php echo __('messages.shopping_cart'); ?></h1>
+    <h1><?php echo __('messages.shopping_cart'); ?></h1>
 
 <?php if ($Cart->hasProducts()) : ?>
 
     <div class="cart-info">
         <form method="post" action="/cart/update">
-    	<table>
-    	    <tr>
-		<th class="image" style="text-align: center;">Image</th>
-    		<th class="name">Product Name</th>
-    		<th class="quantity">Quantity</th>
-    		<th class="price">Unit Price</th>
-    		<th class="total">Total</th>
-    	    </tr>    	
-		<?php foreach ($Cart->getContent() AS $key => $qty) : ?>
-		    <?php
-		    $keyArray = explode(':', $key);
-		    try {
-			$Product = new Product($keyArray[0]);
-		    } catch (Exception $e) {
-			print_r($e);
-		    }
-		    ?>
-		    <tr>
-			<td class="image">
-			    <a href="/product/item/<?php echo String::slugify($Product->slug); ?>">
-			    <?php if ($Product->getCoverProductImage() instanceof \library\Product\Image) : ?>
-				<img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>" src="<?php echo $Product->getCoverProductImage()->getThumb(); ?>" width="100" />
-			    <?php elseif ($Product->getFirstProductImage() instanceof \library\Product\Image) : ?>
-				<img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>" src="<?php echo $Product->getFirstProductImage()->getThumb(); ?>" width="100" />
-			    <?php else: ?>
-				<img title="" src="/html/images/kasoko/280x196.png" alt="<?php echo $Product->name; ?>" width="50">
-			    <?php endif; ?>
-			    </a>
-			</td>
-			<td class="name">
-			    <a href="/product/item/<?php echo String::slugify($Product->slug); ?>"><?php echo $Product->name ?></a>
-			</td>
-			<td class="quantity">
-			    <input type="number" class="qty small" size="1" value="<?php echo $qty ?>" name="quantity[<?php echo $key ?>]" />
-			    <button type="submit" title="Update" alt="Update" value="" class="qty_update"><i class="fa fa-refresh"></i></button>
-			    <a class="remove-from-cart" href="javascript:void();" onclick="removeFromCart('<?php echo $key; ?>'); return false;">
-				<i class="fa fa-times"></i>
-			    </a>
-			</td>
-			<td class="price"><?php echo String::currency_format($Product->price); ?></td>
-			<td class="total"><?php echo String::currency_format($Product->price * $qty); ?></td>
-		    </tr>
-		<?php endforeach; ?>
-    	</table>
+            <table>
+                <tr>
+                    <th class="image" style="text-align: center;">Image</th>
+                    <th class="name">Product Name</th>
+                    <th class="quantity">Quantity</th>
+                    <th class="price">Unit Price</th>
+                    <th class="total">Total</th>
+                </tr>
+                <?php foreach ($Cart->getContent() AS $key => $qty) : ?>
+                    <?php
+                    $keyArray = explode(':', $key);
+                    try {
+                        $Product = new Product($keyArray[0]);
+                    } catch (Exception $e) {
+                        print_r($e);
+                    }
+                    ?>
+                    <tr>
+                        <td class="image">
+                            <a href="/product/item/<?php echo Stringify::slugify($Product->slug); ?>">
+                                <?php if ($Product->getCoverProductImage() instanceof \library\Product\Image) : ?>
+                                    <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>"
+                                         src="<?php echo $Product->getCoverProductImage()->getThumb(); ?>" width="100"/>
+                                <?php elseif ($Product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                    <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>"
+                                         src="<?php echo $Product->getFirstProductImage()->getThumb(); ?>" width="100"/>
+                                <?php else: ?>
+                                    <img title="" src="/html/images/kasoko/280x196.png"
+                                         alt="<?php echo $Product->name; ?>" width="50">
+                                <?php endif; ?>
+                            </a>
+                        </td>
+                        <td class="name">
+                            <a href="/product/item/<?php echo Stringify::slugify($Product->slug); ?>"><?php echo $Product->name ?></a>
+                        </td>
+                        <td class="quantity">
+                            <input type="number" class="qty small" size="1" value="<?php echo $qty ?>"
+                                   name="quantity[<?php echo $key ?>]"/>
+                            <button type="submit" title="Update" alt="Update" value="" class="qty_update"><i
+                                    class="fa fa-refresh"></i></button>
+                            <a class="remove-from-cart" href="javascript:void();"
+                               onclick="removeFromCart('<?php echo $key; ?>'); return false;">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </td>
+                        <td class="price"><?php echo Stringify::currency_format($Product->price); ?></td>
+                        <td class="total"><?php echo Stringify::currency_format($Product->price * $qty); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
         </form>
 
-	<?php
-	if ($Cart->hasProducts()) {
-	    $total = $Cart->getTotal();
-	    $sub_total = $Cart->getSubTotal();
-	    echo '<p class="cart-grandtotal">The sub-total of your cart is: <strong>' . String::currency_format($sub_total) . '</strong></p>';
-	}
-	?>
+        <?php
+        if ($Cart->hasProducts()) {
+            $total = $Cart->getTotal();
+            $sub_total = $Cart->getSubTotal();
+            echo '<p class="cart-grandtotal">The sub-total of your cart is: <strong>' . Stringify::currency_format($sub_total) . '</strong></p>';
+        }
+        ?>
 
         <!-- Checkout buttons //-->
         <div class="buttons">
-    	<div class="right"><a class="btn btn-success" href="/checkout/checkout"><span>Checkout</span></a></div>
-    	<div class="center"><a class="btn btn-default" href="/"><span>Continue Shopping</span></a></div>
+            <div class="right"><a class="btn btn-success" href="/checkout/checkout"><span>Checkout</span></a></div>
+            <div class="center"><a class="btn btn-default" href="/"><span>Continue Shopping</span></a></div>
         </div>
 
     </div>

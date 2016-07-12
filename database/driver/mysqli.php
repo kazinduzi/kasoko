@@ -47,24 +47,21 @@ class Driver_mysqli extends Database
      * @var int
      */
     public $num_rows;
-
-    /**
-     * Flag to chech if the multi query is required
-     * @var bool
-     */
-    private $is_multi_query = false;
-
     /**
      * Options for the connection db
      * @var array
      */
     protected $options = array();
-
     /**
      * The null date string for Mysqli with format 000-00-00 00:00:00
      * @var string
      */
     protected $nullDate = '0000-00-00 00:00:00';
+    /**
+     * Flag to chech if the multi query is required
+     * @var bool
+     */
+    private $is_multi_query = false;
 
     /**
      * Constructor method to create an instance of Database
@@ -78,104 +75,6 @@ class Driver_mysqli extends Database
         if (!isset($this->options['db_auto_shutdown']) || $this->options['db_auto_shutdown']) {
             register_shutdown_function(array($this, 'close'));
         }
-    }
-
-    /**
-     * Starts a SQL transaction
-     * @link http://dev.mysql.com/doc/refman/5.0/en/set-transaction.html
-     * @param string Isolation level
-     * @return boolean
-     */
-    public function begin($mode = null)
-    {
-        // Make sure the database is connected
-        $this->conn || $this->connect();
-        if ($mode && !mysqli_query($this->conn, "SET TRANSACTION ISOLATION LEVEL {$mode}")) {
-            throw new \Exception(mysqli_errno($this->conn) . mysqli_error($this->conn));
-        }
-        return (bool) mysqli_query($this->conn, 'START TRANSACTION');
-    }
-
-    /**
-     * Auto-commit for MySqli
-     * @param bool $mode
-     * @return ressource
-     */
-    public function autocommit($mode = true)
-    {
-        $this->conn || $this->connect();
-        return mysqli_query($this->conn, 'SET @@autocommit = ' . ($mode === true ? 1 : 0));
-    }
-
-    /**
-     * Commit a SQL transaction
-     * @param string Isolation level
-     * @return bool
-     */
-    public function commit()
-    {
-        // Make sure the database is connected
-        $this->conn || $this->connect();
-        mysqli_query($this->conn, 'COMMIT');
-        $this->autocommit(true);
-    }
-
-    /**
-     * Rollback a SQL transaction
-     * @param string Isolation level
-     * @return boolean
-     */
-    public function rollback()
-    {
-        // Make sure the database is connected
-        $this->conn || $this->connect();
-        mysqli_query($this->conn, 'ROLLBACK');
-        $this->autocommit(true);
-    }
-
-    /**
-     * Destructor of the class mysqli database
-     */
-    public function close()
-    {
-        if (isset($this->result) && is_resource($this->result)) {
-            mysqli_free_result($this->result);
-        }
-        if ($this->conn) {
-            mysqli_close($this->conn);
-            $this->conn = null;
-        }
-    }
-
-    /**
-     * Determines UTF support
-     * @return	boolean	True - UTF is supported
-     */
-    public function hasUTF()
-    {
-        // UTF is only needed for MYSQL 4.1.2 or high
-        $ver = explode('.', $this->version());
-        return ($ver[0] == 5) or ( $ver[0] == 4 and $ver[1] == 1 and (int) $ver[2] >= 2);
-    }
-
-    /**
-     * Custom settings for UTF support
-     * @return mysql resource
-     */
-    public function setUTF()
-    {
-        if ($this->hasUTF()) {
-            return mysqli_query($this->conn, "SET NAMES 'utf8'");
-        }
-    }
-
-    /**
-     * Checks if Mysqli is supported
-     * @return true if function mysqli exists, otherwise false
-     */
-    public function enabled()
-    {
-        return extension_loaded('mysqli');
     }
 
     /**
@@ -201,7 +100,7 @@ class Driver_mysqli extends Database
             $this->conn = mysqli_init();
             //mysqli_options($this->conn, MYSQLI_INIT_COMMAND, "SET AUTOCOMMIT=0");
             mysqli_options($this->conn, MYSQLI_OPT_CONNECT_TIMEOUT, 5);
-            // real connect to server            
+            // real connect to server
             $isConnected = mysqli_real_connect($this->conn, $this->options['db_host'], $this->options['db_user'], $this->options['db_password'], $this->options['db_name'], $this->options['db_port']);
         } catch (\Exception $e) {
             throw $e;
@@ -212,6 +111,117 @@ class Driver_mysqli extends Database
             throw new \Exception(mysqli_connect_error());
         }
         return $this->conn;
+    }
+
+    /**
+     * Checks if Mysqli is supported
+     * @return true if function mysqli exists, otherwise false
+     */
+    public function enabled()
+    {
+        return extension_loaded('mysqli');
+    }
+
+    /**
+     * Destructor of the class mysqli database
+     */
+    public function close()
+    {
+        if (isset($this->result) && is_resource($this->result)) {
+            mysqli_free_result($this->result);
+        }
+        if ($this->conn) {
+            mysqli_close($this->conn);
+            $this->conn = null;
+        }
+    }
+
+    /**
+     * Starts a SQL transaction
+     * @link http://dev.mysql.com/doc/refman/5.0/en/set-transaction.html
+     * @param string Isolation level
+     * @return boolean
+     */
+    public function begin($mode = null)
+    {
+        // Make sure the database is connected
+        $this->conn || $this->connect();
+        if ($mode && !mysqli_query($this->conn, "SET TRANSACTION ISOLATION LEVEL {$mode}")) {
+            throw new \Exception(mysqli_errno($this->conn) . mysqli_error($this->conn));
+        }
+        return (bool)mysqli_query($this->conn, 'START TRANSACTION');
+    }
+
+    /**
+     * Commit a SQL transaction
+     * @param string Isolation level
+     * @return bool
+     */
+    public function commit()
+    {
+        // Make sure the database is connected
+        $this->conn || $this->connect();
+        mysqli_query($this->conn, 'COMMIT');
+        $this->autocommit(true);
+    }
+
+    /**
+     * Auto-commit for MySqli
+     * @param bool $mode
+     * @return ressource
+     */
+    public function autocommit($mode = true)
+    {
+        $this->conn || $this->connect();
+        return mysqli_query($this->conn, 'SET @@autocommit = ' . ($mode === true ? 1 : 0));
+    }
+
+    /**
+     * Rollback a SQL transaction
+     * @param string Isolation level
+     * @return boolean
+     */
+    public function rollback()
+    {
+        // Make sure the database is connected
+        $this->conn || $this->connect();
+        mysqli_query($this->conn, 'ROLLBACK');
+        $this->autocommit(true);
+    }
+
+    /**
+     * Custom settings for UTF support
+     * @return mysql resource
+     */
+    public function setUTF()
+    {
+        if ($this->hasUTF()) {
+            return mysqli_query($this->conn, "SET NAMES 'utf8'");
+        }
+    }
+
+    /**
+     * Determines UTF support
+     * @return    boolean    True - UTF is supported
+     */
+    public function hasUTF()
+    {
+        // UTF is only needed for MYSQL 4.1.2 or high
+        $ver = explode('.', $this->version());
+        return ($ver[0] == 5) or ($ver[0] == 4 and $ver[1] == 1 and (int)$ver[2] >= 2);
+    }
+
+    /**
+     * @see http://www.php.net/manual/en/mysqli.get-server-version.php
+     * @return string
+     */
+    public function version()
+    {
+        $version = mysqli_get_server_version($this->conn);
+        $major = (int)($version / 10000);
+        $minor = (int)($version % 10000 / 100);
+        $revision = (int)($version % 100);
+        return $major . '.' . $minor . '.' . $revision;
     }
 
     /**
@@ -229,7 +239,7 @@ class Driver_mysqli extends Database
 
     /**
      * Determines if the connection to the server is active.
-     * @return	boolean true if active, otherwise false
+     * @return    boolean true if active, otherwise false
      */
     public function connected()
     {
@@ -237,26 +247,6 @@ class Driver_mysqli extends Database
             return mysqli_ping($this->conn);
         }
         return false;
-    }
-
-    /**
-     * get the charset of the used mysqli connection
-     * @return string
-     */
-    protected function get_charset()
-    {
-        return mysqli_character_set_name($this->conn);
-    }
-
-    /**
-     * set the charset of the mysqli client
-     * @param string $charset
-     * @param string $collation
-     * @return mysqli_result set
-     */
-    protected function db_setCharset($charset, $collation)
-    {
-        return mysqli_query($this->conn, "SET NAMES " . $this->escape($charset) . " COLLATE " . $this->escape($collation));
     }
 
     /**
@@ -296,7 +286,7 @@ class Driver_mysqli extends Database
      */
     public function info()
     {
-        return (string) mysqli_info($this->conn);
+        return (string)mysqli_info($this->conn);
     }
 
     /**
@@ -306,7 +296,7 @@ class Driver_mysqli extends Database
      */
     public function host_info()
     {
-        return (string) mysqli_get_host_info($this->conn);
+        return (string)mysqli_get_host_info($this->conn);
     }
 
     /**
@@ -319,16 +309,12 @@ class Driver_mysqli extends Database
     }
 
     /**
-     * @see http://www.php.net/manual/en/mysqli.get-server-version.php
-     * @return string
+     * @see http://www.php.net/manual/en/mysqli.kill.php
+     * @return bool
      */
-    public function version()
+    public function kill()
     {
-        $version = mysqli_get_server_version($this->conn);
-        $major = (int) ($version / 10000);
-        $minor = (int) ($version % 10000 / 100);
-        $revision = (int) ($version % 100);
-        return $major . '.' . $minor . '.' . $revision;
+        return mysqli_kill($this->conn, $this->thread_id());
     }
 
     /**
@@ -338,15 +324,6 @@ class Driver_mysqli extends Database
     public function thread_id()
     {
         return mysqli_thread_id($this->conn);
-    }
-
-    /**
-     * @see http://www.php.net/manual/en/mysqli.kill.php
-     * @return bool
-     */
-    public function kill()
-    {
-        return mysqli_kill($this->conn, $this->thread_id());
     }
 
     /**
@@ -374,409 +351,20 @@ class Driver_mysqli extends Database
     }
 
     /**
-     * Get the type of the column f
-     * @param string $type
-     * @return string
+     * Load all assoc list of database rows
+     * @return    array    A sequential list of returned records.
      */
-    protected function columnType($type)
+    public function fetchAll($q = null, $type = MYSQLI_ASSOC)
     {
-        $type = strtolower($type);
-        if (isset($this->COLUMN_TYPES[$type])) {
-            return $this->COLUMN_TYPES[$type];
-        } elseif (false !== $pos = strpos($type, ' ')) {
-            $t = substr($type, 0, $pos);
-            return (isset($this->COLUMN_TYPES[$t]) ? $this->COLUMN_TYPES[$t] : $t) . substr($type, $pos);
-        } else {
-            return $type;
+        if (!$this->execute($q)) {
+            throw new \Exception('No query to execute');
         }
-    }
-
-    /**
-     * get a list of all the tables in the database
-     * @return array
-     */
-    public function getTableList()
-    {
-        $return = array();
-        $db_fieldName = 'Tables_in_' . $this->getCfg('db_name');
-        $this->setQuery('SHOW TABLES');
-        foreach ($result = $this->fetchAll() as $dbTable) {
-            $return[] = $dbTable[$db_fieldName];
+        $ret = null;
+        if (($row = mysqli_fetch_all($this->result, (int)$type))) {
+            $ret = $row;
         }
-        $this->clear();
-        return $return;
-    }
-
-    /**
-     * Retrieves information about the given tables
-     * @param	array|string	A table name or a list of table names
-     * @param	boolean		Only return field types, default true
-     * @return	array	An array of fields by table
-     */
-    public function getTableFields($tables, $type = true)
-    {
-        $result = array();
-        $tables = (array) $tables;
-        foreach ($tables as $tbl) {
-            $this->setQuery('SHOW FIELDS FROM ' . strtolower($this->quoteTable($tbl)));
-            $fields = $this->fetchObjectList();
-            if (true === $type) {
-                foreach ($fields as $field) {
-                    $result[$tbl][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
-                }
-            } else {
-                foreach ($fields as $field) {
-                    $result[$tbl][$field->Field] = $field;
-                }
-            }
-        }
-        $this->clear();
-        return $result;
-    }
-
-    /**
-     * get a list of all the tables in the database
-     * @return	array
-     */
-    public function tableList($dbName = null)
-    {
-        $return = array();
-        $db_fieldName = 'Tables_in_' . $this->getCfg('db_name');
-        is_null($dbName) ? $this->setQuery('SHOW TABLES') : $this->setQuery('SHOW TABLES FROM `' . (string) $dbName . '`');
-        foreach ($result = $this->fetchAll() as $dbTable) {
-            $return[] = $dbTable[$db_fieldName];
-        }
-        $this->clear();
-        return $return;
-    }
-
-    /**
-     * Retrieves information about the given tables
-     * @param	array|string	A table name or a list of table names
-     * @param	boolean		Only return field types, default true
-     * @return	array	An array of fields by table
-     */
-    public function tableFields($tables, $type = true)
-    {
-        $tables = (array) $tables;
-        $result = array();
-        foreach ($tables as $table) {
-            $this->setQuery('SHOW FIELDS FROM ' . strtolower($this->quoteTable($table)));
-            $fields = $this->fetchObjectList();
-            if (true === $type) {
-                foreach ($fields as $field) {
-                    $result[$table][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
-                }
-            } else {
-                foreach ($fields as $field) {
-                    $result[$table][$field->Field] = $field;
-                }
-            }
-        }
-        $this->clear();
-        return $result;
-    }
-
-    /**
-     * Builds a SQL statement for creating a DB table.
-     * @param string $table the table to be renamed. The name will be properly quoted by the method.
-     * @param string $newName the new table name. The name will be properly quoted by the method.
-     * @return string the SQL statement for renaming a DB table.
-     */
-    protected function createTableQuery($table, $columns, $options = null, $temp = false)
-    {
-        $cols = array();
-        foreach ($columns as $name => $type) {
-            if (is_string($name)) {
-                $cols[] = "\t" . $this->quoteColumn($name) . ' ' . $this->columnType($type);
-            } else {
-                $cols[] = "\t" . $type;
-            }
-        }
-
-        if (false === $temp) {
-            $qry = "CREATE TABLE " . $this->quoteTable($table) . " (\n" . implode(",\n", $cols) . "\n)";
-        } else {
-            $qry = "CREATE TEMPORARY TABLE " . $this->quoteTable($table) . " (\n" . implode(",\n", $cols) . "\n)";
-        }
-        return $qry = $options === null ? $qry : $qry . ' ' . $options;
-    }
-
-    /**
-     * Builds a SQL statement for renaming a DB table.
-     * @param string $table the table to be renamed. The name will be properly quoted by the method.
-     * @param string $newName the new table name. The name will be properly quoted by the method.
-     * @return string the SQL statement for renaming a DB table.
-     */
-    public function renameTableQuery($table, $newName)
-    {
-        return 'RENAME TABLE ' . $this->quoteTable($table) . ' TO ' . $this->quoteTable($newName);
-    }
-
-    /**
-     * get a query to drop a mysql table
-     * @param string $table
-     * @return string
-     */
-    public function dropTableQuery($table)
-    {
-        return 'DROP TABLE ' . $this->quoteTable($table);
-    }
-
-    /**
-     * get a query to truncate a mysql table
-     * @param string $table
-     * @return string
-     */
-    public function truncateTableQuery($table)
-    {
-        return 'TRUNCATE TABLE ' . $this->quoteTable($table);
-    }
-
-    /**
-     * get a query to alter
-     * @param string $table
-     * @param string $column
-     * @param string $type
-     * @return string
-     */
-    public function alterColumnQuery($table, $column, $type)
-    {
-        $type = $this->getColumnType($type);
-        return 'ALTER TABLE ' . $this->quoteTable($table) . ' CHANGE '
-                . $this->quoteColumn($column) . ' '
-                . $this->quoteColumn($column) . ' '
-                . $this->getColumnType($type);
-    }
-
-    /**
-     *
-     * @param type $table
-     * @param type $name
-     * @param type $newName
-     * @return type
-     */
-    public function renameColumnQuery($table, $name, $newName)
-    {
-        return "ALTER TABLE " . $this->quoteTableName($table)
-                . " RENAME COLUMN " . $this->quoteColumn($name)
-                . " TO " . $this->quoteColumn($newName);
-    }
-
-    /**
-     *
-     * @param type $table
-     * @param type $column
-     * @return type
-     */
-    public function dropColumnQuery($table, $column)
-    {
-        return "ALTER TABLE " . $this->quoteTable($table)
-                . " DROP COLUMN " . $this->quoteColumn($column);
-    }
-
-    /**
-     *
-     * @param type $table
-     * @param type $column
-     * @param type $type
-     * @return string
-     */
-    public function addColumnQuery($table, $column, $type)
-    {
-        $type = $this->getColumnType($type);
-        $sql = 'ALTER TABLE ' . $this->quoteTable($table)
-                . ' ADD ' . $this->quoteColumn($column) . ' '
-                . $this->getColumnType($type);
-        return $sql;
-    }
-
-    /**
-     *
-     * @param type $name
-     * @param type $table
-     * @param type $columns
-     * @param type $refTable
-     * @param type $delete
-     * @param type $update
-     * @return type
-     */
-    public function addForeignKeyQuery($name, $table, $columns, $refTable, $refColumns, $delete = null, $update = null)
-    {
-        $columns = preg_split('/\s*,\s*/', $columns, -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($columns as $i => $col) {
-            $columns[$i] = $this->quoteColumn($col);
-        }
-        $refColumns = preg_split('/\s*,\s*/', $refColumns, -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($refColumns as $i => $col) {
-            $refColumns[$i] = $this->quoteColumn($col);
-        }
-        $sql = 'ALTER TABLE ' . $this->quoteTable($table)
-                . ' ADD CONSTRAINT ' . $this->quoteColumn($name)
-                . ' FOREIGN KEY (' . implode(', ', $columns) . ')'
-                . ' REFERENCES ' . $this->quoteTable($refTable)
-                . ' (' . implode(', ', $refColumns) . ')';
-        if ($delete !== null) {
-            $sql .= ' ON DELETE ' . $delete;
-        }
-        if ($update !== null) {
-            $sql .= ' ON UPDATE ' . $update;
-        }
-
-        return $sql;
-    }
-
-    /**
-     * Returns a query to drop a foreign key
-     * @param string $name
-     * @param string $table
-     * @return string
-     */
-    public function dropForeignKeyQuery($name, $table)
-    {
-        return 'ALTER TABLE ' . $this->quoteTableName($table) . ' DROP CONSTRAINT ' . $this->quoteColumnName($name);
-    }
-
-    /**
-     *
-     * @param type $name
-     * @param type $table
-     * @param type $column
-     * @param type $unique
-     * @return type
-     */
-    public function createIndexQuery($name, $table, $column, $unique = false)
-    {
-        $cols = array();
-        $columns = preg_split('/\s*,\s*/', $column, -1, PREG_SPLIT_NO_EMPTY);
-        foreach ($columns as $col) {
-            $cols[] = $this->quoteColumnName($col);
-        }
-
-        return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
-                . $this->quoteTableName($name) . ' ON '
-                . $this->quoteTableName($table) . ' (' . implode(', ', $cols) . ')';
-    }
-
-    /**
-     *
-     * @param type $name
-     * @param type $table
-     * @return type
-     */
-    public function dropIndexQuery($name, $table)
-    {
-        return 'DROP INDEX ' . $this->quoteTableName($name) . ' ON ' . $this->quoteTableName($table);
-    }
-
-    /**
-     *
-     */
-    public function testAR()
-    {
-        echo $this->sql, "\n";
-        $this->clear();
-    }
-
-    /**
-     *
-     * @param type $real
-     * @return boolean
-     * @throws Exception
-     */
-    public function query($sql = null, $real = true)
-    {
-        /**
-         * 
-         * @deprecated use instead execute() 
-         */
-        if (!$this->conn instanceof mysqli) {
-            $this->connect();
-        }
-        if ($sql) {
-            $this->sql = $sql;
-        }
-        if ($this->limit > 0 || $this->offset > 0) {
-            $this->sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
-        }
-        if ($this->debug) {
-            $this->ticker++;
-            $this->log[] = $this->sql;
-        }
-        $this->errorNum = 0;
-        $this->errorMsg = '';
-
-        /* Perfom real_query for speed */
-        if ($real) {
-            if (!mysqli_real_query($this->conn, $this->sql)) {
-                throw new \Exception(mysqli_error($this->conn) . " SQL=$this->sql");
-            } else {
-                $this->cursor = $this->result = mysqli_store_result($this->conn);
-            }
-        } else {
-            if (($this->cursor = $this->result = mysqli_query($this->conn, $this->sql)) === false) {
-                throw new \Exception(mysqli_error($this->conn) . " SQL=$this->sql");
-            }
-        }
-
-        if (!$this->cursor) {
-            $this->errorNum = mysqli_errno($this->conn);
-            $this->errorMsg = mysqli_error($this->conn) . " SQL=$this->sql";
-            return false;
-        }
-
-        $this->num_rows = mysqli_num_rows($this->result);
-
-        return $this->result;
-    }
-
-    /**
-     * Execute a batch query
-     * @return	mixed	A database resource if successful, false if not.
-     */
-    public function db_queryBatch($abort_on_error = true, $p_transaction_safe = false)
-    {
-        $sql = (string) $this->sql;
-        $this->errorNum = 0;
-        $this->errorMsg = '';
-        if ($p_transaction_safe) {
-            $sql = rtrim($sql, "; \t\r\n\0");
-            $ver = $this->version();
-            preg_match_all("/(\d+)\.(\d+)\.(\d+)/i", $ver, $m);
-            if ($m[1] >= 4) {
-                $sql = 'START TRANSACTION;' . $sql . '; COMMIT;';
-            }
-            //
-            else if ($m[2] >= 23 && $m[3] >= 19) {
-                $sql = 'BEGIN WORK;' . $sql . '; COMMIT;';
-            }
-            //
-            else if ($m[2] >= 23 && $m[3] >= 17) {
-                $sql = 'BEGIN;' . $sql . '; COMMIT;';
-            }
-        }
-        $query_split = $this->splitSql($sql);
-        $error = 0;
-        foreach ($query_split as $command_line) {
-            $command_line = trim($command_line);
-            if ($command_line != '') {
-                $this->cursor = mysqli_query($this->conn, $command_line) or die(mysqli_error($this->conn) . " SQL=$sql");
-                $this->num_rows = mysqli_num_rows($this->result);
-                if ($this->debug) {
-                    $this->ticker++;
-                    $this->log[] = $command_line;
-                }
-                if (!$this->cursor) {
-                    $error = 1;
-                    $this->errorNum .= mysqli_errno($this->conn) . ' ';
-                    $this->errorMsg .= mysqli_error($this->conn) . " SQL=$command_line <br />";
-                    if ($abort_on_error) {
-                        return $this->cursor;
-                    }
-                }
-            }
-        }
-        return $error ? false : true;
+        mysqli_free_result($this->result);
+        return $ret;
     }
 
     /**
@@ -830,20 +418,385 @@ class Driver_mysqli extends Database
     }
 
     /**
-     * method to escape a query
-     * @param string $str
+     * get a list of all the tables in the database
+     * @return array
+     */
+    public function getTableList()
+    {
+        $return = array();
+        $db_fieldName = 'Tables_in_' . $this->getCfg('db_name');
+        $this->setQuery('SHOW TABLES');
+        foreach ($result = $this->fetchAll() as $dbTable) {
+            $return[] = $dbTable[$db_fieldName];
+        }
+        $this->clear();
+        return $return;
+    }
+
+    /**
+     * Retrieves information about the given tables
+     * @param    array|string A table name or a list of table names
+     * @param    boolean        Only return field types, default true
+     * @return    array    An array of fields by table
+     */
+    public function getTableFields($tables, $type = true)
+    {
+        $result = array();
+        $tables = (array)$tables;
+        foreach ($tables as $tbl) {
+            $this->setQuery('SHOW FIELDS FROM ' . strtolower($this->quoteTable($tbl)));
+            $fields = $this->fetchObjectList();
+            if (true === $type) {
+                foreach ($fields as $field) {
+                    $result[$tbl][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+                }
+            } else {
+                foreach ($fields as $field) {
+                    $result[$tbl][$field->Field] = $field;
+                }
+            }
+        }
+        $this->clear();
+        return $result;
+    }
+
+    /**
+     * Fetch a list of database into objects
+     * If <var>key</var> is not empty then the returned array is indexed by the value
+     * the database key.  Returns <var>null</var> if the query fails.
+     * @param    string    The field name of a primary key
+     * @param    string    The name of the class to return (stdClass by default).
+     * @return    array    If <var>key</var> is empty as sequential list of returned records.
+     */
+    public function fetchObjectList($key = '', $className = 'stdClass')
+    {
+        if (!$this->execute()) {
+            throw new Exception('No Result ressource');
+        }
+        $array = array();
+        while ($row = mysqli_fetch_object($this->result, $className)) {
+            if ($key) {
+                $array[$row->$key] = $row;
+            } else {
+                $array[] = $row;
+            }
+        }
+        mysqli_free_result($this->result);
+        return $array;
+    }
+
+    /**
+     * get a list of all the tables in the database
+     * @return    array
+     */
+    public function tableList($dbName = null)
+    {
+        $return = array();
+        $db_fieldName = 'Tables_in_' . $this->getCfg('db_name');
+        is_null($dbName) ? $this->setQuery('SHOW TABLES') : $this->setQuery('SHOW TABLES FROM `' . (string)$dbName . '`');
+        foreach ($result = $this->fetchAll() as $dbTable) {
+            $return[] = $dbTable[$db_fieldName];
+        }
+        $this->clear();
+        return $return;
+    }
+
+    /**
+     * Retrieves information about the given tables
+     * @param    array|string A table name or a list of table names
+     * @param    boolean        Only return field types, default true
+     * @return    array    An array of fields by table
+     */
+    public function tableFields($tables, $type = true)
+    {
+        $tables = (array)$tables;
+        $result = array();
+        foreach ($tables as $table) {
+            $this->setQuery('SHOW FIELDS FROM ' . strtolower($this->quoteTable($table)));
+            $fields = $this->fetchObjectList();
+            if (true === $type) {
+                foreach ($fields as $field) {
+                    $result[$table][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+                }
+            } else {
+                foreach ($fields as $field) {
+                    $result[$table][$field->Field] = $field;
+                }
+            }
+        }
+        $this->clear();
+        return $result;
+    }
+
+    /**
+     * Builds a SQL statement for renaming a DB table.
+     * @param string $table the table to be renamed. The name will be properly quoted by the method.
+     * @param string $newName the new table name. The name will be properly quoted by the method.
+     * @return string the SQL statement for renaming a DB table.
+     */
+    public function renameTableQuery($table, $newName)
+    {
+        return 'RENAME TABLE ' . $this->quoteTable($table) . ' TO ' . $this->quoteTable($newName);
+    }
+
+    /**
+     * get a query to drop a mysql table
+     * @param string $table
      * @return string
      */
-    public function escape($str)
+    public function dropTableQuery($table)
     {
-        if (is_bool($str)) {
-            $str = ($str === false) ? 0 : 1;
-        } elseif (is_null($str)) {
-            $str = 'null';
-        } elseif (is_string($str) && !is_numeric($str) or is_array($str)) {
-            $str = "'" . $this->_escape_($str) . "'";
+        return 'DROP TABLE ' . $this->quoteTable($table);
+    }
+
+    /**
+     * get a query to truncate a mysql table
+     * @param string $table
+     * @return string
+     */
+    public function truncateTableQuery($table)
+    {
+        return 'TRUNCATE TABLE ' . $this->quoteTable($table);
+    }
+
+    /**
+     * get a query to alter
+     * @param string $table
+     * @param string $column
+     * @param string $type
+     * @return string
+     */
+    public function alterColumnQuery($table, $column, $type)
+    {
+        $type = $this->getColumnType($type);
+        return 'ALTER TABLE ' . $this->quoteTable($table) . ' CHANGE '
+        . $this->quoteColumn($column) . ' '
+        . $this->quoteColumn($column) . ' '
+        . $this->getColumnType($type);
+    }
+
+    /**
+     *
+     * @param type $table
+     * @param type $name
+     * @param type $newName
+     * @return type
+     */
+    public function renameColumnQuery($table, $name, $newName)
+    {
+        return "ALTER TABLE " . $this->quoteTableName($table)
+        . " RENAME COLUMN " . $this->quoteColumn($name)
+        . " TO " . $this->quoteColumn($newName);
+    }
+
+    /**
+     *
+     * @param type $table
+     * @param type $column
+     * @return type
+     */
+    public function dropColumnQuery($table, $column)
+    {
+        return "ALTER TABLE " . $this->quoteTable($table)
+        . " DROP COLUMN " . $this->quoteColumn($column);
+    }
+
+    /**
+     *
+     * @param type $table
+     * @param type $column
+     * @param type $type
+     * @return string
+     */
+    public function addColumnQuery($table, $column, $type)
+    {
+        $type = $this->getColumnType($type);
+        $sql = 'ALTER TABLE ' . $this->quoteTable($table)
+            . ' ADD ' . $this->quoteColumn($column) . ' '
+            . $this->getColumnType($type);
+        return $sql;
+    }
+
+    /**
+     *
+     * @param type $name
+     * @param type $table
+     * @param type $columns
+     * @param type $refTable
+     * @param type $delete
+     * @param type $update
+     * @return type
+     */
+    public function addForeignKeyQuery($name, $table, $columns, $refTable, $refColumns, $delete = null, $update = null)
+    {
+        $columns = preg_split('/\s*,\s*/', $columns, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($columns as $i => $col) {
+            $columns[$i] = $this->quoteColumn($col);
         }
-        return $str;
+        $refColumns = preg_split('/\s*,\s*/', $refColumns, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($refColumns as $i => $col) {
+            $refColumns[$i] = $this->quoteColumn($col);
+        }
+        $sql = 'ALTER TABLE ' . $this->quoteTable($table)
+            . ' ADD CONSTRAINT ' . $this->quoteColumn($name)
+            . ' FOREIGN KEY (' . implode(', ', $columns) . ')'
+            . ' REFERENCES ' . $this->quoteTable($refTable)
+            . ' (' . implode(', ', $refColumns) . ')';
+        if ($delete !== null) {
+            $sql .= ' ON DELETE ' . $delete;
+        }
+        if ($update !== null) {
+            $sql .= ' ON UPDATE ' . $update;
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Returns a query to drop a foreign key
+     * @param string $name
+     * @param string $table
+     * @return string
+     */
+    public function dropForeignKeyQuery($name, $table)
+    {
+        return 'ALTER TABLE ' . $this->quoteTableName($table) . ' DROP CONSTRAINT ' . $this->quoteColumnName($name);
+    }
+
+    /**
+     *
+     * @param type $name
+     * @param type $table
+     * @param type $column
+     * @param type $unique
+     * @return type
+     */
+    public function createIndexQuery($name, $table, $column, $unique = false)
+    {
+        $cols = array();
+        $columns = preg_split('/\s*,\s*/', $column, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($columns as $col) {
+            $cols[] = $this->quoteColumnName($col);
+        }
+
+        return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
+        . $this->quoteTableName($name) . ' ON '
+        . $this->quoteTableName($table) . ' (' . implode(', ', $cols) . ')';
+    }
+
+    /**
+     *
+     * @param type $name
+     * @param type $table
+     * @return type
+     */
+    public function dropIndexQuery($name, $table)
+    {
+        return 'DROP INDEX ' . $this->quoteTableName($name) . ' ON ' . $this->quoteTableName($table);
+    }
+
+    /**
+     *
+     */
+    public function testAR()
+    {
+        echo $this->sql, "\n";
+        $this->clear();
+    }
+
+    /**
+     *
+     * @param type $real
+     * @return boolean
+     * @throws Exception
+     */
+    public function query($sql = null, $real = true)
+    {
+        if (!$this->conn instanceof mysqli) {
+            $this->connect();
+        }
+        if ($sql) {
+            $this->sql = $sql;
+        }
+        if ($this->limit > 0 || $this->offset > 0) {
+            $this->sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+        }
+        if ($this->debug) {
+            $this->ticker++;
+            $this->log[] = $this->sql;
+        }
+        $this->errorNum = 0;
+        $this->errorMsg = '';
+
+        /* Perfom real_query for speed */
+        if ($real) {
+            if (!mysqli_real_query($this->conn, $this->sql)) {
+                throw new \Exception(mysqli_error($this->conn) . " SQL=$this->sql");
+            } else {
+                $this->cursor = $this->result = mysqli_store_result($this->conn);
+            }
+        } else {
+            if (($this->cursor = $this->result = mysqli_query($this->conn, $this->sql)) === false) {
+                throw new \Exception(mysqli_error($this->conn) . " SQL=$this->sql");
+            }
+        }
+
+        if (!$this->cursor) {
+            $this->errorNum = mysqli_errno($this->conn);
+            $this->errorMsg = mysqli_error($this->conn) . " SQL=$this->sql";
+            return false;
+        }
+
+        $this->num_rows = mysqli_num_rows($this->result);
+
+        return $this->result;
+    }
+
+    /**
+     * Execute a batch query
+     * @return    mixed    A database resource if successful, false if not.
+     */
+    public function db_queryBatch($abort_on_error = true, $p_transaction_safe = false)
+    {
+        $sql = (string)$this->sql;
+        $this->errorNum = 0;
+        $this->errorMsg = '';
+        if ($p_transaction_safe) {
+            $sql = rtrim($sql, "; \t\r\n\0");
+            $ver = $this->version();
+            preg_match_all("/(\d+)\.(\d+)\.(\d+)/i", $ver, $m);
+            if ($m[1] >= 4) {
+                $sql = 'START TRANSACTION;' . $sql . '; COMMIT;';
+            } //
+            else if ($m[2] >= 23 && $m[3] >= 19) {
+                $sql = 'BEGIN WORK;' . $sql . '; COMMIT;';
+            } //
+            else if ($m[2] >= 23 && $m[3] >= 17) {
+                $sql = 'BEGIN;' . $sql . '; COMMIT;';
+            }
+        }
+        $query_split = $this->splitSql($sql);
+        $error = 0;
+        foreach ($query_split as $command_line) {
+            $command_line = trim($command_line);
+            if ($command_line != '') {
+                $this->cursor = mysqli_query($this->conn, $command_line) or die(mysqli_error($this->conn) . " SQL=$sql");
+                $this->num_rows = mysqli_num_rows($this->result);
+                if ($this->debug) {
+                    $this->ticker++;
+                    $this->log[] = $command_line;
+                }
+                if (!$this->cursor) {
+                    $error = 1;
+                    $this->errorNum .= mysqli_errno($this->conn) . ' ';
+                    $this->errorMsg .= mysqli_error($this->conn) . " SQL=$command_line <br />";
+                    if ($abort_on_error) {
+                        return $this->cursor;
+                    }
+                }
+            }
+        }
+        return $error ? false : true;
     }
 
     /**
@@ -854,33 +807,6 @@ class Driver_mysqli extends Database
     public function escape_like($str)
     {
         return $this->_escape_($str, true);
-    }
-
-    /**
-     * Private method to execute the escaping the string
-     * @param string $str
-     * @param bool $like
-     * @return string
-     */
-    private function _escape_($str, $like = false)
-    {
-        if (is_array($str)) {
-            foreach ($str as $key => $val) {
-                $str[$key] = $this->_escape_($val, $like);
-            }
-            return $str;
-        }
-        if (function_exists('mysqli_real_escape_string') && is_resource($this->conn)) {
-            $str = mysqli_real_escape_string($str, $this->conn);
-        } else {
-            $str = addslashes($str);
-        }
-        // escape LIKE condition wildcards
-        if ($like === true) {
-            //$str = str_replace(array('%', '_','\''), array('&#37;','&#95;','&#39;'), $str);
-            $str = str_really_escape($str);
-        }
-        return $str;
     }
 
     /**
@@ -942,7 +868,7 @@ class Driver_mysqli extends Database
 
     /**
      * The number of rows returned from the most recent query.
-     * @return	int
+     * @return    int
      */
     public function getNumRows($cursor = null)
     {
@@ -951,7 +877,7 @@ class Driver_mysqli extends Database
 
     /**
      * Diagnostic function
-     * @return	string
+     * @return    string
      */
     public function explain()
     {
@@ -985,23 +911,6 @@ class Driver_mysqli extends Database
     }
 
     /**
-     * Load all assoc list of database rows
-     * @return	array	A sequential list of returned records.
-     */
-    public function fetchAll($q = null, $type = MYSQLI_ASSOC)
-    {
-        if (!$this->execute($q)) {
-            throw new \Exception('No query to execute');
-        }
-        $ret = null;
-        if (($row = mysqli_fetch_all($this->result, (int) $type))) {
-            $ret = $row;
-        }
-        mysqli_free_result($this->result);
-        return $ret;
-    }
-
-    /**
      * Perform data seek
      * @param int $offset
      * @return mixed
@@ -1013,7 +922,7 @@ class Driver_mysqli extends Database
 
     /**
      * This method loads the first field of the first row returned by the query.
-     * @return	mixed	The value returned in the query or null if the query failed.
+     * @return    mixed    The value returned in the query or null if the query failed.
      */
     public function fetchArrayRow()
     {
@@ -1048,7 +957,7 @@ class Driver_mysqli extends Database
 
     /**
      * Fetch a result row as an associative array
-     * @return	array
+     * @return    array
      */
     public function fetchAssocRow()
     {
@@ -1065,9 +974,9 @@ class Driver_mysqli extends Database
 
     /**
      * Fetch a assoc list of database rows
-     * @param	string	The field name of a primary key
-     * @param	string	An optional column name. Instead of the whole row, only this column value will be in the return array.
-     * @return	array	If <var>key</var> is empty as sequential list of returned records.
+     * @param    string    The field name of a primary key
+     * @param    string    An optional column name. Instead of the whole row, only this column value will be in the return array.
+     * @return    array    If <var>key</var> is empty as sequential list of returned records.
      */
     public function fetchAssocList($key = null, $column = null)
     {
@@ -1089,8 +998,8 @@ class Driver_mysqli extends Database
 
     /**
      * This global function fetchs the first row of a query into an object
-     * @param	string	The name of the class to return (stdClass by default).
-     * @return	object
+     * @param    string    The name of the class to return (stdClass by default).
+     * @return    object
      */
     public function fetchObjectRow($className = 'stdClass')
     {
@@ -1105,31 +1014,6 @@ class Driver_mysqli extends Database
         } catch (Exception $e) {
             throw $e;
         }
-    }
-
-    /**
-     * Fetch a list of database into objects
-     * If <var>key</var> is not empty then the returned array is indexed by the value
-     * the database key.  Returns <var>null</var> if the query fails.
-     * @param	string	The field name of a primary key
-     * @param	string	The name of the class to return (stdClass by default).
-     * @return	array	If <var>key</var> is empty as sequential list of returned records.
-     */
-    public function fetchObjectList($key = '', $className = 'stdClass')
-    {
-        if (!$this->execute()) {
-            throw new Exception('No Result ressource');
-        }
-        $array = array();
-        while ($row = mysqli_fetch_object($this->result, $className)) {
-            if ($key) {
-                $array[$row->$key] = $row;
-            } else {
-                $array[] = $row;
-            }
-        }
-        mysqli_free_result($this->result);
-        return $array;
     }
 
     /**
@@ -1153,8 +1037,8 @@ class Driver_mysqli extends Database
      * Fetchs a list of database rows (numeric column indexing)
      * If <var>key</var> is not empty then the returned array is indexed by the value
      * the database key.  Returns <var>null</var> if the query fails.
-     * @param	string	The field name of a primary key
-     * @return	array	If <var>key</var> is empty as sequential list of returned records.
+     * @param    string    The field name of a primary key
+     * @return    array    If <var>key</var> is empty as sequential list of returned records.
      */
     public function fetchRowList($key = null)
     {
@@ -1267,6 +1151,113 @@ class Driver_mysqli extends Database
             }
         } while (mysqli_more_results($this->conn) && mysqli_next_result($this->conn));
         return $rv;
+    }
+
+    /**
+     * get the charset of the used mysqli connection
+     * @return string
+     */
+    protected function get_charset()
+    {
+        return mysqli_character_set_name($this->conn);
+    }
+
+    /**
+     * set the charset of the mysqli client
+     * @param string $charset
+     * @param string $collation
+     * @return mysqli_result set
+     */
+    protected function db_setCharset($charset, $collation)
+    {
+        return mysqli_query($this->conn, "SET NAMES " . $this->escape($charset) . " COLLATE " . $this->escape($collation));
+    }
+
+    /**
+     * method to escape a query
+     * @param string $str
+     * @return string
+     */
+    public function escape($str)
+    {
+        if (is_bool($str)) {
+            $str = ($str === false) ? 0 : 1;
+        } elseif (is_null($str)) {
+            $str = 'null';
+        } elseif (is_string($str) && !is_numeric($str) or is_array($str)) {
+            $str = "'" . $this->_escape_($str) . "'";
+        }
+        return $str;
+    }
+
+    /**
+     * Private method to execute the escaping the string
+     * @param string $str
+     * @param bool $like
+     * @return string
+     */
+    private function _escape_($str, $like = false)
+    {
+        if (is_array($str)) {
+            foreach ($str as $key => $val) {
+                $str[$key] = $this->_escape_($val, $like);
+            }
+            return $str;
+        }
+        if (function_exists('mysqli_real_escape_string') && is_resource($this->conn)) {
+            $str = mysqli_real_escape_string($str, $this->conn);
+        } else {
+            $str = addslashes($str);
+        }
+        // escape LIKE condition wildcards
+        if ($like === true) {
+            //$str = str_replace(array('%', '_','\''), array('&#37;','&#95;','&#39;'), $str);
+            $str = str_really_escape($str);
+        }
+        return $str;
+    }
+
+    /**
+     * Builds a SQL statement for creating a DB table.
+     * @param string $table the table to be renamed. The name will be properly quoted by the method.
+     * @param string $newName the new table name. The name will be properly quoted by the method.
+     * @return string the SQL statement for renaming a DB table.
+     */
+    protected function createTableQuery($table, $columns, $options = null, $temp = false)
+    {
+        $cols = array();
+        foreach ($columns as $name => $type) {
+            if (is_string($name)) {
+                $cols[] = "\t" . $this->quoteColumn($name) . ' ' . $this->columnType($type);
+            } else {
+                $cols[] = "\t" . $type;
+            }
+        }
+
+        if (false === $temp) {
+            $qry = "CREATE TABLE " . $this->quoteTable($table) . " (\n" . implode(",\n", $cols) . "\n)";
+        } else {
+            $qry = "CREATE TEMPORARY TABLE " . $this->quoteTable($table) . " (\n" . implode(",\n", $cols) . "\n)";
+        }
+        return $qry = $options === null ? $qry : $qry . ' ' . $options;
+    }
+
+    /**
+     * Get the type of the column f
+     * @param string $type
+     * @return string
+     */
+    protected function columnType($type)
+    {
+        $type = strtolower($type);
+        if (isset($this->COLUMN_TYPES[$type])) {
+            return $this->COLUMN_TYPES[$type];
+        } elseif (false !== $pos = strpos($type, ' ')) {
+            $t = substr($type, 0, $pos);
+            return (isset($this->COLUMN_TYPES[$t]) ? $this->COLUMN_TYPES[$t] : $t) . substr($type, $pos);
+        } else {
+            return $type;
+        }
     }
 
 }

@@ -21,14 +21,14 @@ class CacheApc extends Cache
 
     /**
      * Config
-     * 
+     *
      * @var array
      */
     protected $config = array();
 
     /**
      * Flag to check if APCu is enabled
-     * 
+     *
      * @var boolean
      */
     protected $apcu = false;
@@ -41,23 +41,11 @@ class CacheApc extends Cache
      */
     protected function __construct(array $config)
     {
-	if (!extension_loaded('apc') && !extension_loaded('apcu')) {
-	    throw new Exception('PHP APC(u) extension is not available.');
-	}
-	$this->apcu = extension_loaded('apcu');
-	$this->config = $config;
-    }
-
-    /**
-     * Checks if a key of an array of keys exists already in the cache
-     * @param string|array $key
-     * @return true if the key exists, otherwise false,
-     * Or if an array was passed to keys, then an array is returned that contains all existing keys,
-     * Or an empty array if none exist.
-     */
-    protected function keyExists($key)
-    {
-	return $this->apcu ? apcu_exists($key) : apc_exists($key);
+        if (!extension_loaded('apc') && !extension_loaded('apcu')) {
+            throw new Exception('PHP APC(u) extension is not available.');
+        }
+        $this->apcu = extension_loaded('apcu');
+        $this->config = $config;
     }
 
     /**
@@ -70,15 +58,27 @@ class CacheApc extends Cache
      */
     public function set($id, $data, $ttl = null)
     {
-	if ($this->keyExists($this->_sanitize_id($id))) {
-	    return false;
-	}
-	if (null === $ttl && isset($this->config['default_expire'])) {
-	    $ttl = parent::TTL;
-	} else {
-	    $ttl = $this->config['default_expire'];
-	}
-	return $this->apcu ? apcu_store($this->_sanitize_id($id), $data, $ttl) : apc_store($this->_sanitize_id($id), $data, $ttl);
+        if ($this->keyExists($this->_sanitize_id($id))) {
+            return false;
+        }
+        if (null === $ttl && isset($this->config['default_expire'])) {
+            $ttl = parent::TTL;
+        } else {
+            $ttl = $this->config['default_expire'];
+        }
+        return $this->apcu ? apcu_store($this->_sanitize_id($id), $data, $ttl) : apc_store($this->_sanitize_id($id), $data, $ttl);
+    }
+
+    /**
+     * Checks if a key of an array of keys exists already in the cache
+     * @param string|array $key
+     * @return true if the key exists, otherwise false,
+     * Or if an array was passed to keys, then an array is returned that contains all existing keys,
+     * Or an empty array if none exist.
+     */
+    protected function keyExists($key)
+    {
+        return $this->apcu ? apcu_exists($key) : apc_exists($key);
     }
 
     /**
@@ -89,17 +89,7 @@ class CacheApc extends Cache
      */
     public function get($id)
     {
-	return $this->apcu ? apcu_fetch($this->_sanitize_id($id)) : apc_fetch($this->_sanitize_id($id));
-    }
-
-    /**
-     * Delete a cache entry based on id
-     * @param   string   id to remove from cache
-     * @return  boolean
-     */
-    public function delete($id)
-    {
-	return $this->apcu ? apcu_delete($this->_sanitize_id($id)) : apc_delete($this->_sanitize_id($id));
+        return $this->apcu ? apcu_fetch($this->_sanitize_id($id)) : apc_fetch($this->_sanitize_id($id));
     }
 
     /**
@@ -109,20 +99,17 @@ class CacheApc extends Cache
      */
     public function remove($id)
     {
-	return $this->delete($id);
+        return $this->delete($id);
     }
 
     /**
-     * Delete all cache entries.
-     * Beware of using this method when
-     * using shared memory cache systems, as it will wipe every
-     * entry within the system for all clients.
-     *
+     * Delete a cache entry based on id
+     * @param   string   id to remove from cache
      * @return  boolean
      */
-    public function deleteAll()
+    public function delete($id)
     {
-	return $this->apcu ? apcu_clear_cache('user') : apc_clear_cache('user');
+        return $this->apcu ? apcu_delete($this->_sanitize_id($id)) : apc_delete($this->_sanitize_id($id));
     }
 
     /**
@@ -135,7 +122,20 @@ class CacheApc extends Cache
      */
     public function removeAll()
     {
-	return $this->deleteAll();
+        return $this->deleteAll();
+    }
+
+    /**
+     * Delete all cache entries.
+     * Beware of using this method when
+     * using shared memory cache systems, as it will wipe every
+     * entry within the system for all clients.
+     *
+     * @return  boolean
+     */
+    public function deleteAll()
+    {
+        return $this->apcu ? apcu_clear_cache('user') : apc_clear_cache('user');
     }
 
     /**
@@ -144,7 +144,7 @@ class CacheApc extends Cache
      */
     public function clean()
     {
-	return $this->deleteAll();
+        return $this->deleteAll();
     }
 
     /**
@@ -153,12 +153,12 @@ class CacheApc extends Cache
      */
     public function getIds()
     {
-	$rv = array();
-	$array = $this->apcu ? apcu_cache_info('user', false) : apc_cache_info('user', false);
-	foreach ($array['cache_list'] as $row) {
-	    $rv[] = $row['info'];
-	}
-	return $rv;
+        $rv = array();
+        $array = $this->apcu ? apcu_cache_info('user', false) : apc_cache_info('user', false);
+        foreach ($array['cache_list'] as $row) {
+            $rv[] = $row['info'];
+        }
+        return $rv;
     }
 
     /**
@@ -172,7 +172,7 @@ class CacheApc extends Cache
      */
     public function increment($id, $step = 1)
     {
-	return $this->apcu ? apcu_inc($id, $step) : apc_inc($id, $step);
+        return $this->apcu ? apcu_inc($id, $step) : apc_inc($id, $step);
     }
 
     /**
@@ -186,7 +186,7 @@ class CacheApc extends Cache
      */
     public function decrement($id, $step = 1)
     {
-	return $this->apcu ? apcu_dec($id, $step) : apc_dec($id, $step);
+        return $this->apcu ? apcu_dec($id, $step) : apc_dec($id, $step);
     }
 
 }

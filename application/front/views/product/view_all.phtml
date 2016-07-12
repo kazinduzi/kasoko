@@ -1,93 +1,105 @@
 <div class="main">
     <article class="col-main  grid" role="main" aria-labelledby="main-label">
         <h1 id="main-label" class="title"><?php echo $this->title; ?></h1>
+
         <div class="toolbar toolbar-top group" role="toolbar">
             <div class="sorter-container">
                 <div class="amount">
-		    <p><?php echo count(Product::getAll()); ?> Items</p>
-		</div>
+                    <p><?php echo count(Product::getAll()); ?> Items</p>
+                </div>
                 <div class="limiter">
                     <label for="limit-top">Show</label>
                     <select id="limit-top" name="limit">
-			<?php
-			foreach ($limitOptions as $limitLabel => $limitOption) {
-			    $selected = $limit == $limitOption ? 'selected="selected"' : '';
-			    echo '<option value="/product/view_all?limit=' . $limitOption . '" ' . $selected . '>' . $limitLabel . '</option>';
-			}
-			?>                    
+                        <?php
+                        foreach ($limitOptions as $limitLabel => $limitOption) {
+                            $selected = $limit == $limitOption ? 'selected="selected"' : '';
+                            echo '<option value="/product/view_all?limit=' . $limitOption . '" ' . $selected . '>' . $limitLabel . '</option>';
+                        }
+                        ?>
                     </select>
                     <span class="per-page">per page</span>
                 </div><!-- /.limiter -->
                 <div class="sort-by">
                     <label for="sortby-top">Sort By</label>
                     <select id="sortby-top" name="sortby">
-                        <?php foreach ($sortOptions as $sort => $label) :?>
-			<?php $selected = $order == $sort ? 'selected="selected"' : ''; ?>
-			    <option <?=$selected;?> value="?limit=<?php echo $limit;?>&amp;order=<?php echo $sort;?>"><?php echo $label;?></option>
-			<?php endforeach; ?>
+                        <?php foreach ($sortOptions as $sort => $label) : ?>
+                            <?php $selected = $order == $sort ? 'selected="selected"' : ''; ?>
+                            <option <?= $selected; ?>
+                                value="?limit=<?php echo $limit; ?>&amp;order=<?php echo $sort; ?>"><?php echo $label; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div><!-- /.sort-by -->
                 <div class="view-mode">
                     <span class="view-mode-label">Display as:</span>
                     <span class="view-mode-btn">
 			<?php if ('grid' === $mode): ?>
-    			<span class="grid" title="Grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></span>
-    			<a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow" class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
-			<?php elseif ('list' === $mode) : ?>
-    			<a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow" class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
-    			<span class="list" title="List" class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></span>
-			<?php else : ?>
-    			<a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow" class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
-    			<a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow" class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
-			<?php endif; ?>
-		    </span>		    
+                <span class="grid" title="Grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></span>
+                <a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow"
+                   class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
+            <?php elseif ('list' === $mode) : ?>
+                <a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow"
+                   class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
+                <span class="list" title="List" class="btn-list"><i class="glyphicon glyphicon-th-list"
+                                                                    style="font-size:18px"></i></span>
+            <?php else : ?>
+                <a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow"
+                   class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
+                <a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow"
+                   class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
+            <?php endif; ?>
+		    </span>
                 </div><!-- /.view-mode -->
             </div><!-- /.sorter -->
         </div>
 
         <div class="product-container <?php echo $mode; ?>">
             <ul class="product-col-3">
-		<?php foreach (new \LimitIterator($products, $offset, $limit) as $product) : ?>
-    		<li class="product-holder">
-    		    <article itemscope="" itemtype="http://schema.org/Product">
-    			<div class="img-box">
-					<a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>">
-				    <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>    
-					<img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>" title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
-					<span class="mask"></span>
-				    <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
-					<img itemprop="image" src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" alt="<?php echo $product->name; ?>">
-					<span class="mask"></span>
-				    <?php else: ?>
-					<img itemprop="image" src="/html/images/kasoko/280x196.png" alt="<?php echo $product->name; ?>">
-				    <?php endif; ?>
-    			    </a>
-    			</div>
-    			<div class="product-meta">
-    			    <div class="product-info">
-    				<h3 class="name">
-						<a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>"><span
-									itemprop="name"><?php echo $product->model; ?></span></a>
-    				</h3>
-    			    </div>
-    			    <div class="product-price">
-						<span><?php echo Stringify::currency_format($product->price); ?></span>
-    			    </div>
-    			    <div class="product-description">
-						<p class="description"
-						   itemprop="description"><?php echo \Stringify::truncate($product->description, 100); ?></p>
-    			    </div>
-    			    <div class="cart">
-    				<a href="javascript:void(0);" class="btn btn-default" onclick="addToCart('<?php echo $product->product_id; ?>');">Add to Cart</a>
-    			    </div>
-    			</div>
-    		    </article>
-    		</li>
-		<?php endforeach; ?>
+                <?php foreach (new \LimitIterator($products, $offset, $limit) as $product) : ?>
+                    <li class="product-holder">
+                        <article itemscope="" itemtype="http://schema.org/Product">
+                            <div class="img-box">
+                                <a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>">
+                                    <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>
+                                        <img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>"
+                                             title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
+                                        <span class="mask"></span>
+                                    <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                        <img itemprop="image"
+                                             src="<?php echo $product->getFirstProductImage()->getThumb(); ?>"
+                                             alt="<?php echo $product->name; ?>">
+                                        <span class="mask"></span>
+                                    <?php else: ?>
+                                        <img itemprop="image" src="/html/images/kasoko/280x196.png"
+                                             alt="<?php echo $product->name; ?>">
+                                    <?php endif; ?>
+                                </a>
+                            </div>
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <h3 class="name">
+                                        <a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>"><span
+                                                itemprop="name"><?php echo $product->model; ?></span></a>
+                                    </h3>
+                                </div>
+                                <div class="product-price">
+                                    <span><?php echo Stringify::currency_format($product->price); ?></span>
+                                </div>
+                                <div class="product-description">
+                                    <p class="description"
+                                       itemprop="description"><?php echo \Stringify::truncate($product->description, 100); ?></p>
+                                </div>
+                                <div class="cart">
+                                    <a href="javascript:void(0);" class="btn btn-default"
+                                       onclick="addToCart('<?php echo $product->product_id; ?>');">Add to Cart</a>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
-	<div class="pagination-wrap">
-	    <?php echo $this->paginationHtml;?>
-	</div>
+        <div class="pagination-wrap">
+            <?php echo $this->paginationHtml; ?>
+        </div>
     </article>
 </div>

@@ -1,19 +1,19 @@
 <?php
 
-defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
 
-$config = array(
-    'driver' => 'mysqli',
-    'persistent' => true,
-    'db_host' => 'localhost',
-    'db_port' => '3306',
-    'db_user' => 'root',
-    'db_password' => 'password',
-    'db_name' => 'kazinduzi_kasoko',
-    'db_prefix' => '',
-    'db_debug' => false,
-    'db_cache_on' => false,
-    'db_auto_init' => true,
-    'db_auto_shutdown' => true,
-    'db_strict_on' => false,
-);
+$config['driver'] = 'mysqli';
+$config['persistent'] = FALSE; //TRUE;
+$config['db_host'] = 'localhost';
+$config['db_port'] = '3306';
+$config['db_user'] = 'root';
+$config['db_password'] = 'password';
+$config['db_name'] = 'kazinduzi_kasoko';
+$config['db_prefix'] = '';
+$config['db_debug'] = TRUE;
+$config['db_cache_on'] = FALSE;
+$config['db_cache_dir'] = FALSE;
+$config['db_auto_init'] = TRUE;
+$config['db_auto_shutdown'] = TRUE;
+$config['db_strict_on'] = FALSE;
+return (array)$config;

@@ -4,9 +4,10 @@
 
 <h1><?php echo $this->title; ?></h1>
 
-<div class="left fifty">    
+<div class="left fifty">
     <div class="addresses-content">
         <h3>Shipping address</h3>
+
         <div>
             <p>
                 <?php echo $customer; ?><br/>
@@ -17,53 +18,67 @@
                 <?php echo $customer->getMobile(); ?>
             </p>
         </div>
-	<div>
-	    <input type="checkbox" name="shipping[use_new_shipping]" id="same_billing_shipping_address" value="1" checked="checked" onclick="setSelectedShipping('<?php echo $customer->getAddressId(); ?>');"/>
-	    <label for="same_billing_shipping_address">Use the same addess for shipping</label>
-	</div>
+        <div>
+            <input type="checkbox" name="shipping[use_new_shipping]" id="same_billing_shipping_address" value="1"
+                   checked="checked" onclick="setSelectedShipping('<?php echo $customer->getAddressId(); ?>');"/>
+            <label for="same_billing_shipping_address">Use the same addess for shipping</label>
+        </div>
     </div>
 </div>
 
-<div class="right fifty">    
+<div class="right fifty">
     <div id="shipping-step" style="display: none;">
-	 <h3>Shipping to another address</h3>
-        <form methoh="post" class="form" id="shipping-information">        
+        <h3>Shipping to another address</h3>
+
+        <form methoh="post" class="form" id="shipping-information">
             <p>
-                Firstname <span class="required">*</span><br />
-                <input type="text" name="shipping[firstname]" value="" class="normal-field" />
+                Firstname <span class="required">*</span><br/>
+                <input type="text" name="shipping[firstname]" value="" class="normal-field"/>
             </p>
+
             <p>
-                Lastname <span class="required">*</span><br />
+                Lastname <span class="required">*</span><br/>
                 <input type="text" name="shipping[lastname]" value="" class="normal-field">
             </p>
+
             <p>
-                Address 1 <span class="required">*</span><br />
+                Address 1 <span class="required">*</span><br/>
                 <input type="text" name="shipping[address_1]" value="" class="normal-field"/>
             </p>
+
             <p>
-                Address 2:<br />
+                Address 2:<br/>
                 <input type="text" name="shipping[address_2]" value="" class="normal-field"/>
             </p>
+
             <p>
-                City  <span class="required">*</span><br />
+                City <span class="required">*</span><br/>
                 <input type="text" name="shipping[city]" value="" class="normal-field"/>
             </p>
+
             <p>
-                Zipcode<br />
+                Zipcode<br/>
                 <input type="text" name="shipping[zipcode]" value="" class="normal-field"/>
             </p>
+
             <p>
-                Telephone<br />
-                <input type="tel" name="shipping[phone]" value="<?php echo $customer->getShippingAddress()->phone; ?>" class="normal-field"/>
+                Telephone<br/>
+                <input type="tel" name="shipping[phone]" value="<?php echo $customer->getShippingAddress()->phone; ?>"
+                       class="normal-field"/>
             </p>
+
             <p>
-                Mobile<br />
-                <input type="tel" name="shipping[mobile]" value="<?php echo $customer->getShippingAddress()->mobile; ?>" class="normal-field"/>
+                Mobile<br/>
+                <input type="tel" name="shipping[mobile]" value="<?php echo $customer->getShippingAddress()->mobile; ?>"
+                       class="normal-field"/>
             </p>
+
             <p>
-                Fax<br />
-                <input type="text" name="shipping[fax]" value="<?php echo $customer->getShippingAddress()->fax; ?>" class="normal-field"/>
+                Fax<br/>
+                <input type="text" name="shipping[fax]" value="<?php echo $customer->getShippingAddress()->fax; ?>"
+                       class="normal-field"/>
             </p>
+
             <p>
                 Country <span class="required">*</span> <br/>
                 <select name="shipping[country_id]" id="shipping_country_id" class="normal-field" onchange="populateZonesByCountry(this.value, $('#shipping_zone_id'));
@@ -71,7 +86,8 @@
                     <option value="">Select the country</option>
                     <?php foreach ($countries as $country) : ?>
                         <?php $selected = $country['id'] == $customer->getCountryId() ? 'selected="selected"' : null; ?>
-                        <option value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
+                        <option
+                            value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </p>
@@ -80,15 +96,18 @@
                 <select name="shipping[zone_id]" class="normal-field" id="shipping_zone_id">
                     <?php if (isset($zones)): ?>
                         <?php foreach ($zones as $zone) : ?>
-                            <option value="<?php echo $zone['id'] ?>" <?php echo ($zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
+                            <option
+                                value="<?php echo $zone['id'] ?>" <?php echo($zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
                         <?php endforeach; ?>
                     <?php else : ?>
                         <option value="">Select a zone</option>
                     <?php endif; ?>
                 </select>
             </p>
-            <input type="radio" name="use_for_shipping" id="use_for_shipping_yes" value="1" checked="checked" title="Ship to this address" class="radio hidden">
-            <input type="radio" name="use_for_shipping" id="use_for_shipping_no" value="0" title="Ship to different address" class="radio hidden">
+            <input type="radio" name="use_for_shipping" id="use_for_shipping_yes" value="1" checked="checked"
+                   title="Ship to this address" class="radio hidden">
+            <input type="radio" name="use_for_shipping" id="use_for_shipping_no" value="0"
+                   title="Ship to different address" class="radio hidden">
         </form>
     </div>
 </div>

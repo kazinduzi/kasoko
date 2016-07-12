@@ -3,13 +3,13 @@ namespace models\Carrier;
 
 defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
-class Carrier extends \Model 
+class Carrier extends \Model
 {
-    
+
     protected $table = 'carrier';
-    
+
     /**
-     * 
+     *
      * @param boolean $active
      * @return \models\Manufacturer\Manufacturer
      */
@@ -18,18 +18,18 @@ class Carrier extends \Model
         $this->active = (bool)$active;
         return $this;
     }
-            
+
     /**
-     * 
+     *
      * @return boolean
      */
     public function isActive()
     {
         return $this->active == true;
-    }   
-    
+    }
+
     /**
-     * 
+     *
      * @return array
      */
     public function getAllActive()
@@ -38,12 +38,12 @@ class Carrier extends \Model
     }
 
     /**
-     * 
+     *
      * @return array
      */
-    public function getAll() 
+    public function getAll()
     {
         return $this->findAll();
     }
-    
+
 }

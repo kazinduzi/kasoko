@@ -13,10 +13,12 @@ defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
  */
 class Template
 {
-
     const DEFAULT_LAYOUT = 'default';
     const DEFAULT_LAYOUT_SUFFIX = 'phtml';
     const DEFAULT_VIEW_SUFFIX = 'tpl';
+    const PHTML_EXTENSTION = 'phtml';
+    const PHP_EXTENSTION = 'php';
+
     /**
      * @var type
      */
@@ -296,7 +298,8 @@ class Template
      * Display the content of the view rendered within the layout
      *
      * @params $content = data from the loaded template ,
-     * @param $layout = layout template to be used for the MVC
+     * @throws Exception
+     * @internal param $layout = layout template to be used for the MVC
      */
     public function display()
     {

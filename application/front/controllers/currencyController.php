@@ -9,16 +9,16 @@ class CurrencyController extends BaseController
 
     public function __construct(\Request $req, \Response $res)
     {
-	parent::__construct($req, $res);
+        parent::__construct($req, $res);
     }
 
     public function index()
     {
-	$code = $this->getRequest()->getParam('code');
-	if ($code !== $this->getSession()->get('currency')) {
-	    $this->getSession()->add('currency', $code);
-	}
-	$this->redirect('/');
+        $code = $this->getRequest()->getParam('code');
+        if ($code !== $this->getSession()->get('currency')) {
+            $this->getSession()->add('currency', $code);
+        }
+        $this->redirect('/');
     }
 
 }

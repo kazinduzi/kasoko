@@ -1,4 +1,5 @@
 <?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
  *
@@ -8,10 +9,9 @@
  * @license   http://kazinduzi.com/page/license MIT License
  * @package   Kazinduzi
  */
-
-class Dispatcher 
-{    
-    public function dispatch() 
+class Dispatcher
+{
+    public function dispatch()
     {
         $Front = FrontController::getInstance();
         $Front->loadController();

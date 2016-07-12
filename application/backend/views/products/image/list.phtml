@@ -4,13 +4,13 @@
     	<a href="" class="thumbnail">
     	    <img src="<?php echo $image->getThumb(); ?>" alt="" width="150" />
     	</a>
-    	<div class="btn-group">
-    	    <a class="image-update-btn btn btn-default btn-xs disabled js-sorted-position" href="#"><?php echo $image->getId(); ?></a>
-    	    <a class="image-update-btn btn btn-default btn-xs" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
-    		<span class="glyphicon glyphicon-edit"></span>
+    	<div class="btn-group btn-group-sm">
+    	    <a class="image-update-btn btn btn-default disabled js-sorted-position" href="#"><?php echo $image->getId(); ?></a>
+    	    <a class="image-update-btn btn btn-default" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+    			<i class="glyphicon glyphicon-edit"></i>
     	    </a>		
-    	    <a class="image-delete-btn btn btn-default btn-xs" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
-    		<span class="glyphicon glyphicon-trash"></span>
+    	    <a class="image-delete-btn btn btn-default" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+    			<i class="glyphicon glyphicon-trash"></i>
     	    </a>
     	</div>
         </li>                    

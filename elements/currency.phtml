@@ -1,0 +1,24 @@
+<?php
+
+use library\Currency;
+
+?>
+<div class="currency-switch open" aria-labelledby="currency-label" role="form">
+    <div class="dropdown inline">
+        <span id="currency-label" class="dropdown-label">Currency:</span>
+        <?php if (!empty($_SESSION['currency'])) : ?>
+            <a class="current dropdown-toggle" data-toggle="dropdown"
+               href="/currency"><?php echo $_SESSION['currency']; ?></a>
+        <?php else: ?>
+            <a class="current dropdown-toggle" data-toggle="dropdown"
+               href="/currency"><?php echo Currency::getInstance()->getDefaultCurrency()->code; ?></a>
+        <?php endif; ?>
+
+        <ul class="select dropdown-menu">
+            <?php foreach (Currency::find('currency') as $currency) : ?>
+                <li><a href="/currency?code=<?php echo $currency->code ?>"><?php echo $currency->symbol; ?>
+                        - <?php echo $currency->code; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

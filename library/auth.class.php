@@ -11,8 +11,8 @@ defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
  * @license   http://kazinduzi.com/page/license MIT License
  * @package   Kazinduzi
  */
-use \library\password;
-use \PasswordCompat\binary;
+use library\password;
+use PasswordCompat\binary;
 
 class Auth
 {
@@ -25,35 +25,39 @@ class Auth
      * @var type
      */
     public $session_expire = self::SESSION_EXPIRATION_TTL;
+
+    /**
+     * @var Session
+     */
     protected $session;
 
     /**
-     * @var type
+     * @var string
      */
     protected $username;
 
     /**
-     * @var type
+     * @var string
      */
     protected $password;
 
     /**
-     * @var type
+     * @var bool
      */
     protected $remember;
 
     /**
-     * @var type
+     * @var bool
      */
     private $logged_in;
 
     /**
-     * @var type
+     * @var string
      */
     private $remCookieUsr = 'usr';
 
     /**
-     * @var type
+     * @var string
      */
     private $remCookiePass = 'pass';
 
@@ -66,7 +70,25 @@ class Auth
     }
 
     /**
-     * 
+     *
+     * @return type
+     */
+    public static function is_authenticated()
+    {
+        return isset($_SESSION['user']['logged']) ? $_SESSION['user']['logged'] : false;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public static function is_admin()
+    {
+        return isset($_SESSION['user']['level']) AND ($_SESSION['user']['level'] >= self::ADMIN_USER_LEVEL) ? true : false;
+    }
+
+    /**
+     *
      * @return type
      */
     public function getSession()
@@ -77,14 +99,12 @@ class Auth
     /**
      *
      * @param type $access
-     * @param type $default_redirect
-     * @param type $redirect
-     * @return boolean
+     * @return bool
      */
     public function check_access($access, $default_redirect = false, $redirect = false)
     {
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
-        $qry = "SELECT * FROM `users` WHERE `id` = '" . (int) $user['id'] . "';";
+        $qry = "SELECT * FROM `users` WHERE `id` = '" . (int)$user['id'] . "';";
         $result = Kazinduzi::db()->setQuery($qry)->fetchAssocRow();
         if (empty($result)) {
             $this->logout();
@@ -106,6 +126,14 @@ class Auth
     }
 
     /**
+     *
+     */
+    public function logout()
+    {
+        $this->getSession()->remove('user');
+    }
+
+    /**
      * Get the logged in user
      * @return null|\User
      */
@@ -118,10 +146,24 @@ class Auth
     }
 
     /**
-     *
-     * @param type $redirect
-     * @param type $default_redirect
+     * Is the user administrator
      * @return boolean
+     */
+    public function isAdmin()
+    {
+        if ($this->is_logged_in()) {
+            if (isset($_SESSION['user']['level']) && $_SESSION['user']['level'] >= self::ADMIN_USER_LEVEL) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param bool|type $redirect
+     * @param bool|type $default_redirect
+     * @return bool
      */
     public function is_logged_in($redirect = false, $default_redirect = true)
     {
@@ -158,40 +200,8 @@ class Auth
 
     /**
      *
-     * @return type
-     */
-    public static function is_authenticated()
-    {
-        return isset($_SESSION['user']['logged']) ? $_SESSION['user']['logged'] : false;
-    }
-
-    /**
-     *
-     * @return type
-     */
-    public static function is_admin()
-    {
-        return isset($_SESSION['user']['level']) AND ( $_SESSION['user']['level'] >= self::ADMIN_USER_LEVEL) ? true : false;
-    }
-
-    /**
-     * Is the user administrator
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        if ($this->is_logged_in()) {
-            if (isset($_SESSION['user']['level']) && $_SESSION['user']['level'] >= self::ADMIN_USER_LEVEL) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     *
-     * @param type $options
-     * @return boolean
+     * @param array|type $options
+     * @return bool
      */
     public function login($options = array())
     {
@@ -209,9 +219,9 @@ class Auth
         if (empty($this->username) || empty($this->passeword)) {
             $this->getCookieUser();
         }
-        if (($user = $this->authenticate())) {
-            if ($user instanceof Users) {
-                $_SESSION['user'] = (array) $user->values;
+        if (false !== $user = $this->authenticate()) {
+            if ($user instanceof User) {
+                $_SESSION['user'] = (array)$user->values;
                 $_SESSION['user']['logged'] = $this->logged_in = true;
             }
             if (!$this->remember) {
@@ -222,27 +232,6 @@ class Auth
                 $_SESSION['user']['expire'] = false;
             }
             return true;
-        }
-
-        // Otherwise redirect to the login page
-        else {
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @return boolean
-     */
-    private function authenticate()
-    {
-        $hash = password_hash($this->password, PASSWORD_BCRYPT, array("cost" => 10));
-        $this->user = Users::getUserByUsername($this->username);
-        if (empty($this->user[0])) {
-            return false;
-        }
-        if (password_verify($this->password, $this->user[0]->password)) {
-            return $this->user[0];
         } else {
             return false;
         }
@@ -262,18 +251,28 @@ class Auth
     }
 
     /**
-     * 
+     *
+     * @return boolean
      */
-    public function logout()
+    private function authenticate()
     {
-        session_unset();
-        setcookie($this->remCookieUsr, '', time() - self::SESSION_EXPIRATION_TTL, '/');
-        setcookie($this->remCookiePass, '', time() - self::SESSION_EXPIRATION_TTL, '/');
-        if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), '', time() - self::SESSION_EXPIRATION_TTL, '/');
+        $this->user = User::getInstance()->getUserByUsername($this->username);
+        if (empty($this->user)) {
+            return false;
         }
-        $_SESSION = array();
-        session_destroy();
+        /** USING PHP 5.5, password_hash() **/
+        $passwordHashed = $this->user->password;
+        if (password_verify($this->password, $passwordHashed)) {
+            if (password_needs_rehash($passwordHashed, PASSWORD_BCRYPT, ['cost' => PASSWORD_BCRYPT_DEFAULT_COST])) {
+                $hash = password_hash($this->password, PASSWORD_BCRYPT, ['cost' => PASSWORD_BCRYPT_DEFAULT_COST]);
+                /* Store new hash in db */
+                $this->user->set('password', $hash)->save();
+            }
+            return $this->user;
+        } else {
+            return false;
+        }
+
     }
 
     /**
