@@ -3,3 +3,5 @@ configs/database.php
 cache/
 html/images/kasoko
 vendor/*
+/application/front/configs/database.php
+/application/backend/configs/database.php
