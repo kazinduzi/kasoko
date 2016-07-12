@@ -1,4 +1,4 @@
 .idea
-*/configs/database.php
+front/configs/database.php
 cache/
 html/images/kasoko
