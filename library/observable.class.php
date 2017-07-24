@@ -28,7 +28,7 @@ abstract class Observable
     public function notifyAll($arg = null)
     {
         foreach (array_keys($this->observers) as $key) {
-            $this->observers[$key]->update(&$this, $arg);
+            $this->observers[$key]->update($this, $arg);
         }
     }
 
