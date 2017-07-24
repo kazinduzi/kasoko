@@ -205,14 +205,16 @@ print_r(opcache_get_configuration());
  * echo '<br/>method: ',$ajax = get_request_method();
  *
  */
-/*
-  echo '<p style="float:left; width:100%">';
-  echo 'Memory usage:  <strong>', (!function_exists('memory_get_usage') ? '0' : round(memory_get_usage()/1024/1024, 2)),' Mb</strong>';
-  echo '<br/>';
-  echo 'Memory peak usage: <strong>', round(memory_get_peak_usage()/1024/1024, 2),' Mb</strong>';
-  echo '</p>';
-  echo '<p>Page execution time: <strong>', number_format( microtime(true) - KAZINDUZI_START_TIME , 5 , ',', '.' ), ' sec.</strong></p>' ;
-  ?>
- *
- *
- */
+
+$params = $session->getCookieParams();
+var_dump($params);
+die;
+
+$cookie =  new \library\Cookie\Cookie('test-cookie');
+$cookie->setDomain('kasoko.hp.kazinduzidev.com');
+$cookie->setValue('dfsdfjasd;lfásjkdfáf!');
+$cookie->setHttpOnly(true);
+//$cookie->setSecure(true);
+$cookie->save();
+
+print_r($_COOKIE);

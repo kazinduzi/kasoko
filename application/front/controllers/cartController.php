@@ -13,13 +13,32 @@ class CartController extends BaseController
      */
     public function index()
     {
+
+        $cartService = new \library\Cart\CartService();
+        $cart = $cartService->getSessionCart();
+
+		if (empty($_COOKIE['cart_id'])) {
+            $cart->add([
+                ['id' => '293ad', 'name' => 'Product 1', 'qty' => 1, 'price' => 10.00],
+                ['id' => '4832k', 'name' => 'Product 2', 'qty' => 5, 'price' => 15.00, 'options' => ['size' => 'large']]
+            ]);
+
+            var_dump($_SESSION);
+
+			//
+			$cartCookie = new library\Cookie\Cookie('cart_id');
+			$cartCookie->setDomain('kasoko.hp.kazinduzidev.com');
+			$cartCookie->setValue($cart->getId());
+			$cartCookie->save();
+		}
+		print_r($_COOKIE);
         $this->Template->setViewSuffix('phtml');
         $this->Template->Cart = new Cart();
         //
-        $cart = new \models\Cart\Cart(1);
-        foreach($cart->getCartProducts() as $cartProduct) {
-            var_dump($cartProduct->getProduct()->getId());
-        }
+//        $cart = new \models\Cart\Cart(1);
+//        foreach($cart->getCartProducts() as $cartProduct) {
+//            var_dump($cartProduct->getProduct()->getId());
+//        }
 
     }
 

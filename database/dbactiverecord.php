@@ -291,11 +291,16 @@ class DbActiveRecord
      * Generates the condition string that will be put in the WHERE part
      * @param mixed $conditions the conditions that will be put in the WHERE part.
      * @return string the condition string to put in the WHERE part
+     * @throws Exception
      */
     protected function proceedConditions($conditions)
     {
-        if (!is_array($conditions)) return $conditions;
-        else if ($conditions === array()) return '';
+        if (!is_array($conditions)) {
+            return $conditions;
+        }
+        elseif ($conditions === array()) {
+            return '';
+        }
         $n = count($conditions);
         $operator = strtoupper($conditions[0]);
         if ($operator === 'OR' || $operator === 'AND') {
@@ -309,7 +314,9 @@ class DbActiveRecord
             return $parts === array() ? '' : implode(' ' . $operator . ' ', $parts);
         }
 
-        if (!isset($conditions[1], $conditions[2])) return '';
+        if (!isset($conditions[1], $conditions[2])) {
+            return '';
+        }
         $column = $conditions[1];
         if (strpos($column, '(') === false) {
             $column = "`" . $column . "`";

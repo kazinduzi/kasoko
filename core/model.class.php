@@ -1257,13 +1257,14 @@ abstract class Model /* extends DbActiveRecord */
     public function add($alias, $far_keys)
     {
         $far_keys = ($far_keys instanceof Model) ? $far_keys->pk() : $far_keys;
-        $columns = array($this->hasMany[$alias]['foreign_key'], $this->hasMany[$alias]['far_key']);
         $foreign_key = $this->pk();
-        $query = DB::insert($this->hasMany[$alias]['through'], $columns);
         foreach ((array)$far_keys as $key) {
-            $query->values(array($foreign_key, $key));
+            $params = array(
+                $this->hasMany[$alias]['foreign_key'] => $foreign_key,
+                $this->hasMany[$alias]['far_key'] => $key,
+            );
+            $this->getDbo()->insert($this->hasMany[$alias]['through'], $params);
         }
-        $query->execute($this->_db);
         return $this;
     }
 

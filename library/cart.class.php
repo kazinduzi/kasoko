@@ -11,7 +11,6 @@ class Cart
 {
 
     private static $_instance;
-    private $db = false;
     private $config = array();
     private $session = false;
     private $data = array();
@@ -23,7 +22,6 @@ class Cart
     public function __construct(array $data = array())
     {
         $this->data = $data;
-        $this->db = \Kazinduzi::db();
         $this->config = \Kazinduzi::getConfig('session');
         $this->session = \Kazinduzi::session();
         if (!$this->session->get('cart') || !is_array($this->session->get('cart'))) {
@@ -46,13 +44,14 @@ class Cart
     /**
      *
      * @param type $productid
-     * @param type $qty
+     * @param int|type $qty
      * @param array $options
-     * @return \Cart|boolean
+     * @return bool|Cart
+     * @throws Exception
      */
-    public function add($productid, $qty = 1, array $options = null)
+    public function add($productid, $qty = 1, array $options = [])
     {
-        if (!$options) {
+        if (! $options) {
             $key = $productid;
         } else {
             $key = $productid . ':' . base64_encode(serialize($options));
@@ -73,7 +72,8 @@ class Cart
      *
      * @param type $key
      * @param type $qty
-     * @return \Cart
+     * @return Cart
+     * @throws Exception
      */
     public function update($key, $qty)
     {
