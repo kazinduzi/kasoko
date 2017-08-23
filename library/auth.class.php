@@ -84,7 +84,7 @@ class Auth
      */
     public static function is_admin()
     {
-        return isset($_SESSION['user']['level']) AND ($_SESSION['user']['level'] >= self::ADMIN_USER_LEVEL) ? true : false;
+        return isset($_SESSION['user']['level']) AND ( $_SESSION['user']['level'] >= self::ADMIN_USER_LEVEL) ? true : false;
     }
 
     /**
@@ -104,7 +104,7 @@ class Auth
     public function check_access($access, $default_redirect = false, $redirect = false)
     {
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
-        $qry = "SELECT * FROM `users` WHERE `id` = '" . (int)$user['id'] . "';";
+        $qry = "SELECT * FROM `users` WHERE `id` = '" . (int) $user['id'] . "';";
         $result = Kazinduzi::db()->setQuery($qry)->fetchAssocRow();
         if (empty($result)) {
             $this->logout();
@@ -221,7 +221,7 @@ class Auth
         }
         if (false !== $user = $this->authenticate()) {
             if ($user instanceof User) {
-                $_SESSION['user'] = (array)$user->values;
+                $_SESSION['user'] = (array) $user->values;
                 $_SESSION['user']['logged'] = $this->logged_in = true;
             }
             if (!$this->remember) {
@@ -260,7 +260,7 @@ class Auth
         if (empty($this->user)) {
             return false;
         }
-        /** USING PHP 5.5, password_hash() **/
+        /** USING PHP 5.5, password_hash() * */
         $passwordHashed = $this->user->password;
         if (password_verify($this->password, $passwordHashed)) {
             if (password_needs_rehash($passwordHashed, PASSWORD_BCRYPT, ['cost' => PASSWORD_BCRYPT_DEFAULT_COST])) {
@@ -272,7 +272,6 @@ class Auth
         } else {
             return false;
         }
-
     }
 
     /**

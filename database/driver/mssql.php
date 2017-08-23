@@ -1,5 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
 
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Description of mssql_db
@@ -68,4 +69,5 @@ class DB_driver_mssql extends DB
             mssql_close($this->conn);
         }
     }
+
 }

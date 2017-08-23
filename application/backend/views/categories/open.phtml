@@ -39,36 +39,37 @@
                 </tr>
             </thead>
             <tbody>
-		<?php if (count($products)): foreach ($products as $product) : ?>
-			<tr>
-			    <td><?php echo $product->getId(); ?></td>
+                <?php if (count($products)): foreach ($products as $product) : ?>
+                        <tr>
+                            <td><?php echo $product->getId(); ?></td>
                             <td>
-                            <?php if (null !== $cover = $product->getCoverProductImage()) :?>
-                                <img src="<?php echo $cover->getThumb(); ?>" width="50" alt=""/>
-                            <?php else :?>
-                                <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" width="50" alt=""/>
-                            <?php endif;?>
+                                <?php if (null !== $cover = $product->getCoverProductImage()) : ?>
+                                    <img src="<?php echo $cover->getThumb(); ?>" width="50" alt=""/>
+                                <?php elseif (null !== $product->getFirstProductImage()) :?>
+                                    <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>" width="50" alt=""/>
+                                <?php endif; ?>
                             </td>
-			    <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
-			    <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->model; ?></a></td>
-			    <td>
-				<?php if ($product->status) : ?>
-	    			<i class="glyphicon glyphicon-ok"></i>
-				<?php else : ?>
-	    			<i class="glyphicon glyphicon-remove"></i>
-				<?php endif; ?>
-			    </td>
-			    <td><?php echo $product->sort_order; ?></td>
-			    <th class="actions">
-		    <div class="btn-group">
-			<a class="btn btn-default btn-xs" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
-			<a class="btn btn-default btn-xs category-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
-		    </div>
-		    </th>
-		    </tr>
-		<?php endforeach;
-	    endif;
-	    ?>
+                            <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
+                            <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->model; ?></a></td>
+                            <td>
+                                <?php if ($product->status) : ?>
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                <?php else : ?>
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo $product->sort_order; ?></td>
+                            <th class="actions">
+                                <div class="btn-group">
+                                    <a class="btn btn-default" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default category-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </th>
+                        </tr>
+                        <?php
+                    endforeach;
+                endif;
+                ?>
             </tbody>
         </table>
     </div>

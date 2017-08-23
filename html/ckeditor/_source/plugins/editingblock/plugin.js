@@ -1,229 +1,229 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
-
-/**
- * @fileOverview The default editing block plugin, which holds the editing area
- *		and source view.
+ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-(function()
-{
-	var getMode = function( editor, mode )
-	{
-		return editor._.modes && editor._.modes[ mode || editor.mode ];
-	};
+		/**
+		 * @fileOverview The default editing block plugin, which holds the editing area
+		 *		and source view.
+		 */
 
-	// This is a semaphore used to avoid recursive calls between
-	// the following data handling functions.
-	var isHandlingData;
-
-	CKEDITOR.plugins.add( 'editingblock',
-	{
-		init : function( editor )
-		{
-			if ( !editor.config.editingBlock )
-				return;
-
-			editor.on( 'themeSpace', function( event )
+				(function ()
 				{
-					if ( event.data.space == 'contents' )
-						event.data.html += '<br>';
-				});
-
-			editor.on( 'themeLoaded', function()
-				{
-					editor.fireOnce( 'editingBlockReady' );
-				});
-
-			editor.on( 'uiReady', function()
-				{
-					editor.setMode( editor.config.startupMode );
-				});
-
-			editor.on( 'afterSetData', function()
-				{
-					if ( !isHandlingData )
+					var getMode = function (editor, mode)
 					{
-						function setData()
-						{
-							isHandlingData = true;
-							getMode( editor ).loadData( editor.getData() );
-							isHandlingData = false;
-						}
+						return editor._.modes && editor._.modes[ mode || editor.mode ];
+					};
 
-						if ( editor.mode )
-							setData();
-						else
-						{
-							editor.on( 'mode', function()
+					// This is a semaphore used to avoid recursive calls between
+					// the following data handling functions.
+					var isHandlingData;
+
+					CKEDITOR.plugins.add('editingblock',
+							{
+								init: function (editor)
 								{
-									setData();
-									editor.removeListener( 'mode', arguments.callee );
-								});
-						}
-					}
-				});
+									if (!editor.config.editingBlock)
+										return;
 
-			editor.on( 'beforeGetData', function()
-				{
-					if ( !isHandlingData && editor.mode )
+									editor.on('themeSpace', function (event)
+									{
+										if (event.data.space == 'contents')
+											event.data.html += '<br>';
+									});
+
+									editor.on('themeLoaded', function ()
+									{
+										editor.fireOnce('editingBlockReady');
+									});
+
+									editor.on('uiReady', function ()
+									{
+										editor.setMode(editor.config.startupMode);
+									});
+
+									editor.on('afterSetData', function ()
+									{
+										if (!isHandlingData)
+										{
+											function setData()
+											{
+												isHandlingData = true;
+												getMode(editor).loadData(editor.getData());
+												isHandlingData = false;
+											}
+
+											if (editor.mode)
+												setData();
+											else
+											{
+												editor.on('mode', function ()
+												{
+													setData();
+													editor.removeListener('mode', arguments.callee);
+												});
+											}
+										}
+									});
+
+									editor.on('beforeGetData', function ()
+									{
+										if (!isHandlingData && editor.mode)
+										{
+											isHandlingData = true;
+											editor.setData(getMode(editor).getData());
+											isHandlingData = false;
+										}
+									});
+
+									editor.on('getSnapshot', function (event)
+									{
+										if (editor.mode)
+											event.data = getMode(editor).getSnapshotData();
+									});
+
+									editor.on('loadSnapshot', function (event)
+									{
+										if (editor.mode)
+											getMode(editor).loadSnapshotData(event.data);
+									});
+
+									// For the first "mode" call, we'll also fire the "instanceReady"
+									// event.
+									editor.on('mode', function (event)
+									{
+										// Do that once only.
+										event.removeListener();
+
+										// Redirect the focus into editor for webkit. (#5713)
+										CKEDITOR.env.webkit && editor.container.on('focus', function ()
+										{
+											editor.focus();
+										});
+
+										if (editor.config.startupFocus)
+											editor.focus();
+
+										// Fire instanceReady for both the editor and CKEDITOR, but
+										// defer this until the whole execution has completed
+										// to guarantee the editor is fully responsible.
+										setTimeout(function () {
+											editor.fireOnce('instanceReady');
+											CKEDITOR.fire('instanceReady', null, editor);
+										}, 0);
+									});
+								}
+							});
+
+					/**
+					 * The current editing mode. An editing mode is basically a viewport for
+					 * editing or content viewing. By default the possible values for this
+					 * property are "wysiwyg" and "source".
+					 * @type String
+					 * @example
+					 * alert( CKEDITOR.instances.editor1.mode );  // "wysiwyg" (e.g.)
+					 */
+					CKEDITOR.editor.prototype.mode = '';
+
+					/**
+					 * Registers an editing mode. This function is to be used mainly by plugins.
+					 * @param {String} mode The mode name.
+					 * @param {Object} modeEditor The mode editor definition.
+					 * @example
+					 */
+					CKEDITOR.editor.prototype.addMode = function (mode, modeEditor)
 					{
-						isHandlingData = true;
-						editor.setData( getMode( editor ).getData() );
-						isHandlingData = false;
-					}
-				});
+						modeEditor.name = mode;
+						(this._.modes || (this._.modes = {}))[ mode ] = modeEditor;
+					};
 
-			editor.on( 'getSnapshot', function( event )
-				{
-					if ( editor.mode )
-						event.data = getMode( editor ).getSnapshotData();
-				});
+					/**
+					 * Sets the current editing mode in this editor instance.
+					 * @param {String} mode A registered mode name.
+					 * @example
+					 * // Switch to "source" view.
+					 * CKEDITOR.instances.editor1.setMode( 'source' );
+					 */
+					CKEDITOR.editor.prototype.setMode = function (mode)
+					{
+						var data,
+								holderElement = this.getThemeSpace('contents'),
+								isDirty = this.checkDirty();
 
-			editor.on( 'loadSnapshot', function( event )
-				{
-					if ( editor.mode )
-						getMode( editor ).loadSnapshotData( event.data );
-				});
-
-			// For the first "mode" call, we'll also fire the "instanceReady"
-			// event.
-			editor.on( 'mode', function( event )
-				{
-					// Do that once only.
-					event.removeListener();
-
-					// Redirect the focus into editor for webkit. (#5713)
-					CKEDITOR.env.webkit && editor.container.on( 'focus', function()
+						// Unload the previous mode.
+						if (this.mode)
 						{
-							editor.focus();
-						});
+							if (mode == this.mode)
+								return;
 
-					if ( editor.config.startupFocus )
-						editor.focus();
+							this.fire('beforeModeUnload');
 
-					// Fire instanceReady for both the editor and CKEDITOR, but
-					// defer this until the whole execution has completed
-					// to guarantee the editor is fully responsible.
-					setTimeout( function() {
-						editor.fireOnce( 'instanceReady' );
-						CKEDITOR.fire( 'instanceReady', null, editor );
-					}, 0 );
-				});
-		}
-	});
+							var currentMode = getMode(this);
+							data = currentMode.getData();
+							currentMode.unload(holderElement);
+							this.mode = '';
+						}
 
-	/**
-	 * The current editing mode. An editing mode is basically a viewport for
-	 * editing or content viewing. By default the possible values for this
-	 * property are "wysiwyg" and "source".
-	 * @type String
-	 * @example
-	 * alert( CKEDITOR.instances.editor1.mode );  // "wysiwyg" (e.g.)
-	 */
-	CKEDITOR.editor.prototype.mode = '';
+						holderElement.setHtml('');
 
-	/**
-	 * Registers an editing mode. This function is to be used mainly by plugins.
-	 * @param {String} mode The mode name.
-	 * @param {Object} modeEditor The mode editor definition.
-	 * @example
-	 */
-	CKEDITOR.editor.prototype.addMode = function( mode, modeEditor )
-	{
-		modeEditor.name = mode;
-		( this._.modes || ( this._.modes = {} ) )[ mode ] = modeEditor;
-	};
+						// Load required mode.
+						var modeEditor = getMode(this, mode);
+						if (!modeEditor)
+							throw '[CKEDITOR.editor.setMode] Unknown mode "' + mode + '".';
 
-	/**
-	 * Sets the current editing mode in this editor instance.
-	 * @param {String} mode A registered mode name.
-	 * @example
-	 * // Switch to "source" view.
-	 * CKEDITOR.instances.editor1.setMode( 'source' );
-	 */
-	CKEDITOR.editor.prototype.setMode = function( mode )
-	{
-		var data,
-			holderElement = this.getThemeSpace( 'contents' ),
-			isDirty = this.checkDirty();
+						if (!isDirty)
+						{
+							this.on('mode', function ()
+							{
+								this.resetDirty();
+								this.removeListener('mode', arguments.callee);
+							});
+						}
 
-		// Unload the previous mode.
-		if ( this.mode )
-		{
-			if ( mode == this.mode )
-				return;
+						modeEditor.load(holderElement, (typeof data) != 'string' ? this.getData() : data);
+					};
 
-			this.fire( 'beforeModeUnload' );
+					/**
+					 * Moves the selection focus to the editing are space in the editor.
+					 */
+					CKEDITOR.editor.prototype.focus = function ()
+					{
+						var mode = getMode(this);
+						if (mode)
+							mode.focus();
+					};
+				})();
 
-			var currentMode = getMode( this );
-			data = currentMode.getData();
-			currentMode.unload( holderElement );
-			this.mode = '';
-		}
+		/**
+		 * The mode to load at the editor startup. It depends on the plugins
+		 * loaded. By default, the "wysiwyg" and "source" modes are available.
+		 * @type String
+		 * @default 'wysiwyg'
+		 * @example
+		 * config.startupMode = 'source';
+		 */
+		CKEDITOR.config.startupMode = 'wysiwyg';
 
-		holderElement.setHtml( '' );
+		/**
+		 * Sets whether the editor should have the focus when the page loads.
+		 * @type Boolean
+		 * @default false
+		 * @example
+		 * config.startupFocus = true;
+		 */
 
-		// Load required mode.
-		var modeEditor = getMode( this, mode );
-		if ( !modeEditor )
-			throw '[CKEDITOR.editor.setMode] Unknown mode "' + mode + '".';
+		/**
+		 * Whether to render or not the editing block area in the editor interface.
+		 * @type Boolean
+		 * @default true
+		 * @example
+		 * config.editingBlock = false;
+		 */
+		CKEDITOR.config.editingBlock = true;
 
-		if ( !isDirty )
-		{
-			this.on( 'mode', function()
-				{
-					this.resetDirty();
-					this.removeListener( 'mode', arguments.callee );
-				});
-		}
-
-		modeEditor.load( holderElement, ( typeof data ) != 'string'  ? this.getData() : data);
-	};
-
-	/**
-	 * Moves the selection focus to the editing are space in the editor.
-	 */
-	CKEDITOR.editor.prototype.focus = function()
-	{
-		var mode = getMode( this );
-		if ( mode )
-			mode.focus();
-	};
-})();
-
-/**
- * The mode to load at the editor startup. It depends on the plugins
- * loaded. By default, the "wysiwyg" and "source" modes are available.
- * @type String
- * @default 'wysiwyg'
- * @example
- * config.startupMode = 'source';
- */
-CKEDITOR.config.startupMode = 'wysiwyg';
-
-/**
- * Sets whether the editor should have the focus when the page loads.
- * @type Boolean
- * @default false
- * @example
- * config.startupFocus = true;
- */
-
-/**
- * Whether to render or not the editing block area in the editor interface.
- * @type Boolean
- * @default true
- * @example
- * config.editingBlock = false;
- */
-CKEDITOR.config.editingBlock = true;
-
-/**
- * Fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
- * @name CKEDITOR#instanceReady
- * @event
- * @param {CKEDITOR.editor} editor The editor instance that has been created.
- */
+		/**
+		 * Fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
+		 * @name CKEDITOR#instanceReady
+		 * @event
+		 * @param {CKEDITOR.editor} editor The editor instance that has been created.
+		 */

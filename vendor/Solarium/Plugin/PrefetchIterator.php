@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin;
 
 use Solarium\Client;
@@ -52,6 +53,7 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class PrefetchIterator extends Plugin implements \Iterator, \Countable
 {
+
     /**
      * Default options
      *
@@ -225,4 +227,5 @@ class PrefetchIterator extends Plugin implements \Iterator, \Countable
         $this->documents = $this->result->getDocuments();
         $this->start += $this->getPrefetch();
     }
+
 }

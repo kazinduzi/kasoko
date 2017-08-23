@@ -13,9 +13,6 @@ if (!function_exists('render')) {
     function render($template, $data = array())
     {
         extract($data, EXTR_SKIP | EXTR_REFS);
-//        foreach ($data as $key => $value) {
-//            $$key = $value;
-//        }
         ob_start();
         if (THEME_PATH && is_file($templateFile = THEME_PATH . DS . $template)) {
             require $templateFile;
@@ -82,7 +79,7 @@ if (!function_exists('arrayToObject')) {
 
     function arrayToObject($array = array())
     {
-        return (object)$array;
+        return (object) $array;
     }
 
 }
@@ -294,7 +291,7 @@ if (!function_exists('put')) {
                 }
             }
         }
-        return (array)$_PUT;
+        return (array) $_PUT;
     }
 
 }
@@ -314,7 +311,7 @@ if (!function_exists('delete')) {
                 }
             }
         }
-        return (array)$_DELETE;
+        return (array) $_DELETE;
     }
 
 }

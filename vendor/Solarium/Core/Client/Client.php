@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
@@ -77,6 +78,7 @@ use Solarium\Core\Event\PostExecuteRequest as PostExecuteRequestEvent;
  */
 class Client extends Configurable
 {
+
     /**
      * Querytype select
      */
@@ -340,7 +342,7 @@ class Client extends Configurable
         }
 
         if (!isset($this->endpoints[$key])) {
-            throw new OutOfBoundsException('Endpoint '.$key.' not available');
+            throw new OutOfBoundsException('Endpoint ' . $key . ' not available');
         }
 
         return $this->endpoints[$key];
@@ -419,7 +421,7 @@ class Client extends Configurable
         }
 
         if (!isset($this->endpoints[$endpoint])) {
-            throw new OutOfBoundsException('Unknown endpoint '.$endpoint.' cannot be set as default');
+            throw new OutOfBoundsException('Unknown endpoint ' . $endpoint . ' cannot be set as default');
         }
 
         $this->defaultEndpoint = $endpoint;
@@ -586,7 +588,7 @@ class Client extends Configurable
     public function registerPlugin($key, $plugin, $options = array())
     {
         if (is_string($plugin)) {
-            $plugin = class_exists($plugin) ? $plugin : $plugin.strrchr($plugin, '\\');
+            $plugin = class_exists($plugin) ? $plugin : $plugin . strrchr($plugin, '\\');
             $plugin = new $plugin;
         }
 
@@ -616,9 +618,7 @@ class Client extends Configurable
             }
 
             $this->registerPlugin(
-                $plugin['key'],
-                $plugin['plugin'],
-                $plugin['options']
+                    $plugin['key'], $plugin['plugin'], $plugin['options']
             );
         }
 
@@ -703,14 +703,13 @@ class Client extends Configurable
 
         $requestBuilder = $query->getRequestBuilder();
         if (!$requestBuilder || !($requestBuilder instanceof RequestBuilderInterface)) {
-            throw new UnexpectedValueException('No requestbuilder returned by querytype: '. $query->getType());
+            throw new UnexpectedValueException('No requestbuilder returned by querytype: ' . $query->getType());
         }
 
         $request = $requestBuilder->build($query);
 
         $this->eventDispatcher->dispatch(
-            Events::POST_CREATE_REQUEST,
-            new PostCreateRequestEvent($query, $request)
+                Events::POST_CREATE_REQUEST, new PostCreateRequestEvent($query, $request)
         );
 
         return $request;
@@ -740,8 +739,7 @@ class Client extends Configurable
         }
 
         $this->eventDispatcher->dispatch(
-            Events::POST_CREATE_RESULT,
-            new PostCreateResultEvent($query, $response, $result)
+                Events::POST_CREATE_RESULT, new PostCreateResultEvent($query, $response, $result)
         );
 
         return $result;
@@ -767,8 +765,7 @@ class Client extends Configurable
         $result = $this->createResult($query, $response);
 
         $this->eventDispatcher->dispatch(
-            Events::POST_EXECUTE,
-            new PostExecuteEvent($query, $result)
+                Events::POST_EXECUTE, new PostExecuteEvent($query, $result)
         );
 
         return $result;
@@ -797,8 +794,7 @@ class Client extends Configurable
         }
 
         $this->eventDispatcher->dispatch(
-            Events::POST_EXECUTE_REQUEST,
-            new PostExecuteRequestEvent($request, $endpoint, $response)
+                Events::POST_EXECUTE_REQUEST, new PostExecuteRequestEvent($request, $endpoint, $response)
         );
 
         return $response;
@@ -998,7 +994,7 @@ class Client extends Configurable
         }
 
         if (!isset($this->queryTypes[$type])) {
-            throw new InvalidArgumentException('Unknown querytype: '. $type);
+            throw new InvalidArgumentException('Unknown querytype: ' . $type);
         }
 
         $class = $this->queryTypes[$type];
@@ -1009,8 +1005,7 @@ class Client extends Configurable
         }
 
         $this->eventDispatcher->dispatch(
-            Events::POST_CREATE_QUERY,
-            new PostCreateQueryEvent($type, $options, $query)
+                Events::POST_CREATE_QUERY, new PostCreateQueryEvent($type, $options, $query)
         );
 
         return $query;
@@ -1125,4 +1120,5 @@ class Client extends Configurable
     {
         return $this->createQuery(self::QUERY_REALTIME_GET, $options);
     }
+
 }

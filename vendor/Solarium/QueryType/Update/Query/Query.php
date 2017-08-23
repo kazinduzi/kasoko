@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query;
 
 use Solarium\Core\Client\Client;
@@ -61,6 +62,7 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Update command add
      */
@@ -105,10 +107,10 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'update',
-        'resultclass'   => 'Solarium\QueryType\Update\Result',
+        'handler' => 'update',
+        'resultclass' => 'Solarium\QueryType\Update\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
-        'omitheader'    => false,
+        'omitheader' => false,
     );
 
     /**
@@ -169,14 +171,13 @@ class Query extends BaseQuery
 
                 if ($type == self::COMMAND_ADD) {
                     throw new RuntimeException(
-                        "Adding documents is not supported in configuration, use the API for this"
+                    "Adding documents is not supported in configuration, use the API for this"
                     );
                 }
 
                 $this->add($key, $this->createCommand($type, $value));
             }
         }
-
     }
 
     /**
@@ -490,4 +491,5 @@ class Query extends BaseQuery
         $class = $this->getDocumentClass();
         return new $class($fields, $boosts, $modifiers);
     }
+
 }

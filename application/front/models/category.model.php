@@ -4,6 +4,7 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Category extends Model
 {
+
     const LIMIT_DEFAULT = 10;
     const CATEGORY_TABLE = 'category';
     const PRODUCT_TABLE = 'product';
@@ -33,6 +34,7 @@ class Category extends Model
             'far_key' => 'product_id'
         )
     );
+
     /**
      * The primary key category table
      * @var string
@@ -78,7 +80,7 @@ class Category extends Model
      */
     public function isTop()
     {
-        return (int)$this->parent_id === 0;
+        return (int) $this->parent_id === 0;
     }
 
     /**
@@ -88,7 +90,7 @@ class Category extends Model
      */
     public function isChild()
     {
-        return (int)$this->parent_id !== 0;
+        return (int) $this->parent_id !== 0;
     }
 
     /**
@@ -98,7 +100,7 @@ class Category extends Model
      */
     public function isLive()
     {
-        return (bool)$this->status === true;
+        return (bool) $this->status === true;
     }
 
     /**
@@ -108,7 +110,7 @@ class Category extends Model
      */
     public function visibleInMenu()
     {
-        return (bool)($this->in_menu || is_null($this->in_menu));
+        return (bool) ($this->in_menu || is_null($this->in_menu));
     }
 
     /**

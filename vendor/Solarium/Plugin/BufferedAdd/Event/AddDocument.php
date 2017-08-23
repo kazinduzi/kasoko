@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -46,6 +47,7 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class AddDocument extends Event
 {
+
     /**
      * @var DocumentInterface
      */
@@ -70,4 +72,5 @@ class AddDocument extends Event
     {
         return $this->document;
     }
+
 }

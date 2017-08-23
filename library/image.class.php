@@ -1,12 +1,12 @@
-<?php defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
 
 class Image
 {
 
     private $image;
-
     private $type;
-
 
     /**
      * constructor for the Image processing with GD Library
@@ -14,7 +14,8 @@ class Image
      */
     public function __construct($filename)
     {
-        if (!$this->isGD()) throw new Exception('GD Library is not loaded');
+        if (!$this->isGD())
+            throw new Exception('GD Library is not loaded');
         $this->load($filename);
     }
 
@@ -53,7 +54,8 @@ class Image
      */
     public function __destruct()
     {
-        if (is_resource($this->image)) imagedestroy($this->image);
+        if (is_resource($this->image))
+            imagedestroy($this->image);
     }
 
     /**
@@ -195,7 +197,7 @@ class Image
             @chmod(dirname($filename), 0777);
             // Throw an exception if not writeable
             if (!is_writeable(dirname($filename))) {
-                throw new RuntimeException ('File is not writeable, and could not correct permissions: ' . $filename);
+                throw new RuntimeException('File is not writeable, and could not correct permissions: ' . $filename);
             }
         }
         if ($this->getType() == IMAGETYPE_JPEG) {

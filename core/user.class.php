@@ -1,4 +1,7 @@
-<?php defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
+
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
  *
@@ -11,48 +14,50 @@
 use framework\library\Acls\Role as UserRole;
 use framework\library\Acls\Permission;
 
-
 class User extends \Model
-{   
+{
+
     const USER_TABLE_NAME = 'users';
 
     /**
      * @var array
      */
     protected $roles = array();
+
     /**
      * @var string
      */
     protected $table = self::USER_TABLE_NAME;
+
     /**
      * @var
      */
     protected $dbo;
-    
+
     /**
      * Check if the username is availabe or not
      * @param string $username
      * @return bool
      */
-    public static function usernameAvailable($username) 
+    public static function usernameAvailable($username)
     {
         $db = Kazinduzi::db()->clear();
-        $escaped = $db->real_escape_string((string)$username);
-            $db->select('`id`')
-            ->from('`users`')
-            ->where('`username` = \'' . $escaped . '\'')
-            ->buildQuery()
-            ->execute();
+        $escaped = $db->real_escape_string((string) $username);
+        $db->select('`id`')
+                ->from('`users`')
+                ->where('`username` = \'' . $escaped . '\'')
+                ->buildQuery()
+                ->execute();
         return $db->fetchAssoc() ? false : true;
     }
-    
+
     /**
      * Get all user
      * @return array
      */
     public static function getAll()
-    {	
-	    return static::getInstance()->findAll();
+    {
+        return static::getInstance()->findAll();
     }
 
     /**
@@ -61,7 +66,7 @@ class User extends \Model
      * @param \Database|Database $dbo
      * @return User
      */
-    public function setDbo(\Database $dbo) 
+    public function setDbo(\Database $dbo)
     {
         if (!$dbo instanceof Database) {
             $this->dbo = Kazinduzi::db()->clear();
@@ -70,13 +75,13 @@ class User extends \Model
         }
         return $this;
     }
-    
+
     /**
      *
      * @return type
      * @throws Exception
      */
-    public function getDbo() 
+    public function getDbo()
     {
         if (!$this->dbo instanceof Database) {
             return $this->dbo = Kazinduzi::db()->clear();
@@ -89,11 +94,11 @@ class User extends \Model
      * 
      * @return array
      */
-    public function getRoles() 
-    {	
-	if (empty($this->roles)) {
-	    $this->loadUserRoles();
-	}
+    public function getRoles()
+    {
+        if (empty($this->roles)) {
+            $this->loadUserRoles();
+        }
         return $this->roles;
     }
 
@@ -102,11 +107,11 @@ class User extends \Model
      * @param UserRole $role
      * @return boolean
      */
-    public function hasRole(UserRole $role) 
+    public function hasRole(UserRole $role)
     {
-	return in_array($role, $this->getRoles());
+        return in_array($role, $this->getRoles());
     }
-    
+
     /**
      * Add the user_role
      * 
@@ -114,36 +119,36 @@ class User extends \Model
      * @return \User
      */
     public function addRole(UserRole $role)
-    {	
-	if (!$this->hasRole($role)){
-	    $data = array(
-		'user_id' =>  $this->getId(), 
-		'role_id' => $role->getId()
-	    );	    
-	    $this->getDbo()->insert('users_roles', $data);	
-	}
-	return $this;
+    {
+        if (!$this->hasRole($role)) {
+            $data = array(
+                'user_id' => $this->getId(),
+                'role_id' => $role->getId()
+            );
+            $this->getDbo()->insert('users_roles', $data);
+        }
+        return $this;
     }
-    
+
     /**
      * Remove user's role
      * @param UserRole $role
      * @return \User
      */
     public function removeRole(UserRole $role)
-    {	
-	$this->getDbo()->delete('users_roles', 'role_id=' . $role->getId() . ' AND user_id=' . $this->getId());	
-	return $this;
+    {
+        $this->getDbo()->delete('users_roles', 'role_id=' . $role->getId() . ' AND user_id=' . $this->getId());
+        return $this;
     }
-    
+
     /**
      * Remove all user's roles
      * @return \User
      */
     public function removeUserRoles()
     {
-	$this->getDbo()->delete('users_roles', 'user_id=' . $this->getId());
-	return $this;
+        $this->getDbo()->delete('users_roles', 'user_id=' . $this->getId());
+        return $this;
     }
 
     /**
@@ -152,13 +157,13 @@ class User extends \Model
      * @param string|Permission $permission
      * @return boolean
      */
-    public function hasPermission($permission) 
+    public function hasPermission($permission)
     {
-	if (is_string($permission)) {
-	    $permission = Permission::getByName($permission);
-	} elseif (is_int($permission)) {
-	    $permission = new Permission($permission);
-	}
+        if (is_string($permission)) {
+            $permission = Permission::getByName($permission);
+        } elseif (is_int($permission)) {
+            $permission = new Permission($permission);
+        }
         if ($permission instanceof Permission) {
             foreach ($this->getRoles() as $role) {
                 if ($role->hasPermission($permission)) {
@@ -175,20 +180,20 @@ class User extends \Model
      * @return static
      * @throws \Exception
      */
-    public function getUserByUserid($id) 
+    public function getUserByUserid($id)
     {
         if (!isset($id) || !is_numeric($id)) {
-	    throw new \InvalidArgumentException('Invalid userid provided');
-	}
+            throw new \InvalidArgumentException('Invalid userid provided');
+        }
         $this->getDbo()->select('*')
                 ->from('`users`')
-                ->where('`id` = ' . (int)$id . '')
+                ->where('`id` = ' . (int) $id . '')
                 ->buildQuery()
                 ->execute();
         if (null !== $row = $this->getDbo()->fetchAssocRow()) {
-	    return new static($row);
-	}
-	throw new \RuntimeException("Unable to find user with username #{$id}"); 
+            return new static($row);
+        }
+        throw new \RuntimeException("Unable to find user with username #{$id}");
     }
 
     /**
@@ -203,16 +208,16 @@ class User extends \Model
             throw new \InvalidArgumentException('Invalid username provided');
         }
         $this->getDbo()->select('*')
-            ->from('`users`')
-            ->where("`username` = '" . $this->getDbo()->real_escape_string($username) . "'")
-            ->buildQuery()
-            ->execute();
+                ->from('`users`')
+                ->where("`username` = '" . $this->getDbo()->real_escape_string($username) . "'")
+                ->buildQuery()
+                ->execute();
         if (null !== $row = $this->getDbo()->fetchAssocRow()) {
             return new static($row);
         }
         return;
     }
-    
+
     /**
      * Load the user_roles
      */
@@ -222,26 +227,26 @@ class User extends \Model
             return;
         }
         $this->getDbo()->clear()->select('r.*')
-            ->from('`roles` as r')
-            ->join('`users_roles` as ur', 'ur.role_id = r.role_id')
-            ->where('ur.user_id=' . $this->getId())
-            ->buildQuery()
-            ->execute();
+                ->from('`roles` as r')
+                ->join('`users_roles` as ur', 'ur.role_id = r.role_id')
+                ->where('ur.user_id=' . $this->getId())
+                ->buildQuery()
+                ->execute();
         $rows = $this->getDbo()->fetchAssocList();
         if (!empty($rows)) {
-            foreach($rows as $row) {
-            $this->roles[] = new UserRole($row);
+            foreach ($rows as $row) {
+                $this->roles[] = new UserRole($row);
             }
         }
-    } 
-    
+    }
+
     /**
      * Set adminstrator
      * 
      * @param boolean $admin
      * @return $this
      */
-    public function setAdmin($admin = false) 
+    public function setAdmin($admin = false)
     {
         $this->level = ($admin == true) ? 9 : 1;
         return $this;
@@ -252,11 +257,11 @@ class User extends \Model
      *
      * @return boolean
      */
-    public function isAdmin() 
+    public function isAdmin()
     {
         return ($this->level == 9) ? true : false;
     }
-    
+
     /**
      * 
      * @return type
@@ -273,10 +278,10 @@ class User extends \Model
      */
     public function setActive($active = false)
     {
-        $this->status = (boolean)$active;
+        $this->status = (boolean) $active;
         return $this;
     }
-    
+
     /**
      * Is the user active
      * 
@@ -284,16 +289,16 @@ class User extends \Model
      */
     public function isActive()
     {
-	    return $this->status == true;
+        return $this->status == true;
     }
-    
+
     /**
      * Check if the user is internal to the system;
      * Thus it cannot be deleted
      * 
      * @return boolean
      */
-    public function isInternal() 
+    public function isInternal()
     {
         return ($this->internal == true);
     }
@@ -302,17 +307,17 @@ class User extends \Model
      *
      * @return string
      */
-    public function __toString() 
+    public function __toString()
     {
         return $this->getFullname();
     }
-    
+
     /**
      * Get the fullname
      * 
      * @return string
      */
-    public function getFullname() 
+    public function getFullname()
     {
         $fullName = '';
         if (isset($this->lastname)) {
@@ -335,7 +340,7 @@ class User extends \Model
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function setUsername($username) 
+    public function setUsername($username)
     {
         if (is_null($username) || !is_string($username)) {
             throw new \InvalidArgumentException("Username must be a string");
@@ -351,7 +356,7 @@ class User extends \Model
      * Get username
      * @return string
      */
-    public function getUsername() 
+    public function getUsername()
     {
         return $this->username;
     }
@@ -363,9 +368,9 @@ class User extends \Model
      * @return \User
      * @throws Exception
      */
-    public function setPassword($password, $confirm_password = null) 
-    {        
-	    if (empty($password) || $password != $confirm_password) {
+    public function setPassword($password, $confirm_password = null)
+    {
+        if (empty($password) || $password != $confirm_password) {
             throw new \Exception('Invalid password and/or password verification fails.');
         }
         $this->password = password_hash($password, PASSWORD_BCRYPT, array('cost' => PASSWORD_BCRYPT_DEFAULT_COST));
@@ -376,8 +381,8 @@ class User extends \Model
      *
      * @return type
      */
-    public function getPassword() 
-    {        
+    public function getPassword()
+    {
         return $this->password;
     }
 
@@ -387,26 +392,27 @@ class User extends \Model
      * @throws Exception
      * @internal param bool $reload
      */
-    public function save() 
-    {        
+    public function save()
+    {
         try {
             return parent::save();
         } catch (\Exception $e) {
             throw $e;
         }
-    }    
-    
+    }
+
     /**
      * Delete a user
      * 
      * @return boolean
      * @throws Exception
      */
-    public function delete() 
+    public function delete()
     {
         if ($this->internal) {
             throw new \Exception('An internal user may not be deleted.');
         }
         return parent::delete();
     }
+
 }

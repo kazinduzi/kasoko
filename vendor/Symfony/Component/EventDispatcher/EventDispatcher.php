@@ -29,6 +29,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class EventDispatcher implements EventDispatcherInterface
 {
+
     private $listeners = array();
     private $sorted = array();
 
@@ -182,4 +183,5 @@ class EventDispatcher implements EventDispatcherInterface
             $this->sorted[$eventName] = call_user_func_array('array_merge', $this->listeners[$eventName]);
         }
     }
+
 }

@@ -1,10 +1,11 @@
 <?php
+
 /*
  * Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-/*! \mainpage CKEditor - PHP server side intergation
+/* ! \mainpage CKEditor - PHP server side intergation
  * \section intro_sec CKEditor
  * Visit <a href="http://ckeditor.com">CKEditor web site</a> to find more information about the editor.
  * \section install_sec Installation

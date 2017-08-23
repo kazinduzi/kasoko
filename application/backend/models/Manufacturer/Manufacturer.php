@@ -1,13 +1,17 @@
 <?php
+
 namespace models\Manufacturer;
+
 defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Manufacturer extends \Model
 {
+
     const MANUFACTURER_TABLE = 'manufacturer';
     const MANUFACTURER_PRIMARY_KEY = 'manufacturer_id';
 
     public $table = self::MANUFACTURER_TABLE;
+
     /**
      * Place for relations of our models
      * {$hasMany} | {$hasOne} | {$belongTo} | {$hasMany_through}
@@ -31,7 +35,7 @@ class Manufacturer extends \Model
      */
     public function setActive($active)
     {
-        $this->active = (bool)$active;
+        $this->active = (bool) $active;
         return $this;
     }
 
@@ -41,7 +45,7 @@ class Manufacturer extends \Model
      */
     public function isActive()
     {
-        return (bool)$this->active === true;
+        return (bool) $this->active === true;
     }
 
     /**
@@ -61,4 +65,5 @@ class Manufacturer extends \Model
     {
         return $this->findAll();
     }
+
 }

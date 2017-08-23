@@ -6,15 +6,16 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Manufacturer extends \Model
 {
+
     const SORT_ALPHA = 'alpha';
     const SORT_ALPHA_REV = 'alpha_reverse';
     const SORT_PRICE_MIN = 'price_min';
     const SORT_PRICE_MAX = 'price_max';
-
     const MANUFACTURER_TABLE = 'manufacturer';
     const MANUFACTURER_PRIMARY_KEY = 'manufacturer_id';
 
     public $table = self::MANUFACTURER_TABLE;
+
     /**
      * Place for relations of our models
      * {$hasMany} | {$hasOne} | {$belongTo} | {$hasMany_through}
@@ -38,7 +39,7 @@ class Manufacturer extends \Model
      */
     public function setActive($active)
     {
-        $this->active = (bool)$active;
+        $this->active = (bool) $active;
         return $this;
     }
 
@@ -48,7 +49,7 @@ class Manufacturer extends \Model
      */
     public function isActive()
     {
-        return (bool)$this->active === true;
+        return (bool) $this->active === true;
     }
 
     /**
@@ -103,6 +104,5 @@ class Manufacturer extends \Model
         $whereClause = sprintf('slug=\'%s\'', $this->getDbo()->real_escape_string($slug));
         return $this->findByAttr('*', $whereClause);
     }
-
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  * Copyright 2012 Alexander Brausewetter. All rights reserved.
@@ -34,10 +35,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Configurable;
@@ -59,6 +60,7 @@ use Solarium\Exception\OutOfBoundsException;
  */
 class ZendHttp extends Configurable implements AdapterInterface
 {
+
     /**
      * Zend Http instance for communication with Solr
      *
@@ -145,8 +147,7 @@ class ZendHttp extends Configurable implements AdapterInterface
             // forward zendhttp options
             if (isset($this->options['options'])) {
                 $options = array_merge(
-                    $options,
-                    $this->options['options']
+                        $options, $this->options['options']
                 );
             }
 
@@ -201,8 +202,7 @@ class ZendHttp extends Configurable implements AdapterInterface
         $response = $client->request();
 
         return $this->prepareResponse(
-            $request,
-            $response
+                        $request, $response
         );
     }
 
@@ -219,8 +219,7 @@ class ZendHttp extends Configurable implements AdapterInterface
     {
         if ($response->isError()) {
             throw new HttpException(
-                $response->getMessage(),
-                $response->getStatus()
+            $response->getMessage(), $response->getStatus()
             );
         }
 
@@ -247,10 +246,8 @@ class ZendHttp extends Configurable implements AdapterInterface
     {
         $filename = $request->getFileUpload();
         $client->setFileUpload(
-            'content',
-            'content',
-            file_get_contents($filename),
-            'application/octet-stream; charset=binary'
+                'content', 'content', file_get_contents($filename), 'application/octet-stream; charset=binary'
         );
     }
+
 }

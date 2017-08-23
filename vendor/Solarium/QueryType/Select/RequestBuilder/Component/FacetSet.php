@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\Core\Client\Request;
@@ -53,6 +54,7 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for FacetSet
      *
@@ -114,11 +116,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $field = $facet->getField();
 
         $request->addParam(
-            'facet.field',
-            $this->renderLocalParams(
-                $field,
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
-            )
+                'facet.field', $this->renderLocalParams(
+                        $field, array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                )
         );
 
         $request->addParam("f.$field.facet.limit", $facet->getLimit());
@@ -140,11 +140,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
     public function addFacetQuery($request, $facet)
     {
         $request->addParam(
-            'facet.query',
-            $this->renderLocalParams(
-                $facet->getQuery(),
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
-            )
+                'facet.query', $this->renderLocalParams(
+                        $facet->getQuery(), array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                )
         );
     }
 
@@ -174,11 +172,9 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $field = $facet->getField();
 
         $request->addParam(
-            'facet.range',
-            $this->renderLocalParams(
-                $field,
-                array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
-            )
+                'facet.range', $this->renderLocalParams(
+                        $field, array('key' => $facet->getKey(), 'ex' => $facet->getExcludes())
+                )
         );
 
         $request->addParam("f.$field.facet.range.start", $facet->getStart());
@@ -207,4 +203,5 @@ class FacetSet extends RequestBuilder implements ComponentRequestBuilderInterfac
         $request->addParam('facet.pivot', implode(',', $facet->getFields()));
         $request->addParam('facet.pivot.mincount', $facet->getMinCount(), true);
     }
+
 }

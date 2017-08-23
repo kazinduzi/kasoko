@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <h2>Attributes > <?= $attributeGroup->name; ?></h2>
+    <a class="btn btn-default btn-primary action-btn" title="Add a new attribute"
+       href="/admin/configuration/attributegroup/add_attribute?attribute_group=<?php echo $attributeGroup->getId(); ?>"
+       data-toggle="modal">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+    </a>
+    <?php if (empty($attributes)) : ?>
+        <div>No attributes available</div>
+    <?php else : ?>
+        <div class="attribute-group">
+            <table class="table table-striped table-condensed fa-border">
+                <tr>
+                    <th>ID</th>
+                    <th>Value</th>
+                    <th>Label-Value</th>
+                    <th class="actions"></th>
+                </tr>
+                <?php foreach ($attributes as $attribute) : ?>
+                    <tr>
+                        <td><?php echo $attribute->getId(); ?></td>
+                        <td><?php echo $attribute->value; ?></td>
+                        <td><?php echo $attribute->value_label; ?></td>
+                        <td class="actions">
+                            <div class="btn-group-action">
+                                <div class="btn-group pull-right">
+                                    <a class="btn btn-default"
+                                       href="/admin/configuration/attributegroup/edit_attribute/<?php echo $attribute->getId(); ?>"><i
+                                            class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default"
+                                       href="/admin/configuration/attributegroup/delete_attribute/<?php echo $attribute->getId(); ?>"><i
+                                            class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    <?php endif; ?>
+</div>

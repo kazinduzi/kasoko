@@ -1,0 +1,121 @@
+<h1>Store configuration</h1>
+<div class="row">
+    <div class="col-md-12 title">
+        
+    </div>
+</div>
+<div class="form-container">    
+    <form method="post" action="" class="clearfix">
+        <input type="hidden" name="store[id]" value="<?php echo $store->getId();?>">
+        <input type="hidden" name="_token" value="<?php echo $token;?>">
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/configuration" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+        
+        <?php if ($store->getId()) :?>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="title">General</p>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label">Store name</label>
+                        <input type="text" class="form-control" name="store[name]" value="<?php echo $store->name ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Store description</label>
+                        <textarea class="form-control" name="store[description]"><?php echo $store->description ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email address</label>
+                        <input class="form-control" type="email" name="store[email]" value="<?php echo $store->email ?>">
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div class="col-md-6">
+                <p class="title">Store address</p>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label">Address</label>
+                        <input class="form-control" type="text" name="store[address]" value="<?php echo $store->address?:'' ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Zipcode</label>
+                        <input class="form-control" type="text" name="store[zipcode]" value="<?php echo $store->zipcode ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">City</label>
+                        <input class="form-control" type="text" name="store[city]" value="<?php echo $store->city ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Country</label>
+                        <input class="form-control" type="text" name="store[country]" value="<?php echo $store->country ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Phone</label>
+                        <input class="form-control" type="text" name="store[phone]" value="<?php echo $store->phone ?>">
+                    </div>
+                    
+                </fieldset>
+            </div>
+            
+        </div>        
+        <?php else :?>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="title">General</p>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label">Store name</label>
+                        <input type="text" class="form-control" name="store[name]" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Store description</label>
+                        <textarea class="form-control" name="store[description]"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email address</label>
+                        <input class="form-control" type="email" name="store[email]" value="">
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div class="col-md-6">
+                <p class="title">Store address</p>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label">Address</label>
+                        <input class="form-control" type="text" name="store[address]" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Zipcode</label>
+                        <input class="form-control" type="text" name="store[zipcode]" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">City</label>
+                        <input class="form-control" type="text" name="store[city]" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Country</label>
+                        <input class="form-control" type="text" name="store[country]" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Phone</label>
+                        <input class="form-control" type="text" name="store[phone]" value="">
+                    </div>
+                    
+                </fieldset>
+            </div>
+            
+        </div>
+        <?php endif;?>
+        
+        <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/configuration" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+    </form>
+</div>

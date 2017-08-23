@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * APC session storage handler for PHP
@@ -7,6 +9,7 @@
  */
 final class SessionMemcache extends Session
 {
+
     /**
      *
      * @var type

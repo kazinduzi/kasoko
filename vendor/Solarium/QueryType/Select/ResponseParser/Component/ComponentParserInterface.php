@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,16 +33,17 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
 
 interface ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *

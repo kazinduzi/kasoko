@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
@@ -8,13 +9,11 @@
 
 namespace library\Cart;
 
-
 use library\Escaper\Exception\RuntimeException;
 use Session;
 
 class Cart
 {
-
     private $table = 'cart';
     private $session;
     private $dbo;
@@ -62,7 +61,7 @@ class Cart
      */
     public function getDbo()
     {
-        if (! $this->dbo instanceof \Database) {
+        if (!$this->dbo instanceof \Database) {
             $this->dbo = \Kazinduzi::db()->clear();
         }
 
@@ -123,17 +122,16 @@ class Cart
         }
 
         $cartItem = $this->createCartItem($id, $name, $qty, $price, $attributes);
-
         $cartContent = $this->getContent();
-
         if (isset($cartContent[$cartItem->rowId])) {
             $cartItem->qty += $cartContent[$cartItem->rowId]->qty;
         }
 
-        $_SESSION['cart.items'][$cartItem->rowId] = $cartItem;
-
+        $cartItems = $this->session->get('cart.items');
+        $cartItems[$cartItem->rowId] = $cartItem;
+        $this->session->set('cart.items', $cartItems);
+        
         return $cartItem;
-
     }
 
     /**
@@ -145,7 +143,23 @@ class Cart
      */
     public function update($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
+        if ($this->isMulti($id)) {
+            return array_map(function ($item) {
+                return $this->add($item);
+            }, $id);
+        }
 
+        $cartItem = $this->createCartItem($id, $name, $qty, $price, $attributes);
+        $cartContent = $this->getContent();
+        if (isset($cartContent[$cartItem->rowId])) {
+            $cartItem->qty += $cartContent[$cartItem->rowId]->qty;
+        }
+
+        $cartItems = $this->session->get('cart.items');
+        $cartItems[$cartItem->rowId] = $cartItem;
+        $this->session->set('cart.items', $cartItems);
+        
+        return $cartItem;
     }
 
     /**
@@ -165,11 +179,10 @@ class Cart
     {
         $content = $this->getContent();
         return $this->getDbo()->insert($this->getTableName(), [
-            'secure_token' =>$this->secure_token,
-            'content' => serialize($content),
-            'created_at' => ($this->created_at instanceof \DateTime ? $this->created_at->getTimestamp() : $this->created_at)
+                    'secure_token' => $this->secure_token,
+                    'content' => serialize($content),
+                    'created_at' => ($this->created_at instanceof \DateTime ? $this->created_at->getTimestamp() : $this->created_at)
         ]);
-
     }
 
     /**
@@ -195,7 +208,7 @@ class Cart
      */
     private function isMulti($item)
     {
-        if (! is_array($item)) {
+        if (!is_array($item)) {
             return false;
         }
 

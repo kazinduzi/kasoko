@@ -82,13 +82,13 @@
             <p>
                 Country <span class="required">*</span> <br/>
                 <select name="shipping[country_id]" id="shipping_country_id" class="normal-field" onchange="populateZonesByCountry(this.value, $('#shipping_zone_id'));
-                        return false;">
+						return false;">
                     <option value="">Select the country</option>
                     <?php foreach ($countries as $country) : ?>
                         <?php $selected = $country['id'] == $customer->getCountryId() ? 'selected="selected"' : null; ?>
                         <option
                             value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
                 </select>
             </p>
             <p>
@@ -98,8 +98,8 @@
                         <?php foreach ($zones as $zone) : ?>
                             <option
                                 value="<?php echo $zone['id'] ?>" <?php echo($zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
-                        <?php endforeach; ?>
-                    <?php else : ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
                         <option value="">Select a zone</option>
                     <?php endif; ?>
                 </select>

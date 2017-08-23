@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * APC session storage handler for PHP
@@ -7,6 +9,7 @@
  */
 final class SessionApc extends Session
 {
+
     /**
      * Constructor
      *
@@ -16,7 +19,7 @@ final class SessionApc extends Session
     public function __construct(array $configs = null)
     {
         if (!extension_loaded('apc')) {
-            throw new Exception ('SESSION_APC_EXTENSION_NOT_AVAILABLE');
+            throw new Exception('SESSION_APC_EXTENSION_NOT_AVAILABLE');
         }
         $configs = isset($configs) ? $configs : self::$configs;
     }
@@ -65,7 +68,7 @@ final class SessionApc extends Session
     public function readSession($id)
     {
         $sess_id = 'sess_' . $id;
-        return (string)apc_fetch($sess_id);
+        return (string) apc_fetch($sess_id);
     }
 
     /**

@@ -13,67 +13,72 @@ class CartController extends BaseController
      */
     public function index()
     {
-
         $cartService = new \library\Cart\CartService();
-        $cart = $cartService->getSessionCart();
-
 		if (empty($_COOKIE['cart_id'])) {
+            $cart = $cartService->createSessionCart();
             $cart->add([
                 ['id' => '293ad', 'name' => 'Product 1', 'qty' => 1, 'price' => 10.00],
                 ['id' => '4832k', 'name' => 'Product 2', 'qty' => 5, 'price' => 15.00, 'options' => ['size' => 'large']]
             ]);
-
-            var_dump($_SESSION);
-
-			//
-			$cartCookie = new library\Cookie\Cookie('cart_id');
-			$cartCookie->setDomain('kasoko.hp.kazinduzidev.com');
-			$cartCookie->setValue($cart->getId());
-			$cartCookie->save();
-		}
-		print_r($_COOKIE);
+			$cookie = new \library\Cookie\Cookie('cart_id');
+            $cookie->setValue($cart->getId());
+            $cookie->setMaxAge(60 * 60 * 24 * 7); // Week
+            // $cookie->setExpiryTime(time() + 60 * 60 * 24);
+            // $cookie->setPath('/~rasmus/');
+            // $cookie->setDomain('example.com');
+            $cookie->setHttpOnly(true);
+            //$cookie->setSecureOnly(true);
+            //$cookie->setSameSiteRestriction('Strict');
+            // echo $cookie;
+            $cookie->save();
+        }        
+        print_r($_SESSION);
+        print_r($_COOKIE);
+        
         $this->Template->setViewSuffix('phtml');
         $this->Template->Cart = new Cart();
-        //
+        
+        #
 //        $cart = new \models\Cart\Cart(1);
 //        foreach($cart->getCartProducts() as $cartProduct) {
 //            var_dump($cartProduct->getProduct()->getId());
 //        }
-
     }
 
     /**
-     *
+     * Add action
+     * 
      * @throws Exception
      */
     public function add()
     {
-        if (!is_numeric($this->Request->postParam('product_id'))) {
+        if (! is_numeric($this->Request->postParam('product_id'))) {
             throw new Exception('Invalid product id');
         }
-        if (isset($_POST['options'])) {
-            $key = (int)$_POST['product_id'] . ':' . base64_encode(serialize($_POST['options']));
+        
+        if ($this->Request->postParam('options')) {
+            $key = $this->Request->postParam('product_id') . ':' . base64_encode(serialize($this->Request->postParam('options')));
         } else {
-            $key = (int)$_POST['product_id'];
+            $key = $this->Request->postParam('product_id');
         }
+        
         // Create the cart
         $cart = new Cart();
-        $result = $cart->add($key, (int)$_POST['quantity']);
+        $result = $cart->add($key, $this->Request->postParam('quantity'));
         if ($result instanceof Cart) {
-            echo json_encode(
-                array(
-                    'saved' => true,
+            print json_encode([
+                    'saved' => true, 
                     'count' => $result->getCountItems()
-                )
-            );
+                ]);
         } else {
-            echo json_encode(array('saved' => false));
+            print json_encode(['saved' => false]);
         }
-        die;
+        exit();
     }
 
     /**
-     *
+     * Update action
+     * 
      * @throws Exception
      */
     public function update()
@@ -93,7 +98,8 @@ class CartController extends BaseController
     }
 
     /**
-     *
+     * Remove action
+     * 
      * @throws Exception
      */
     public function remove()
@@ -103,8 +109,8 @@ class CartController extends BaseController
         }
         $cart = new Cart();
         $cart->remove($this->Request->postParam('product_id'));
-        echo json_encode($cart->getCountItems());
-        die;
+        print json_encode($cart->getCountItems());
+        exit();
     }
 
 }

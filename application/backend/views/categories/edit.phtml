@@ -1,9 +1,9 @@
 <div class="form-container">    
     <form method="post" action="" class="clearfix">
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
-            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
-            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
-            <a href="/admin/categories" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/categories" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>
 
         <div style="display: inline-block; width:100%;">
@@ -28,15 +28,15 @@
                     <label for="parent_create" class="control-label">Parent category * :</label>
                     <select id="parent_create" required="required" name="category[parent]" class="form-control">
                         <option value="0">Top level</option>
-			<?php foreach ($categories as $aCategory) : ?>
-			    <?php
-			    if ($category->getId() === $aCategory->getId()) {
-				continue;
-			    }
-			    $selected = (isset($parentCategory) && $aCategory->getId() == $parentCategory->getId() ? 'selected' : '');
-			    ?>
-    			<option value="<?php echo $aCategory->getId(); ?>" <?php echo $selected; ?>><?php echo $aCategory->name; ?></option>
-			<?php endforeach; ?>
+                        <?php foreach ($categories as $aCategory) : ?>
+                            <?php
+                            if ($category->getId() === $aCategory->getId()) {
+                                continue;
+                            }
+                            $selected = (isset($parentCategory) && $aCategory->getId() == $parentCategory->getId() ? 'selected' : '');
+                            ?>
+                            <option value="<?php echo $aCategory->getId(); ?>" <?php echo $selected; ?>><?php echo $aCategory->name; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>                
             </div>
@@ -61,7 +61,7 @@
                     <label for="visible_create" class="control-label">Visibility</label>
                     <div class="checkbox">
                         <label>
-			    <?php $checked = $category->status ? 'checked="checked"' : ''; ?>
+                            <?php $checked = $category->status ? 'checked="checked"' : ''; ?>
                             <input type="checkbox" id="visible_create" name="category[visible]" value="1" <?php echo $checked; ?>>
                             This category is online.
                         </label>
@@ -71,7 +71,7 @@
                     <label for="visible_create" class="control-label">Visible in menu</label>
                     <div class="checkbox">
                         <label>
-			    <?php $checked = $category->in_menu ? 'checked="checked"' : ''; ?>
+                            <?php $checked = $category->in_menu ? 'checked="checked"' : ''; ?>
                             <input type="checkbox" id="visible_create" name="category[in_menu]" value="1" <?php echo $checked; ?>>
                             This category is online.
                         </label>                        
@@ -81,9 +81,9 @@
         </div>
 
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
-            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
-            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
-            <a href="/admin/categories" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/categories" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>        
     </form>
 </div>

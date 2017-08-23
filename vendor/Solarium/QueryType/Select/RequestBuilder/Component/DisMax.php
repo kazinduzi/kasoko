@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Dismax as DismaxComponent;
@@ -46,6 +47,7 @@ use Solarium\Core\Client\Request;
  */
 class DisMax implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for Dismax
      *
@@ -70,4 +72,5 @@ class DisMax implements ComponentRequestBuilderInterface
 
         return $request;
     }
+
 }

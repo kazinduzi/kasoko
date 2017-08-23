@@ -1,13 +1,18 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+
 
 /**
  * Description of docController
  *
  * @author Emmanuel_Leonie
  */
-class DocsFileExampleController extends Admin_controller {
+class DocsFileExampleController extends Admin_controller
+{
 
-    public function index() {
+    public function index()
+    {
         $this->title = 'dfdfg';
     }
+
 }

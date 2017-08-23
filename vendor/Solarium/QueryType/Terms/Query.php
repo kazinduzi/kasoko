@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Client\Client;
@@ -53,6 +54,7 @@ use Solarium\QueryType\Terms\ResponseParser;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Default options
      *
@@ -60,8 +62,8 @@ class Query extends BaseQuery
      */
     protected $options = array(
         'resultclass' => 'Solarium\QueryType\Terms\Result',
-        'handler'     => 'terms',
-        'omitheader'  => true,
+        'handler' => 'terms',
+        'omitheader' => true,
     );
 
     /**
@@ -392,4 +394,5 @@ class Query extends BaseQuery
     {
         return $this->getOption('sort');
     }
+
 }

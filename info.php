@@ -1,4 +1,5 @@
 <?php
+
 $memcache = new Memcache;
 $memcache->connect("127.0.0.1", 11211); # You might need to set "localhost" to "127.0.0.1"
 echo "Memcache Server's version: " . $memcache->getVersion() . "<br />\n";
@@ -17,5 +18,4 @@ var_dump($memcache->get("key"));
 <?php
 
 phpinfo();
-
 ?>

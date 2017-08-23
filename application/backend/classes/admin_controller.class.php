@@ -1,7 +1,10 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
 
-abstract class Admin_controller extends Controller 
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+
+abstract class Admin_controller extends Controller
 {
+
     /**
      * @var Auth
      */
@@ -17,7 +20,7 @@ abstract class Admin_controller extends Controller
      * @param Request $request
      * @param Response $response
      */
-    public function  __construct(Request $request, Response $response)
+    public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
         $this->auth = new Auth();
@@ -29,14 +32,13 @@ abstract class Admin_controller extends Controller
             $this->auth->logout();
             $this->redirect('/login');
         }
-
     }
 
     /**
      * 
      * @return boolean
      */
-    public function init() 
+    public function init()
     {
         parent::init();
         if (isset($_POST['lang'])) {

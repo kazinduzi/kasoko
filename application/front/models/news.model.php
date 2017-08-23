@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Description of News
@@ -18,7 +20,8 @@ class News extends Model
      */
     public static function fetchAll($url = '')
     {
-        if (!empty($url)) self::$url = $url;
+        if (!empty($url))
+            self::$url = $url;
         $news = array();
         // Using cache for the RSS Feed
         try {
@@ -26,10 +29,10 @@ class News extends Model
             if (($data = $Cache->get('allItems')) == false) {
                 $xml = simplexml_load_file(self::$url);
                 foreach ($xml->channel->item as $rss) {
-                    $news[] = (array)$rss;
+                    $news[] = (array) $rss;
                 }
                 $data = array(
-                    'channel_title' => (string)$xml->channel->title,
+                    'channel_title' => (string) $xml->channel->title,
                     'items' => $news
                 );
                 $Cache->set('allItems', $data, 3600);
@@ -48,7 +51,8 @@ class News extends Model
      */
     public static function fetch($url = null, $count = 10)
     {
-        if (!empty($url)) self::$url = $url;
+        if (!empty($url))
+            self::$url = $url;
         $news = array();
         // Using cache for the RSS Feed
         try {
@@ -57,11 +61,11 @@ class News extends Model
             if (($data = $Cache->get('limitedItems')) == false) {
                 $xml = simplexml_load_file(self::$url);
                 for ($i = 0; $i < $count; $i++) {
-                    $news[] = (array)$xml->channel->item[$i];
+                    $news[] = (array) $xml->channel->item[$i];
                 }
 
                 $data = array(
-                    'channel_title' => (string)$xml->channel->title,
+                    'channel_title' => (string) $xml->channel->title,
                     'items' => $news
                 );
                 $Cache->set('limitedItems', $data, 3600);
@@ -86,6 +90,6 @@ class News extends Model
             $Instance = new self;
         }
         return $Instance;
-
     }
+
 }

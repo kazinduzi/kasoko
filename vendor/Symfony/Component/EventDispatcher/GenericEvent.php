@@ -20,6 +20,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
 {
+
     /**
      * Observer pattern subject.
      *
@@ -183,4 +184,5 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
     {
         return new \ArrayIterator($this->arguments);
     }
+
 }

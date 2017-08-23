@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Document;
 
 use Solarium\QueryType\Select\Result\AbstractDocument;
@@ -58,6 +59,7 @@ use Solarium\Exception\RuntimeException;
  */
 class Document extends AbstractDocument implements DocumentInterface
 {
+
     /**
      * Directive to set a value using atomic updates
      *
@@ -298,7 +300,7 @@ class Document extends AbstractDocument implements DocumentInterface
      * Clear all fields
      *
      * @return self Provides fluent interface
-     **/
+     * */
     public function clear()
     {
         $this->fields = array();
@@ -399,7 +401,7 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         if (count($this->modifiers) > 0 && ($this->key == null || !isset($this->fields[$this->key]))) {
             throw new RuntimeException(
-                'A document that uses modifiers (atomic updates) must have a key defined before it is used'
+            'A document that uses modifiers (atomic updates) must have a key defined before it is used'
             );
         }
 
@@ -427,4 +429,5 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         return $this->version;
     }
+
 }

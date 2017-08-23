@@ -1,4 +1,7 @@
-<?php defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
+
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
  *
@@ -8,7 +11,8 @@
  * @license   http://kazinduzi.com/page/license MIT License
  * @package   Kazinduzi
  */
-final class Configuration {
+final class Configuration
+{
 
     const CONFIGURATION_TABLE = 'configuration';
 
@@ -21,7 +25,8 @@ final class Configuration {
      * @param mixed $value
      * @return boolean
      */
-    static public function set($name, $value) {
+    static public function set($name, $value)
+    {
         self::$dbo = Kazinduzi::db();
         $value = self::$dbo->escape(serialize($value));
         $name = self::$dbo->escape($name);
@@ -32,7 +37,7 @@ final class Configuration {
             self::$dbo->execute();
             self::$dbo->commit();
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             self::$dbo->rollback();
             print_r($e);
         }
@@ -44,7 +49,8 @@ final class Configuration {
      * @param string $name
      * @return mixed
      */
-    static public function get($name) {
+    static public function get($name)
+    {
         self::$dbo = Kazinduzi::db()->clear();
         self::$dbo->select('*')->from(self::CONFIGURATION_TABLE)->where("`name`='{$name}';");
         self::$dbo->buildQuery();
@@ -54,7 +60,7 @@ final class Configuration {
         }
         return null;
     }
-    
+
     /**
      * Set the configuration entry by module
      *
@@ -63,7 +69,8 @@ final class Configuration {
      * @param string $moduleName
      * @return boolean
      */
-    static public function setByModule($name, $value, $moduleName) {
+    static public function setByModule($name, $value, $moduleName)
+    {
         self::$dbo = Kazinduzi::db();
         $value = self::$dbo->escape(serialize($value));
         $name = self::$dbo->escape($name);
@@ -75,19 +82,20 @@ final class Configuration {
             self::$dbo->execute();
             self::$dbo->commit();
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             self::$dbo->rollback();
             print_r($e);
         }
     }
-    
+
     /**
      * Get configuration entry by module
      * @param string $name
      * @param string $moduleName
      * @return null
      */
-    static public function getByModule($name, $moduleName) {
+    static public function getByModule($name, $moduleName)
+    {
         self::$dbo = Kazinduzi::db()->clear();
         self::$dbo->select('*')->from(self::CONFIGURATION_TABLE)->where("`name` ='{$name}' AND `module` = '{$moduleName}';");
         self::$dbo->buildQuery();
@@ -97,44 +105,47 @@ final class Configuration {
         }
         return null;
     }
-    
+
     /**
      * Delete the configuration entry
      * 
      * @staticvar \Database $dbo
      * @param string $name
      */
-    static public function delete($name) {
+    static public function delete($name)
+    {
         static $dbo;
         $dbo = Kazinduzi::db()->clear();
         $dbo->autocommit(false);
-        try{
+        try {
             $dbo->setQuery("DELETE FROM " . self::CONFIGURATION_TABLE . " WHERE `name` ='{$name}';");
             $dbo->execute();
             $dbo->commit();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             self::$dbo->rollback();
             print_r($e);
-        }        
+        }
     }
-    
+
     /**
      * 
      * @staticvar \Database $dbo
      * @param string $name
      * @param string $moduleName
      */
-    static public function deleteByModule($name, $moduleName) {
+    static public function deleteByModule($name, $moduleName)
+    {
         static $dbo;
         $dbo = Kazinduzi::db()->clear();
         $dbo->autocommit(false);
-        try{    
-            $dbo->setQuery("DELETE FROM " . self::CONFIGURATION_TABLE . " WHERE `name` ='{$name}' AND `module` = '{$moduleName}';");        
+        try {
+            $dbo->setQuery("DELETE FROM " . self::CONFIGURATION_TABLE . " WHERE `name` ='{$name}' AND `module` = '{$moduleName}';");
             $dbo->execute();
             $dbo->commit();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             self::$dbo->rollback();
             print_r($e);
         }
     }
+
 }

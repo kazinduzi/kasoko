@@ -1,19 +1,19 @@
 <div id="newsletter-content">
     <section class="container">
-	<form action="<?php echo $actionUrl; ?>" method="post" id="newsletter-form">
-	    <div class="block-content">
-		<div class="form-subscribe-header">
-		    <label for="newsletter">Newsletter</label>
-		</div>
-		<div class="input-box">
-		    <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="newsletter[email]" id="newsletter" title="Sign up for our newsletter" placeholder="Typ your e-mail">
-		    <div class="actions">
-			<input type="hidden" name="newsletter[form_token]" value="<?php echo Security::token(); ?>"/>
-			<input type="submit" title="<?php echo __('messages.subscribe'); ?>" class="btn btn-default" value="<?php echo __('messages.subscribe'); ?>"/>
-		    </div>
-		</div>
-		
-	    </div>
-	</form>
+        <form action="<?php echo $actionUrl; ?>" method="post" id="newsletter-form">
+            <div class="block-content">
+                <div class="form-subscribe-header">
+                    <label for="newsletter">Newsletter</label>
+                </div>
+                <div class="input-box">
+                    <input type="email" autocapitalize="off" autocorrect="off" spellcheck="false" name="newsletter[email]" id="newsletter" title="Sign up for our newsletter" placeholder="Typ your e-mail">
+                    <div class="actions">
+                        <input type="hidden" name="newsletter[form_token]" value="<?php echo Security::token(); ?>"/>
+                        <input type="submit" title="<?php echo __('messages.subscribe'); ?>" class="btn btn-default" value="<?php echo __('messages.subscribe'); ?>"/>
+                    </div>
+                </div>
+
+            </div>
+        </form>
     </section>
 </div>

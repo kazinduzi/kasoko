@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\ResponseParser;
 
 use Solarium\QueryType\Analysis\Result\ResultList;
@@ -45,6 +46,7 @@ use Solarium\QueryType\Analysis\Result\ResultList;
  */
 class Document extends Field
 {
+
     /**
      * Parse implementation
      *
@@ -62,4 +64,5 @@ class Document extends Field
 
         return $documents;
     }
+
 }

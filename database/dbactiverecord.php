@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * This a SQL Query Building Class.
@@ -7,6 +9,7 @@
  */
 class DbActiveRecord
 {
+
     /**
      * CONSTANTS
      */
@@ -25,64 +28,77 @@ class DbActiveRecord
      * @var DbActiveRecord object
      */
     protected static $instance;
+
     /**
      * @var string  The query type.
      */
     protected $type = '';
+
     /**
      * @var object  The select element.
      */
     protected $select = null;
+
     /**
      * @var     object    The delete element.
      */
     protected $delete = null;
+
     /**
      * @var    object    The update element.
      */
     protected $update = null;
+
     /**
      * @var    object    The insert element.
      */
     protected $insert = null;
+
     /**
      * @var    object    The from element.
      */
     protected $from = null;
+
     /**
      * @var    object    The joins elements.
      */
-
     protected $join,
-        $innerjoin,
-        $leftjoin,
-        $rightjoin,
-        $crossjoin,
-        $naturaljoin = null;
+            $innerjoin,
+            $leftjoin,
+            $rightjoin,
+            $crossjoin,
+            $naturaljoin = null;
+
     /**
      * @var    object    The set element.
      */
     protected $set = null;
+
     /**
      * @var    object    The where element.
      */
     protected $where = null;
+
     /**
      * @var    object    The group by element.
      */
     protected $group = null;
+
     /**
      * @var    object    The having element.
      */
     protected $having = null;
+
     /**
      * @var    object    The order element.
      */
     protected $order = null;
+
     /**
      * @var type
      */
     protected $limit, $offset = null;
+
     /**
      *
      */
@@ -94,7 +110,8 @@ class DbActiveRecord
      */
     public static function getSingleton()
     {
-        if (empty(self::$instance)) self::$instance = new self;
+        if (empty(self::$instance))
+            self::$instance = new self;
         return self::$instance;
     }
 
@@ -108,6 +125,7 @@ class DbActiveRecord
      */
     public function init()
     {
+        
     }
 
     /**
@@ -167,9 +185,10 @@ class DbActiveRecord
         return $this;
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function select_avg($column)
     {
         $this->type = 'select';
@@ -273,11 +292,11 @@ class DbActiveRecord
     public function where($conditions)
     {
         /*
-        echo $this->processConditions(array('and', 'id=1', 'id=2'));
-        echo $this->processConditions(array('and', 'type=1', array('or', 'id=1', 'id=2')));
-        echo $this->processConditions(array('in', 'id', array(1,2,3)));
-        echo $this->processConditions(array('like', 'name', 'tester'));
-        echo $this->processConditions(array('like', 'name', array('test', 'sample')));
+          echo $this->processConditions(array('and', 'id=1', 'id=2'));
+          echo $this->processConditions(array('and', 'type=1', array('or', 'id=1', 'id=2')));
+          echo $this->processConditions(array('in', 'id', array(1,2,3)));
+          echo $this->processConditions(array('like', 'name', 'tester'));
+          echo $this->processConditions(array('like', 'name', array('test', 'sample')));
          */
         if (is_null($this->where)) {
             $this->where = new DbActiveRecordElement('WHERE', $this->proceedConditions($conditions));
@@ -297,8 +316,7 @@ class DbActiveRecord
     {
         if (!is_array($conditions)) {
             return $conditions;
-        }
-        elseif ($conditions === array()) {
+        } elseif ($conditions === array()) {
             return '';
         }
         $n = count($conditions);
@@ -327,12 +345,13 @@ class DbActiveRecord
         }
 
         if ($operator === 'IN' || $operator === 'NOT IN') {
-            if ($values === array()) return $operator === 'IN' ? '0=1' : '';
+            if ($values === array())
+                return $operator === 'IN' ? '0=1' : '';
             foreach ($values as $i => $value) {
                 if (is_string($value)) {
                     $values[$i] = $this->getDbo()->quote($value);
                 } else {
-                    $values[$i] = (string)$value;
+                    $values[$i] = (string) $value;
                 }
             }
             return $column . ' ' . $operator . ' (' . implode(', ', $values) . ')';
@@ -362,8 +381,10 @@ class DbActiveRecord
      */
     public function getDbo()
     {
-        if (self::$db !== null) return self::$db;
-        else return self::$db = Database::getInstance();
+        if (self::$db !== null)
+            return self::$db;
+        else
+            return self::$db = Database::getInstance();
     }
 
     public function join($table, $conditions)
@@ -429,17 +450,19 @@ class DbActiveRecord
         return $this->joinInternal('cross join', $table, $conditions);
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function naturaljoin($table, $conditions)
     {
         return $this->joinInternal('natural join', $table, $conditions);
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function innerjoin($table, $conditions)
     {
         return $this->joinInternal('inner join', $table, $conditions);
@@ -456,7 +479,7 @@ class DbActiveRecord
         }
         foreach ($columns as $i => $column) {
             if (is_object($column)) {
-                $columns[$i] = (string)$column;
+                $columns[$i] = (string) $column;
             } else if (strpos($column, '(') === false) {
                 $columns[$i] = $this->getDbo()->quoteColumn($column);
             }
@@ -505,7 +528,7 @@ class DbActiveRecord
             }
             foreach ($columns as $i => $column) {
                 if (is_object($column)) {
-                    $columns[$i] = (string)$column;
+                    $columns[$i] = (string) $column;
                 } else if (strpos($column, '(') === false) {
                     if (preg_match('/^(.*?)\s+(asc|desc)$/i', $column, $matches)) {
                         $columns[$i] = $this->getDbo()->quoteColumn($matches[1]) . ' ' . strtoupper($matches[2]);
@@ -514,7 +537,8 @@ class DbActiveRecord
                     }
                 }
             }
-            $this->order = self::ORDER_CRITERIA . implode(', ', $columns) . $direction;;
+            $this->order = self::ORDER_CRITERIA . implode(', ', $columns) . $direction;
+            ;
         }
         return $this;
     }
@@ -528,15 +552,14 @@ class DbActiveRecord
     public function limit($limit, $offset = null)
     {
         if ($offset !== null) {
-            $this->offset = (int)$offset;
-            $this->limit = $this->_limit((int)$limit, $this->offset);
+            $this->offset = (int) $offset;
+            $this->limit = $this->_limit((int) $limit, $this->offset);
         } else {
-            $this->limit = $this->_limit((int)$limit);
+            $this->limit = $this->_limit((int) $limit);
         }
 
         return $this;
     }
-
 
     /**
      * Creates and executes an UPDATE SQL statement.
@@ -549,17 +572,17 @@ class DbActiveRecord
      * @return integer number of rows affected by the execution.
      */
     /*
-    public function update($table, $columns, $conditions='', $params=array()) {
-        $lines = array();
-        foreach($columns as $name => $value) {
-            $lines[] = $this->getDbo()->quoteColumn($name).'='.$this->getDbo()->quote($value);
-        }
-        $sql = 'UPDATE ' . $this->getDbo()->quoteTable($table) . ' SET ' . implode(', ', $lines);
-        if (($where = $this->proceedConditions($conditions)) != '') {
-            $sql .= ' WHERE '.$where;
-        }
-        return $this->getDbo()->setQuery($sql)->execute($params);
-    }
+      public function update($table, $columns, $conditions='', $params=array()) {
+      $lines = array();
+      foreach($columns as $name => $value) {
+      $lines[] = $this->getDbo()->quoteColumn($name).'='.$this->getDbo()->quote($value);
+      }
+      $sql = 'UPDATE ' . $this->getDbo()->quoteTable($table) . ' SET ' . implode(', ', $lines);
+      if (($where = $this->proceedConditions($conditions)) != '') {
+      $sql .= ' WHERE '.$where;
+      }
+      return $this->getDbo()->setQuery($sql)->execute($params);
+      }
      *
      */
 
@@ -571,14 +594,16 @@ class DbActiveRecord
     private function _limit($limit, $offset = null)
     {
         if (in_array(strtolower($this->getDbo()->name), array('mysql', 'sqlite'))) {
-            if ($offset == null) $offset = '';
-            else $offset .= ', ';
+            if ($offset == null)
+                $offset = '';
+            else
+                $offset .= ', ';
             return self::LIMIT_CRITERIA . $offset . $limit;
         }
         //
         if (in_array(strtolower($this->getDbo()->name), array('mysqli', 'pg', 'postgre'))) {
             $criteria = self::LIMIT_CRITERIA . $limit;
-            if ((int)$offset > 0) {
+            if ((int) $offset > 0) {
                 $criteria .= self::OFFSET_CRITERIA . $offset;
             }
             return $criteria;
@@ -840,59 +865,59 @@ class DbActiveRecord
         $query = '';
         switch ($this->type) {
             case 'select':
-                $query .= (string)$this->select;
-                $query .= (string)$this->from;
+                $query .= (string) $this->select;
+                $query .= (string) $this->from;
                 if ($this->join) {
                     // special case for joins
                     foreach ($this->join as $join) {
-                        $query .= (string)$join;
+                        $query .= (string) $join;
                     }
                 }
                 if ($this->where) {
-                    $query .= (string)$this->where;
+                    $query .= (string) $this->where;
                 }
                 if ($this->group) {
-                    $query .= (string)$this->group;
+                    $query .= (string) $this->group;
                 }
                 if ($this->having) {
-                    $query .= (string)$this->having;
+                    $query .= (string) $this->having;
                 }
                 if ($this->order) {
-                    $query .= (string)$this->order;
+                    $query .= (string) $this->order;
                 }
                 if ($this->limit) {
-                    $query .= (string)$this->limit;
+                    $query .= (string) $this->limit;
                 }
                 if ($this->union) {
-                    $query .= (string)$this->union;
+                    $query .= (string) $this->union;
                 }
                 break;
 
             case 'delete':
-                $query .= (string)$this->delete;
-                $query .= (string)$this->from;
+                $query .= (string) $this->delete;
+                $query .= (string) $this->from;
                 if ($this->join) {
                     // special case for joins
                     foreach ($this->join as $join) {
-                        $query .= (string)$join;
+                        $query .= (string) $join;
                     }
                 }
                 if ($this->where) {
-                    $query .= (string)$this->where;
+                    $query .= (string) $this->where;
                 }
                 break;
             case 'update':
-                $query .= (string)$this->update;
-                $query .= (string)$this->set;
+                $query .= (string) $this->update;
+                $query .= (string) $this->set;
                 if ($this->where) {
-                    $query .= (string)$this->where;
+                    $query .= (string) $this->where;
                 }
                 break;
             case 'insert':
-                $query .= (string)$this->insert;
-                $query .= (string)$this->set;
+                $query .= (string) $this->insert;
+                $query .= (string) $this->set;
                 if ($this->where) {
-                    $query .= (string)$this->where;
+                    $query .= (string) $this->where;
                 }
                 break;
         }

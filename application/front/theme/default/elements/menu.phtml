@@ -8,7 +8,7 @@
             $navHtml = '';
             foreach (\Category::getInstance()->findAll() as $category) {
                 if ($category->isTop() && $category->isLive() && $category->visibleInMenu()) {
-                    $navHtml .= '<li><a href="/category/view/' . \Stringify::slugify($category->name) . '">' . $category->name . '</a>' . PHP_EOL;
+                    $navHtml .= '<li><a href="/category/view/' . \Helpers\Stringify::slugify($category->name) . '">' . $category->name . '</a>' . PHP_EOL;
                     $navHtml .= recursive($category);
                 }
             }
@@ -23,7 +23,7 @@
                 if ($category->hasChildren()) {
                     $html .= '<ul>';
                     foreach ($category->getChildren() as $child) {
-                        $html .= true === $child->isLive() ? '<li><a href="/category/view/' . \Stringify::slugify($child->name) . '">' . $child->name . '</a>' : '' . PHP_EOL;
+                        $html .= true === $child->isLive() ? '<li><a href="/category/view/' . \Helpers\Stringify::slugify($child->name) . '">' . $child->name . '</a>' : '' . PHP_EOL;
                         if ($child->hasChildren()) {
                             $html .= recursive($child);
                         } else {

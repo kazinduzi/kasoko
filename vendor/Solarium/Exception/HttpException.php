@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Exception;
 
 /**
@@ -55,6 +56,7 @@ namespace Solarium\Exception;
  */
 class HttpException extends \RuntimeException implements ExceptionInterface
 {
+
     /**
      * HTTP status message
      *
@@ -91,7 +93,7 @@ class HttpException extends \RuntimeException implements ExceptionInterface
 
         $message = 'Solr HTTP error: ' . $statusMessage;
         if (null !== $code) {
-             $message .= ' (' . $code . ')';
+            $message .= ' (' . $code . ')';
         }
         if ($body) {
             $message .= "\n" . $body;
@@ -114,4 +116,5 @@ class HttpException extends \RuntimeException implements ExceptionInterface
     {
         return $this->body;
     }
+
 }

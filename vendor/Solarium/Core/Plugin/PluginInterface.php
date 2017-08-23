@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Plugin;
 
 use Solarium\Core\ConfigurableInterface;
@@ -47,6 +48,7 @@ use Solarium\Core\Query\Query;
  */
 interface PluginInterface extends ConfigurableInterface
 {
+
     /**
      * Initialize
      *

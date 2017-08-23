@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Stats;
 
 use Solarium\QueryType\Select\Result\Stats\Result;
@@ -45,6 +46,7 @@ use Solarium\QueryType\Select\Result\Stats\Result;
  */
 class Stats implements \IteratorAggregate, \Countable
 {
+
     /**
      * Result array
      *
@@ -106,4 +108,5 @@ class Stats implements \IteratorAggregate, \Countable
     {
         return count($this->results);
     }
+
 }

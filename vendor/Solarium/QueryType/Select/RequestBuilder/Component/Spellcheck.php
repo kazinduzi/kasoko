@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Spellcheck as SpellcheckComponent;
@@ -46,6 +47,7 @@ use Solarium\Core\Client\Request;
  */
 class Spellcheck implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for Spellcheck
      *
@@ -73,9 +75,10 @@ class Spellcheck implements ComponentRequestBuilderInterface
         $request->addParam('spellcheck.accuracy', $component->getAccuracy());
 
         foreach ($component->getCollateParams() as $param => $value) {
-            $request->addParam('spellcheck.collateParam.'.$param, $value);
+            $request->addParam('spellcheck.collateParam.' . $param, $value);
         }
 
         return $request;
     }
+
 }

@@ -51,16 +51,16 @@ class Cart
      */
     public function add($productid, $qty = 1, array $options = [])
     {
-        if (! $options) {
+        if (!$options) {
             $key = $productid;
         } else {
             $key = $productid . ':' . base64_encode(serialize($options));
         }
-        if (is_numeric($qty) && ((int)$qty > 0)) {
+        if (is_numeric($qty) && ((int) $qty > 0)) {
             if (!array_key_exists($key, $__cart_data = $this->session->get('cart'))) {
-                $__cart_data[$key] = (int)$qty;
+                $__cart_data[$key] = (int) $qty;
             } else {
-                $__cart_data[$key] += (int)$qty;
+                $__cart_data[$key] += (int) $qty;
             }
             $this->session->add('cart', $__cart_data);
             return $this;
@@ -79,8 +79,8 @@ class Cart
     {
         if (!is_numeric($qty))
             throw new Exception('Invalid quantity provided', 1000);
-        if ((int)$qty && ((int)$qty > 0) && array_key_exists($key, $data = $this->session->get('cart'))) {
-            $data[$key] = (int)$qty;
+        if ((int) $qty && ((int) $qty > 0) && array_key_exists($key, $data = $this->session->get('cart'))) {
+            $data[$key] = (int) $qty;
             $this->session->add('cart', $data);
         } else {
             $this->remove($key);
@@ -136,7 +136,7 @@ class Cart
             foreach ($this->session->get('cart') as $id => $qty) {
                 $product_id = explode(':', $id);
                 $Product = new Product($product_id[0]);
-                $sub_total += $Product->price * (float)$qty;
+                $sub_total += $Product->price * (float) $qty;
             }
         }
         return $sub_total;
@@ -161,7 +161,7 @@ class Cart
             foreach ($this->session->get('cart') as $id => $qty) {
                 $product_id = explode(':', $id);
                 $Product = new Product($product_id[0]);
-                $total += $Product->price * (float)$qty * (100.0 + $Product->tax) / 100.0;
+                $total += $Product->price * (float) $qty * (100.0 + $Product->tax) / 100.0;
             }
         }
         return $total;
@@ -208,7 +208,7 @@ class Cart
             return 0;
         $count = 0;
         foreach ($this->session->get('cart') as $id => $qty) {
-            $count += (int)$qty;
+            $count += (int) $qty;
         }
         return $count;
     }

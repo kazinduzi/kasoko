@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -52,6 +53,7 @@ use Solarium\QueryType\Select\Result\Debug\TimingPhase;
  */
 class Debug implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -106,13 +108,7 @@ class Debug implements ComponentParserInterface
 
             // create result object
             $result = new Result(
-                $queryString,
-                $parsedQuery,
-                $queryParser,
-                $otherQuery,
-                $explain,
-                $explainOther,
-                $timing
+                    $queryString, $parsedQuery, $queryParser, $otherQuery, $explain, $explainOther, $timing
             );
         }
 
@@ -136,19 +132,13 @@ class Debug implements ComponentParserInterface
             if (isset($documentData['details']) && is_array($documentData['details'])) {
                 foreach ($documentData['details'] as $detailData) {
                     $details[] = new Detail(
-                        $detailData['match'],
-                        $detailData['value'],
-                        $detailData['description']
+                            $detailData['match'], $detailData['value'], $detailData['description']
                     );
                 }
             }
 
             $docs[$key] = new Document(
-                $key,
-                $documentData['match'],
-                $documentData['value'],
-                $documentData['description'],
-                $details
+                    $key, $documentData['match'], $documentData['value'], $documentData['description'], $details
             );
         }
 
@@ -178,4 +168,5 @@ class Debug implements ComponentParserInterface
 
         return new TimingPhase($name, $time, $classes);
     }
+
 }

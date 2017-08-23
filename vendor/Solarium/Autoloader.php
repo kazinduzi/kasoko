@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium;
 
 /**
@@ -51,6 +52,7 @@ namespace Solarium;
  */
 class Autoloader
 {
+
     /**
      * Register the Solarium autoloader
      *
@@ -83,9 +85,7 @@ class Autoloader
         if (substr($class, 0, 8) == 'Solarium') {
 
             $class = str_replace(
-                array('Solarium', '\\'),
-                array('', '/'),
-                $class
+                    array('Solarium', '\\'), array('', '/'), $class
             );
 
             $file = dirname(__FILE__) . $class . '.php';
@@ -93,4 +93,5 @@ class Autoloader
             require($file);
         }
     }
+
 }

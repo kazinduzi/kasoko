@@ -7,6 +7,7 @@
  */
 class B extends Model
 {
+
     public $table = 'B';
     public $belongsTo = array(
         'A' => array(
@@ -23,4 +24,5 @@ class B extends Model
         }
         return $Instance;
     }
+
 }

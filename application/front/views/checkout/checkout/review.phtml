@@ -1,4 +1,4 @@
-<?php //print_r($_SESSION); ?>
+<?php //print_r($_SESSION);   ?>
 
 
 <div class="checkout-heading">
@@ -10,56 +10,56 @@
 <div class="checkout-review">
     <table>
         <thead>
-        <tr class="header">
-            <th class="image">Image</th>
-            <th>Product Name</th>
-            <th>Model</th>
-            <th class="a-right" width="100">Price</th>
-            <th class="a-right" width="50">Qty</th>
-            <th class="a-right" width="100">Subtotal</th>
-        </tr>
+            <tr class="header">
+                <th class="image">Image</th>
+                <th>Product Name</th>
+                <th>Model</th>
+                <th class="a-right" width="100">Price</th>
+                <th class="a-right" width="50">Qty</th>
+                <th class="a-right" width="100">Subtotal</th>
+            </tr>
         </thead>
         <tbody>
-        <?php foreach ($Products as $Product_data) : ?>
-            <?php $Product = $Product_data['product']; ?>
-            <tr>
-                <td class="image">
-                    <a href="/product/item/<?php echo Stringify::slugify($Product->slug); ?>">
-                        <?php if ($Product->getCoverProductImage() instanceof \library\Product\Image) : ?>
-                            <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>"
-                                 src="<?php echo $Product->getCoverProductImage()->getThumb(); ?>" width="100"/>
-                        <?php elseif ($Product->getFirstProductImage() instanceof \library\Product\Image) : ?>
-                            <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>"
-                                 src="<?php echo $Product->getFirstProductImage()->getThumb(); ?>" width="100"/>
-                        <?php else: ?>
-                            <img title="" src="/html/images/kasoko/280x196.png" alt="<?php echo $Product->name; ?>"
-                                 width="50">
-                        <?php endif; ?>
-                    </a>
-                </td>
-                <td>
-                    <a href="/product/item/<?php echo Stringify::slugify($Product->slug); ?>"><?php echo $Product->model; ?></a>
-                </td>
-                <td><?php echo $Product->sku; ?></td>
-                <td class="a-right"><?php echo Stringify::currency_format($Product->price); ?></td>
-                <td class="a-right"><?php echo $Product_data['qty'] ?></td>
-                <td class="a-right"><?php echo Stringify::currency_format($Product->price * $Product_data['qty']); ?></td>
-            </tr>
-        <?php endforeach; ?>
+            <?php foreach ($Products as $Product_data) : ?>
+                <?php $Product = $Product_data['product']; ?>
+                <tr>
+                    <td class="image">
+                        <a href="/product/item/<?php echo Helpers\Stringify::slugify($Product->slug); ?>">
+                            <?php if ($Product->getCoverProductImage() instanceof \library\Product\Image) : ?>
+                                <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>"
+                                     src="<?php echo $Product->getCoverProductImage()->getThumb(); ?>" width="100"/>
+                                 <?php elseif ($Product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                <img title="<?php echo $Product->name ?>" alt="<?php echo $Product->name ?>"
+                                     src="<?php echo $Product->getFirstProductImage()->getThumb(); ?>" width="100"/>
+                                 <?php else: ?>
+                                <img title="" src="/html/images/kasoko/280x196.png" alt="<?php echo $Product->name; ?>"
+                                     width="50">
+                                 <?php endif; ?>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/product/item/<?php echo Helpers\Stringify::slugify($Product->slug); ?>"><?php echo $Product->model; ?></a>
+                    </td>
+                    <td><?php echo $Product->sku; ?></td>
+                    <td class="a-right"><?php echo Helpers\Stringify::currency_format($Product->price); ?></td>
+                    <td class="a-right"><?php echo $Product_data['qty'] ?></td>
+                    <td class="a-right"><?php echo Helpers\Stringify::currency_format($Product->price * $Product_data['qty']); ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
         <tfoot>
-        <tr>
-            <td colspan="5" class="a-right sub-total">Sub-total</td>
-            <td class="a-right"><?php echo Stringify::currency_format($sub_total); ?></td>
-        </tr>
-        <tr style="display: none;">
-            <td colspan="4" class="a-right vat"><strong>Shipping</strong></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="5" class="a-right total"><strong>Grand Total</strong></td>
-            <td class="a-right"><?php echo Stringify::currency_format($grand_total); ?></td>
-        </tr>
+            <tr>
+                <td colspan="5" class="a-right sub-total">Sub-total</td>
+                <td class="a-right"><?php echo Helpers\Stringify::currency_format($sub_total); ?></td>
+            </tr>
+            <tr style="display: none;">
+                <td colspan="4" class="a-right vat"><strong>Shipping</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="5" class="a-right total"><strong>Grand Total</strong></td>
+                <td class="a-right"><?php echo Helpers\Stringify::currency_format($grand_total); ?></td>
+            </tr>
         </tfoot>
     </table>
 

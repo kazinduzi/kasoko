@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Query\Query;
@@ -48,6 +49,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Helper
 {
+
     /**
      * Placeholder pattern for use in the assemble method
      *
@@ -166,7 +168,6 @@ class Helper
 
             // any other input formats can be added in additional cases here...
             // case $input instanceof Zend_Date:
-
             // unsupported input format
             default:
                 $input = false;
@@ -226,13 +227,11 @@ class Helper
     public function geofilt($field, $pointX, $pointY, $distance, $dereferenced = false)
     {
         return $this->qparser(
-            'geofilt',
-            array(
-                'pt' => $pointX.','.$pointY,
-                'sfield' => $field,
-                'd' => $distance
-            ),
-            $dereferenced
+                        'geofilt', array(
+                    'pt' => $pointX . ',' . $pointY,
+                    'sfield' => $field,
+                    'd' => $distance
+                        ), $dereferenced
         );
     }
 
@@ -254,13 +253,11 @@ class Helper
     public function bbox($field, $pointX, $pointY, $distance, $dereferenced = false)
     {
         return $this->qparser(
-            'bbox',
-            array(
-                'pt' => $pointX.','.$pointY,
-                'sfield' => $field,
-                'd' => $distance
-            ),
-            $dereferenced
+                        'bbox', array(
+                    'pt' => $pointX . ',' . $pointY,
+                    'sfield' => $field,
+                    'd' => $distance
+                        ), $dereferenced
         );
     }
 
@@ -282,9 +279,7 @@ class Helper
     public function geodist($field, $pointX, $pointY, $dereferenced = false)
     {
         return $this->functionCall(
-            'geodist',
-            array('sfield' => $field, 'pt' => $pointX.','.$pointY),
-            $dereferenced
+                        'geodist', array('sfield' => $field, 'pt' => $pointX . ',' . $pointY), $dereferenced
         );
     }
 
@@ -304,8 +299,8 @@ class Helper
 
             if (!$this->query) {
                 throw new InvalidArgumentException(
-                    'Dereferenced params can only be used in a Solarium query helper instance retrieved from the query '
-                    . 'by using the getHelper() method, this instance was manually created'
+                'Dereferenced params can only be used in a Solarium query helper instance retrieved from the query '
+                . 'by using the getHelper() method, this instance was manually created'
                 );
             }
 
@@ -317,11 +312,11 @@ class Helper
                     $derefKey = $paramKey;
                 }
                 $this->query->addParam($derefKey, $paramValue);
-                $params[$paramKey] = '$'.$derefKey;
+                $params[$paramKey] = '$' . $derefKey;
             }
         }
 
-        $output = '{!'.$name;
+        $output = '{!' . $name;
         foreach ($params as $key => $value) {
             if (!$dereferenced || $forceKeys || is_int($key)) {
                 $output .= ' ' . $key . '=' . $value;
@@ -380,9 +375,7 @@ class Helper
         $this->assembleParts = $parts;
 
         return preg_replace_callback(
-            $this->placeHolderPattern,
-            array($this, 'renderPlaceHolder'),
-            $query
+                $this->placeHolderPattern, array($this, 'renderPlaceHolder'), $query
         );
     }
 
@@ -398,8 +391,8 @@ class Helper
         $partNumber = $matches[2];
         $partMode = strtoupper($matches[1]);
 
-        if (isset($this->assembleParts[$partNumber-1])) {
-            $value = $this->assembleParts[$partNumber-1];
+        if (isset($this->assembleParts[$partNumber - 1])) {
+            $value = $this->assembleParts[$partNumber - 1];
         } else {
             throw new InvalidArgumentException('No value supplied for part #' . $partNumber . ' in query assembler');
         }
@@ -470,9 +463,9 @@ class Helper
             $cache = 'false';
         }
 
-        $result = '{!cache='.$cache;
+        $result = '{!cache=' . $cache;
         if (null !== $cost) {
-            $result .= ' cost='.$cost;
+            $result .= ' cost=' . $cost;
         }
         $result .= '}';
 
@@ -491,4 +484,5 @@ class Helper
     {
         return preg_replace('@[\x00-\x08\x0B\x0C\x0E-\x1F]@', ' ', $data);
     }
+
 }

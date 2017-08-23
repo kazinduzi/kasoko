@@ -1,4 +1,5 @@
 <?php
+
 namespace models;
 
 /**
@@ -15,12 +16,14 @@ namespace models;
  */
 class AttributeGroup extends \Model
 {
+
     public $hasMany = array(
         'attributes' => array(
             'model' => '\models\Attribute',
             'foreign_key' => 'attributegroup_id',
         ),
     );
+
     /**
      * @var string
      */
@@ -36,7 +39,6 @@ class AttributeGroup extends \Model
     {
         parent::__construct($id);
     }
-
 
     /**
      * @return bool

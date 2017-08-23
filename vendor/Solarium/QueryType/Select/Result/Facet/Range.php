@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
@@ -50,6 +51,7 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class Range extends Field
 {
+
     /**
      * Count of all records with field values lower then lower bound of the first range
      *
@@ -188,4 +190,5 @@ class Range extends Field
     {
         return $this->gap;
     }
+
 }

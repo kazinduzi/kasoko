@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting as HighlightingComponent;
@@ -47,6 +48,7 @@ use Solarium\Core\Client\Request;
  */
 class Highlighting implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for Highlighting
      *
@@ -109,14 +111,15 @@ class Highlighting implements ComponentRequestBuilderInterface
     protected function addFieldParams($field, $request)
     {
         $prefix = 'f.' . $field->getName() . '.hl.';
-        $request->addParam($prefix.'snippets', $field->getSnippets());
-        $request->addParam($prefix.'fragsize', $field->getFragSize());
-        $request->addParam($prefix.'mergeContiguous', $field->getMergeContiguous());
-        $request->addParam($prefix.'alternateField', $field->getAlternateField());
-        $request->addParam($prefix.'formatter', $field->getFormatter());
-        $request->addParam($prefix.'simple.pre', $field->getSimplePrefix());
-        $request->addParam($prefix.'simple.post', $field->getSimplePostfix());
-        $request->addParam($prefix.'fragmenter', $field->getFragmenter());
-        $request->addParam($prefix.'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
+        $request->addParam($prefix . 'snippets', $field->getSnippets());
+        $request->addParam($prefix . 'fragsize', $field->getFragSize());
+        $request->addParam($prefix . 'mergeContiguous', $field->getMergeContiguous());
+        $request->addParam($prefix . 'alternateField', $field->getAlternateField());
+        $request->addParam($prefix . 'formatter', $field->getFormatter());
+        $request->addParam($prefix . 'simple.pre', $field->getSimplePrefix());
+        $request->addParam($prefix . 'simple.post', $field->getSimplePostfix());
+        $request->addParam($prefix . 'fragmenter', $field->getFragmenter());
+        $request->addParam($prefix . 'useFastVectorHighlighter', $field->getUseFastVectorHighlighter());
     }
+
 }

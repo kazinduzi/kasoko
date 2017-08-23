@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
@@ -8,7 +9,6 @@
 
 namespace library\Cart;
 
-
 class CartItem
 {
 
@@ -17,42 +17,48 @@ class CartItem
      * @var string
      */
     public $rowId;
+
     /**
      * The ID of the cart item.
      * @var int|string
      */
     public $id;
+
     /**
      * The quantity for this cart item.
      * @var int|float
      */
     public $qty;
+
     /**
      * The name of the cart item.
      * @var string
      */
     public $name;
+
     /**
      * The price without TAX of the cart item.
      * @var float
      */
     public $price;
+
     /**
      * The options for this cart item.
      * @var array
      */
     public $options;
+
     /**
      * The FQN of the associated model.
      * @var string|null
      */
     private $associatedModel = null;
+
     /**
      * The tax rate for the cart item.
      * @var int|float
      */
     private $taxRate = 0;
-
 
     /**
      * CartItem constructor.
@@ -69,7 +75,7 @@ class CartItem
         if (empty($name)) {
             throw new \InvalidArgumentException('Please supply a valid name.');
         }
-        if (! is_numeric($price)) {
+        if (!is_numeric($price)) {
             throw new \InvalidArgumentException('Please supply a valid price.');
         }
 
@@ -78,7 +84,6 @@ class CartItem
         $this->price = floatval($price);
         $this->options = new \ArrayIterator($options);
         $this->rowId = $this->generateRowId($id, $options);
-
     }
 
     /**
@@ -117,7 +122,6 @@ class CartItem
         }
 
         return null;
-
     }
 
     /**
@@ -207,13 +211,11 @@ class CartItem
      */
     public function setQuantity($qty)
     {
-        if (! is_numeric($qty))
+        if (!is_numeric($qty))
             throw new \InvalidArgumentException('Please supply a valid quantity.');
 
         $this->qty = $qty;
     }
-
-
 
     /**
      * @param $taxRate
@@ -297,6 +299,5 @@ class CartItem
 
         return md5($id . serialize($options));
     }
-
 
 }

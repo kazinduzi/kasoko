@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Stats\Stats as StatsComponent;
@@ -46,6 +47,7 @@ use Solarium\Core\Client\Request;
  */
 class Stats implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for the stats component
      *
@@ -65,7 +67,7 @@ class Stats implements ComponentRequestBuilderInterface
 
             // add field specific facet stats
             foreach ($field->getFacets() as $facet) {
-                $request->addParam('f.'.$field->getKey().'.stats.facet', $facet);
+                $request->addParam('f.' . $field->getKey() . '.stats.facet', $facet);
             }
         }
 
@@ -76,4 +78,5 @@ class Stats implements ComponentRequestBuilderInterface
 
         return $request;
     }
+
 }

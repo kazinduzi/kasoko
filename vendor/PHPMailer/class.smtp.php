@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPMailer RFC821 SMTP email transport class.
  * PHP Version 5
@@ -26,6 +27,7 @@
  */
 class SMTP
 {
+
     /**
      * The PHPMailer SMTP version number.
      * @type string
@@ -187,12 +189,7 @@ class SMTP
             $socket_context = stream_context_create($options);
             //Suppress errors; connection failures are handled at a higher level
             $this->smtp_conn = @stream_socket_client(
-                $host . ":" . $port,
-                $errno,
-                $errstr,
-                $timeout,
-                STREAM_CLIENT_CONNECT,
-                $socket_context
+                            $host . ":" . $port, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $socket_context
             );
         } else {
             //Fall back to fsockopen which should work in more places, but is missing some features
@@ -200,11 +197,7 @@ class SMTP
                 $this->edebug("Connection: stream_socket_client not available, falling back to fsockopen");
             }
             $this->smtp_conn = fsockopen(
-                $host,
-                $port,
-                $errno,
-                $errstr,
-                $timeout
+                    $host, $port, $errno, $errstr, $timeout
             );
         }
         // Verify we connected properly
@@ -216,8 +209,8 @@ class SMTP
             );
             if ($this->do_debug >= 1) {
                 $this->edebug(
-                    'SMTP ERROR: ' . $this->error['error']
-                    . ": $errstr ($errno)"
+                        'SMTP ERROR: ' . $this->error['error']
+                        . ": $errstr ($errno)"
                 );
             }
             return false;
@@ -255,7 +248,7 @@ class SMTP
                 // the socket is valid but we are not connected
                 if ($this->do_debug >= 1) {
                     $this->edebug(
-                        'SMTP NOTICE: EOF caught while checking if connected'
+                            'SMTP NOTICE: EOF caught while checking if connected'
                     );
                 }
                 $this->close();
@@ -287,21 +280,17 @@ class SMTP
             case 'html':
                 //Cleans up output a bit for a better looking, HTML-safe output
                 echo htmlentities(
-                        preg_replace('/[\r\n]+/', '', $str),
-                        ENT_QUOTES,
-                        'UTF-8'
-                    )
-                    . "<br>\n";
+                        preg_replace('/[\r\n]+/', '', $str), ENT_QUOTES, 'UTF-8'
+                )
+                . "<br>\n";
                 break;
             case 'echo':
             default:
                 //Normalize line breaks
                 $str = preg_replace('/(\r\n|\r|\n)/ms', "\n", $str);
                 echo gmdate('Y-m-d H:i:s') . "\t" . str_replace(
-                        "\n",
-                        "\n                   \t                  ",
-                        trim($str)
-                    ) . "\n";
+                        "\n", "\n                   \t                  ", trim($str)
+                ) . "\n";
         }
     }
 
@@ -365,7 +354,7 @@ class SMTP
             if ($info['timed_out']) {
                 if ($this->do_debug >= 4) {
                     $this->edebug(
-                        'SMTP -> get_lines(): timed-out (' . $this->Timeout . ' sec)'
+                            'SMTP -> get_lines(): timed-out (' . $this->Timeout . ' sec)'
                     );
                 }
                 break;
@@ -374,8 +363,8 @@ class SMTP
             if ($endtime and time() > $endtime) {
                 if ($this->do_debug >= 4) {
                     $this->edebug(
-                        'SMTP -> get_lines(): timelimit reached (' .
-                        $this->Timelimit . ' sec)'
+                            'SMTP -> get_lines(): timelimit reached (' .
+                            $this->Timelimit . ' sec)'
                     );
                 }
                 break;
@@ -396,10 +385,8 @@ class SMTP
         }
         // Begin encrypted connection
         if (!stream_socket_enable_crypto(
-            $this->smtp_conn,
-            true,
-            STREAM_CRYPTO_METHOD_TLS_CLIENT
-        )
+                        $this->smtp_conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT
+                )
         ) {
             return false;
         }
@@ -431,7 +418,7 @@ class SMTP
             $this->edebug('SERVER -> CLIENT: ' . $reply);
         }
 
-        if (!in_array($code, (array)$expect)) {
+        if (!in_array($code, (array) $expect)) {
             $this->last_reply = null;
             $this->error = array(
                 'error' => "$command command failed",
@@ -440,7 +427,7 @@ class SMTP
             );
             if ($this->do_debug >= 1) {
                 $this->edebug(
-                    'SMTP ERROR: ' . $this->error['error'] . ': ' . $reply
+                        'SMTP ERROR: ' . $this->error['error'] . ': ' . $reply
                 );
             }
             return false;
@@ -478,11 +465,7 @@ class SMTP
      * @return boolean True if successfully authenticated.
      */
     public function authenticate(
-        $username,
-        $password,
-        $authtype = 'LOGIN',
-        $realm = '',
-        $workstation = ''
+    $username, $password, $authtype = 'LOGIN', $realm = '', $workstation = ''
     )
     {
         if (empty($authtype)) {
@@ -496,10 +479,8 @@ class SMTP
                 }
                 // Send encoded username and password
                 if (!$this->sendCommand(
-                    'User & Password',
-                    base64_encode("\0" . $username . "\0" . $password),
-                    235
-                )
+                                'User & Password', base64_encode("\0" . $username . "\0" . $password), 235
+                        )
                 ) {
                     return false;
                 }
@@ -533,8 +514,8 @@ class SMTP
                     $this->error = array('error' => $temp->error);
                     if ($this->do_debug >= 1) {
                         $this->edebug(
-                            'You need to enable some modules in your php.ini file: '
-                            . $this->error['error']
+                                'You need to enable some modules in your php.ini file: '
+                                . $this->error['error']
                         );
                     }
                     return false;
@@ -543,10 +524,8 @@ class SMTP
                 $msg1 = $ntlm_client->TypeMsg1($realm, $workstation); //msg1
 
                 if (!$this->sendCommand(
-                    'AUTH NTLM',
-                    'AUTH NTLM ' . base64_encode($msg1),
-                    334
-                )
+                                'AUTH NTLM', 'AUTH NTLM ' . base64_encode($msg1), 334
+                        )
                 ) {
                     return false;
                 }
@@ -555,15 +534,11 @@ class SMTP
                 $challenge = substr($this->last_reply, 3);
                 $challenge = base64_decode($challenge);
                 $ntlm_res = $ntlm_client->NTLMResponse(
-                    substr($challenge, 24, 8),
-                    $password
+                        substr($challenge, 24, 8), $password
                 );
                 //msg3
                 $msg3 = $ntlm_client->TypeMsg3(
-                    $ntlm_res,
-                    $username,
-                    $realm,
-                    $workstation
+                        $ntlm_res, $username, $realm, $workstation
                 );
                 // send encoded username
                 return $this->sendCommand('Username', base64_encode($msg3), 235);
@@ -601,7 +576,6 @@ class SMTP
 
         // The following borrowed from
         // http://php.net/manual/en/function.mhash.php#27225
-
         // RFC 2104 HMAC implementation for php.
         // Creates an md5 HMAC.
         // Eliminates the need to install mhash to compute a HMAC
@@ -717,7 +691,7 @@ class SMTP
     public function hello($host = '')
     {
         // Try extended hello first (RFC 2821)
-        return (boolean)($this->sendHello('EHLO', $host) or $this->sendHello('HELO', $host));
+        return (boolean) ($this->sendHello('EHLO', $host) or $this->sendHello('HELO', $host));
     }
 
     /**
@@ -751,9 +725,7 @@ class SMTP
     {
         $useVerp = ($this->do_verp ? ' XVERP' : '');
         return $this->sendCommand(
-            'MAIL FROM',
-            'MAIL FROM:<' . $from . '>' . $useVerp,
-            250
+                        'MAIL FROM', 'MAIL FROM:<' . $from . '>' . $useVerp, 250
         );
     }
 
@@ -788,9 +760,7 @@ class SMTP
     public function recipient($toaddr)
     {
         return $this->sendCommand(
-            'RCPT TO',
-            'RCPT TO:<' . $toaddr . '>',
-            array(250, 251)
+                        'RCPT TO', 'RCPT TO:<' . $toaddr . '>', array(250, 251)
         );
     }
 
@@ -957,4 +927,5 @@ class SMTP
     {
         $this->Timeout = $timeout;
     }
+
 }

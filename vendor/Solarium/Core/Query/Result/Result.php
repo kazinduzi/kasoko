@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Client\Client;
@@ -53,6 +54,7 @@ use Solarium\Exception\RuntimeException;
  */
 class Result implements ResultInterface
 {
+
     /**
      * Response object
      *
@@ -101,9 +103,7 @@ class Result implements ResultInterface
         $statusNum = floor($response->getStatusCode() / 100);
         if ($statusNum == 4 || $statusNum == 5) {
             throw new HttpException(
-                $response->getStatusMessage(),
-                $response->getStatusCode(),
-                $response->getBody()
+            $response->getStatusMessage(), $response->getStatusCode(), $response->getBody()
             );
         }
     }
@@ -156,11 +156,12 @@ class Result implements ResultInterface
 
             if (null === $this->data) {
                 throw new UnexpectedValueException(
-                    'Solr JSON response could not be decoded'
+                'Solr JSON response could not be decoded'
                 );
             }
         }
 
         return $this->data;
     }
+
 }

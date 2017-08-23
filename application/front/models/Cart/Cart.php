@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
@@ -8,20 +9,19 @@
 
 namespace models\Cart;
 
-
 class Cart extends \Model
 {
-    protected $table = 'cart';
 
+    protected $table = 'cart';
 
     public function addItem($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
-
+        
     }
 
     public function updateItem($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
-
+        
     }
 
     public function getCartProducts()
@@ -31,7 +31,7 @@ class Cart extends \Model
 
     public function save()
     {
-        if (! $this->values['secure_token']) {
+        if (!$this->values['secure_token']) {
             $this->set('secure_token', bin2hex(openssl_random_pseudo_bytes(16)));
         }
         return parent::save();

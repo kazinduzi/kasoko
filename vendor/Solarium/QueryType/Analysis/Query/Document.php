@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
@@ -50,6 +51,7 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface as DocumentInterf
  */
 class Document extends Query
 {
+
     const DOCUMENT_TYPE_HINT_EXCEPTION_MESSAGE = 'The document argument must either implement
         \Solarium\QueryType\Select\Result\DocumentInterface (read-only) or
         \Solarium\QueryType\Update\Query\Document\DocumentInterface (read-write), instance of %s given.';
@@ -67,9 +69,9 @@ class Document extends Query
      * @var array
      */
     protected $options = array(
-        'handler'       => 'analysis/document',
-        'resultclass'   => 'Solarium\QueryType\Analysis\Result\Document',
-        'omitheader'    => true,
+        'handler' => 'analysis/document',
+        'resultclass' => 'Solarium\QueryType\Analysis\Result\Document',
+        'omitheader' => true,
     );
 
     /**
@@ -149,4 +151,5 @@ class Document extends Query
     {
         return $this->documents;
     }
+
 }

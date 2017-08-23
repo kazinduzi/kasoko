@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /*
  * To change this template, choose Tools | Templates
@@ -29,6 +31,7 @@ class Testobserver extends Observer
                 break;
         }
     }
+
 }
 
 class TestObservable extends Observable
@@ -48,6 +51,7 @@ class TestObservable extends Observable
         //Notify all attached observers to this
         $this->notifyAll('deleted');
     }
+
 }
 
 ?>

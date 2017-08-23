@@ -96,7 +96,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 }
 
 /* IE9 insists on border box model on this element.*/
- .cke_browser_ie9 .cke_skin_v2 .cke_menuitem .cke_icon_wrapper
+.cke_browser_ie9 .cke_skin_v2 .cke_menuitem .cke_icon_wrapper
 {
 	width:24px;
 	height:24px;

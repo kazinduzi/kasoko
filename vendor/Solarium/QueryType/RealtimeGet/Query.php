@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\RealtimeGet;
 
 use Solarium\Core\Query\Query as BaseQuery;
@@ -52,6 +53,7 @@ use Solarium\QueryType\Select\ResponseParser\ResponseParser;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Default options
      *
@@ -61,7 +63,7 @@ class Query extends BaseQuery
         'resultclass' => 'Solarium\QueryType\RealtimeGet\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
         'handler' => 'get',
-        'omitheader'    => true,
+        'omitheader' => true,
     );
 
     /**
@@ -222,4 +224,5 @@ class Query extends BaseQuery
     {
         return array();
     }
+
 }

@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=8" />
-    <meta name="description" content="Kazinduzi - Open Source MVC framework coded in PHP"/>
-    <meta name="generator" content="Kazinduzi - open source web application framework" />
-    <meta name="robots" content="all" />
-    <link rel="shortcut icon" href="/html/images/fav.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="/html/style.css" />
-    <link rel="stylesheet" href="/html/admin_style.css" />
-    <title><?php echo ucfirst($title .' - '. Kazinduzi::getAppName())?></title>
-    <script src="/html/js/jquery-1.4.4.min.js"></script>
-</head>
-<body>
-    <div id="wrap" class="clearfix">
-        <?php if(Auth::is_authenticated()) :?>
-        <div class="main-nav" style="width: 1024px; margin: 0 auto">
-            <ul>
-                <li class="first"><a href="/admin/" title="dashboard">Dashboard</a></li>
-                <li><a href="/admin/pages/">Content</a></li>
-                <li><a href="/admin/library/">Media library</a></li>
-                <li><a href="/admin/modules/">Modules</a></li>
-                <li><a href="/admin/users/" title="users">Users</a></li>
-                <li><a href="/admin/news/" title="news">News</a></li>
-                <li class="logout"><a href="/login/logout">logout</a></li>
-            </ul>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=8" />
+        <meta name="description" content="Kazinduzi - Open Source MVC framework coded in PHP"/>
+        <meta name="generator" content="Kazinduzi - open source web application framework" />
+        <meta name="robots" content="all" />
+        <link rel="shortcut icon" href="/html/images/fav.ico" type="image/x-icon"/>
+        <link rel="stylesheet" href="/html/style.css" />
+        <link rel="stylesheet" href="/html/admin_style.css" />
+        <title><?php echo ucfirst($title . ' - ' . Kazinduzi::getAppName()) ?></title>
+        <script src="/html/js/jquery-1.4.4.min.js"></script>
+    </head>
+    <body>
+        <div id="wrap" class="clearfix">
+            <?php if (Auth::is_authenticated()) : ?>
+                <div class="main-nav" style="width: 1024px; margin: 0 auto">
+                    <ul>
+                        <li class="first"><a href="/admin/" title="dashboard">Dashboard</a></li>
+                        <li><a href="/admin/pages/">Content</a></li>
+                        <li><a href="/admin/library/">Media library</a></li>
+                        <li><a href="/admin/modules/">Modules</a></li>
+                        <li><a href="/admin/users/" title="users">Users</a></li>
+                        <li><a href="/admin/news/" title="news">News</a></li>
+                        <li class="logout"><a href="/login/logout">logout</a></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <!-- Login-Logout ribbon//-->
+            <?php if (Auth::is_authenticated()) : ?>
+                <span class="auth-bar" >
+                    Welcome <a href="/admin/user/"><?= $_SESSION['user']['username'] ?></a> | <a href="/login/logout">Logout</a>
+                </span>
+            <?php else : ?>
+                <div class="heading cf">
+                    <strong>Login</strong>
+                </div>
+            <?php endif; ?>
+
+            <!--//-->
+            <div id="main-holder" class="clearfix">
+                <?php echo $content_for_layout ?>
+            </div>
+            <!--//-->
+            <div class="separator-bottom clearfix"></div>
+            <!--//-->
+            <?php //echo render('footer');?>
         </div>
-        <?php endif;?>
 
-        <!-- Login-Logout ribbon//-->
-        <?php if(Auth::is_authenticated()) :?>
-            <span class="auth-bar" >
-                Welcome <a href="/admin/user/"><?= $_SESSION['user']['username']?></a> | <a href="/login/logout">Logout</a>
-            </span>
-        <?php else :?>
-            <div class="heading cf">
-                <strong>Login</strong>
-			</div>
-        <?php endif;?>
-
-        <!--//-->
-        <div id="main-holder" class="clearfix">
-            <?php echo $content_for_layout ?>
-        </div>
-        <!--//-->
-        <div class="separator-bottom clearfix"></div>
-        <!--//-->
-        <?php //echo render('footer');?>
-    </div>
-
-    <script>
-        $(document).ready(function() {
-            /* Topnav Dropdown menu.	*/
-            $("#menu ul ul").css({display: "none"}); // Opera Fix
-            $("#menu li").hover(function() {
-                $('ul li:first-child', this).before('');
-                $('ul li:last-child', this).css('border-bottom', '0');
-                $('ul li.arrow', this).css('border-bottom', '0');
-                $(this).find('ul:first').css({visibility: "",display: "none"}).stop('true', 'true').slideDown(200);
-             },function() {
-                    $(this).find('ul:first').slideUp("fast");
-            });
-         });
-     </script>
-     <script src="/html/ckeditor/sample.js"></script>
-     <script src="/html/ckeditor/ckeditor.js"></script>
-</body>
+        <script>
+			$(document).ready(function () {
+				/* Topnav Dropdown menu.	*/
+				$("#menu ul ul").css({display: "none"}); // Opera Fix
+				$("#menu li").hover(function () {
+					$('ul li:first-child', this).before('');
+					$('ul li:last-child', this).css('border-bottom', '0');
+					$('ul li.arrow', this).css('border-bottom', '0');
+					$(this).find('ul:first').css({visibility: "", display: "none"}).stop('true', 'true').slideDown(200);
+				}, function () {
+					$(this).find('ul:first').slideUp("fast");
+				});
+			});
+        </script>
+        <script src="/html/ckeditor/sample.js"></script>
+        <script src="/html/ckeditor/ckeditor.js"></script>
+    </body>
 </html>

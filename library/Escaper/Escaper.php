@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
  *
@@ -16,6 +17,7 @@ namespace library\Escaper;
  */
 class Escaper
 {
+
     /**
      * Entity Map mapping Unicode codepoints to any available named HTML entities.
      *
@@ -27,10 +29,10 @@ class Escaper
      * @var array
      */
     protected static $htmlNamedEntityMap = array(
-        34 => 'quot',         // quotation mark
-        38 => 'amp',          // ampersand
-        60 => 'lt',           // less-than sign
-        62 => 'gt',           // greater-than sign
+        34 => 'quot', // quotation mark
+        38 => 'amp', // ampersand
+        60 => 'lt', // less-than sign
+        62 => 'gt', // greater-than sign
     );
 
     /**
@@ -100,18 +102,18 @@ class Escaper
     public function __construct($encoding = null)
     {
         if ($encoding !== null) {
-            $encoding = (string)$encoding;
+            $encoding = (string) $encoding;
             if ($encoding === '') {
                 throw new Exception\InvalidArgumentException(
-                    get_class($this) . ' constructor parameter does not allow a blank value'
+                get_class($this) . ' constructor parameter does not allow a blank value'
                 );
             }
 
             $encoding = strtolower($encoding);
             if (!in_array($encoding, $this->supportedEncodings)) {
                 throw new Exception\InvalidArgumentException(
-                    'Value of \'' . $encoding . '\' passed to ' . get_class($this)
-                    . ' constructor parameter is invalid. Provide an encoding supported by htmlspecialchars()'
+                'Value of \'' . $encoding . '\' passed to ' . get_class($this)
+                . ' constructor parameter is invalid. Provide an encoding supported by htmlspecialchars()'
                 );
             }
 
@@ -178,7 +180,7 @@ class Escaper
 
         if (!$this->isUtf8($result)) {
             throw new Exception\RuntimeException(sprintf(
-                'String to be escaped was not valid UTF-8 or could not be converted: %s', $result
+                    'String to be escaped was not valid UTF-8 or could not be converted: %s', $result
             ));
         }
 
@@ -213,9 +215,9 @@ class Escaper
             $result = mb_convert_encoding($string, $to, $from);
         } else {
             throw new Exception\RuntimeException(
-                get_class($this)
-                . ' requires either the iconv or mbstring extension to be installed'
-                . ' when escaping for non UTF-8 strings.'
+            get_class($this)
+            . ' requires either the iconv or mbstring extension to be installed'
+            . ' when escaping for non UTF-8 strings.'
             );
         }
 
@@ -321,8 +323,7 @@ class Escaper
          * The following replaces characters undefined in HTML with the
          * hex entity for the Unicode replacement character.
          */
-        if (($ord <= 0x1f && $chr != "\t" && $chr != "\n" && $chr != "\r")
-            || ($ord >= 0x7f && $ord <= 0x9f)
+        if (($ord <= 0x1f && $chr != "\t" && $chr != "\n" && $chr != "\r") || ($ord >= 0x7f && $ord <= 0x9f)
         ) {
             return '&#xFFFD;';
         }
@@ -386,6 +387,5 @@ class Escaper
         }
         return sprintf('\\%X ', $ord);
     }
+
 }
-
-

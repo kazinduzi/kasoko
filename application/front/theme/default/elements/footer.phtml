@@ -13,15 +13,15 @@
             <li><a href="/customer/account">My Account</a></li>
             <li><a href="/customer/account/order">Order History</a></li>	    
             <li>
-		<a href="/customer/wishlist">
-		    <?php if (Customer::getSingleton()->isLogged() && isset($_SESSION['wishlist'])) : ?>
-			<?php echo __('messages.wishlist'); ?> (<span id="wishlist-total"><?php echo count($_SESSION['wishlist']); ?></span>)
-		    <?php else: ?>
-			<?php echo __('messages.wishlist'); ?>
-		    <?php endif; ?>
-		</a>
-	    </li>
-	    <li><a href="/customer/newsletter">Newsletter</a></li>
+                <a href="/customer/wishlist">
+                    <?php if (Customer::getSingleton()->isLogged() && isset($_SESSION['wishlist'])) : ?>
+                        <?php echo __('messages.wishlist'); ?> (<span id="wishlist-total"><?php echo count($_SESSION['wishlist']); ?></span>)
+                    <?php else: ?>
+                        <?php echo __('messages.wishlist'); ?>
+                    <?php endif; ?>
+                </a>
+            </li>
+            <li><a href="/customer/newsletter">Newsletter</a></li>
         </ul>
     </div>
     <div class="col-sm-3">

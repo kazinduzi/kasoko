@@ -30,15 +30,18 @@ defined('MODEL_EXT') OR define('MODEL_EXT', '.model.php');
  *  define the site path
  */
 defined('KAZINDUZI_PATH') OR define('KAZINDUZI_PATH', realpath(dirname(__FILE__)));
-defined('CORE_PATH') OR define('CORE_PATH', realpath(KAZINDUZI_PATH . DS . 'core'));
-defined('LIB_PATH') OR define('LIB_PATH', realpath(KAZINDUZI_PATH . DS . 'library'));
-defined('DB_PATH') OR define('DB_PATH', realpath(KAZINDUZI_PATH . DS . 'database'));
-defined('WIDGETS_PATH') OR define('WIDGETS_PATH', realpath(KAZINDUZI_PATH . DS . 'widgets'));
-defined('LAYOUT_PATH') OR define('LAYOUT_PATH', realpath(KAZINDUZI_PATH . DS . 'elements' . DS . 'layouts'));
-defined('APP_PATH') OR define('APP_PATH', realpath(KAZINDUZI_PATH . DS . 'application/backend'));
-defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', realpath(APP_PATH . DS . 'controllers'));
-defined('VIEWS_PATH') OR define('VIEWS_PATH', realpath(APP_PATH . DS . 'views'));
-defined('MODELS_PATH') OR define('MODELS_PATH', realpath(APP_PATH . DS . 'models'));
+defined('CORE_PATH') OR define('CORE_PATH', realpath(KAZINDUZI_PATH . '/core'));
+defined('LIB_PATH') OR define('LIB_PATH', realpath(KAZINDUZI_PATH . '/library'));
+defined('DB_PATH') OR define('DB_PATH', realpath(KAZINDUZI_PATH . '/database'));
+defined('WIDGETS_PATH') OR define('WIDGETS_PATH', realpath(KAZINDUZI_PATH . '/widgets'));
+defined('LAYOUT_PATH') OR define('LAYOUT_PATH', realpath(KAZINDUZI_PATH . '/elements' . '/layouts'));
+defined('APP_PATH') OR define('APP_PATH', realpath(KAZINDUZI_PATH . '/application/backend'));
+defined('MODULES_PATH') OR define('MODULES_PATH', realpath(KAZINDUZI_PATH . '/modules'));
+defined('PLUGINS_PATH') OR define('PLUGINS_PATH', realpath(KAZINDUZI_PATH . '/plugins'));
+
+defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', realpath(APP_PATH . '/controllers'));
+defined('VIEWS_PATH') OR define('VIEWS_PATH', realpath(APP_PATH . '/views'));
+defined('MODELS_PATH') OR define('MODELS_PATH', realpath(APP_PATH . '/models'));
 defined('THEME_PATH') || define('THEME_PATH', realpath(APP_PATH . DIRECTORY_SEPARATOR . 'theme'));
 
 defined('CURRENT_URL') OR define('CURRENT_URL', (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -54,20 +57,20 @@ require_once 'loader.php';
  * Set the include path for the whole kazinduzi
  */
 set_include_path(
-    get_include_path()
-    . PS . KAZINDUZI_PATH
-    . PS . APP_PATH . DS . 'configs'
-    . PS . KAZINDUZI_PATH . DS . 'includes'
-    . PS . CONTROLLERS_PATH
-    . PS . VIEWS_PATH
-    . PS . LIB_PATH
-    . PS . CORE_PATH
-    . PS . APP_PATH
-    . PS . DB_PATH
-    . PS . WIDGETS_PATH
-    . PS . KAZINDUZI_PATH . DS . 'helpers'
-    . PS . KAZINDUZI_PATH . DS . 'elements'
-    . PS . KAZINDUZI_PATH . DS . 'html'
+        get_include_path()
+        . PS . KAZINDUZI_PATH
+        . PS . APP_PATH . '/configs'
+        . PS . KAZINDUZI_PATH . '/includes'
+        . PS . CONTROLLERS_PATH
+        . PS . VIEWS_PATH
+        . PS . LIB_PATH
+        . PS . CORE_PATH
+        . PS . APP_PATH
+        . PS . DB_PATH
+        . PS . WIDGETS_PATH
+        . PS . KAZINDUZI_PATH . '/helpers'
+        . PS . KAZINDUZI_PATH . '/elements'
+        . PS . KAZINDUZI_PATH . '/html'
 );
 
 require_once 'Kazinduzi.php';

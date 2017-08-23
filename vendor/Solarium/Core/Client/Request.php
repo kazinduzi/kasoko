@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
@@ -46,20 +47,21 @@ use Solarium\Exception\RuntimeException;
  */
 class Request extends Configurable
 {
+
     /**
      * Request GET method
      */
-    const METHOD_GET     = 'GET';
+    const METHOD_GET = 'GET';
 
     /**
      * Request POST method
      */
-    const METHOD_POST    = 'POST';
+    const METHOD_POST = 'POST';
 
     /**
      * Request HEAD method
      */
-    const METHOD_HEAD    = 'HEAD';
+    const METHOD_HEAD = 'HEAD';
 
     /**
      * Default options
@@ -424,9 +426,7 @@ class Request extends Configurable
         if (count($this->params) > 0) {
             $queryString = http_build_query($this->params, null, '&');
             $queryString = preg_replace(
-                '/%5B(?:[0-9]|[1-9][0-9]+)%5D=/',
-                '=',
-                $queryString
+                    '/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '=', $queryString
             );
         }
 
@@ -454,7 +454,6 @@ class Request extends Configurable
 
         return $output;
     }
-
 
     /**
      * Set HTTP basic auth settings
@@ -485,4 +484,5 @@ class Request extends Configurable
             'password' => $this->getOption('password'),
         );
     }
+
 }

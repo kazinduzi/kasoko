@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\Core\Configurable;
@@ -45,6 +46,7 @@ use Solarium\Core\Configurable;
  */
 abstract class Command extends Configurable
 {
+
     /**
      * Returns command type, for use in adapters
      *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\QueryType\Select\Result;
  */
 abstract class AbstractDocument implements \IteratorAggregate, \Countable, \ArrayAccess
 {
+
     /**
      * All fields in this document
      *
@@ -142,4 +144,5 @@ abstract class AbstractDocument implements \IteratorAggregate, \Countable, \Arra
     {
         return $this->__get($offset);
     }
+
 }

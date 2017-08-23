@@ -54,9 +54,9 @@ span.cke_skin_kama
 
 .cke_skin_kama .cke_editor
 {
-/*
-	border: solid 1px #dcdcdc;
-*/
+	/*
+		border: solid 1px #dcdcdc;
+	*/
 	display: inline-table;
 	width: 100%;
 }

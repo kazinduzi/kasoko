@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -49,6 +50,7 @@ use Solarium\QueryType\Select\ResponseParser\Component\Debug as ResponseParser;
  */
 class Debug extends Component
 {
+
     /**
      * Get component type
      *
@@ -99,4 +101,5 @@ class Debug extends Component
     {
         return $this->setOption('explainother', $query);
     }
+
 }

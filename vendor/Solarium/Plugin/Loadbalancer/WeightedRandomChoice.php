@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\Loadbalancer;
 
 use Solarium\Exception\InvalidArgumentException;
@@ -48,6 +49,7 @@ use Solarium\Exception\RuntimeException;
  */
 class WeightedRandomChoice
 {
+
     /**
      * Total weight of all choices
      *
@@ -79,7 +81,7 @@ class WeightedRandomChoice
     {
         $i = 0;
         foreach ($choices as $key => $weight) {
-            if ($weight <=0) {
+            if ($weight <= 0) {
                 throw new InvalidArgumentException('Weight must be greater than zero');
             }
 
@@ -125,7 +127,7 @@ class WeightedRandomChoice
     protected function getKey()
     {
         $random = mt_rand(1, $this->totalWeight);
-        $high = count($this->lookup)-1;
+        $high = count($this->lookup) - 1;
         $low = 0;
 
         while ($low < $high) {
@@ -142,8 +144,8 @@ class WeightedRandomChoice
         if ($this->lookup[$low] >= $random) {
             return $low;
         } else {
-            return $low+1;
+            return $low + 1;
         }
-
     }
+
 }

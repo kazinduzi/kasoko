@@ -1,7 +1,10 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class GoogleMapImage
 {
+
     private $width = '550';
     private $height = '550';
     private $maptype = 'roadmap';
@@ -58,4 +61,5 @@ class GoogleMapImage
         $markers = '&markers=' . implode('&markers=', $markers);
         return 'http://maps.google.com/maps/api/staticmap?zoom=' . $this->zoom . '&size=' . $this->width . 'x' . $this->height . '&maptype=' . $this->maptype . '&sensor=' . ($this->sensor ? 'true' : 'false') . $markers;
     }
+
 }

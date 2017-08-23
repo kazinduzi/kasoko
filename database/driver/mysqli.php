@@ -47,16 +47,19 @@ class Driver_mysqli extends Database
      * @var int
      */
     public $num_rows;
+
     /**
      * Options for the connection db
      * @var array
      */
     protected $options = array();
+
     /**
      * The null date string for Mysqli with format 000-00-00 00:00:00
      * @var string
      */
     protected $nullDate = '0000-00-00 00:00:00';
+
     /**
      * Flag to chech if the multi query is required
      * @var bool
@@ -149,7 +152,7 @@ class Driver_mysqli extends Database
         if ($mode && !mysqli_query($this->conn, "SET TRANSACTION ISOLATION LEVEL {$mode}")) {
             throw new \Exception(mysqli_errno($this->conn) . mysqli_error($this->conn));
         }
-        return (bool)mysqli_query($this->conn, 'START TRANSACTION');
+        return (bool) mysqli_query($this->conn, 'START TRANSACTION');
     }
 
     /**
@@ -208,7 +211,7 @@ class Driver_mysqli extends Database
     {
         // UTF is only needed for MYSQL 4.1.2 or high
         $ver = explode('.', $this->version());
-        return ($ver[0] == 5) or ($ver[0] == 4 and $ver[1] == 1 and (int)$ver[2] >= 2);
+        return ($ver[0] == 5) or ( $ver[0] == 4 and $ver[1] == 1 and (int) $ver[2] >= 2);
     }
 
     /**
@@ -218,9 +221,9 @@ class Driver_mysqli extends Database
     public function version()
     {
         $version = mysqli_get_server_version($this->conn);
-        $major = (int)($version / 10000);
-        $minor = (int)($version % 10000 / 100);
-        $revision = (int)($version % 100);
+        $major = (int) ($version / 10000);
+        $minor = (int) ($version % 10000 / 100);
+        $revision = (int) ($version % 100);
         return $major . '.' . $minor . '.' . $revision;
     }
 
@@ -286,7 +289,7 @@ class Driver_mysqli extends Database
      */
     public function info()
     {
-        return (string)mysqli_info($this->conn);
+        return (string) mysqli_info($this->conn);
     }
 
     /**
@@ -296,7 +299,7 @@ class Driver_mysqli extends Database
      */
     public function host_info()
     {
-        return (string)mysqli_get_host_info($this->conn);
+        return (string) mysqli_get_host_info($this->conn);
     }
 
     /**
@@ -360,7 +363,7 @@ class Driver_mysqli extends Database
             throw new \Exception('No query to execute');
         }
         $ret = null;
-        if (($row = mysqli_fetch_all($this->result, (int)$type))) {
+        if (($row = mysqli_fetch_all($this->result, (int) $type))) {
             $ret = $row;
         }
         mysqli_free_result($this->result);
@@ -442,7 +445,7 @@ class Driver_mysqli extends Database
     public function getTableFields($tables, $type = true)
     {
         $result = array();
-        $tables = (array)$tables;
+        $tables = (array) $tables;
         foreach ($tables as $tbl) {
             $this->setQuery('SHOW FIELDS FROM ' . strtolower($this->quoteTable($tbl)));
             $fields = $this->fetchObjectList();
@@ -493,7 +496,7 @@ class Driver_mysqli extends Database
     {
         $return = array();
         $db_fieldName = 'Tables_in_' . $this->getCfg('db_name');
-        is_null($dbName) ? $this->setQuery('SHOW TABLES') : $this->setQuery('SHOW TABLES FROM `' . (string)$dbName . '`');
+        is_null($dbName) ? $this->setQuery('SHOW TABLES') : $this->setQuery('SHOW TABLES FROM `' . (string) $dbName . '`');
         foreach ($result = $this->fetchAll() as $dbTable) {
             $return[] = $dbTable[$db_fieldName];
         }
@@ -509,7 +512,7 @@ class Driver_mysqli extends Database
      */
     public function tableFields($tables, $type = true)
     {
-        $tables = (array)$tables;
+        $tables = (array) $tables;
         $result = array();
         foreach ($tables as $table) {
             $this->setQuery('SHOW FIELDS FROM ' . strtolower($this->quoteTable($table)));
@@ -570,9 +573,9 @@ class Driver_mysqli extends Database
     {
         $type = $this->getColumnType($type);
         return 'ALTER TABLE ' . $this->quoteTable($table) . ' CHANGE '
-        . $this->quoteColumn($column) . ' '
-        . $this->quoteColumn($column) . ' '
-        . $this->getColumnType($type);
+                . $this->quoteColumn($column) . ' '
+                . $this->quoteColumn($column) . ' '
+                . $this->getColumnType($type);
     }
 
     /**
@@ -585,8 +588,8 @@ class Driver_mysqli extends Database
     public function renameColumnQuery($table, $name, $newName)
     {
         return "ALTER TABLE " . $this->quoteTableName($table)
-        . " RENAME COLUMN " . $this->quoteColumn($name)
-        . " TO " . $this->quoteColumn($newName);
+                . " RENAME COLUMN " . $this->quoteColumn($name)
+                . " TO " . $this->quoteColumn($newName);
     }
 
     /**
@@ -598,7 +601,7 @@ class Driver_mysqli extends Database
     public function dropColumnQuery($table, $column)
     {
         return "ALTER TABLE " . $this->quoteTable($table)
-        . " DROP COLUMN " . $this->quoteColumn($column);
+                . " DROP COLUMN " . $this->quoteColumn($column);
     }
 
     /**
@@ -612,8 +615,8 @@ class Driver_mysqli extends Database
     {
         $type = $this->getColumnType($type);
         $sql = 'ALTER TABLE ' . $this->quoteTable($table)
-            . ' ADD ' . $this->quoteColumn($column) . ' '
-            . $this->getColumnType($type);
+                . ' ADD ' . $this->quoteColumn($column) . ' '
+                . $this->getColumnType($type);
         return $sql;
     }
 
@@ -638,10 +641,10 @@ class Driver_mysqli extends Database
             $refColumns[$i] = $this->quoteColumn($col);
         }
         $sql = 'ALTER TABLE ' . $this->quoteTable($table)
-            . ' ADD CONSTRAINT ' . $this->quoteColumn($name)
-            . ' FOREIGN KEY (' . implode(', ', $columns) . ')'
-            . ' REFERENCES ' . $this->quoteTable($refTable)
-            . ' (' . implode(', ', $refColumns) . ')';
+                . ' ADD CONSTRAINT ' . $this->quoteColumn($name)
+                . ' FOREIGN KEY (' . implode(', ', $columns) . ')'
+                . ' REFERENCES ' . $this->quoteTable($refTable)
+                . ' (' . implode(', ', $refColumns) . ')';
         if ($delete !== null) {
             $sql .= ' ON DELETE ' . $delete;
         }
@@ -680,8 +683,8 @@ class Driver_mysqli extends Database
         }
 
         return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
-        . $this->quoteTableName($name) . ' ON '
-        . $this->quoteTableName($table) . ' (' . implode(', ', $cols) . ')';
+                . $this->quoteTableName($name) . ' ON '
+                . $this->quoteTableName($table) . ' (' . implode(', ', $cols) . ')';
     }
 
     /**
@@ -758,7 +761,7 @@ class Driver_mysqli extends Database
      */
     public function db_queryBatch($abort_on_error = true, $p_transaction_safe = false)
     {
-        $sql = (string)$this->sql;
+        $sql = (string) $this->sql;
         $this->errorNum = 0;
         $this->errorMsg = '';
         if ($p_transaction_safe) {

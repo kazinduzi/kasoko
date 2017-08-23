@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
@@ -8,16 +9,12 @@
 
 namespace library\Cart;
 
+use Kazinduzi;
 
 class CartService
 {
-    protected $session;
-    protected $dbo;
 
-    public function __construct()
-    {
-        $this->session = \Kazinduzi::session();
-    }
+    protected $dbo;
 
     /**
      * @return Cart
@@ -25,14 +22,14 @@ class CartService
      */
     public function createSessionCart()
     {
-        $cart = new Cart($this->session);
+        $cart = new Cart(Kazinduzi::session());
         $cart->setCreatedTime(new \DateTime());
         $cartId = $cart->persist();
         $cart->setId($cartId);
-        if ($this->session->contains('cart.id')) {
-            $this->session->remove('cart.id');
+        if (Kazinduzi::session()->contains('cart.id')) {
+            Kazinduzi::session()->remove('cart.id');
         }
-        $this->session->add('cart.id', $cartId);
+        Kazinduzi::session()->add('cart.id', $cartId);
         return $cart;
     }
 
@@ -42,11 +39,11 @@ class CartService
      */
     public function getSessionCart()
     {
-        if (! $this->session->contains('cart.id')) {
-                $cart = $this->createSessionCart();
+        if (!Kazinduzi::session()->contains('cart.id')) {
+            $cart = $this->createSessionCart();
         } else {
-            $cart = $this->findById($this->session->contains('cart.id'));
-            if (! $cart) {
+            $cart = $this->findById(Kazinduzi::session()->contains('cart.id'));
+            if (!$cart) {
                 $cart = $this->createSessionCart();
             }
         }
@@ -55,8 +52,8 @@ class CartService
 
     public function getDbo()
     {
-        if (! $this->dbo instanceof \Datebase) {
-            $this->dbo = \Kazinduzi::db()->clear();
+        if (!$this->dbo instanceof \Datebase) {
+            $this->dbo = Kazinduzi::db()->clear();
         }
         return $this->dbo;
     }
@@ -70,10 +67,11 @@ class CartService
         $this->getDbo()->setQuery(sprintf("SELECT * FROM cart WHERE id = '%s'", $cartId));
 
         if (null !== $row = $this->getDbo()->fetchObjectRow()) {
-            $cart = new Cart($this->session, $row->id);
+            $cart = new Cart(Kazinduzi::session(), $row->id);
             $cart->setCreatedTime((new \DateTime)->setTimestamp($row->created_at));
             return $cart;
         }
         return null;
     }
+
 }

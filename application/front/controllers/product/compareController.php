@@ -13,7 +13,7 @@ class ProductCompareController extends BaseController
 
     public function add()
     {
-
+        
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Query\Query;
@@ -47,6 +48,7 @@ use Solarium\Core\Query\QueryInterface;
  */
 abstract class RequestBuilder implements RequestBuilderInterface
 {
+
     /**
      * Build request for a select query
      *
@@ -103,14 +105,14 @@ abstract class RequestBuilder implements RequestBuilderInterface
     }
 
     /**
-    * Render a boolean attribute
-    *
-    * For use in building XML messages
-    *
-    * @param string $name
-    * @param boolean $value
-    * @return string
-    */
+     * Render a boolean attribute
+     *
+     * For use in building XML messages
+     *
+     * @param string $name
+     * @param boolean $value
+     * @return string
+     */
     public function boolAttrib($name, $value)
     {
         if (null !== $value) {
@@ -123,14 +125,14 @@ abstract class RequestBuilder implements RequestBuilderInterface
     }
 
     /**
-    * Render an attribute
-    *
-    * For use in building XML messages
-    *
-    * @param string $name
-    * @param string $value
-    * @return string
-    */
+     * Render an attribute
+     *
+     * For use in building XML messages
+     *
+     * @param string $name
+     * @param string $value
+     * @return string
+     */
     public function attrib($name, $value)
     {
         if (null !== $value) {
@@ -139,4 +141,5 @@ abstract class RequestBuilder implements RequestBuilderInterface
             return '';
         }
     }
+
 }

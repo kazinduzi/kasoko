@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -47,6 +48,7 @@ use Solarium\Core\Query\Result\ResultInterface;
  */
 class PreExecute extends Event
 {
+
     /**
      * @var QueryInterface
      */
@@ -97,4 +99,5 @@ class PreExecute extends Event
     {
         $this->result = $result;
     }
+
 }

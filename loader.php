@@ -68,6 +68,22 @@ function autoloader_controller($className)
     require_once $controller_path;
 }
 
+function autoloader_module($className)
+{
+    $file = MODULES_PATH . '/' . str_replace('\\', '/', $className) . '.php';    
+    if (file_exists($file)) {
+        require $file;
+    }
+}
+
+function autoloader_plugin($className)
+{
+    $file = PLUGINS_PATH . '/' . str_replace('\\', '/', $className) . '.php';    
+    if (file_exists($file)) {
+        require $file;
+    }
+}
+
 function autoloader_psr0($className)
 {
     $className = ltrim($className, '\\');
@@ -79,7 +95,7 @@ function autoloader_psr0($className)
         $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
     }
     $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-    include $fileName;
+    require $fileName;
 }
 
 spl_autoload_register(null, false);
@@ -91,5 +107,7 @@ spl_autoload_register('autoloader_db');
 spl_autoload_register('autoloader_classes');
 spl_autoload_register('autoloader_helpers');
 spl_autoload_register('autoloader_controller');
+spl_autoload_register('autoloader_module');
+spl_autoload_register('autoloader_plugin');
 spl_autoload_register('autoloader_psr0');
 ini_set('unserialize_callback_func', 'spl_autoload_call');

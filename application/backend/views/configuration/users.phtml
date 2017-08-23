@@ -1,0 +1,207 @@
+<div class="wrapper">
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed" id="customer_list">
+            <caption><?php echo __('Users'); ?>
+            <a class="btn btn-default btn-primary action-btn" title="Create a new user" href="#user_create_dialog" data-toggle="modal">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+            </caption>
+            <thead>
+                <tr>   
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Name</th>
+                    <th>E-mail</th>
+                    <th>Status</th>
+                    <th>User level</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($users as $user) :?>
+                <tr class="js-admin-<?php echo $user->id;?>">
+                    <td data-field-class="js-username">
+                        <a class="js-update-user" title="Change this user" href="#user_update_dialog" data-id="<?php echo $user->id;?>" data-toggle="modal">
+                            <?php echo $user->username; ?>
+                        </a>
+                    </td>
+                    <td data-field-class="js-firstname"><?php echo $user->firstname; ?></td>
+                    <td data-field-class="js-lastname"><?php echo $user->lastname; ?></td>
+                    <td data-field-class="js-name"><?php echo $user->name;?></td>
+                    <td data-field-class="js-email"><?php echo $user->email;?></td>                    
+                    <td data-field-class="js-status"><?php echo $user->status;?></td>
+                    <td data-field-class="js-level"><?php echo $user->level;?></td>
+                    <td class="actions">
+                        <div class="btn-group">
+                            <a class="js-update-user tool-item btn btn-default" title="Change this administrator" href="#user_update_dialog" data-id="<?php echo $user->id;?>" data-toggle="modal"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="js-delete-user tool-item btn btn-default" title="Delete this administrator" href="#user_delete_dialog" data-id="<?php echo $user->id;?>" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span></a>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade " id="user_create_dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Create user</h3>
+            </div>
+            <form method="POST" action="/admin/configuration/users/create">
+                <input type="hidden" name="_token" value="<?php echo $token?>">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="username" class="control-label">Username</label>
+                                <input type="text" name="user[username]" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="control-label">Email</label>
+                                <input type="email" name="user[email]" class="form-control" required='true' placeholder="Enter e-mail">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstname" class="control-label">Firstname</label>
+                                <input type="text" name="user[firstname]" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname" class="control-label">Lastname</label>
+                                <input type="text" name="user[lastname]" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label">Name</label>
+                                <input type="text" name="user[name]" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password</label>
+                                <input type="password" name="user[password]" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password" class="control-label">Confirm password</label>
+                                <input type="password" name="user[confirm_password]" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button  type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="user_delete_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Delete user</h3>
+            </div>
+            <form method="POST" action="/admin/configuration/users/delete?_token=<?php echo $token;?>" id="user_delete_dialog_form">
+	            <div class="modal-body">
+	                Do you really want to delete this user ?
+                        <input type="hidden" name="user_id" id="user_delete_id" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> No</button>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="user_update_dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Update user</h3>
+            </div>
+            <form method="POST" action="/admin/configuration/users/update" >
+                <input type="hidden" name="_token" value="<?php echo $token?>">
+                <div class="modal-body">
+                    <input type="hidden" name="user[id]" value="" id="user_update_id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="username" class="control-label">Username</label>
+                                <input class="form-control js-username" type="text" name="user[username]" value="" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstname" class="control-label">Firstname</label>
+                                <input class="form-control js-firstname" name="user[firstname]" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname" class="control-label">Lastname</label>
+                                <input class="form-control js-lastname" name="user[lastname]" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label">Name</label>
+                                <input class="form-control js-name" name="user[name]" value="">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email" class="control-label">Email</label>
+                                <input class="form-control js-email" type="email" name="user[email]" value="" aria-required="true" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password</label>
+                                <input class="form-control" type="password" name="user[password]" value="" placeholder="Leave empty to keep original">
+                            </div>
+                            <div class="form-group">
+                                <label for="cornfirm_password" class="control-label">Password confirmation</label>
+                                <input class="form-control" type="password" name="user[confirm_password]" value="" placeholder="Leave empty to keep original">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button  type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Update</button>
+	            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+jQuery(function($) {
+    $(".js-delete-user").click(function(e){
+        $('#user_delete_id').val($(this).data('id'));
+    });
+    
+    $(".js-update-user").click(function(e){
+        $('#user_update_id').val($(this).data('id'));
+        
+        $('.js-admin-' + $(this).data('id')).find('td').each(function(k, v) {
+            $v = $(v);
+
+            if(!$v.data('field-class')) {
+                return true;
+            }
+            if($v.data('value')) {
+                var fieldValue = $v.data('value');
+            } else {
+                var fieldValue = $v.text();
+            }
+            console.log(fieldValue);
+
+            $('.' + $v.data('field-class')).val($.trim(fieldValue));
+
+            if($('.' + $v.data('field-class')).is('select')) {
+                $('.' + $v.data('field-class')).selectpicker('refresh');
+            }
+        });
+    });
+})
+</script>

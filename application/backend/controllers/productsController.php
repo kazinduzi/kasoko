@@ -1,6 +1,6 @@
 <?php
 
-defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+
 
 use library\Image\Editor as ImageEditor;
 use models\Manufacturer\Manufacturer;
@@ -57,13 +57,13 @@ class ProductsController extends Admin_controller
             try {
                 $product->name = $data['name'];
                 $product->model = $data['model'];
-                $product->slug = \Stringify::slugify($data['name']);
+                $product->slug = \Helpers\Stringify::slugify($data['name']);
                 $product->description = $data['description'];
                 $product->meta_keywords = $data['meta_keywords'];
                 $product->meta_description = $data['meta_description'];
                 $product->sku = $data['sku'];
                 $product->upc = '';
-                $product->quantity = (int)$data['quantity'];
+                $product->quantity = (int) $data['quantity'];
                 $product->shipping = 1;
                 $product->price = $data['price'];
                 $product->date_available = $data['date_available'];
@@ -95,7 +95,7 @@ class ProductsController extends Admin_controller
         $template->setFilename('products/combinations');
         $template->attributeGroups = (new \models\AttributeGroup())->findAll();
         $template->set('product', $product = new Product($product_id));
-        $template->set('title','Build product attribute configurations');
+        $template->set('title', 'Build product attribute configurations');
         $template->set('productAttributes', $product->getProductAttributes());
         $prodAttr = new \models\Product\AttributeValue($prodAttrId);
         $template->set('productAttributes', $prodAttr);
@@ -112,7 +112,7 @@ class ProductsController extends Admin_controller
 
                 foreach ($data_attributes as $attrId) {
                     $productAttributeConfiguration = new \models\Product\ProductAttributeConfiguration();
-                    $productAttributeConfiguration->attribute_id = (int)$attrId;
+                    $productAttributeConfiguration->attribute_id = (int) $attrId;
                     $productAttributeConfiguration->product_id = $_POST['product_id'];
                     $productAttributeConfiguration->product_attributes_id = $prodAttr->getId();
                     $productAttributeConfiguration->save();
@@ -120,10 +120,8 @@ class ProductsController extends Admin_controller
             }
 
             // Redirect
-            $this->redirect('/admin/products/edit/'.$product->getId());
-
+            $this->redirect('/admin/products/edit/' . $product->getId());
         }
-
     }
 
     public function deleteAttributeCombinations()
@@ -134,7 +132,6 @@ class ProductsController extends Admin_controller
             $this->redirect('/admin/products/edit/' . $product->getId());
         }
     }
-
 
     public function add()
     {
@@ -149,14 +146,14 @@ class ProductsController extends Admin_controller
                 $product = new Product();
                 $product->name = $data['name'];
                 $product->model = $data['model'];
-                $product->slug = \Stringify::slugify($data['name']);
+                $product->slug = \Helpers\Stringify::slugify($data['name']);
                 $product->description = $data['description'];
                 $product->meta_keywords = $data['meta_keywords'];
                 $product->meta_description = $data['meta_description'];
                 $product->sku = $data['sku'];
                 $product->upc = '';
                 $product->stock_status_id = 1;
-                $product->quantity = (int)$data['quantity'];
+                $product->quantity = (int) $data['quantity'];
                 $product->shipping = 1;
                 $product->price = $data['price'];
                 $product->tax = $data['tax'];
@@ -192,8 +189,8 @@ class ProductsController extends Admin_controller
     public function image()
     {
         $product = new Product($this->getArg());
-        $targetDirectory = KAZINDUZI_PATH . '/html/images/kasoko/' . Stringify::slugify($product->sku);
-        $targetSmallDirectory = KAZINDUZI_PATH . '/html/images/kasoko/' . Stringify::slugify($product->sku) . '/small';
+        $targetDirectory = KAZINDUZI_PATH . '/html/images/kasoko/' . Helpers\Stringify::slugify($product->sku);
+        $targetSmallDirectory = KAZINDUZI_PATH . '/html/images/kasoko/' . Helpers\Stringify::slugify($product->sku) . '/small';
         if (!is_dir($targetDirectory)) {
             mkdir($targetDirectory, 777, true);
         }
@@ -205,8 +202,8 @@ class ProductsController extends Admin_controller
             if ($file['error'] === UPLOAD_ERR_OK) {
                 try {
                     $rnd = rand(0, 9999);
-                    $targetFilename = $targetDirectory . '/' . Stringify::sanitizeFilename($rnd . '-' . $file['name']);
-                    $targetSmallFilename = $targetSmallDirectory . '/' . Stringify::sanitizeFilename($rnd . '-' . $file['name']);
+                    $targetFilename = $targetDirectory . '/' . Helpers\Stringify::sanitizeFilename($rnd . '-' . $file['name']);
+                    $targetSmallFilename = $targetSmallDirectory . '/' . Helpers\Stringify::sanitizeFilename($rnd . '-' . $file['name']);
                     $imageFilemanager = ImageEditor::instance();
                     $imageFilemanager->setFile($file['tmp_name']);
                     $imageFilemanager->resize(800, 600);
@@ -234,7 +231,7 @@ class ProductsController extends Admin_controller
         if (!$this->getArg(0) || !$this->getArg(1)) {
             throw new Exception('Unknown productID or imageId');
         }
-        $imageProduct = new \library\Product\Image((int)$this->getArg(1));
+        $imageProduct = new \library\Product\Image((int) $this->getArg(1));
         $template = $this->getTemplate();
         $template->setFilename('products/image/update');
         $template->title = __('Update product image');
@@ -250,7 +247,7 @@ class ProductsController extends Admin_controller
             throw new \Exception('Unknown productID or imageId');
         }
         try {
-            $imageProduct = new \library\Product\Image((int)$this->getArg(1));
+            $imageProduct = new \library\Product\Image((int) $this->getArg(1));
             $imageProduct->delete();
             $return = array('success' => $imageProduct->getId());
         } catch (Exception $ex) {
@@ -266,7 +263,7 @@ class ProductsController extends Admin_controller
             $imageProduct->setDescription($data['description']);
             $imageProduct->setPostscriptum($data['postscriptum']);
             $imageProduct->setTitle($data['title']);
-            $imageProduct->setCover((bool)$data['cover']);
+            $imageProduct->setCover((bool) $data['cover']);
             $imageProduct->save();
             if ('close' === $_POST['save_mode']) {
                 $this->redirect('/admin/products/edit/' . $imageProduct->getProduct()->getId());

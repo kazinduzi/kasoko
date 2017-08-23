@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -52,6 +53,7 @@ use Solarium\QueryType\Select\Query\Component\Facet\Facet;
  */
 class FacetSet extends Component
 {
+
     /**
      * Facet type field
      */
@@ -526,4 +528,5 @@ class FacetSet extends Component
     {
         return $this->createFacet(self::FACET_PIVOT, $options, $add);
     }
+
 }

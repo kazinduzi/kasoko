@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012 Marc Morera. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\Edismax as EdismaxComponent;
@@ -47,6 +48,7 @@ use Solarium\Core\Client\Request;
  */
 class EdisMax implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for EdismaxComponent
      *
@@ -77,4 +79,5 @@ class EdisMax implements ComponentRequestBuilderInterface
 
         return $request;
     }
+
 }

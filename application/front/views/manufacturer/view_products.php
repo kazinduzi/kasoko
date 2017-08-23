@@ -26,28 +26,28 @@
                     <?php $selected = $order == $sort ? 'selected="selected"' : ''; ?>
                     <option <?= $selected; ?>
                         value="?limit=<?php echo $limit; ?>&amp;order=<?php echo $sort; ?>"><?php echo $label; ?></option>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
             </select>
         </div><!-- /.sort-by -->
         <div class="view-mode">
             <span class="view-mode-label">Display as:</span>
-	    <span class="view-mode-btn">
-		<?php if ('grid' === $mode): ?>
-            <span class="grid" title="Grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></span>
-            <a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow"
-               class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
-        <?php elseif ('list' === $mode) : ?>
-            <a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow"
-               class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
-            <span class="list" title="List" class="btn-list"><i class="glyphicon glyphicon-th-list"
-                                                                style="font-size:18px"></i></span>
-        <?php else : ?>
-            <a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow"
-               class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
-            <a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow"
-               class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
-        <?php endif; ?>
-	    </span>
+            <span class="view-mode-btn">
+                <?php if ('grid' === $mode): ?>
+                    <span class="grid" title="Grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></span>
+                    <a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow"
+                       class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
+                   <?php elseif ('list' === $mode) : ?>
+                    <a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow"
+                       class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
+                    <span class="list" title="List" class="btn-list"><i class="glyphicon glyphicon-th-list"
+                                                                        style="font-size:18px"></i></span>
+                    <?php else : ?>
+                    <a href="?mode=grid" class="grid" data-toggle="view" role="button" title="Grid" rel="nofollow"
+                       class="btn-grid"><i class="glyphicon glyphicon-th" style="font-size:18px"></i></a>
+                    <a href="?mode=list" class="list" data-toggle="view" role="button" title="List" rel="nofollow"
+                       class="btn-list"><i class="glyphicon glyphicon-th-list" style="font-size:18px"></i></a>
+                   <?php endif; ?>
+            </span>
         </div><!-- /.view-mode -->
     </div><!-- /.sorter -->
 </div>
@@ -61,30 +61,30 @@
                 <div class="left-block">
                     <?php if (count($product->getProductImages()) > 0) : ?>
                         <div class="img-box">
-                            <a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>">
+                            <a href="/product/item/<?php echo Helpers\Stringify::slugify($product->slug); ?>">
                                 <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>
                                     <img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>"
                                          title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
-                                <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                     <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
                                     <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>"
                                          title="<?php echo $product->name ?>" alt="<?php echo $product->name ?>"/>
-                                <?php else: ?>
+                                     <?php else: ?>
                                     <img itemprop="image" src="/html/images/kasoko/280x196.png"
                                          alt="<?php echo $product->name; ?>" width="100%">
-                                <?php endif; ?>
+                                     <?php endif; ?>
                             </a>
                         </div>
                     <?php endif; ?>
                     <div class="product-meta">
                         <div class="name">
-                            <a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>"><?php echo $product->name ?></a>
+                            <a href="/product/item/<?php echo Helpers\Stringify::slugify($product->slug); ?>"><?php echo $product->name ?></a>
                         </div>
                         <div class="price">
-                            <span><?php echo Stringify::currency_format($product->price); ?></span>
+                            <span><?php echo Helpers\Stringify::currency_format($product->price); ?></span>
                         </div>
                         <div class="product-description">
                             <p class="description"
-                               itemprop="description"><?php echo \Stringify::truncate($product->description, 100); ?></p>
+                               itemprop="description"><?php echo \Helpers\Stringify::truncate($product->description, 100); ?></p>
                         </div>
                         <div class="cart">
                             <a href="javascript:void(0);" class="btn btn-default"

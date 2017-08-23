@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
 
 use Solarium\Core\Configurable;
@@ -47,6 +48,7 @@ use Solarium\Core\Configurable;
  */
 class Field extends Configurable
 {
+
     /**
      * Value for fragmenter option gap
      */
@@ -282,4 +284,5 @@ class Field extends Configurable
     {
         return $this->getOption('usefastvectorhighlighter');
     }
+
 }

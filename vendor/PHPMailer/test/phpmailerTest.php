@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPMailer - PHP email transport unit tests
  * Requires PHPUnit 3.3 or later.
@@ -12,7 +13,6 @@
  * @copyright 2010 Marcus Bointon
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
-
 require_once '../PHPMailerAutoload.php';
 
 /**
@@ -21,6 +21,7 @@ require_once '../PHPMailerAutoload.php';
  */
 class PHPMailerTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * Holds the default phpmailer instance.
      * @private
@@ -133,7 +134,6 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
         }
     }
 
-
     /**
      * Build the body of the message in the appropriate format.
      *
@@ -190,7 +190,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
             $ReportBody .= $bullet_start;
             for ($i = 0; $i < count($this->ChangeLog); $i++) {
                 $ReportBody .= $bullet . $this->ChangeLog[$i][0] . ' was changed to [' .
-                    $this->ChangeLog[$i][1] . ']' . $eol;
+                        $this->ChangeLog[$i][1] . ']' . $eol;
             }
             $ReportBody .= $bullet_end . $eol . $eol;
         }
@@ -298,8 +298,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
     public function testBootstrap()
     {
         $this->assertTrue(
-            file_exists('./testbootstrap.php'),
-            'Test config params missing - copy testbootstrap.php to testbootstrap-dist.php and change as appropriate'
+                file_exists('./testbootstrap.php'), 'Test config params missing - copy testbootstrap.php to testbootstrap-dist.php and change as appropriate'
         );
     }
 
@@ -471,7 +470,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
             'first.last@sub.do,com',
             'first\@last@iana.org',
             '123456789012345678901234567890123456789012345678901234567890' .
-                '@12345678901234567890123456789012345678901234 [...]',
+            '@12345678901234567890123456789012345678901234 [...]',
             'first.last',
             '12345678901234567890123456789012345678901234567890123456789012345@iana.org',
             '.first.last@iana.org',
@@ -484,7 +483,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
             'first\@last@iana.org',
             'first.last@',
             'x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.' .
-                'x23456789.x23456789.x23456789.x23 [...]',
+            'x23456789.x23456789.x23456789.x23 [...]',
             'first.last@[.12.34.56.78]',
             'first.last@[12.34.56.789]',
             'first.last@[::12.34.56.78]',
@@ -531,7 +530,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
             'test@example.',
             'test@.org',
             'test@12345678901234567890123456789012345678901234567890123456789012345678901234567890' .
-                '12345678901234567890 [...]',
+            '12345678901234567890 [...]',
             'test@[123.123.123.123',
             'test@123.123.123.123]',
             'NotAnEmail',
@@ -556,10 +555,10 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
             'cal(foo)bar)@iamcal.com',
             'cal(foo\)@iamcal.com',
             'first(12345678901234567890123456789012345678901234567890)last@(1234567890123456789' .
-                '01234567890123456789012 [...]',
+            '01234567890123456789012 [...]',
             'first(middle)last@iana.org',
             'first(abc("def".ghi).mno)middle(abc("def".ghi).mno).last@(abc("def".ghi).mno)example' .
-                '(abc("def".ghi).mno). [...]',
+            '(abc("def".ghi).mno). [...]',
             'a(a(b(c)d(e(f))g)(h(i)j)@iana.org',
             '.@',
             '@bar.com',
@@ -652,10 +651,9 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
     {
         $this->Mail->WordWrap = 40;
         $my_body = str_repeat(
-            'Here is the main body of this message.  It should ' .
-            'be quite a few lines.  It should be wrapped at ' .
-            '40 characters.  Make sure that it is. ',
-            10
+                'Here is the main body of this message.  It should ' .
+                'be quite a few lines.  It should be wrapped at ' .
+                '40 characters.  Make sure that it is. ', 10
         );
         $nBodyLen = strlen($my_body);
         $my_body .= "\n\nThis is the above body length: " . $nBodyLen;
@@ -674,7 +672,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
     {
         $this->Mail->Priority = 5;
         $this->Mail->Body = 'Here is the main body.  There should be ' .
-            'a reply to address in this message.';
+                'a reply to address in this message.';
         $this->Mail->Subject .= ': Low Priority';
         $this->Mail->addReplyTo('nobody@nobody.com', 'Nobody (Unit Test)');
 
@@ -713,8 +711,8 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
         $this->Mail->Subject .= ': Plain + StringAttachment';
 
         $sAttachment = 'These characters are the content of the ' .
-            "string attachment.\nThis might be taken from a " .
-            'database or some other such thing. ';
+                "string attachment.\nThis might be taken from a " .
+                'database or some other such thing. ';
 
         $this->Mail->addStringAttachment($sAttachment, 'string_attach.txt');
 
@@ -737,14 +735,10 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
         //Check that a quoted printable encode and decode results in the same as went in
         $t = file_get_contents(__FILE__); //Use this file as test content
         $this->assertEquals(
-            $t,
-            quoted_printable_decode($this->Mail->encodeQP($t)),
-            'Quoted-Printable encoding round-trip failed'
+                $t, quoted_printable_decode($this->Mail->encodeQP($t)), 'Quoted-Printable encoding round-trip failed'
         );
         $this->assertEquals(
-            $this->Mail->encodeQP($t),
-            $this->Mail->encodeQPphp($t),
-            'Quoted-Printable BC wrapper failed'
+                $this->Mail->encodeQP($t), $this->Mail->encodeQPphp($t), 'Quoted-Printable BC wrapper failed'
         );
     }
 
@@ -826,17 +820,13 @@ EOT;
     public function testEmbeddedImage()
     {
         $this->Mail->Body = 'Embedded Image: <img alt="phpmailer" src="cid:my-attach">' .
-            'Here is an image!</a>';
+                'Here is an image!</a>';
         $this->Mail->Subject .= ': Embedded Image';
         $this->Mail->isHTML(true);
 
         if (!$this->Mail->addEmbeddedImage(
-            '../examples/images/phpmailer.png',
-            'my-attach',
-            'phpmailer.png',
-            'base64',
-            'image/png'
-        )
+                        '../examples/images/phpmailer.png', 'my-attach', 'phpmailer.png', 'base64', 'image/png'
+                )
         ) {
             $this->assertTrue(false, $this->Mail->ErrorInfo);
             return;
@@ -855,17 +845,13 @@ EOT;
     public function testMultiEmbeddedImage()
     {
         $this->Mail->Body = 'Embedded Image: <img alt="phpmailer" src="cid:my-attach">' .
-            'Here is an image!</a>';
+                'Here is an image!</a>';
         $this->Mail->Subject .= ': Embedded Image + Attachment';
         $this->Mail->isHTML(true);
 
         if (!$this->Mail->addEmbeddedImage(
-            '../examples/images/phpmailer.png',
-            'my-attach',
-            'phpmailer.png',
-            'base64',
-            'image/png'
-        )
+                        '../examples/images/phpmailer.png', 'my-attach', 'phpmailer.png', 'base64', 'image/png'
+                )
         ) {
             $this->assertTrue(false, $this->Mail->ErrorInfo);
             return;
@@ -887,8 +873,8 @@ EOT;
     {
         $this->Mail->Body = 'This is the <strong>HTML</strong> part of the email.';
         $this->Mail->AltBody = 'Here is the text body of this message.  ' .
-            'It should be quite a few lines.  It should be wrapped at the ' .
-            '40 characters.  Make sure that it is.';
+                'It should be quite a few lines.  It should be wrapped at the ' .
+                '40 characters.  Make sure that it is.';
         $this->Mail->WordWrap = 40;
         $this->addNote('This is a mulipart alternative email');
         $this->Mail->Subject .= ': AltBody + Word Wrap';
@@ -934,25 +920,17 @@ EOT;
         require_once '../extras/EasyPeasyICS.php';
         $ICS = new EasyPeasyICS("PHPMailer test calendar");
         $ICS->addEvent(
-            strtotime('tomorrow 10:00 Europe/Paris'),
-            strtotime('tomorrow 11:00 Europe/Paris'),
-            'PHPMailer iCal test',
-            'A test of PHPMailer iCal support',
-            'https://github.com/PHPMailer/PHPMailer'
+                strtotime('tomorrow 10:00 Europe/Paris'), strtotime('tomorrow 11:00 Europe/Paris'), 'PHPMailer iCal test', 'A test of PHPMailer iCal support', 'https://github.com/PHPMailer/PHPMailer'
         );
         $this->Mail->Ical = $ICS->render(false);
         $this->assertTrue($this->Mail->send(), $this->Mail->ErrorInfo);
         $this->Mail->Body = 'Embedded Image: <img alt="phpmailer" src="cid:my-attach">' .
-            'Here is an image!</a>.';
+                'Here is an image!</a>.';
         $this->Mail->AltBody = 'This is the text part of the email.';
         $this->Mail->Subject .= ': iCal + inline';
         $this->Mail->isHTML(true);
         $this->Mail->addEmbeddedImage(
-            '../examples/images/phpmailer.png',
-            'my-attach',
-            'phpmailer.png',
-            'base64',
-            'image/png'
+                '../examples/images/phpmailer.png', 'my-attach', 'phpmailer.png', 'base64', 'image/png'
         );
         $this->buildBody();
         $this->assertTrue($this->Mail->send(), $this->Mail->ErrorInfo);
@@ -1165,31 +1143,21 @@ EOT;
     {
         $this->Mail->CharSet = 'iso-8859-1';
         $this->assertEquals(
-            '=A1Hola!_Se=F1or!',
-            $this->Mail->encodeQ("\xa1Hola! Se\xf1or!", 'text'),
-            'Q Encoding (text) failed'
+                '=A1Hola!_Se=F1or!', $this->Mail->encodeQ("\xa1Hola! Se\xf1or!", 'text'), 'Q Encoding (text) failed'
         );
         $this->assertEquals(
-            '=A1Hola!_Se=F1or!',
-            $this->Mail->encodeQ("\xa1Hola! Se\xf1or!", 'comment'),
-            'Q Encoding (comment) failed'
+                '=A1Hola!_Se=F1or!', $this->Mail->encodeQ("\xa1Hola! Se\xf1or!", 'comment'), 'Q Encoding (comment) failed'
         );
         $this->assertEquals(
-            '=A1Hola!_Se=F1or!',
-            $this->Mail->encodeQ("\xa1Hola! Se\xf1or!", 'phrase'),
-            'Q Encoding (phrase) failed'
+                '=A1Hola!_Se=F1or!', $this->Mail->encodeQ("\xa1Hola! Se\xf1or!", 'phrase'), 'Q Encoding (phrase) failed'
         );
         $this->Mail->CharSet = 'UTF-8';
         $this->assertEquals(
-            '=C2=A1Hola!_Se=C3=B1or!',
-            $this->Mail->encodeQ("\xc2\xa1Hola! Se\xc3\xb1or!", 'text'),
-            'Q Encoding (text) failed'
+                '=C2=A1Hola!_Se=C3=B1or!', $this->Mail->encodeQ("\xc2\xa1Hola! Se\xc3\xb1or!", 'text'), 'Q Encoding (text) failed'
         );
         //Strings containing '=' are a special case
         $this->assertEquals(
-            'Nov=C3=A1=3D',
-            $this->Mail->encodeQ("Nov\xc3\xa1=", 'text'),
-            'Q Encoding (text) failed 2'
+                'Nov=C3=A1=3D', $this->Mail->encodeQ("Nov\xc3\xa1=", 'text'), 'Q Encoding (text) failed 2'
         );
     }
 
@@ -1200,6 +1168,7 @@ EOT;
         $this->buildBody();
         $this->assertTrue($this->Mail->send(), 'Base64 encoding failed');
     }
+
     /**
      * S/MIME Signing tests
      */
@@ -1236,9 +1205,7 @@ EOT;
         file_put_contents($keyfile, $pkeyout);
 
         $this->Mail->sign(
-            $certfile,
-            $keyfile,
-            $password
+                $certfile, $keyfile, $password
         );
         $this->assertTrue($this->Mail->send(), 'S/MIME signing failed');
         unlink($certfile);
@@ -1258,10 +1225,10 @@ EOT;
         //(2048 bits is the recommended minimum key length -
         //gmail won't accept less than 1024 bits)
         $pk = openssl_pkey_new(
-            array(
-                'private_key_bits' => 2048,
-                'private_key_type' => OPENSSL_KEYTYPE_RSA
-            )
+                array(
+                    'private_key_bits' => 2048,
+                    'private_key_type' => OPENSSL_KEYTYPE_RSA
+                )
         );
         openssl_pkey_export_to_file($pk, $privatekeyfile);
         $this->Mail->DKIM_domain = 'example.com';
@@ -1329,9 +1296,7 @@ EOT;
         $this->assertEquals($q['extension'], 'mp3', 'UNIX extension not matched');
         $this->assertEquals($q['filename'], '飛兒樂 團光茫', 'UNIX filename not matched');
         $this->assertEquals(
-            PHPMailer::mb_pathinfo($a, PATHINFO_DIRNAME),
-            '/mnt/files',
-            'Dirname path element not matched'
+                PHPMailer::mb_pathinfo($a, PATHINFO_DIRNAME), '/mnt/files', 'Dirname path element not matched'
         );
         $this->assertEquals(PHPMailer::mb_pathinfo($a, 'filename'), '飛兒樂 團光茫', 'Filename path element not matched');
         $a = 'c:\mnt\files\飛兒樂 團光茫.mp3';
@@ -1355,11 +1320,10 @@ EOT;
         sleep(2);
         //Test a known-good login
         $this->assertTrue(
-            POP3::popBeforeSmtp('localhost', 1100, 10, 'user', 'test', $this->Mail->SMTPDebug),
-            'POP before SMTP failed'
+                POP3::popBeforeSmtp('localhost', 1100, 10, 'user', 'test', $this->Mail->SMTPDebug), 'POP before SMTP failed'
         );
         //Kill the fake server
-        shell_exec('kill -TERM '.escapeshellarg($pid));
+        shell_exec('kill -TERM ' . escapeshellarg($pid));
         sleep(2);
     }
 
@@ -1377,10 +1341,9 @@ EOT;
         sleep(2);
         //Test a known-bad login
         $this->assertFalse(
-            POP3::popBeforeSmtp('localhost', 1101, 10, 'user', 'xxx', $this->Mail->SMTPDebug),
-            'POP before SMTP should have failed'
+                POP3::popBeforeSmtp('localhost', 1101, 10, 'user', 'xxx', $this->Mail->SMTPDebug), 'POP before SMTP should have failed'
         );
-        shell_exec('kill -TERM '.escapeshellarg($pid));
+        shell_exec('kill -TERM ' . escapeshellarg($pid));
         sleep(2);
     }
 
@@ -1404,10 +1367,10 @@ EOT;
         $this->Mail->Host = $_REQUEST['mail_host'];
         //Need to pick a harmless option so as not cause problems of its own! socket:bind doesn't work with Travis-CI
         $this->assertTrue(
-            $this->Mail->smtpConnect(array('ssl' => array('verify_depth' => 10))),
-            'SMTP connect with options failed'
+                $this->Mail->smtpConnect(array('ssl' => array('verify_depth' => 10))), 'SMTP connect with options failed'
         );
     }
+
 }
 
 /**

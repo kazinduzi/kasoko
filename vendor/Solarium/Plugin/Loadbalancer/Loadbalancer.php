@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\Loadbalancer;
 
 use Solarium\Core\Plugin\Plugin;
@@ -69,6 +70,7 @@ use Solarium\Core\Event\PreExecuteRequest as PreExecuteRequestEvent;
  */
 class Loadbalancer extends Plugin
 {
+
     /**
      * Default options
      *
@@ -495,7 +497,7 @@ class Loadbalancer extends Plugin
 
         if ($this->getFailoverEnabled() == true) {
 
-            for ($i=0; $i<=$this->getFailoverMaxRetries(); $i++) {
+            for ($i = 0; $i <= $this->getFailoverMaxRetries(); $i++) {
                 $endpoint = $this->getRandomEndpoint();
                 try {
                     return $adapter->execute($request, $endpoint);
@@ -503,15 +505,13 @@ class Loadbalancer extends Plugin
                     // ignore HTTP errors and try again
                     // but do issue an event for things like logging
                     $this->client->getEventDispatcher()->dispatch(
-                        Events::ENDPOINT_FAILURE,
-                        new EndpointFailureEvent($endpoint, $e)
+                            Events::ENDPOINT_FAILURE, new EndpointFailureEvent($endpoint, $e)
                     );
                 }
             }
 
             // if we get here no more retries available, throw exception
             throw new RuntimeException('Maximum number of loadbalancer retries reached');
-
         } else {
             // no failover retries, just execute and let an exception bubble upwards
             $endpoint = $this->getRandomEndpoint();
@@ -555,4 +555,5 @@ class Loadbalancer extends Plugin
 
         return $this->randomizer;
     }
+
 }

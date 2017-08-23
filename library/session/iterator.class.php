@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * Description of session_iterator
@@ -7,10 +9,12 @@
  */
 final class SessionIterator implements Iterator
 {
+
     /**
      * @var array list of keys in the map
      */
     private $keys;
+
     /**
      * @var mixed current key
      */
@@ -87,4 +91,5 @@ final class SessionIterator implements Iterator
     {
         return $this->key !== false;
     }
+
 }

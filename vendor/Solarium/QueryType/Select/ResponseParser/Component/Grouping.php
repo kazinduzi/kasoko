@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -50,6 +51,7 @@ use Solarium\QueryType\Select\Result\Grouping\FieldGroup;
  */
 class Grouping implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -87,7 +89,7 @@ class Grouping implements ComponentParserInterface
                         $documentClass = $query->getOption('documentclass');
                         $documents = array();
                         if (isset($valueGroupResult['doclist']['docs']) &&
-                            is_array($valueGroupResult['doclist']['docs'])) {
+                                is_array($valueGroupResult['doclist']['docs'])) {
 
                             foreach ($valueGroupResult['doclist']['docs'] as $doc) {
                                 $documents[] = new $documentClass($doc);
@@ -130,4 +132,5 @@ class Grouping implements ComponentParserInterface
 
         return new Result($groups);
     }
+
 }

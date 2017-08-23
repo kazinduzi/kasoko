@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Ping;
 
 use Solarium\Core\Query\Query as BaseQuery;
@@ -51,6 +52,7 @@ use Solarium\QueryType\Ping\RequestBuilder as RequestBuilder;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Default options
      *
@@ -59,7 +61,7 @@ class Query extends BaseQuery
     protected $options = array(
         'resultclass' => 'Solarium\QueryType\Ping\Result',
         'handler' => 'admin/ping',
-        'omitheader'    => true,
+        'omitheader' => true,
     );
 
     /**
@@ -91,4 +93,5 @@ class Query extends BaseQuery
     {
         return null;
     }
+
 }

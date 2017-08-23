@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Core\Configurable;
@@ -48,6 +49,7 @@ use Solarium\Core\Query\Helper;
  */
 class FilterQuery extends Configurable
 {
+
     /**
      * Tags for this filterquery
      *
@@ -218,4 +220,5 @@ class FilterQuery extends Configurable
 
         return $this->addTags($tags);
     }
+
 }

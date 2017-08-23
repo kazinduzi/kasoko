@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -64,6 +65,7 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
+
     /**
      * Solr numFound
      *
@@ -294,4 +296,5 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
     {
         return $this->getComponent(SelectQuery::COMPONENT_DEBUG);
     }
+
 }

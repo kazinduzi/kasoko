@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>PHPMailer - SMTP test</title>
-</head>
-<body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>PHPMailer - SMTP test</title>
+    </head>
+    <body>
 <?php
 
 //SMTP needs accurate times, and the PHP time zone MUST be set
@@ -57,5 +57,5 @@ if (!$mail->send()) {
     echo "Message sent!";
 }
 ?>
-</body>
+    </body>
 </html>

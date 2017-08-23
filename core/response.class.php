@@ -61,4 +61,5 @@ class Response
         $this->headers[] = $header;
         return $this;
     }
+
 }

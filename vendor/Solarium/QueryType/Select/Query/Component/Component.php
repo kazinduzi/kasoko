@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\Core\Configurable;
@@ -48,6 +49,7 @@ use Solarium\QueryType\Select\RequestBuilder\Component\ComponentRequestBuilderIn
  */
 abstract class Component extends Configurable
 {
+
     /**
      * @var Query
      */
@@ -96,4 +98,5 @@ abstract class Component extends Configurable
     {
         return $this->queryInstance;
     }
+
 }

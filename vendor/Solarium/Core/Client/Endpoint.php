@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Core\Configurable;
@@ -45,6 +46,7 @@ use Solarium\Core\Configurable;
  */
 class Endpoint extends Configurable
 {
+
     /**
      * Default options
      *
@@ -54,10 +56,10 @@ class Endpoint extends Configurable
      * @var array
      */
     protected $options = array(
-        'host'    => '127.0.0.1',
-        'port'    => 8983,
-        'path'    => '/solr',
-        'core'    => null,
+        'host' => '127.0.0.1',
+        'port' => 8983,
+        'path' => '/solr',
+        'core' => null,
         'timeout' => 5,
     );
 
@@ -223,7 +225,7 @@ class Endpoint extends Configurable
 
         $core = $this->getCore();
         if (!empty($core)) {
-            $uri .= $core.'/';
+            $uri .= $core . '/';
         }
 
         return $uri;
@@ -272,12 +274,13 @@ class Endpoint extends Configurable
         $output = __CLASS__ . '::__toString' . "\n"
                 . 'base uri: ' . $this->getBaseUri() . "\n"
                 . 'host: ' . $this->getHost() . "\n"
-                . 'port: ' . $this->getPort() ."\n"
-                . 'path: ' . $this->getPath() ."\n"
+                . 'port: ' . $this->getPort() . "\n"
+                . 'path: ' . $this->getPath() . "\n"
                 . 'core: ' . $this->getCore() . "\n"
                 . 'timeout: ' . $this->getTimeout() . "\n"
                 . 'authentication: ' . print_r($this->getAuthentication(), 1);
 
         return $output;
     }
+
 }

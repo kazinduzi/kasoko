@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query\Result;
 
 use Solarium\Core\Query\ResponseParserInterface;
@@ -46,6 +47,7 @@ use Solarium\Exception\UnexpectedValueException;
  */
 class QueryType extends Result
 {
+
     /**
      * Lazy load parsing indicator
      *
@@ -68,7 +70,7 @@ class QueryType extends Result
             $responseParser = $this->query->getResponseParser();
             if (!$responseParser || !($responseParser instanceof ResponseParserInterface)) {
                 throw new UnexpectedValueException(
-                    'No responseparser returned by querytype: '. $this->query->getType()
+                'No responseparser returned by querytype: ' . $this->query->getType()
                 );
             }
 
@@ -90,4 +92,5 @@ class QueryType extends Result
             $this->$key = $data;
         }
     }
+
 }

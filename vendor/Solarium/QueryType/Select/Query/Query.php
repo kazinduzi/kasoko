@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query;
 
 use Solarium\Core\Client\Client;
@@ -55,6 +56,7 @@ use Solarium\QueryType\Select\Query\Component\Component as AbstractComponent;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Solr sort mode descending
      */
@@ -131,14 +133,14 @@ class Query extends BaseQuery
      * @var array
      */
     protected $options = array(
-        'handler'       => 'select',
-        'resultclass'   => 'Solarium\QueryType\Select\Result\Result',
+        'handler' => 'select',
+        'resultclass' => 'Solarium\QueryType\Select\Result\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
-        'omitheader'    => true,
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
+        'omitheader' => true,
     );
 
     /**
@@ -154,16 +156,16 @@ class Query extends BaseQuery
      * @var array
      */
     protected $componentTypes = array(
-        self::COMPONENT_FACETSET          => 'Solarium\QueryType\Select\Query\Component\FacetSet',
-        self::COMPONENT_DISMAX            => 'Solarium\QueryType\Select\Query\Component\DisMax',
-        self::COMPONENT_EDISMAX           => 'Solarium\QueryType\Select\Query\Component\EdisMax',
-        self::COMPONENT_MORELIKETHIS      => 'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
-        self::COMPONENT_HIGHLIGHTING      => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
-        self::COMPONENT_GROUPING          => 'Solarium\QueryType\Select\Query\Component\Grouping',
-        self::COMPONENT_SPELLCHECK        => 'Solarium\QueryType\Select\Query\Component\Spellcheck',
+        self::COMPONENT_FACETSET => 'Solarium\QueryType\Select\Query\Component\FacetSet',
+        self::COMPONENT_DISMAX => 'Solarium\QueryType\Select\Query\Component\DisMax',
+        self::COMPONENT_EDISMAX => 'Solarium\QueryType\Select\Query\Component\EdisMax',
+        self::COMPONENT_MORELIKETHIS => 'Solarium\QueryType\Select\Query\Component\MoreLikeThis',
+        self::COMPONENT_HIGHLIGHTING => 'Solarium\QueryType\Select\Query\Component\Highlighting\Highlighting',
+        self::COMPONENT_GROUPING => 'Solarium\QueryType\Select\Query\Component\Grouping',
+        self::COMPONENT_SPELLCHECK => 'Solarium\QueryType\Select\Query\Component\Spellcheck',
         self::COMPONENT_DISTRIBUTEDSEARCH => 'Solarium\QueryType\Select\Query\Component\DistributedSearch',
-        self::COMPONENT_STATS             => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
-        self::COMPONENT_DEBUG             => 'Solarium\QueryType\Select\Query\Component\Debug',
+        self::COMPONENT_STATS => 'Solarium\QueryType\Select\Query\Component\Stats\Stats',
+        self::COMPONENT_DEBUG => 'Solarium\QueryType\Select\Query\Component\Debug',
     );
 
     /**
@@ -818,7 +820,7 @@ class Query extends BaseQuery
                 }
 
                 $className = $this->componentTypes[$key];
-                $className = class_exists($className) ? $className : $className.strrchr($className, '\\');
+                $className = class_exists($className) ? $className : $className . strrchr($className, '\\');
                 $component = new $className($config);
                 $this->setComponent($key, $component);
 
@@ -1084,4 +1086,5 @@ class Query extends BaseQuery
 
         return $this->addTags($tags);
     }
+
 }

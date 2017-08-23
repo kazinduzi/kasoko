@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Base Observer class
@@ -13,6 +15,5 @@ abstract class Observer
      * @abstract
      * @return void
      */
-
     abstract public function update(&$sender, $arg);
 }

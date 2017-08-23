@@ -41,7 +41,7 @@ if (KAZINDUZI_DEBUG) {
 if (!@ini_get('zlib.output_compression')) { //turn on compression
     @ini_set('zlib.output_compression', 1);
 }
-if ((int)@ini_get('zlib.output_compression_level') < 0) { //set compression level to 6
+if ((int) @ini_get('zlib.output_compression_level') < 0) { //set compression level to 6
     @ini_set('zlib.output_compression_level', 6);
 }
 /**
@@ -194,8 +194,8 @@ abstract class KazinduziBase
          * This constant defines whether the application should be in debug mode or not. Defaults to false.
          */
         isset($config['debug']) ?
-            defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', $config['debug']) :
-            defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', false);
+                        defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', $config['debug']) :
+                        defined('KAZINDUZI_DEBUG') or define('KAZINDUZI_DEBUG', false);
 
         /**
          * Set default language
@@ -248,7 +248,7 @@ abstract class KazinduziBase
         /**
          * Determine if we are running in safe mode
          */
-        self::$safe_mode = (bool)ini_get('safe_mode');
+        self::$safe_mode = (bool) ini_get('safe_mode');
 
 
         if (function_exists('mb_internal_encoding')) { // Set the MB extension encoding to the same character set
@@ -270,10 +270,10 @@ abstract class KazinduziBase
          * Set the Timezone
          */
         isset($config['date.timezone']) ?
-            // If date.timezone is set in the configuration, affect it to the app.
-            self::setTimeZone($config['date.timezone']) :
-            // Else set system timezone to UTC timezone as default
-            self::setTimeZone('UTC');
+                        // If date.timezone is set in the configuration, affect it to the app.
+                        self::setTimeZone($config['date.timezone']) :
+                        // Else set system timezone to UTC timezone as default
+                        self::setTimeZone('UTC');
         //
         unset($config);
     }
@@ -322,7 +322,7 @@ abstract class KazinduziBase
 
         // Remove the standard global variables from the list
         $global_variables = array_diff(
-            $global_variables, array('_COOKIE', '_ENV', '_GET', '_FILES', '_POST', '_REQUEST', '_SERVER', '_SESSION', 'GLOBALS')
+                $global_variables, array('_COOKIE', '_ENV', '_GET', '_FILES', '_POST', '_REQUEST', '_SERVER', '_SESSION', 'GLOBALS')
         );
         // Unset the global variable, effectively disabling register_globals
         foreach ($global_variables as $name) {
@@ -386,7 +386,7 @@ abstract class KazinduziBase
      */
     public static function db()
     {
-        return Database::getInstance();
+        return Database::getInstance()->clear();
     }
 
     /**
@@ -411,22 +411,6 @@ abstract class KazinduziBase
                 return (self::$instances[$arg] = is_subclass_of($class, 'Model') ? $class::model() : new $class);
             } else {
                 return self::$instances[$arg];
-            }
-        }
-    }
-
-    /**
-     *
-     * @param mixed $param
-     */
-    public static function loadHelper($param)
-    {
-        if (is_string($param) && @file_exists($helper = KAZINDUZI_PATH . DS . 'helpers' . DS . $param . '.class.php')) {
-            require_once $helper;
-        } else {
-            $helpers = @func_get_args();
-            foreach ($helpers as $k => $v) {
-                require_once KAZINDUZI_PATH . DS . 'helpers' . DS . $v . '.class.php';
             }
         }
     }

@@ -1,10 +1,13 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
 
-abstract class My_controller extends Controller {
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+
+abstract class My_controller extends Controller
+{
 
     protected $auth;
 
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->auth = new Auth();
@@ -13,7 +16,7 @@ abstract class My_controller extends Controller {
         $this->disableCache();
     }
 
-    public function init() 
+    public function init()
     {
         parent::init();
         if (isset($_POST['lang'])) {
@@ -25,4 +28,5 @@ abstract class My_controller extends Controller {
         }
         return true;
     }
+
 }

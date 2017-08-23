@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Ping;
 
 use Solarium\Core\Query\Result\Result as BaseResult;
@@ -48,6 +49,7 @@ use Solarium\Core\Query\Result\Result as BaseResult;
  */
 class Result extends BaseResult
 {
+
     /**
      * Get Solr status code
      *
@@ -60,4 +62,5 @@ class Result extends BaseResult
     {
         return 0;
     }
+
 }

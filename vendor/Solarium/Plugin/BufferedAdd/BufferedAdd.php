@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd;
 
 use Solarium\Client;
@@ -58,6 +59,7 @@ use Solarium\Plugin\BufferedAdd\Event\AddDocument as AddDocumentEvent;
  */
 class BufferedAdd extends Plugin
 {
+
     /**
      * Default options
      *
@@ -273,4 +275,5 @@ class BufferedAdd extends Plugin
 
         return $result;
     }
+
 }

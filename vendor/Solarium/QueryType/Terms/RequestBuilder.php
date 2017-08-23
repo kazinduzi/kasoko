@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer.
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
@@ -35,10 +36,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
@@ -50,6 +51,7 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
+
     /**
      * Build request for a Terms query
      *
@@ -83,4 +85,5 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
+
 }

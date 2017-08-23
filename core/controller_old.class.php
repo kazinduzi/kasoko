@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 abstract class Controller_OLD
 {
@@ -8,48 +10,58 @@ abstract class Controller_OLD
      * @var type
      */
     private static $instance;
+
     /**
      * @var Request $Request
      */
     public $Request;
+
     /**
      *
      * @var Response $Response
      */
     public $Response;
+
     /**
      * @var string the name of the default action. Defaults to 'index'.
      */
     public $defaultAction = 'index';
+
     /**
      * @registry object
      */
     protected $registry = null;
+
     /**
      * Array of class methods of the controller
      * @var array
      */
     protected $methods = array();
+
     /**
      * Variable to hold models for this controller
      * @var Object
      */
     protected $models;
+
     /**
      *
      * @var type
      */
     protected $Template;
+
     /**
      *
      * @var type
      */
     private $action;
+
     /**
      *
      * @var type
      */
     private $args;
+
     /**
      *
      * @var type
@@ -102,7 +114,8 @@ abstract class Controller_OLD
     public static function getInstance($Request = null, $Response = null)
     {
         $controllerClassName = get_called_class();
-        if (!empty(self::$instance)) return self::$instance;
+        if (!empty(self::$instance))
+            return self::$instance;
         if ($Request instanceof Request && $Response instanceof Response) {
             return self::$instance = new $controllerClassName($Request, $Response);
         } else {
@@ -148,7 +161,8 @@ abstract class Controller_OLD
      */
     public function defaultAction($action = '')
     {
-        if (!empty($action)) $this->defaultAction = $action;
+        if (!empty($action))
+            $this->defaultAction = $action;
         return $this->defaultAction;
     }
 
@@ -170,7 +184,8 @@ abstract class Controller_OLD
      */
     public function getModel($name = '', $config = array())
     {
-        if (empty($name)) $name = $this->getName();
+        if (empty($name))
+            $name = $this->getName();
         return $this->createModel($name, $config);
     }
 
@@ -237,7 +252,6 @@ abstract class Controller_OLD
         } catch (Exception $e) {
             throw $e;
         }
-
     }
 
     /**
@@ -318,7 +332,7 @@ abstract class Controller_OLD
      * @param string $key
      * @return mixed | null
      */
-    public function  &__get($key)
+    public function &__get($key)
     {
         return $this->Template->__get($key);
         return null;
@@ -339,7 +353,7 @@ abstract class Controller_OLD
      * @param mixed $name
      * @return mixed
      */
-    public function  __isset($name)
+    public function __isset($name)
     {
         return $this->Template->__isset($name);
     }
@@ -349,7 +363,7 @@ abstract class Controller_OLD
      * @param string $name
      * @return void
      */
-    public function  __unset($name)
+    public function __unset($name)
     {
         $this->Template->__unset($name);
     }
@@ -423,8 +437,7 @@ abstract class Controller_OLD
      */
     protected function validateFormToken()
     {
-        if (!($formKey = $this->getRequest()->postParam('csrf_token'))
-            || $formKey != Security::token()
+        if (!($formKey = $this->getRequest()->postParam('csrf_token')) || $formKey != Security::token()
         ) {
             return false;
         }
@@ -438,5 +451,7 @@ abstract class Controller_OLD
      */
     private function __clone()
     {
+        
     }
+
 }

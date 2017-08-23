@@ -24,7 +24,8 @@
         </div>
         <div>
             <a href="#"
-               onclick="document.getElementById('captcha').src = '/captcha/index/?' + Math.random(); return false;"
+               onclick="document.getElementById('captcha').src = '/captcha/index/?' + Math.random();
+					   return false;"
                id="change-image">Not readable? Change text.</a>
             <input type="text" name="contact[captcha]" id="captcha-form" autocomplete="off"/>
         </div>

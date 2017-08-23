@@ -22,28 +22,30 @@
                 </tr>
             </thead>
             <tbody>
-            <?php if (null === $categories) :?>                
-                <tr><td colspan="5">No category is found</td></tr>                    
-            <?php else: foreach($categories as $category) :?>                    
-                <tr>
-                    <td><?php echo $category->getId();?></td>
-                    <td><a href="/admin/categories/open/<?php echo $category->getId();?>"><?php echo $category->name;?></a></td>
-                    <td>
-                        <?php if ($category->status) :?>
-                            <i class="glyphicon glyphicon-ok"></i>
-                        <?php else :?>
-                            <i class="glyphicon glyphicon-remove"></i>
-                        <?php endif;?>
-                    </td>                    
-                    <td class="actions">
-                        <div class="btn-group">
-                            <a class="btn btn-default btn-xs" title="Browse this category" href="/admin/categories/open/<?php echo $category->getId();?>"><i class="glyphicon glyphicon-folder-open"></i></a>
-                            <a class="btn btn-default btn-xs" title="Edit this category" href="/admin/categories/edit/<?php echo $category->getId();?>"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a class="btn btn-default btn-xs category-delete" title="Delete this category and all its contents" href="/admin/categories/delete/<?php echo $category->getId();?>"><i class="glyphicon glyphicon-trash"></i></a>
-                        </div>
-                    </td>
-                </tr>                
-            <?php endforeach; endif; ?>
+                <?php if (null === $categories) : ?>                
+                    <tr><td colspan="5">No category is found</td></tr>                    
+                <?php else: foreach ($categories as $category) : ?>                    
+                        <tr>
+                            <td><?php echo $category->getId(); ?></td>
+                            <td><a href="/admin/categories/open/<?php echo $category->getId(); ?>"><?php echo $category->name; ?></a></td>
+                            <td>
+                                <?php if ($category->status) : ?>
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                <?php else : ?>
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                <?php endif; ?>
+                            </td>                    
+                            <td class="actions">
+                                <div class="btn-group">
+                                    <a class="btn btn-default" title="Browse this category" href="/admin/categories/open/<?php echo $category->getId(); ?>"><i class="glyphicon glyphicon-folder-open"></i></a>
+                                    <a class="btn btn-default" title="Edit this category" href="/admin/categories/edit/<?php echo $category->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default category-delete" title="Delete this category and all its contents" href="/admin/categories/delete/<?php echo $category->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>                
+                    <?php endforeach;
+                endif;
+                ?>
             </tbody>
         </table>
     </div>

@@ -97,7 +97,7 @@ class PageController extends BaseController
     protected function checkCaptcha($value)
     {
         $excepted = $this->getSession()->get(self::CAPTCHA_SESSION_KEY);
-        return Stringify::compareStrings($excepted, $value);
+        return Helpers\Stringify::compareStrings($excepted, $value);
     }
 
     /**

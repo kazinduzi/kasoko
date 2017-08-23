@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
  * All rights reserved.
@@ -33,10 +34,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\QueryType\Select\Result\Document as ReadOnlyDocument;
@@ -63,6 +64,7 @@ use Solarium\QueryType\MoreLikeThis\Query;
  */
 class Result extends SelectResult
 {
+
     /**
      * MLT interesting terms
      */
@@ -74,10 +76,10 @@ class Result extends SelectResult
     protected $match;
 
     /**
-    * Get query instance
-    *
-    * @return Query
-    */
+     * Get query instance
+     *
+     * @return Query
+     */
     public function getQuery()
     {
         return $this->query;
@@ -123,4 +125,5 @@ class Result extends SelectResult
 
         return $this->match;
     }
+
 }

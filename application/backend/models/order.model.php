@@ -17,6 +17,7 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
  */
 class Order extends Model
 {
+
     const TABLE_ORDER = 'order';
     const TABLE_ORDER_DETAIL = 'order_detail';
     const PRIMARY_KEY = 'order_id';
@@ -24,7 +25,6 @@ class Order extends Model
     protected $table = self::TABLE_ORDER;
     protected $pk = self::PRIMARY_KEY;
     protected $items = array();
-
 
     /**
      * Get orders by accountId
@@ -34,7 +34,7 @@ class Order extends Model
      */
     public function getByCustomer($customerId)
     {
-        return $this->findAll('customer_id=' . (int)$customerId);
+        return $this->findAll('customer_id=' . (int) $customerId);
     }
 
     /**
@@ -48,4 +48,5 @@ class Order extends Model
         $this->getDbo()->clear()->setQuery($sql);
         return $this->items = $this->getDbo()->fetchObjectList();
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Facet;
 
 /**
@@ -47,5 +48,5 @@ namespace Solarium\QueryType\Select\Result\Facet;
  */
 class MultiQuery extends Field
 {
-
+    
 }

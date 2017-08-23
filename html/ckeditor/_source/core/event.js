@@ -1,14 +1,14 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
-
-/**
- * @fileOverview Defines the {@link CKEDITOR.event} class, which serves as the
- *		base for classes and objects that require event handling features.
+ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-if ( !CKEDITOR.event )
+		/**
+		 * @fileOverview Defines the {@link CKEDITOR.event} class, which serves as the
+		 *		base for classes and objects that require event handling features.
+		 */
+
+		if (!CKEDITOR.event)
 {
 	/**
 	 * Creates an event class instance. This constructor is rearely used, being
@@ -22,7 +22,7 @@ if ( !CKEDITOR.event )
 	 * internal event system used by the CKEditor to fire API related events.
 	 * @example
 	 */
-	CKEDITOR.event = function()
+	CKEDITOR.event = function ()
 	{};
 
 	/**
@@ -37,46 +37,46 @@ if ( !CKEDITOR.event )
 	 *     });
 	 * myObject.fire( 'testEvent' );
 	 */
-	CKEDITOR.event.implementOn = function( targetObject )
+	CKEDITOR.event.implementOn = function (targetObject)
 	{
 		var eventProto = CKEDITOR.event.prototype;
 
-		for ( var prop in eventProto )
+		for (var prop in eventProto)
 		{
-			if ( targetObject[ prop ] == undefined )
+			if (targetObject[ prop ] == undefined)
 				targetObject[ prop ] = eventProto[ prop ];
 		}
 	};
 
-	CKEDITOR.event.prototype = (function()
+	CKEDITOR.event.prototype = (function ()
 	{
 		// Returns the private events object for a given object.
-		var getPrivate = function( obj )
+		var getPrivate = function (obj)
 		{
-			var _ = ( obj.getPrivate && obj.getPrivate() ) || obj._ || ( obj._ = {} );
-			return _.events || ( _.events = {} );
+			var _ = (obj.getPrivate && obj.getPrivate()) || obj._ || (obj._ = {});
+			return _.events || (_.events = {});
 		};
 
-		var eventEntry = function( eventName )
+		var eventEntry = function (eventName)
 		{
 			this.name = eventName;
 			this.listeners = [];
 		};
 
 		eventEntry.prototype =
-		{
-			// Get the listener index for a specified function.
-			// Returns -1 if not found.
-			getListenerIndex : function( listenerFunction )
-			{
-				for ( var i = 0, listeners = this.listeners ; i < listeners.length ; i++ )
 				{
-					if ( listeners[i].fn == listenerFunction )
-						return i;
-				}
-				return -1;
-			}
-		};
+					// Get the listener index for a specified function.
+					// Returns -1 if not found.
+					getListenerIndex: function (listenerFunction)
+					{
+						for (var i = 0, listeners = this.listeners; i < listeners.length; i++)
+						{
+							if (listeners[i].fn == listenerFunction)
+								return i;
+						}
+						return -1;
+					}
+				};
 
 		return /** @lends CKEDITOR.event.prototype */ {
 			/**
@@ -115,46 +115,46 @@ if ( !CKEDITOR.event )
 			 * someObject.on( 'someEvent', function() { ... }, null, null, 100 );  // 3rd called
 			 * someObject.on( 'someEvent', function() { ... }, null, null, 1 );    // 1st called
 			 */
-			on : function( eventName, listenerFunction, scopeObj, listenerData, priority )
+			on: function (eventName, listenerFunction, scopeObj, listenerData, priority)
 			{
 				// Get the event entry (create it if needed).
-				var events = getPrivate( this ),
-					event = events[ eventName ] || ( events[ eventName ] = new eventEntry( eventName ) );
+				var events = getPrivate(this),
+						event = events[ eventName ] || (events[ eventName ] = new eventEntry(eventName));
 
-				if ( event.getListenerIndex( listenerFunction ) < 0 )
+				if (event.getListenerIndex(listenerFunction) < 0)
 				{
 					// Get the listeners.
 					var listeners = event.listeners;
 
 					// Fill the scope.
-					if ( !scopeObj )
+					if (!scopeObj)
 						scopeObj = this;
 
 					// Default the priority, if needed.
-					if ( isNaN( priority ) )
+					if (isNaN(priority))
 						priority = 10;
 
 					var me = this;
 
 					// Create the function to be fired for this listener.
-					var listenerFirer = function( editor, publisherData, stopFn, cancelFn )
+					var listenerFirer = function (editor, publisherData, stopFn, cancelFn)
 					{
 						var ev =
-						{
-							name : eventName,
-							sender : this,
-							editor : editor,
-							data : publisherData,
-							listenerData : listenerData,
-							stop : stopFn,
-							cancel : cancelFn,
-							removeListener : function()
-							{
-								me.removeListener( eventName, listenerFunction );
-							}
-						};
+								{
+									name: eventName,
+									sender: this,
+									editor: editor,
+									data: publisherData,
+									listenerData: listenerData,
+									stop: stopFn,
+									cancel: cancelFn,
+									removeListener: function ()
+									{
+										me.removeListener(eventName, listenerFunction);
+									}
+								};
 
-						listenerFunction.call( scopeObj, ev );
+						listenerFunction.call(scopeObj, ev);
 
 						return ev.data;
 					};
@@ -163,20 +163,20 @@ if ( !CKEDITOR.event )
 
 					// Search for the right position for this new listener, based on its
 					// priority.
-					for ( var i = listeners.length - 1 ; i >= 0 ; i-- )
+					for (var i = listeners.length - 1; i >= 0; i--)
 					{
 						// Find the item which should be before the new one.
-						if ( listeners[ i ].priority <= priority )
+						if (listeners[ i ].priority <= priority)
 						{
 							// Insert the listener in the array.
-							listeners.splice( i + 1, 0, listenerFirer );
+							listeners.splice(i + 1, 0, listenerFirer);
 							return;
 						}
 					}
 
 					// If no position has been found (or zero length), put it in
 					// the front of list.
-					listeners.unshift( listenerFirer );
+					listeners.unshift(listenerFirer);
 				}
 			},
 
@@ -204,64 +204,64 @@ if ( !CKEDITOR.event )
 			 *     });
 			 * <b>someObject.fire( 'someEvent', 'Example' )</b>;
 			 */
-			fire : (function()
+			fire: (function ()
 			{
 				// Create the function that marks the event as stopped.
 				var stopped = false;
-				var stopEvent = function()
+				var stopEvent = function ()
 				{
 					stopped = true;
 				};
 
 				// Create the function that marks the event as canceled.
 				var canceled = false;
-				var cancelEvent = function()
+				var cancelEvent = function ()
 				{
 					canceled = true;
 				};
 
-				return function( eventName, data, editor )
+				return function (eventName, data, editor)
 				{
 					// Get the event entry.
-					var event = getPrivate( this )[ eventName ];
+					var event = getPrivate(this)[ eventName ];
 
 					// Save the previous stopped and cancelled states. We may
 					// be nesting fire() calls.
 					var previousStopped = stopped,
-						previousCancelled = canceled;
+							previousCancelled = canceled;
 
 					// Reset the stopped and canceled flags.
 					stopped = canceled = false;
 
-					if ( event )
+					if (event)
 					{
 						var listeners = event.listeners;
 
-						if ( listeners.length )
+						if (listeners.length)
 						{
 							// As some listeners may remove themselves from the
 							// event, the original array length is dinamic. So,
 							// let's make a copy of all listeners, so we are
 							// sure we'll call all of them.
-							listeners = listeners.slice( 0 );
+							listeners = listeners.slice(0);
 
 							// Loop through all listeners.
-							for ( var i = 0 ; i < listeners.length ; i++ )
+							for (var i = 0; i < listeners.length; i++)
 							{
 								// Call the listener, passing the event data.
-								var retData = listeners[i].call( this, editor, data, stopEvent, cancelEvent );
+								var retData = listeners[i].call(this, editor, data, stopEvent, cancelEvent);
 
-								if ( typeof retData != 'undefined' )
+								if (typeof retData != 'undefined')
 									data = retData;
 
 								// No further calls is stopped or canceled.
-								if ( stopped || canceled )
+								if (stopped || canceled)
 									break;
 							}
 						}
 					}
 
-					var ret = canceled || ( typeof data == 'undefined' ? false : data );
+					var ret = canceled || (typeof data == 'undefined' ? false : data);
 
 					// Restore the previous stopped and canceled states.
 					stopped = previousStopped;
@@ -290,10 +290,10 @@ if ( !CKEDITOR.event )
 			 * <b>someObject.fireOnce( 'someEvent' )</b>;  // above listener called
 			 * someObject.fire( 'someEvent' );  // no listeners called
 			 */
-			fireOnce : function( eventName, data, editor )
+			fireOnce: function (eventName, data, editor)
 			{
-				var ret = this.fire( eventName, data, editor );
-				delete getPrivate( this )[ eventName ];
+				var ret = this.fire(eventName, data, editor);
+				delete getPrivate(this)[ eventName ];
 				return ret;
 			},
 
@@ -310,16 +310,16 @@ if ( !CKEDITOR.event )
 			 * <b>someObject.removeListener( 'someEvent', myListener )</b>;
 			 * someObject.fire( 'someEvent' );  // myListener not called
 			 */
-			removeListener : function( eventName, listenerFunction )
+			removeListener: function (eventName, listenerFunction)
 			{
 				// Get the event entry.
-				var event = getPrivate( this )[ eventName ];
+				var event = getPrivate(this)[ eventName ];
 
-				if ( event )
+				if (event)
 				{
-					var index = event.getListenerIndex( listenerFunction );
-					if ( index >= 0 )
-						event.listeners.splice( index, 1 );
+					var index = event.getListenerIndex(listenerFunction);
+					if (index >= 0)
+						event.listeners.splice(index, 1);
 				}
 			},
 
@@ -332,10 +332,10 @@ if ( !CKEDITOR.event )
 			 * alert( someObject.<b>hasListeners( 'someEvent' )</b> );  // "true"
 			 * alert( someObject.<b>hasListeners( 'noEvent' )</b> );    // "false"
 			 */
-			hasListeners : function( eventName )
+			hasListeners: function (eventName)
 			{
-				var event = getPrivate( this )[ eventName ];
-				return ( event && event.listeners.length > 0 ) ;
+				var event = getPrivate(this)[ eventName ];
+				return (event && event.listeners.length > 0);
 			}
 		};
 	})();

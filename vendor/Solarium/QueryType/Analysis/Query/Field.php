@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Client\Client;
@@ -47,15 +48,16 @@ use Solarium\QueryType\Analysis\RequestBuilder\Field as RequestBuilder;
  */
 class Field extends Query
 {
+
     /**
      * Default options
      *
      * @var array
      */
     protected $options = array(
-        'handler'       => 'analysis/field',
-        'resultclass'   => 'Solarium\QueryType\Analysis\Result\Field',
-        'omitheader'    => true,
+        'handler' => 'analysis/field',
+        'resultclass' => 'Solarium\QueryType\Analysis\Result\Field',
+        'omitheader' => true,
     );
 
     /**
@@ -156,4 +158,5 @@ class Field extends Query
     {
         return $this->getOption('fieldname');
     }
+
 }

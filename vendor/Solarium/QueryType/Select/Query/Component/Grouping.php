@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -53,6 +54,7 @@ use Solarium\QueryType\Select\ResponseParser\Component\Grouping as ResponseParse
  */
 class Grouping extends Component
 {
+
     /**
      * Value for format grouped
      */
@@ -511,4 +513,5 @@ class Grouping extends Component
     {
         return $this->getOption('format');
     }
+
 }

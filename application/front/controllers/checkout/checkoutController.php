@@ -2,11 +2,14 @@
 
 defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
+/*
 use \Customer,
     \Request,
     \Response,
     \Session,
     \Cart;
+ * 
+ */
 
 class CheckoutCheckoutController extends BaseController
 {
@@ -120,7 +123,7 @@ class CheckoutCheckoutController extends BaseController
         }
 
         if ($this->Request->isPost()) {
-            $billingData = (array)$this->Request->postParam('billing');
+            $billingData = (array) $this->Request->postParam('billing');
             if (empty($billingData['firstname'])) {
                 $json['error']['firstname'] = 'Invalid firstname';
             }
@@ -201,7 +204,7 @@ class CheckoutCheckoutController extends BaseController
         $this->Cart = new Cart();
         $this->agree = true;
         $this->shipping_required = Cart::getSingleton()->hasShipping();
-        $this->customer = $customer = new Customer((int)$this->getSession()->get('customer_id'));
+        $this->customer = $customer = new Customer((int) $this->getSession()->get('customer_id'));
         $this->countries = Country::getAll();
         if ($customer->getCountryId()) {
             $this->zones = Country::getZonesByCountryId($customer->getCountryId());
@@ -215,7 +218,7 @@ class CheckoutCheckoutController extends BaseController
         if ($this->Request->isPost()) {
             $account = new AccountCustomer($this->getSession()->get('customer_id'));
             if (!($this->Request->postParam('use_for_shipping'))) {
-                $account->addShippingAddress((array)$this->Request->postParam('shipping'));
+                $account->addShippingAddress((array) $this->Request->postParam('shipping'));
             } else {
                 $shippingData = array();
                 $shippingData['customer_id'] = $customer->getId();
@@ -291,6 +294,12 @@ class CheckoutCheckoutController extends BaseController
         if (!Cart::getSingleton()->hasProducts()) {
             $this->redirect('/cart');
         }
+        
+        $paymentPlugin = new checkpayment\CheckpaymentPlugin();        
+        $paymentContent = $paymentPlugin->getContent();
+        
+        $this->payment = $paymentContent;
+        
         $this->getSession()->add('current_step', self::STEP_PAYMENT);
         $json = array();
         $this->title = 'Payment method';
@@ -327,7 +336,6 @@ class CheckoutCheckoutController extends BaseController
         $this->grand_total = Cart::getSingleton()->getTotal();
         $this->progressTemplate->set('step', 'review');
         $this->progressHtml = $this->progressTemplate->render();
-
     }
 
     public function confirm()
@@ -339,7 +347,7 @@ class CheckoutCheckoutController extends BaseController
         if ($this->Request->isXmlHttpRequest() && $this->Request->isPost()) {
             $orderData = array();
             $cart = Cart::getSingleton();
-            $customer = new Customer((int)$this->getSession()->get('customer_id'));
+            $customer = new Customer((int) $this->getSession()->get('customer_id'));
             //
             $orderData['customer_id'] = $this->getSession()->get('customer_id');
             $orderData['grand_total'] = $cart->getTotal();
@@ -356,7 +364,7 @@ class CheckoutCheckoutController extends BaseController
             $orderData['shipping_zone'] = $shippingAddress->zone_name;
             foreach ($cart->getContent() as $key => $qty) {
                 $id = explode(':', $key);
-                $product = new Product((int)$id[0]);
+                $product = new Product((int) $id[0]);
                 $orderData['products'][] = array(
                     'product_id' => $product->getId(),
                     'name' => $product->model,
@@ -406,10 +414,10 @@ class CheckoutCheckoutController extends BaseController
             $productsHtml .= '<tr>';
             $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . $product['product_id'] . '</td>';
             $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . $product['name'] . '</td>';
-            $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . Stringify::currency_format($product['price']) . '</td>';
+            $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . Helpers\Stringify::currency_format($product['price']) . '</td>';
             $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . $product['quantity'] . '</td>';
-            $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . Stringify::currency_format($product['total']) . '</td>';
-            $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . Stringify::currency_format($product['tax']) . '</td>';
+            $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . Helpers\Stringify::currency_format($product['total']) . '</td>';
+            $productsHtml .= '<td style="padding:10px; border:1px solid #d6d4d4">' . Helpers\Stringify::currency_format($product['tax']) . '</td>';
             $productsHtml .= '</tr>';
         }
 
@@ -424,9 +432,9 @@ class CheckoutCheckoutController extends BaseController
             '{shop_url}' => Configuration::get('frontend_baseUrl'),
             '{order_name}' => $orderId,
             '{products}' => $productsHtml,
-            '{total_paid}' => Stringify::currency_format($orderData['grand_total']),
-            '{total_tax_paid}' => Stringify::currency_format($total_tax),
-            '{total_shipping}' => Stringify::currency_format(0),
+            '{total_paid}' => Helpers\Stringify::currency_format($orderData['grand_total']),
+            '{total_tax_paid}' => Helpers\Stringify::currency_format($total_tax),
+            '{total_shipping}' => Helpers\Stringify::currency_format(0),
             '{payment}' => $orderData['payment_method'],
             '{delivery_block_html}' => $this->fetchShippingAddress($customer),
             '{invoice_block_html}' => $this->fetchBillingAddress($customer),

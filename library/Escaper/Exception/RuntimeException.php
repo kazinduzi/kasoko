@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
  *

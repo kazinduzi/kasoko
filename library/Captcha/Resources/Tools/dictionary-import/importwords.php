@@ -29,8 +29,8 @@ while ($lin = fgets($fp)) {
     $lin = trim(strtolower($lin));
     $strlen = strlen($lin);
     if ($strlen >= $minLength && $strlen <= $maxLength && preg_match("/^[a-z]+$/", $lin)) {
-	$lin = str_pad($lin, $maxLength);
-	fwrite($fp2, "$lin\n");
+        $lin = str_pad($lin, $maxLength);
+        fwrite($fp2, "$lin\n");
     }
 }
 fwrite($fp2, "*/    ?>\n");

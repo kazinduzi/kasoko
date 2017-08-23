@@ -5,9 +5,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_v2 .cke_editor
 {
-/*
-	border: solid 1px #dcdcdc;
-*/
+	/*
+		border: solid 1px #dcdcdc;
+	*/
 	display: inline-table;
 	width: 100%;
 }
@@ -35,7 +35,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_v2 .cke_top,
 .cke_skin_v2 .cke_bottom,
- .cke_shared .cke_skin_v2
+.cke_shared .cke_skin_v2
 {
 	background-color: #efefde;
 }

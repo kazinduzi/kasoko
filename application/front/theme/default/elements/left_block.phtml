@@ -8,24 +8,24 @@ class Navigation
 
     static function recursive($category, $depth = 0)
     {
-	$html = '';
-	if ($category->hasChildren() && $category->getActiveChildren()->count() && true === $category->isLive()) {
-	    $html .= '<span class="opener"></span>';
-	    $html .= '<ul class="level' . $depth . ' nav-submenu">' . PHP_EOL;
-	    foreach ($category->getChildren() as $child) {
-		$countLabel = $child->product ? ' (' . count($child->product) . ')' : null;
-		$html .= (true === $child->isLive()) ? '<li class="nav-item level' . ($depth + 1) . '"><a href="/category/view/' . \Stringify::slugify($child->name) . '">' . $child->name . $countLabel . '</a>' : '' . PHP_EOL;
-		if ($child->hasChildren() && true === $child->isLive()) {
-		    $html .= self::recursive($child, ++$depth);
-		} else {
-		    $html .= '</li>' . PHP_EOL;
-		}
-	    }
-	    $html .= '</ul>' . PHP_EOL;
-	} else {
-	    $html .= '</li>' . PHP_EOL;
-	}
-	return $html;
+        $html = '';
+        if ($category->hasChildren() && $category->getActiveChildren()->count() && true === $category->isLive()) {
+            $html .= '<span class="opener"></span>';
+            $html .= '<ul class="level' . $depth . ' nav-submenu">' . PHP_EOL;
+            foreach ($category->getChildren() as $child) {
+                $countLabel = $child->product ? ' (' . count($child->product) . ')' : null;
+                $html .= (true === $child->isLive()) ? '<li class="nav-item level' . ($depth + 1) . '"><a href="/category/view/' . \Helpers\Stringify::slugify($child->name) . '">' . $child->name . $countLabel . '</a>' : '' . PHP_EOL;
+                if ($child->hasChildren() && true === $child->isLive()) {
+                    $html .= self::recursive($child, ++$depth);
+                } else {
+                    $html .= '</li>' . PHP_EOL;
+                }
+            }
+            $html .= '</ul>' . PHP_EOL;
+        } else {
+            $html .= '</li>' . PHP_EOL;
+        }
+        return $html;
     }
 
 }
@@ -36,18 +36,18 @@ class Navigation
         <h2><?php echo __('messages.categories'); ?></h2>
     </div>
     <div class="cat-menu">
-	<?php
-	$navHtml = '<ul class="accordion accordion-style1 vertnav vertnav-side clearer">' . PHP_EOL;
-	$depth = 0;
-	foreach (Category::getInstance()->getAllActive() as $category) {            
-	    if ($category->isTop() && $category->isLive() && $category->visibleInMenu()) {
-		$countLabel = $category->product ? ' (' . count($category->product) . ')' : null;
-		$navHtml .= '<li class="nav-item level' . $depth . '"><a href="/category/view/' . \Stringify::slugify($category->name) . '">' . $category->name . $countLabel . '</a>' . PHP_EOL;
-		$navHtml .= Navigation::recursive($category);
-	    }
-	}
-	echo $navHtml . '</ul>' . PHP_EOL;
-	?>
+        <?php
+        $navHtml = '<ul class="accordion accordion-style1 vertnav vertnav-side clearer">' . PHP_EOL;
+        $depth = 0;
+        foreach (Category::getInstance()->getAllActive() as $category) {
+            if ($category->isTop() && $category->isLive() && $category->visibleInMenu()) {
+                $countLabel = $category->product ? ' (' . count($category->product) . ')' : null;
+                $navHtml .= '<li class="nav-item level' . $depth . '"><a href="/category/view/' . \Helpers\Stringify::slugify($category->name) . '">' . $category->name . $countLabel . '</a>' . PHP_EOL;
+                $navHtml .= Navigation::recursive($category);
+            }
+        }
+        echo $navHtml . '</ul>' . PHP_EOL;
+        ?>
     </div>
 </div>
 
@@ -58,11 +58,11 @@ class Navigation
     </div>
     <div class="manufacturer-menu">
         <ul>
-	    <?php foreach (\models\Manufacturer\Manufacturer::getInstance()->getAllActive() AS $manufacturer) : ?>
-    	    <li>
-    		<a href="/manufacturer/view_products/<?php echo Stringify::slugify($manufacturer->name); ?>"><?php echo $manufacturer->name; ?></a>
-    	    </li>
-	    <?php endforeach; ?>
+            <?php foreach (\models\Manufacturer\Manufacturer::getInstance()->getAllActive() AS $manufacturer) : ?>
+                <li>
+                    <a href="/manufacturer/view_products/<?php echo Helpers\Stringify::slugify($manufacturer->name); ?>"><?php echo $manufacturer->name; ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </div>
 </div>
@@ -73,11 +73,11 @@ class Navigation
     </div>
     <div class="special-menu">
         <ul>
-	    <?php foreach (Product::getSpecials() as $specialProduct) : ?>
-    	    <li>
-    		<a href="/product/special/<?php echo Stringify::slugify($specialProduct->slug); ?>"><?php echo($specialProduct->model); ?></a>
-    	    </li>
-	    <?php endforeach; ?>
+            <?php foreach (Product::getSpecials() as $specialProduct) : ?>
+                <li>
+                    <a href="/product/special/<?php echo Helpers\Stringify::slugify($specialProduct->slug); ?>"><?php echo($specialProduct->model); ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </div>
 </div>

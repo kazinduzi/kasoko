@@ -16,6 +16,7 @@ abstract class Controller
 
     const DEFAULT_ACTION = 'index';
     const DEFAULT_CONTROLLER = 'index';
+
     private static $instance;
     public $Request;
     public $Response;
@@ -23,30 +24,37 @@ abstract class Controller
     protected $registry = null;
     protected $methods = array();
     protected $models;
+
     /**
      * @var Template
      */
     protected $Template;
+
     /**
      * @var bool
      */
     private $_in_layout_display = true;
+
     /**
      * @var string
      */
     private $action;
+
     /**
      * @var string
      */
     private $controller;
+
     /**
      * @var string
      */
     private $name;
+
     /**
      * @var array
      */
     private $args;
+
     /**
      * @var array
      */
@@ -79,7 +87,7 @@ abstract class Controller
      */
     public function init()
     {
-
+        
     }
 
     /**
@@ -310,7 +318,7 @@ abstract class Controller
      */
     public function before()
     {
-
+        
     }
 
     /**
@@ -340,7 +348,7 @@ abstract class Controller
      */
     public function after()
     {
-
+        
     }
 
     /**
@@ -461,7 +469,7 @@ abstract class Controller
      */
     protected function setLayoutDisplayed($flag = true)
     {
-        $this->_in_layout_display = (bool)$flag;
+        $this->_in_layout_display = (bool) $flag;
         return $this;
     }
 
@@ -487,7 +495,7 @@ abstract class Controller
      */
     private function __clone()
     {
-
+        
     }
 
 }

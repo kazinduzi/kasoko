@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 Class Registry
 {
@@ -8,6 +10,7 @@ Class Registry
      * @var type
      */
     private static $instance = null;
+
     /**
      * @the vars array
      * @access private
@@ -18,8 +21,9 @@ Class Registry
      *
      * @return type
      */
-    private function  __construct()
+    private function __construct()
     {
+        
     }
 
     /**
@@ -28,7 +32,8 @@ Class Registry
      */
     public static function getInstance()
     {
-        if (!isset(self::$instance)) self::$instance = new self();
+        if (!isset(self::$instance))
+            self::$instance = new self();
         return self::$instance;
     }
 
@@ -60,7 +65,7 @@ Class Registry
      * @param type $name
      * @return type
      */
-    public function  __isset($name)
+    public function __isset($name)
     {
         // you could also use isset() here
         return array_key_exists($name, $this->vars);
@@ -70,7 +75,7 @@ Class Registry
      *
      * @param type $name
      */
-    public function  __unset($name)
+    public function __unset($name)
     {
         // you could also use unset() here
         if (array_key_exists($name, $this->vars))
@@ -92,15 +97,16 @@ Class Registry
      */
     public function __toString()
     {
-        return (array)$this->vars;
+        return (array) $this->vars;
     }
 
     /**
      *
      * @return type
      */
-    private function  __clone()
+    private function __clone()
     {
+        
     }
 
 }

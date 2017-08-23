@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>PHPMailer - POP-before-SMTP test</title>
-</head>
-<body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>PHPMailer - POP-before-SMTP test</title>
+    </head>
+    <body>
 <?php
 require '../PHPMailerAutoload.php';
 
@@ -56,5 +56,5 @@ try {
     echo $e->getMessage(); //Boring error messages from anything else!
 }
 ?>
-</body>
+    </body>
 </html>

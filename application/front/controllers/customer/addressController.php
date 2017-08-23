@@ -24,7 +24,7 @@ class CustomerAddressController extends BaseController
      */
     public function before()
     {
-
+        
     }
 
     public function index()

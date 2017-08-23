@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
@@ -13,6 +14,7 @@ use models\AttributeGroup;
 
 class ProductAttributeConfigurationsIterator extends \IteratorIterator
 {
+
     private $attributes, $attributeGroups;
 
     /**
@@ -23,12 +25,11 @@ class ProductAttributeConfigurationsIterator extends \IteratorIterator
     {
         parent::__construct($iterator);
 
-        foreach($iterator as $item) {
+        foreach ($iterator as $item) {
             $attribute = new Attribute($item->attribute_id);
             $this->attributeGroups[$attribute->AttributeGroup->getId()][$attribute->getId()] = $attribute;
             $this->attributes[$attribute->getId()] = $attribute;
         }
-
     }
 
     /**
@@ -36,7 +37,7 @@ class ProductAttributeConfigurationsIterator extends \IteratorIterator
      */
     public function getAssociatedAttributesWithGroups()
     {
-        if (! $this->attributeGroups) {
+        if (!$this->attributeGroups) {
             return null;
         }
         $builtAttrGroupsIterator = new \ArrayIterator(($this->attributeGroups));
@@ -48,13 +49,11 @@ class ProductAttributeConfigurationsIterator extends \IteratorIterator
      */
     public function getAttributes()
     {
-        if (! $this->attributes) {
+        if (!$this->attributes) {
             return null;
         }
         $productAttributesIterator = new \ArrayIterator($this->attributes);
         return iterator_to_array($productAttributesIterator);
     }
-
-
 
 }

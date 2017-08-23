@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Description of mysql_driver
@@ -7,6 +9,7 @@
  */
 class Driver_mysql extends Database
 {
+
     /**
      * @var array the abstract column types mapped to physical column types.
      */
@@ -54,7 +57,6 @@ class Driver_mysql extends Database
      */
     protected $nullDate = '0000-00-00 00:00:00';
 
-
     final public function __construct(array $params)
     {
         $this->options = $params;
@@ -71,7 +73,8 @@ class Driver_mysql extends Database
      */
     private function connect()
     {
-        if ($this->connected()) return;
+        if ($this->connected())
+            return;
         // Connect to the database driver and initiate the connection_id
         if (!$this->enabled()) {
             throw new Exception('mysql extension not loaded');
@@ -96,7 +99,6 @@ class Driver_mysql extends Database
         // select the database to be used
         mysql_select_db($this->options['db_name'], $this->conn);
         // $this->connected();
-
     }
 
     /**
@@ -131,7 +133,7 @@ class Driver_mysql extends Database
         if (!$mode) {
             return mysql_connect('START TRANSACTION', $this->conn);
         }
-        return (bool)mysql_query('SET autocommit=' . ($mode === true ? 1 : 0) . ';', $this->conn);
+        return (bool) mysql_query('SET autocommit=' . ($mode === true ? 1 : 0) . ';', $this->conn);
     }
 
     /**
@@ -170,10 +172,10 @@ class Driver_mysql extends Database
     {
         // Make sure the database is connected
         $this->connected() OR $this->connect();
-        if ($mode AND !mysql_query("SET TRANSACTION ISOLATION LEVEL $mode", $this->conn)) {
+        if ($mode AND ! mysql_query("SET TRANSACTION ISOLATION LEVEL $mode", $this->conn)) {
             throw new Exception("Error: " . mysql_error($this->conn) . ", Error No: " . mysql_errno($this->conn));
         }
-        return (bool)mysql_query('START TRANSACTION', $this->conn);
+        return (bool) mysql_query('START TRANSACTION', $this->conn);
     }
 
     /**
@@ -216,7 +218,6 @@ class Driver_mysql extends Database
         }
         $this->num_rows = mysql_num_rows($this->result);
         return $this->result;
-
     }
 
     /**
@@ -229,7 +230,7 @@ class Driver_mysql extends Database
     {
         // Make sure the database is connected
         $this->connected() OR $this->connect();
-        return (bool)mysql_query('ROLLBACK', $this->conn);
+        return (bool) mysql_query('ROLLBACK', $this->conn);
     }
 
     /**
@@ -242,7 +243,7 @@ class Driver_mysql extends Database
     {
         // Make sure the database is connected
         $this->connected() OR $this->connect();
-        return (bool)mysql_query('COMMIT', $this->conn);
+        return (bool) mysql_query('COMMIT', $this->conn);
     }
 
     /**
@@ -251,7 +252,7 @@ class Driver_mysql extends Database
      */
     final public function close()
     {
-        if (isset ($this->result) && is_resource($this->result)) {
+        if (isset($this->result) && is_resource($this->result)) {
             mysql_free_result($this->result);
         }
         if ($this->conn != null || is_resource($this->conn)) {
@@ -264,7 +265,8 @@ class Driver_mysql extends Database
      */
     public function setUTF()
     {
-        if ($this->hasUTF()) return @mysql_query("SET NAMES 'utf8'", $this->conn);
+        if ($this->hasUTF())
+            return @mysql_query("SET NAMES 'utf8'", $this->conn);
     }
 
     /**
@@ -275,7 +277,7 @@ class Driver_mysql extends Database
     {
         // UTF is ONLY supported for MySQL 4.1.2 or high
         $ver = explode('.', $this->version());
-        return ($ver[0] == 5) or ($ver[0] == 4 and $ver[1] == 1 and (int)$ver[2] >= 2);
+        return ($ver[0] == 5) or ( $ver[0] == 4 and $ver[1] == 1 and (int) $ver[2] >= 2);
     }
 
     /**
@@ -332,7 +334,8 @@ class Driver_mysql extends Database
      */
     public function fetchAssocList($key = null, $column = null)
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
         $array = array();
         while ($row = mysql_fetch_assoc($cursor)) {
             $value = ($column) ? (isset($row[$column]) ? $row[$column] : $row) : $row;
@@ -382,7 +385,6 @@ class Driver_mysql extends Database
         }
         $this->num_rows = mysql_num_rows($this->result);
         return $this->result;
-
     }
 
     /**
@@ -395,7 +397,7 @@ class Driver_mysql extends Database
     public function tableFields($tables, $type = true)
     {
         // Cast the type of $tables be necessary array
-        $tables = (array)$tables;
+        $tables = (array) $tables;
         $result = array();
         foreach ($tables as $table) {
             $this->setQuery('SHOW FIELDS FROM ' . strtolower($table));
@@ -426,7 +428,8 @@ class Driver_mysql extends Database
      */
     public function fetchObjectList($key = '', $className = 'stdClass')
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
         $array = array();
         while ($row = mysql_fetch_object($cursor, $className)) {
             if ($key) {
@@ -481,9 +484,9 @@ class Driver_mysql extends Database
     {
         $type = $this->getColumnType($type);
         return 'ALTER TABLE ' . $this->quoteTable($table) . ' CHANGE '
-        . $this->quoteColumn($column) . ' '
-        . $this->quoteColumn($column) . ' '
-        . $this->getColumnType($type);
+                . $this->quoteColumn($column) . ' '
+                . $this->quoteColumn($column) . ' '
+                . $this->getColumnType($type);
     }
 
     /**
@@ -496,8 +499,8 @@ class Driver_mysql extends Database
     public function renameColumnQuery($table, $name, $newName)
     {
         return "ALTER TABLE " . $this->quoteTableName($table)
-        . " RENAME COLUMN " . $this->quoteColumn($name)
-        . " TO " . $this->quoteColumn($newName);
+                . " RENAME COLUMN " . $this->quoteColumn($name)
+                . " TO " . $this->quoteColumn($newName);
     }
 
     /**
@@ -509,7 +512,7 @@ class Driver_mysql extends Database
     public function dropColumnQuery($table, $column)
     {
         return "ALTER TABLE " . $this->quoteTable($table)
-        . " DROP COLUMN " . $this->quoteColumn($column);
+                . " DROP COLUMN " . $this->quoteColumn($column);
     }
 
     /**
@@ -523,8 +526,8 @@ class Driver_mysql extends Database
     {
         $type = $this->getColumnType($type);
         $sql = 'ALTER TABLE ' . $this->quoteTable($table)
-            . ' ADD ' . $this->quoteColumn($column) . ' '
-            . $this->getColumnType($type);
+                . ' ADD ' . $this->quoteColumn($column) . ' '
+                . $this->getColumnType($type);
         return $sql;
     }
 
@@ -552,10 +555,10 @@ class Driver_mysql extends Database
         }
 
         $sql = 'ALTER TABLE ' . $this->quoteTable($table)
-            . ' ADD CONSTRAINT ' . $this->quoteColumn($name)
-            . ' FOREIGN KEY (' . implode(', ', $columns) . ')'
-            . ' REFERENCES ' . $this->quoteTable($refTable)
-            . ' (' . implode(', ', $refColumns) . ')';
+                . ' ADD CONSTRAINT ' . $this->quoteColumn($name)
+                . ' FOREIGN KEY (' . implode(', ', $columns) . ')'
+                . ' REFERENCES ' . $this->quoteTable($refTable)
+                . ' (' . implode(', ', $refColumns) . ')';
         if ($delete !== null)
             $sql .= ' ON DELETE ' . $delete;
         if ($update !== null)
@@ -563,7 +566,7 @@ class Driver_mysql extends Database
         return $sql;
     }
 
-    /**** TO DO HERE : BUILDING QUERIES ******/
+    /*     * ** TO DO HERE : BUILDING QUERIES ***** */
 
     /**
      *
@@ -574,7 +577,7 @@ class Driver_mysql extends Database
     public function dropForeignKeyQuery($name, $table)
     {
         return 'ALTER TABLE ' . $this->quoteTableName($table)
-        . ' DROP CONSTRAINT ' . $this->quoteColumnName($name);
+                . ' DROP CONSTRAINT ' . $this->quoteColumnName($name);
     }
 
     /**
@@ -592,8 +595,8 @@ class Driver_mysql extends Database
         foreach ($columns as $col)
             $cols[] = $this->quoteColumnName($col);
         return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
-        . $this->quoteTableName($name) . ' ON '
-        . $this->quoteTableName($table) . ' (' . implode(', ', $cols) . ')';
+                . $this->quoteTableName($name) . ' ON '
+                . $this->quoteTableName($table) . ' (' . implode(', ', $cols) . ')';
     }
 
     /**
@@ -642,7 +645,8 @@ class Driver_mysql extends Database
     public function fetchAssoc($q = null)
     {
         // Execute the sql query
-        if (!$this->execute($q)) throw new Exception('No query to execute');
+        if (!$this->execute($q))
+            throw new Exception('No query to execute');
 
         $results = array();
         while ($row = mysql_fetch_assoc($this->result)) {
@@ -661,7 +665,7 @@ class Driver_mysql extends Database
     {
         $this->conneted() OR $this->connect();
         // Take a local copy so that we don't modify the original query and cause issues later
-        $sql = (string)$this->getQueryString();
+        $sql = (string) $this->getQueryString();
         if ($this->limit > 0 || $this->offset > 0) {
             $sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
         }
@@ -687,7 +691,7 @@ class Driver_mysql extends Database
      */
     public function db_queryBatch($abort_on_error = true, $p_transaction_safe = false)
     {
-        $sql = (string)$this->sql;
+        $sql = (string) $this->sql;
         $this->errorNum = 0;
         $this->errorMsg = '';
         if ($p_transaction_safe) {
@@ -777,7 +781,8 @@ class Driver_mysql extends Database
      */
     public function fetchResult()
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
 
         $ret = null;
         if ($row = mysql_fetch_row($cursor)) {
@@ -792,7 +797,8 @@ class Driver_mysql extends Database
      */
     public function fetchResultArray($position = 0)
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
 
         $array = array();
         while ($row = mysql_fetch_row($cursor)) {
@@ -809,7 +815,8 @@ class Driver_mysql extends Database
      */
     public function fetchArrayRow()
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
 
         $ret = null;
         if (($row = mysql_fetch_array($cursor))) {
@@ -824,7 +831,8 @@ class Driver_mysql extends Database
      */
     public function fetchArrayList()
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
 
         $array = array();
         while ($row = mysql_fetch_row($cursor)) {
@@ -834,14 +842,14 @@ class Driver_mysql extends Database
         return $array;
     }
 
-
     /**
      * Fetch a result row as an associative array
      * @return    array
      */
     public function fetchAssocRow()
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
         $ret = null;
         if ($array = mysql_fetch_assoc($cursor)) {
             $ret = $array;
@@ -857,7 +865,8 @@ class Driver_mysql extends Database
      */
     public function fetchObjectRow($className = 'stdClass')
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
         $ret = null;
         if ($object = mysql_fetch_object($cursor, $className)) {
             $ret = $object;
@@ -872,7 +881,8 @@ class Driver_mysql extends Database
      */
     public function fetchRow()
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
         $ret = null;
         if ($row = mysql_fetch_row($cursor)) {
             $ret = $row;
@@ -890,7 +900,8 @@ class Driver_mysql extends Database
      */
     public function fetchRowList($key = null)
     {
-        if (!$cursor = $this->execute()) throw new Exception('No query to execute');
+        if (!$cursor = $this->execute())
+            throw new Exception('No query to execute');
         $array = array();
         while ($row = mysql_fetch_row($cursor)) {
             if ($key !== null) {
@@ -908,7 +919,8 @@ class Driver_mysql extends Database
      */
     public function fetchArray($q = null)
     {
-        if (!$this->execute($q)) throw new Exception('No query to execute');
+        if (!$this->execute($q))
+            throw new Exception('No query to execute');
         $results = array();
         while ($row = mysql_fetch_array($this->result)) {
             $results[] = $row;
@@ -922,7 +934,8 @@ class Driver_mysql extends Database
      */
     public function fetchObject($q = null)
     {
-        if (!$this->execute($q)) throw new Exception('No query to execute');
+        if (!$this->execute($q))
+            throw new Exception('No query to execute');
         $results = array();
         while ($row = mysql_fetch_object($this->result)) {
             $results[] = $row;
@@ -943,7 +956,7 @@ class Driver_mysql extends Database
         } else if ($str === false) {
             $str = "'0'";
         } else if (is_int($str)) {
-            $str = (int)$str;
+            $str = (int) $str;
         } else if (is_float($str)) {
             // Convert to non-locale aware float to prevent possible commas
             $str = sprintf('%F', $str);
@@ -1013,7 +1026,7 @@ class Driver_mysql extends Database
     public function getTableFields($tables, $type = true)
     {
         // Cast the type of $tables be necessary array
-        $tables = (array)$tables;
+        $tables = (array) $tables;
         $result = array();
         foreach ($tables as $tbl) {
             $this->setQuery('SHOW FIELDS FROM ' . strtolower($tbl));
@@ -1093,7 +1106,8 @@ class Driver_mysql extends Database
         else if (($pos = strpos($type, ' ')) !== false) {
             $t = substr($type, 0, $pos);
             return (isset($this->COLUMN_TYPES[$t]) ? $this->COLUMN_TYPES[$t] : $t) . substr($type, $pos);
-        } else return $type;
+        } else
+            return $type;
     }
 
 }

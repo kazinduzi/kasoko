@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update;
 
 use Solarium\Client;
@@ -50,6 +51,7 @@ use Solarium\Exception\RuntimeException;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
+
     /**
      * Build request for an update query
      *
@@ -241,4 +243,5 @@ class RequestBuilder extends BaseRequestBuilder
     {
         return '<rollback/>';
     }
+
 }

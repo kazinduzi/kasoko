@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * Description of url
@@ -16,7 +18,7 @@ class URL
     public static function toAscii($str, $replace = array())
     {
         if (!empty($replace)) {
-            $str = str_replace((array)$replace, ' ', $str);
+            $str = str_replace((array) $replace, ' ', $str);
         }
         if (function_exists('iconv')) {
             $str = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
@@ -45,7 +47,7 @@ class URL
     public static function slugify($str, $replace = array(), $delimiter = '-', $maxLength = 200)
     {
         if (!empty($replace)) {
-            $str = str_replace((array)$replace, ' ', $str);
+            $str = str_replace((array) $replace, ' ', $str);
         }
         $str = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
         $str = preg_replace("%[^-/+|\w ]%", '', $str);

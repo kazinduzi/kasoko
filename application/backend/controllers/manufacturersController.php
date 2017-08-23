@@ -39,7 +39,7 @@ class ManufacturersController extends Admin_controller
                 $savemode = $_POST['save_mode'];
                 $data = $_POST['manufacturer'];
                 $manufacturer->name = $data['name'];
-                $manufacturer->slug = \Stringify::slugify($data['name']);
+                $manufacturer->slug = \Helpers\Stringify::slugify($data['name']);
                 $manufacturer->setActive($data['active']);
                 $manufacturer->save();
                 'stay' === $savemode ? redirect('/admin/manufacturers/edit/' . $manufacturer->getId()) : redirect('/admin/manufacturers');
@@ -61,7 +61,7 @@ class ManufacturersController extends Admin_controller
                 $savemode = $_POST['save_mode'];
                 $data = $_POST['manufacturer'];
                 $manufacturer->name = $data['name'];
-                $manufacturer->slug = \Stringify::slugify($data['name']);
+                $manufacturer->slug = \Helpers\Stringify::slugify($data['name']);
                 $manufacturer->setActive($data['active']);
                 $manufacturer->save();
                 'stay' === $savemode ? redirect('/admin/manufacturers/edit/' . $manufacturer->getId()) : redirect('/admin/manufacturers');
@@ -79,10 +79,10 @@ class ManufacturersController extends Admin_controller
         $template->title = $manufacturer->name;
         $template->manufacturer = $manufacturer;
     }
-    
-    public function delete() 
-    {        
-        try{
+
+    public function delete()
+    {
+        try {
             $manufacturer = new Manufacturer($this->getArg(0));
             $manufacturer->delete();
             $this->redirect('/admin/manufacturers');

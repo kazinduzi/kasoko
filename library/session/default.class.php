@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * Description of Session_default
@@ -21,4 +23,5 @@ final class SessionDefault extends Session
         //echo __CLASS__;
         //print_r($this->configs);
     }
+
 }

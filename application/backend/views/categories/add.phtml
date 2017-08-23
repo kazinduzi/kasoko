@@ -1,11 +1,11 @@
 <div class="form-container">    
     <form method="post" action="" class="clearfix">
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
-            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
-            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
-            <a href="/admin/categories" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/categories" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>
-        
+
         <div style="display: inline-block; width:100%;">
             <ul class="nav nav-tabs" id="tabbed-menu" style="">
                 <li class="active"><a href="#general" data-toggle="tab">General description</a></li>
@@ -29,13 +29,13 @@
                     <label for="parent_create" class="control-label">Parent category * :</label>
                     <select id="parent_create" required="required" name="category[parent]" class="form-control">
                         <option value="0">Top level</option>
-                        <?php foreach($categories as $category) :?>
-                        <option value="<?php echo $category->getId();?>"><?php echo $category->name;?></option>
-                        <?php endforeach;?>
+                        <?php foreach ($categories as $category) : ?>
+                            <option value="<?php echo $category->getId(); ?>"><?php echo $category->name; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>                
             </div>
-            
+
             <div class="tab-pane" id="seo">
                 <div class="group-form">
                     <label for="meta_description" class="control-label">Meta Description :</label>
@@ -46,15 +46,15 @@
                     <textarea name="category[meta_keywords]" id="meta_keywords" rows="3" placeholder="Don't repeat keywords over and over in a row. Rather, put in keyword phrases." class="form-control"></textarea>
                 </div>
             </div>
-            
+
             <div class="tab-pane" id="associations">
                 <p>Hello 2</p> 
             </div>
-            
+
             <div class="tab-pane" id="images">
                 <p>Hello 3</p> 
             </div>
-            
+
             <div class="tab-pane" id="visibility">
                 <div class="form-group ">
                     <label for="visible_create" class="control-label">Visibility</label>
@@ -76,11 +76,11 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
-            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
-            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
-            <a href="/admin/categories" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/categories" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>
     </form>
 </div>

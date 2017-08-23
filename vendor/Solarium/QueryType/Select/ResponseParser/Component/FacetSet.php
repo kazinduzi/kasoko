@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -59,6 +60,7 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
  */
 class FacetSet extends ResponseParserAbstract implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -158,7 +160,7 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         if ($query->getResponseWriter() == $query::WT_JSON) {
             $data['facet_counts']['facet_fields'][$key] = $this->convertToKeyValueArray(
-                $data['facet_counts']['facet_fields'][$key]
+                    $data['facet_counts']['facet_fields'][$key]
             );
         }
 
@@ -254,4 +256,5 @@ class FacetSet extends ResponseParserAbstract implements ComponentParserInterfac
 
         return new ResultFacetPivot($data['facet_counts']['facet_pivot'][$key]);
     }
+
 }

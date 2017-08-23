@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\RequestBuilder;
 
 use Solarium\Core\Query\RequestBuilder as BaseRequestBuilder;
@@ -48,6 +49,7 @@ use Solarium\Core\Query\QueryInterface;
  */
 class Document extends BaseRequestBuilder
 {
+
     /**
      * Build request for an analysis document query
      *
@@ -105,4 +107,5 @@ class Document extends BaseRequestBuilder
     {
         return '<field name="' . $name . '">' . htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8') . '</field>';
     }
+
 }

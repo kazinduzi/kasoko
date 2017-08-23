@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * Description of Session_default
@@ -7,19 +9,23 @@
  */
 final class SessionDatabase extends Session
 {
+
     /**
      * @var type
      */
     public $sessionTableName = 'session';
+
     /**
      * @var type
      */
     public $autoCreateSessionTable = true;
+
     /**
      *
      * @var type
      */
     private $db;
+
     /**
      *
      * @var type
@@ -53,7 +59,6 @@ final class SessionDatabase extends Session
         if (!$this->ip) {
             $this->ip = Request::getInstance()->ip_address();
         }
-
     }
 
     /**
@@ -80,7 +85,7 @@ final class SessionDatabase extends Session
         }
         $sql = sprintf("DELETE FROM `%s` WHERE `expire` < %s", $this->sessionTableName, time());
         $this->db->setQuery($sql);
-        return (boolean)$this->db->execute();
+        return (boolean) $this->db->execute();
     }
 
     /**
@@ -182,11 +187,11 @@ final class SessionDatabase extends Session
         }
         // Determine the timestamp threshold with which to purge old sessions.
         $past = time() - $maxLifetime;
-        $sql = sprintf("DELETE FROM `%s` WHERE `expire` < %s", $this->sessionTableName, (int)$past);
+        $sql = sprintf("DELETE FROM `%s` WHERE `expire` < %s", $this->sessionTableName, (int) $past);
         // Remove expired sessions from the database.
         $this->db->setQuery($sql);
         echo $sql;
-        return (boolean)$this->db->execute();
+        return (boolean) $this->db->execute();
     }
 
 }

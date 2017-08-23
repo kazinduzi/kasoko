@@ -1,233 +1,233 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
+ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+ For licensing, see LICENSE.html or http://ckeditor.com/license
+ */
 
-(function()
-{
-	var doc = CKEDITOR.document;
-
-	CKEDITOR.dialog.add( 'templates', function( editor )
+		(function ()
 		{
-			// Constructs the HTML view of the specified templates data.
-			function renderTemplatesList( container, templatesDefinitions )
+			var doc = CKEDITOR.document;
+
+			CKEDITOR.dialog.add('templates', function (editor)
 			{
-				// clear loading wait text.
-				container.setHtml( '' );
-
-				for ( var i = 0, totalDefs = templatesDefinitions.length ; i < totalDefs ; i++ )
+				// Constructs the HTML view of the specified templates data.
+				function renderTemplatesList(container, templatesDefinitions)
 				{
-					var definition = CKEDITOR.getTemplates( templatesDefinitions[ i ] ),
-						imagesPath = definition.imagesPath,
-						templates = definition.templates,
-						count = templates.length;
+					// clear loading wait text.
+					container.setHtml('');
 
-					for ( var j = 0 ; j < count ; j++ )
+					for (var i = 0, totalDefs = templatesDefinitions.length; i < totalDefs; i++)
 					{
-						var template = templates[ j ],
-							item =  createTemplateItem( template, imagesPath );
-						item.setAttribute( 'aria-posinset', j + 1 );
-						item.setAttribute( 'aria-setsize', count );
-						container.append( item );
+						var definition = CKEDITOR.getTemplates(templatesDefinitions[ i ]),
+								imagesPath = definition.imagesPath,
+								templates = definition.templates,
+								count = templates.length;
+
+						for (var j = 0; j < count; j++)
+						{
+							var template = templates[ j ],
+									item = createTemplateItem(template, imagesPath);
+							item.setAttribute('aria-posinset', j + 1);
+							item.setAttribute('aria-setsize', count);
+							container.append(item);
+						}
 					}
 				}
-			}
 
-			function createTemplateItem( template, imagesPath )
-			{
-				var item = CKEDITOR.dom.element.createFromHtml(
-						'<a href="javascript:void(0)" tabIndex="-1" role="option" >' +
-							'<div class="cke_tpl_item"></div>' +
-						'</a>' );
-
-				// Build the inner HTML of our new item DIV.
-				var html = '<table style="width:350px;" class="cke_tpl_preview" role="presentation"><tr>';
-
-				if ( template.image && imagesPath )
-					html += '<td class="cke_tpl_preview_img"><img src="' + CKEDITOR.getUrl( imagesPath + template.image ) + '"' + ( CKEDITOR.env.ie6Compat ? ' onload="this.width=this.width"' : '' ) + ' alt="" title=""></td>';
-
-				html += '<td style="white-space:normal;"><span class="cke_tpl_title">' + template.title + '</span><br/>';
-
-				if ( template.description )
-					html += '<span>' + template.description + '</span>';
-
-				html += '</td></tr></table>';
-
-				item.getFirst().setHtml( html );
-
-				item.on( 'click', function() { insertTemplate( template.html ); } );
-
-				return item;
-			}
-
-			/**
-			 * Insert the specified template content into editor.
-			 * @param {Number} index
-			 */
-			function insertTemplate( html )
-			{
-				var dialog = CKEDITOR.dialog.getCurrent(),
-					isInsert = dialog.getValueOf( 'selectTpl', 'chkInsertOpt' );
-
-				if ( isInsert )
+				function createTemplateItem(template, imagesPath)
 				{
-					// Everything should happen after the document is loaded (#4073).
-					editor.on( 'contentDom', function( evt )
-					{
-						evt.removeListener();
-						dialog.hide();
+					var item = CKEDITOR.dom.element.createFromHtml(
+							'<a href="javascript:void(0)" tabIndex="-1" role="option" >' +
+							'<div class="cke_tpl_item"></div>' +
+							'</a>');
 
-						// Place the cursor at the first editable place.
-						var range = new CKEDITOR.dom.range( editor.document );
-						range.moveToElementEditStart( editor.document.getBody() );
-						range.select( 1 );
-						setTimeout( function()
-						{
-							editor.fire( 'saveSnapshot' );
-						}, 0 );
+					// Build the inner HTML of our new item DIV.
+					var html = '<table style="width:350px;" class="cke_tpl_preview" role="presentation"><tr>';
+
+					if (template.image && imagesPath)
+						html += '<td class="cke_tpl_preview_img"><img src="' + CKEDITOR.getUrl(imagesPath + template.image) + '"' + (CKEDITOR.env.ie6Compat ? ' onload="this.width=this.width"' : '') + ' alt="" title=""></td>';
+
+					html += '<td style="white-space:normal;"><span class="cke_tpl_title">' + template.title + '</span><br/>';
+
+					if (template.description)
+						html += '<span>' + template.description + '</span>';
+
+					html += '</td></tr></table>';
+
+					item.getFirst().setHtml(html);
+
+					item.on('click', function () {
+						insertTemplate(template.html);
 					});
 
-					editor.fire( 'saveSnapshot' );
-					editor.setData( html );
+					return item;
 				}
-				else
+
+				/**
+				 * Insert the specified template content into editor.
+				 * @param {Number} index
+				 */
+				function insertTemplate(html)
 				{
-					editor.insertHtml( html );
-					dialog.hide();
-				}
-			}
+					var dialog = CKEDITOR.dialog.getCurrent(),
+							isInsert = dialog.getValueOf('selectTpl', 'chkInsertOpt');
 
-			function keyNavigation( evt )
-			{
-				var target = evt.data.getTarget(),
-						onList = listContainer.equals( target );
-
-				// Keyboard navigation for template list.
-				if (  onList || listContainer.contains( target ) )
-				{
-					var keystroke = evt.data.getKeystroke(),
-						items = listContainer.getElementsByTag( 'a' ),
-						focusItem;
-
-					if ( items )
+					if (isInsert)
 					{
-						// Focus not yet onto list items?
-						if ( onList )
-							focusItem = items.getItem( 0 );
-						else
+						// Everything should happen after the document is loaded (#4073).
+						editor.on('contentDom', function (evt)
 						{
-							switch ( keystroke )
+							evt.removeListener();
+							dialog.hide();
+
+							// Place the cursor at the first editable place.
+							var range = new CKEDITOR.dom.range(editor.document);
+							range.moveToElementEditStart(editor.document.getBody());
+							range.select(1);
+							setTimeout(function ()
 							{
-								case 40 :					// ARROW-DOWN
-									focusItem = target.getNext();
-									break;
+								editor.fire('saveSnapshot');
+							}, 0);
+						});
 
-								case 38 :					// ARROW-UP
-									focusItem = target.getPrevious();
-									break;
-
-								case 13 :					// ENTER
-								case 32 :					// SPACE
-									target.fire( 'click' );
-							}
-						}
-
-						if ( focusItem )
-						{
-							focusItem.focus();
-							evt.data.preventDefault();
-						}
+						editor.fire('saveSnapshot');
+						editor.setData(html);
+					} else
+					{
+						editor.insertHtml(html);
+						dialog.hide();
 					}
 				}
-			}
 
-			// Load skin at first.
-			CKEDITOR.skins.load( editor, 'templates' );
-
-			var listContainer;
-
-			var templateListLabelId = 'cke_tpl_list_label_' + CKEDITOR.tools.getNextNumber(),
-				lang = editor.lang.templates,
-				config = editor.config;
-			return {
-				title :editor.lang.templates.title,
-
-				minWidth : CKEDITOR.env.ie ? 440 : 400,
-				minHeight : 340,
-
-				contents :
-				[
-					{
-						id :'selectTpl',
-						label : lang.title,
-						elements :
-						[
-							{
-								type : 'vbox',
-								padding : 5,
-								children :
-								[
-									{
-										type : 'html',
-										html :
-											'<span>'  +
-												lang.selectPromptMsg +
-											'</span>'
-									},
-									{
-										id : 'templatesList',
-										type : 'html',
-										focus: true,
-										html :
-											'<div class="cke_tpl_list" tabIndex="-1" role="listbox" aria-labelledby="' + templateListLabelId+ '">' +
-												'<div class="cke_tpl_loading"><span></span></div>' +
-											'</div>' +
-											'<span class="cke_voice_label" id="' + templateListLabelId + '">' + lang.options+ '</span>'
-									},
-									{
-										id : 'chkInsertOpt',
-										type : 'checkbox',
-										label : lang.insertOption,
-										'default' : config.templates_replaceContent
-									}
-								]
-							}
-						]
-					}
-				],
-
-				buttons : [ CKEDITOR.dialog.cancelButton ],
-
-				onShow : function()
+				function keyNavigation(evt)
 				{
-					var templatesListField = this.getContentElement( 'selectTpl' , 'templatesList' );
-					listContainer = templatesListField.getElement();
+					var target = evt.data.getTarget(),
+							onList = listContainer.equals(target);
 
-					CKEDITOR.loadTemplates( config.templates_files, function()
+					// Keyboard navigation for template list.
+					if (onList || listContainer.contains(target))
+					{
+						var keystroke = evt.data.getKeystroke(),
+								items = listContainer.getElementsByTag('a'),
+								focusItem;
+
+						if (items)
 						{
-							var templates = ( config.templates || 'default' ).split( ',' );
-
-							if ( templates.length )
-							{
-								renderTemplatesList( listContainer, templates );
-								templatesListField.focus();
-							}
+							// Focus not yet onto list items?
+							if (onList)
+								focusItem = items.getItem(0);
 							else
 							{
+								switch (keystroke)
+								{
+									case 40 :					// ARROW-DOWN
+										focusItem = target.getNext();
+										break;
+
+									case 38 :					// ARROW-UP
+										focusItem = target.getPrevious();
+										break;
+
+									case 13 :					// ENTER
+									case 32 :					// SPACE
+										target.fire('click');
+								}
+							}
+
+							if (focusItem)
+							{
+								focusItem.focus();
+								evt.data.preventDefault();
+							}
+						}
+					}
+				}
+
+				// Load skin at first.
+				CKEDITOR.skins.load(editor, 'templates');
+
+				var listContainer;
+
+				var templateListLabelId = 'cke_tpl_list_label_' + CKEDITOR.tools.getNextNumber(),
+						lang = editor.lang.templates,
+						config = editor.config;
+				return {
+					title: editor.lang.templates.title,
+
+					minWidth: CKEDITOR.env.ie ? 440 : 400,
+					minHeight: 340,
+
+					contents:
+							[
+								{
+									id: 'selectTpl',
+									label: lang.title,
+									elements:
+											[
+												{
+													type: 'vbox',
+													padding: 5,
+													children:
+															[
+																{
+																	type: 'html',
+																	html:
+																			'<span>' +
+																			lang.selectPromptMsg +
+																			'</span>'
+																},
+																{
+																	id: 'templatesList',
+																	type: 'html',
+																	focus: true,
+																	html:
+																			'<div class="cke_tpl_list" tabIndex="-1" role="listbox" aria-labelledby="' + templateListLabelId + '">' +
+																			'<div class="cke_tpl_loading"><span></span></div>' +
+																			'</div>' +
+																			'<span class="cke_voice_label" id="' + templateListLabelId + '">' + lang.options + '</span>'
+																},
+																{
+																	id: 'chkInsertOpt',
+																	type: 'checkbox',
+																	label: lang.insertOption,
+																	'default': config.templates_replaceContent
+																}
+															]
+												}
+											]
+								}
+							],
+
+					buttons: [CKEDITOR.dialog.cancelButton],
+
+					onShow: function ()
+					{
+						var templatesListField = this.getContentElement('selectTpl', 'templatesList');
+						listContainer = templatesListField.getElement();
+
+						CKEDITOR.loadTemplates(config.templates_files, function ()
+						{
+							var templates = (config.templates || 'default').split(',');
+
+							if (templates.length)
+							{
+								renderTemplatesList(listContainer, templates);
+								templatesListField.focus();
+							} else
+							{
 								listContainer.setHtml(
-									'<div class="cke_tpl_empty">' +
+										'<div class="cke_tpl_empty">' +
 										'<span>' + lang.emptyListMsg + '</span>' +
-									'</div>' );
+										'</div>');
 							}
 						});
 
-					this._.element.on( 'keydown', keyNavigation );
-				},
+						this._.element.on('keydown', keyNavigation);
+					},
 
-				onHide : function()
-				{
-					this._.element.removeListener( 'keydown', keyNavigation );
-				}
-			};
-		});
-})();
+					onHide: function ()
+					{
+						this._.element.removeListener('keydown', keyNavigation);
+					}
+				};
+			});
+		})();

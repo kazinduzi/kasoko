@@ -6,7 +6,7 @@
 					<td width="10" style="color:#333;padding:0"></td>
 					<td align="right" style="color:#333;padding:0">
 						<font size="2" face="Open-sans, sans-serif" color="#555454">
-							<strong>{$cart_rule['voucher_name']}</strong>
+						<strong>{$cart_rule['voucher_name']}</strong>
 						</font>
 					</td>
 					<td width="10" style="color:#333;padding:0"></td>
@@ -19,7 +19,7 @@
 					<td width="10" style="color:#333;padding:0"></td>
 					<td align="right" style="color:#333;padding:0">
 						<font size="2" face="Open-sans, sans-serif" color="#555454">
-							{$cart_rule['voucher_reduction']}
+						{$cart_rule['voucher_reduction']}
 						</font>
 					</td>
 					<td width="10" style="color:#333;padding:0"></td>

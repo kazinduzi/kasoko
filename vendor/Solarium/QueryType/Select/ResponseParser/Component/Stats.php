@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -49,6 +50,7 @@ use Solarium\QueryType\Select\Result\Stats\FacetValue as ResultStatsFacetValue;
  */
 class Stats implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -78,4 +80,5 @@ class Stats implements ComponentParserInterface
 
         return new ResultStats($results);
     }
+
 }

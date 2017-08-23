@@ -71,13 +71,13 @@
         <p>
             <label for="country_id">Country</label><br/>
             <select name="country_id" onchange="populateZonesByCountry(this.value);
-		    return false;" class="form-control">
+					return false;" class="form-control">
                 <option value="">Select the country</option>
                 <?php foreach ($this->countries as $country) : ?>
                     <?php $selected = $country['id'] == $this->shipping_address->country_id ? 'selected="selected"' : null; ?>
                     <option
                         value="<?php echo $country['id'] ?>" <?php echo $selected ?>><?php echo $country['name'] ?></option>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
             </select>
         </p>
         <p>
@@ -88,8 +88,8 @@
                     <?php foreach ($this->zones as $zone) : ?>
                         <option
                             value="<?php echo $zone['id'] ?>" <?php echo($this->zone_id == $zone['id'] ? 'selected="selected"' : '') ?>><?php echo $zone['name'] ?></option>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
             </select>
         </p>
     </div>

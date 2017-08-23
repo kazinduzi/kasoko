@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin;
 
 use Solarium\Client;
@@ -56,6 +57,7 @@ use Solarium\Core\Event\PostCreateRequest as PostCreateRequestEvent;
  */
 class PostBigRequest extends Plugin
 {
+
     /**
      * Default options
      *
@@ -110,7 +112,7 @@ class PostBigRequest extends Plugin
         $request = $event->getRequest();
         $queryString = $request->getQueryString();
         if ($request->getMethod() == Request::METHOD_GET &&
-            strlen($queryString) > $this->getMaxQueryStringLength()) {
+                strlen($queryString) > $this->getMaxQueryStringLength()) {
 
             $request->setMethod(Request::METHOD_POST);
             $request->setRawData($queryString);
@@ -118,4 +120,5 @@ class PostBigRequest extends Plugin
             $request->addHeader('Content-Type: application/x-www-form-urlencoded');
         }
     }
+
 }

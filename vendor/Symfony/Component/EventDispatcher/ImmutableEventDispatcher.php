@@ -18,6 +18,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class ImmutableEventDispatcher implements EventDispatcherInterface
 {
+
     /**
      * The proxied dispatcher.
      * @var EventDispatcherInterface
@@ -89,4 +90,5 @@ class ImmutableEventDispatcher implements EventDispatcherInterface
     {
         return $this->dispatcher->hasListeners($eventName);
     }
+
 }

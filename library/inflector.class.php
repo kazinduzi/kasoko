@@ -1,12 +1,13 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Inflector
 {
+
     // Cached inflections
     protected static $cache = array();
-
     protected static $irregular = array();
-
 
     /**
      * Makes a plural word singular.
@@ -30,7 +31,7 @@ class Inflector
     public static function singular($str, $count = null)
     {
         // $count should always be a float
-        $count = ($count === null) ? 1.0 : (float)$count;
+        $count = ($count === null) ? 1.0 : (float) $count;
 
         // Do nothing when $count is not 1
         if ($count != 1)
@@ -86,7 +87,7 @@ class Inflector
     public static function plural($str, $count = null)
     {
         // $count should always be a float
-        $count = ($count === null) ? 0.0 : (float)$count;
+        $count = ($count === null) ? 0.0 : (float) $count;
 
         // Do nothing with singular
         if ($count == 1)
@@ -116,7 +117,6 @@ class Inflector
         // Set the cache and return
         return Inflector::$cache[$key] = $str;
     }
-
 
     /**
      * Returns given word as CamelCased

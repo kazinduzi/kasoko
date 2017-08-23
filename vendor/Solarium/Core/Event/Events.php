@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\Core\Event;
  */
 class Events
 {
+
     /**
      * The preCreateRequest event is thrown just before a request is created based on a query object, using the
      * requestbuilder.
@@ -138,4 +140,5 @@ class Events
      * @var string
      */
     const POST_CREATE_QUERY = 'solarium.core.postCreateQuery';
+
 }

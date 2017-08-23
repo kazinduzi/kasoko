@@ -49,8 +49,8 @@ class Security
      */
     public static function compareStrings($expected, $actual)
     {
-        $expected = (string)$expected;
-        $actual = (string)$actual;
+        $expected = (string) $expected;
+        $actual = (string) $actual;
         $lenExpected = strlen($expected);
         $lenActual = strlen($actual);
         $len = min($lenExpected, $lenActual);
@@ -75,7 +75,7 @@ class Security
     {
         $session = Session::instance();
         $token = $session->get(self::$token_name);
-        $isExpired = (time() - (int)$session->get('token_expiration_time')) > 0 ? true : false;
+        $isExpired = (time() - (int) $session->get('token_expiration_time')) > 0 ? true : false;
         if ($new === true || !$token || $isExpired) {
             $token = self::generateToken();
             $session->set(self::$token_name, $token);

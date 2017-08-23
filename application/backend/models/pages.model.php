@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Description of Page
@@ -7,7 +9,9 @@
  */
 class Pages extends Model
 {
+
     const MODEL_TABLE = 'pages';
+
     public static $current_page;
     public static $current_module;
     public $table = self::MODEL_TABLE;
@@ -20,7 +24,6 @@ class Pages extends Model
      * @throws Exception
      * @internal param array|id $value
      */
-
     public function __construct($id = null)
     {
         parent::__construct($id);
@@ -33,7 +36,6 @@ class Pages extends Model
             $instance = new self;
         }
         return $instance;
-
     }
 
     /**
@@ -90,9 +92,9 @@ class Pages extends Model
     {
 
         foreach (parent::find($this->table, array("WHERE" => "parent_id = 0 AND visible != 'no' AND visible_in_menu = true", "ORDERBY" => "position ASC")) as $page) {
-            $pages[] = (object)$page;
+            $pages[] = (object) $page;
         }
-        return (array)$pages;
+        return (array) $pages;
     }
 
     /**
@@ -110,7 +112,7 @@ class Pages extends Model
             }
             $main_pages[] = $mainpage;
         }
-        return (array)$main_pages;
+        return (array) $main_pages;
     }
 
     /**

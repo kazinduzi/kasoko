@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\QueryType\Select\Query\Component\FacetSet;
@@ -48,6 +49,7 @@ use Solarium\Core\Query\Helper;
  */
 class Query extends Facet
 {
+
     /**
      * Default options
      *
@@ -95,4 +97,5 @@ class Query extends Facet
     {
         return $this->getOption('query');
     }
+
 }

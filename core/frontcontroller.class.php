@@ -114,7 +114,7 @@ class FrontController
         if (isset($routeParts) && !empty($routeParts[0])) {
             $this->action = $routeParts[0];
             array_shift($routeParts);
-            $this->args = (array)$routeParts;
+            $this->args = (array) $routeParts;
         }
 
         #########################################################################################

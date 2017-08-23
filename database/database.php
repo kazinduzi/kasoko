@@ -9,115 +9,136 @@ class Database extends DbActiveRecord
      * @var type
      */
     public static $db = false;
+
     /**
      * The DB singleton object to be held statically
      *
      * @var object instance for database class
      */
     protected static $instance, $instances = array();
+
     /**
      * Inserted record
      *
      * @var integer
      */
     public $inserted = 0;
+
     /**
      * The DB driver name
      *
      * @var string
      */
     public $name = '';
+
     /**
      *
      * @var string
      */
     public $sql;
+
     /**
      * The database link identifier
      *
      * @var mixed
      */
     protected $conn = false;
+
     /**
      * The null date string
      * @var string
      */
     protected $nullDate = '';
+
     /**
      * The debug level (0 = off, 1 = on)
      */
     protected $debug = 0;
+
     /**
      * The number of queries performed by the object instance
      *
      * @var int
      */
     protected $ticker = 0;
+
     /**
      * A log of queries
      *
      * @var array
      */
     protected $log = array();
+
     /**
      * The database error number
      *
      * @var int
      */
     protected $errorNum = 0;
+
     /**
      * The database error message
      *
      * @var string
      */
     protected $errorMsg = '';
+
     /**
      * The limit for the query
      *
      * @var int
      */
     protected $limit = 0;
+
     /**
      * The for offset for the limit
      *
      * @var int
      */
     protected $offset = 0;
+
     /**
      * All queries will be kept here @var type array() of queries as array
      */
     protected $queries = array();
+
     /**
      * Fields to be quoted @var array Array of fields that are going to be quoted
      */
     protected $quoted = false;
+
     /**
      * Legacy compatibility
      * @var bool
      */
     protected $hasQuoted = false;
+
     /**
      * UTF-8 support
      *
      * @var boolean
      */
     protected $utf = false;
+
     /**
      *  Cfg data to be used for the DB object @var array
      */
     protected $config = array();
+
     /**
      * The last query cursor
      *
      * @var resource
      */
     protected $cursor = false;
+
     /**
      * The query result from quering db
      *
      * @var resource
      */
     protected $result = false;
+
     /**
      * parameter to hold the DB driver object @var Object for the specific driver class
      */
@@ -188,7 +209,7 @@ class Database extends DbActiveRecord
      */
     public function debug($level)
     {
-        $this->debug = (int)$level;
+        $this->debug = (int) $level;
     }
 
     /**
@@ -199,7 +220,7 @@ class Database extends DbActiveRecord
      */
     public function connected()
     {
-
+        
     }
 
     /**
@@ -211,7 +232,7 @@ class Database extends DbActiveRecord
         if (is_string($fields)) {
             $this->quoted[] = $fields;
         } else {
-            $this->quoted = array_merge($this->quoted, (array)$fields);
+            $this->quoted = array_merge($this->quoted, (array) $fields);
         }
         $this->hasQuoted = true;
     }
@@ -272,7 +293,7 @@ class Database extends DbActiveRecord
      */
     public function execute()
     {
-
+        
     }
 
     /**
@@ -300,7 +321,7 @@ class Database extends DbActiveRecord
      */
     public function buildQuery()
     {
-        $this->setQuery((string)$this);
+        $this->setQuery((string) $this);
         return $this;
     }
 
@@ -318,9 +339,9 @@ class Database extends DbActiveRecord
      */
     public function setQuery($query, $offset = 0, $limit = 0)
     {
-        $this->sql = (string)$query;
-        $this->limit = (int)$limit;
-        $this->offset = (int)$offset;
+        $this->sql = (string) $query;
+        $this->limit = (int) $limit;
+        $this->offset = (int) $offset;
         return $this;
     }
 
@@ -342,7 +363,7 @@ class Database extends DbActiveRecord
     public function getQueryString()
     {
         if (empty($this->sql)) {
-            $this->setQuery((string)$this);
+            $this->setQuery((string) $this);
         }
         return $this->sql;
     }
@@ -521,7 +542,7 @@ class Database extends DbActiveRecord
      */
     protected function enabled()
     {
-
+        
     }
 
     /**
@@ -532,7 +553,7 @@ class Database extends DbActiveRecord
      */
     protected function reconnect()
     {
-
+        
     }
 
     /**
@@ -540,7 +561,7 @@ class Database extends DbActiveRecord
      */
     private final function __clone()
     {
-
+        
     }
 
 }

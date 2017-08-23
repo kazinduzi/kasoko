@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\RealtimeGet;
 
 use Solarium\QueryType\Select\Result\Result as BaseResult;
@@ -48,6 +49,7 @@ use Solarium\QueryType\Select\Result\DocumentInterface;
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
+
     /**
      * Get first document in set
      *
@@ -58,4 +60,5 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
         $docs = $this->getDocuments();
         return reset($docs);
     }
+
 }

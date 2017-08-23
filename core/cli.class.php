@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Helper functions for working in a command-line environment.
@@ -6,6 +8,7 @@
  */
 class Cli
 {
+
     /**
      * Returns one or more command-line options. Options are specified using
      * standard CLI syntax:
@@ -35,7 +38,7 @@ class Cli
             // Remove the "--" prefix
             $opt = substr($opt, 2);
             if (strpos($opt, '=')) {
-                list ($opt, $value) = explode('=', $opt, 2);// Separate the name and value
+                list ($opt, $value) = explode('=', $opt, 2); // Separate the name and value
             } else {
                 $value = null;
             }
@@ -45,4 +48,5 @@ class Cli
         }
         return $values;
     }
+
 }

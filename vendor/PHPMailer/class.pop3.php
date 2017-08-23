@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPMailer POP-Before-SMTP Authentication Class.
  * PHP Version 5
@@ -29,28 +30,33 @@
  */
 class POP3
 {
+
     /**
      * Line break constant
      */
     const CRLF = "\r\n";
+
     /**
      * The POP3 PHPMailer Version number.
      * @type string
      * @access public
      */
     public $Version = '5.2.8';
+
     /**
      * Default POP3 port number.
      * @type integer
      * @access public
      */
     public $POP3_PORT = 110;
+
     /**
      * Default timeout in seconds.
      * @type integer
      * @access public
      */
     public $POP3_TIMEOUT = 30;
+
     /**
      * POP3 Carriage Return + Line Feed.
      * @type string
@@ -58,6 +64,7 @@ class POP3
      * @deprecated Use the constant instead
      */
     public $CRLF = "\r\n";
+
     /**
      * Debug display level.
      * Options: 0 = no, 1+ = yes
@@ -65,48 +72,56 @@ class POP3
      * @access public
      */
     public $do_debug = 0;
+
     /**
      * POP3 mail server hostname.
      * @type string
      * @access public
      */
     public $host;
+
     /**
      * POP3 port number.
      * @type integer
      * @access public
      */
     public $port;
+
     /**
      * POP3 Timeout Value in seconds.
      * @type integer
      * @access public
      */
     public $tval;
+
     /**
      * POP3 username
      * @type string
      * @access public
      */
     public $username;
+
     /**
      * POP3 password.
      * @type string
      * @access public
      */
     public $password;
+
     /**
      * Resource handle for the POP3 connection socket.
      * @type resource
      * @access private
      */
     private $pop_conn;
+
     /**
      * Are we connected?
      * @type boolean
      * @access private
      */
     private $connected = false;
+
     /**
      * Error container.
      * @type array
@@ -125,12 +140,7 @@ class POP3
      * @return boolean
      */
     public static function popBeforeSmtp(
-        $host,
-        $port = false,
-        $tval = false,
-        $username = '',
-        $password = '',
-        $debug_level = 0
+    $host, $port = false, $tval = false, $username = '', $password = '', $debug_level = 0
     )
     {
         $pop = new POP3;
@@ -157,13 +167,13 @@ class POP3
         if ($port === false) {
             $this->port = $this->POP3_PORT;
         } else {
-            $this->port = (integer)$port;
+            $this->port = (integer) $port;
         }
         // If no timeout value provided, use default
         if ($timeout === false) {
             $this->tval = $this->POP3_TIMEOUT;
         } else {
-            $this->tval = (integer)$timeout;
+            $this->tval = (integer) $timeout;
         }
         $this->do_debug = $debug_level;
         $this->username = $username;
@@ -209,11 +219,11 @@ class POP3
 
         //  connect to the POP3 server
         $this->pop_conn = fsockopen(
-            $host, //  POP3 Host
-            $port, //  Port #
-            $errno, //  Error Number
-            $errstr, //  Error Message
-            $tval
+                $host, //  POP3 Host
+                $port, //  Port #
+                $errno, //  Error Number
+                $errstr, //  Error Message
+                $tval
         ); //  Timeout (seconds)
         //  Restore the error handler
         restore_error_handler();
@@ -382,4 +392,5 @@ class POP3
             'errline' => $errline
         ));
     }
+
 }

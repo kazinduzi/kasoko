@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Highlighting;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -51,6 +52,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Highlighting extends Component
 {
+
     /**
      * Value for fragmenter option gap
      */
@@ -175,7 +177,7 @@ class Highlighting extends Component
         // validate field
         if ($field->getName() === null) {
             throw new InvalidArgumentException(
-                'To add a highlighting field it needs to have at least a "name" setting'
+            'To add a highlighting field it needs to have at least a "name" setting'
             );
         }
 
@@ -901,4 +903,5 @@ class Highlighting extends Component
     {
         return $this->getOption('boundaryscannercountry');
     }
+
 }

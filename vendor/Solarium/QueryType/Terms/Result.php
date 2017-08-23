@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
@@ -45,6 +46,7 @@ use Solarium\Core\Query\Result\QueryType as BaseResult;
  */
 class Result extends BaseResult implements \IteratorAggregate, \Countable
 {
+
     /**
      * Status code returned by Solr
      *
@@ -150,4 +152,5 @@ class Result extends BaseResult implements \IteratorAggregate, \Countable
 
         return count($this->results);
     }
+
 }

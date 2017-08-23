@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Stats;
 
 use Solarium\Core\Configurable;
@@ -45,6 +46,7 @@ use Solarium\Core\Configurable;
  */
 class Field extends Configurable
 {
+
     /**
      * Field facets (for stats)
      *
@@ -179,4 +181,5 @@ class Field extends Configurable
 
         return $this;
     }
+
 }

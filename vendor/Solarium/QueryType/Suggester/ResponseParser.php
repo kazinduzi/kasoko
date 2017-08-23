@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
  * All rights reserved.
@@ -33,10 +34,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester;
 
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
@@ -48,6 +49,7 @@ use Solarium\QueryType\Suggester\Result\Result;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
+
     /**
      * Get result data for the response
      *
@@ -75,21 +77,18 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
                     $collation = $termData;
                 } else {
                     $suggestions[$term] = new $termClass(
-                        $termData['numFound'],
-                        $termData['startOffset'],
-                        $termData['endOffset'],
-                        $termData['suggestion']
+                            $termData['numFound'], $termData['startOffset'], $termData['endOffset'], $termData['suggestion']
                     );
                 }
             }
         }
 
         return $this->addHeaderInfo(
-            $data,
-            array(
-                'results' => $suggestions,
-                'collation' => $collation,
-            )
+                        $data, array(
+                    'results' => $suggestions,
+                    'collation' => $collation,
+                        )
         );
     }
+
 }

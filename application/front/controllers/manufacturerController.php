@@ -16,7 +16,7 @@ class ManufacturerController extends BaseController
 
     public function index()
     {
-
+        
     }
 
     public function viewProducts()

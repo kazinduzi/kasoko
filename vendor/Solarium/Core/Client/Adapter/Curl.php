@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Configurable;
@@ -53,6 +54,7 @@ use Solarium\Exception\HttpException;
  */
 class Curl extends Configurable implements AdapterInterface
 {
+
     /**
      * Initialization hook
      *
@@ -114,7 +116,7 @@ class Curl extends Configurable implements AdapterInterface
             $data = $httpResponse;
             $info = curl_getinfo($handle);
             $headers = array();
-            $headers[] = 'HTTP/1.1 ' . $info['http_code']. ' OK';
+            $headers[] = 'HTTP/1.1 ' . $info['http_code'] . ' OK';
         } else {
             $headers = array();
             $data = '';
@@ -163,7 +165,7 @@ class Curl extends Configurable implements AdapterInterface
         }
 
         if (!empty($authData['username']) && !empty($authData['password'])) {
-            curl_setopt($handler, CURLOPT_USERPWD, $authData['username']. ':' . $authData['password']);
+            curl_setopt($handler, CURLOPT_USERPWD, $authData['username'] . ':' . $authData['password']);
             curl_setopt($handler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
 
@@ -178,7 +180,7 @@ class Curl extends Configurable implements AdapterInterface
         if ($method == Request::METHOD_POST) {
             curl_setopt($handler, CURLOPT_POST, true);
             if ($request->getFileUpload()) {
-                curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@'.$request->getFileUpload()));
+                curl_setopt($handler, CURLOPT_POSTFIELDS, array('content' => '@' . $request->getFileUpload()));
             } else {
                 curl_setopt($handler, CURLOPT_POSTFIELDS, $request->getRawData());
             }
@@ -232,7 +234,8 @@ class Curl extends Configurable implements AdapterInterface
         // if there is no data and there are no headers it's a total failure,
         // a connection to the host was impossible.
         if (empty($data) && count($headers) == 0) {
-            throw new HttpException('HTTP request failed, '.curl_error($handle));
+            throw new HttpException('HTTP request failed, ' . curl_error($handle));
         }
     }
+
 }

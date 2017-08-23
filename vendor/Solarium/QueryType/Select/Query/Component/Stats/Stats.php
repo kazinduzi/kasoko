@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Stats;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -51,6 +52,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Stats extends Component
 {
+
     /**
      * Stats facets for all fields
      *
@@ -358,4 +360,5 @@ class Stats extends Component
 
         return $this;
     }
+
 }

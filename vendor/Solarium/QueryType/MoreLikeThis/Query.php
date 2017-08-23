@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer.
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
@@ -35,10 +36,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -55,23 +56,24 @@ use Solarium\QueryType\MoreLikeThis\RequestBuilder as RequestBuilder;
  */
 class Query extends SelectQuery
 {
+
     /**
      * Default options
      *
      * @var array
      */
     protected $options = array(
-        'handler'       => 'mlt',
-        'resultclass'   => 'Solarium\QueryType\MoreLikeThis\Result',
+        'handler' => 'mlt',
+        'resultclass' => 'Solarium\QueryType\MoreLikeThis\Result',
         'documentclass' => 'Solarium\QueryType\Select\Result\Document',
-        'query'         => '*:*',
-        'start'         => 0,
-        'rows'          => 10,
-        'fields'        => '*,score',
+        'query' => '*:*',
+        'start' => 0,
+        'rows' => 10,
+        'fields' => '*,score',
         'interestingTerms' => 'none',
-        'matchinclude'  => false,
-        'stream'        => false,
-        'omitheader'    => true,
+        'matchinclude' => false,
+        'stream' => false,
+        'omitheader' => true,
     );
 
     /**
@@ -410,4 +412,5 @@ class Query extends SelectQuery
 
         return $value;
     }
+
 }

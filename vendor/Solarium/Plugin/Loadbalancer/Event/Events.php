@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\Loadbalancer\Event;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\Plugin\Loadbalancer\Event;
  */
 class Events
 {
+
     /**
      * This event is called after and endpoint has failed.
      *
@@ -51,4 +53,5 @@ class Events
      * @var string
      */
     const ENDPOINT_FAILURE = 'solarium.loadbalancer.endpointFailure';
+
 }

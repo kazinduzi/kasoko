@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser;
 
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
@@ -49,6 +50,7 @@ use Solarium\QueryType\Select\Query\Query;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
+
     /**
      * Get result data for the response
      *
@@ -69,7 +71,7 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         $documentClass = $query->getOption('documentclass');
         $classes = class_implements($documentClass);
         if (!in_array('Solarium\QueryType\Select\Result\DocumentInterface', $classes) &&
-            !in_array('Solarium\QueryType\Update\Query\Document\DocumentInterface', $classes)
+                !in_array('Solarium\QueryType\Update\Query\Document\DocumentInterface', $classes)
         ) {
             throw new RuntimeException('The result document class must implement a document interface');
         }
@@ -98,12 +100,12 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
         }
 
         return $this->addHeaderInfo(
-            $data,
-            array(
-                'numfound' => $numFound,
-                'documents' => $documents,
-                'components' => $components
-            )
+                        $data, array(
+                    'numfound' => $numFound,
+                    'documents' => $documents,
+                    'components' => $components
+                        )
         );
     }
+
 }

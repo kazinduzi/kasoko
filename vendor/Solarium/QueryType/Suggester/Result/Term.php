@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester\Result;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\QueryType\Suggester\Result;
  */
 class Term implements \IteratorAggregate, \Countable
 {
+
     /**
      * NumFound
      *
@@ -146,4 +148,5 @@ class Term implements \IteratorAggregate, \Countable
     {
         return count($this->suggestions);
     }
+
 }

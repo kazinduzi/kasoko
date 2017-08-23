@@ -2,6 +2,7 @@
 
 class AccountOrder extends Model
 {
+
     const TABLE_ORDER = 'order';
     const TABLE_ORDER_DETAIL = 'order_detail';
     const PRIMARY_KEY = 'order_id';
@@ -9,7 +10,6 @@ class AccountOrder extends Model
     protected $table = self::TABLE_ORDER;
     protected $pk = self::PRIMARY_KEY;
     protected $items = array();
-
 
     /**
      * Get orders by accountId
@@ -19,7 +19,7 @@ class AccountOrder extends Model
      */
     public function getByCustomer($customerId)
     {
-        return $this->findAll('customer_id=' . (int)$customerId);
+        return $this->findAll('customer_id=' . (int) $customerId);
     }
 
     /**
@@ -33,4 +33,5 @@ class AccountOrder extends Model
         $this->getDbo()->clear()->setQuery($sql);
         return $this->items = $this->getDbo()->fetchObjectList();
     }
+
 }

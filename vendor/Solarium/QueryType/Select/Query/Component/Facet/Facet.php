@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\Core\Configurable;
@@ -47,6 +48,7 @@ use Solarium\Core\Configurable;
  */
 abstract class Facet extends Configurable
 {
+
     /**
      * Exclude tags for this facet
      *
@@ -183,4 +185,5 @@ abstract class Facet extends Configurable
         $this->clearExcludes();
         $this->addExcludes($excludes);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Highlighting;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\QueryType\Select\Result\Highlighting;
  */
 class Result implements \IteratorAggregate, \Countable
 {
+
     /**
      * Fields array
      *
@@ -104,4 +106,5 @@ class Result implements \IteratorAggregate, \Countable
     {
         return count($this->fields);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\Loadbalancer\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -47,6 +48,7 @@ use Solarium\Exception\HttpException;
  */
 class EndpointFailure extends Event
 {
+
     /**
      * @var Endpoint
      */
@@ -84,4 +86,5 @@ class EndpointFailure extends Event
     {
         return $this->exception;
     }
+
 }

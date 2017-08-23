@@ -90,7 +90,6 @@ class Product extends Model
             'foreign_key' => 'product_id',
             'far_key' => 'category_id'
         ),
-
         /**
          * Simple HAS-MANY, without join through table, @see \Model::_get()
          */
@@ -98,15 +97,13 @@ class Product extends Model
             'model' => '\\models\\Product\\AttributeValue',
             //'through' => 'product_attributes',
             'foreign_key' => 'product_id',
-            //'far_key' => 'attribute_id'
+        //'far_key' => 'attribute_id'
         ),
-
         'product_attribute_configurations' => [
             'model' => '\\models\\Product\\ProductAttributeConfiguration',
             'foreign_key' => 'product_id',
         ],
     );
-
     public $belongsTo = array(
         'manufacturer' => array(
             'model' => '\\models\\Manufacturer\\Manufacturer',
@@ -164,7 +161,7 @@ class Product extends Model
             $this->getDbo()->autocommit(false);
             try {
                 foreach ($this->categories as $categoryId) {
-                    $this->getDbo()->setQuery(sprintf("INSERT INTO `category_product` SET `category_id` = %d, `product_id` = %d;", (int)$categoryId, $this->getId()));
+                    $this->getDbo()->setQuery(sprintf("INSERT INTO `category_product` SET `category_id` = %d, `product_id` = %d;", (int) $categoryId, $this->getId()));
                     $this->getDbo()->execute();
                 }
                 $this->getDbo()->commit();
@@ -222,7 +219,6 @@ class Product extends Model
         }
     }
 
-
     /**
      * @return $this
      */
@@ -262,8 +258,8 @@ class Product extends Model
             foreach ($data as $attrId) {
                 $attrValue = new \models\Product\AttributeValue();
                 $attrValue->product_id = $this->getId();
-                $attrValue->price_impact = isset($impactPrice[$attrId]) ? (float)$impactPrice[$attrId] :  0.00;
-                $attrValue->quantity_impact = isset($impactQuantity[$attrId]) ? (float)$impactQuantity[$attrId] :  0.00;
+                $attrValue->price_impact = isset($impactPrice[$attrId]) ? (float) $impactPrice[$attrId] : 0.00;
+                $attrValue->quantity_impact = isset($impactQuantity[$attrId]) ? (float) $impactQuantity[$attrId] : 0.00;
                 $attrValue->save();
             }
         }
@@ -285,7 +281,7 @@ class Product extends Model
      */
     public static function getLatest($limit = self::LIMIT_DEFAULT)
     {
-        return self::model()->findBySql(sprintf("SELECT * FROM `product` ORDER BY `product_id` DESC LIMIT 0, %d;", (int)$limit));
+        return self::model()->findBySql(sprintf("SELECT * FROM `product` ORDER BY `product_id` DESC LIMIT 0, %d;", (int) $limit));
     }
 
     /**
@@ -384,7 +380,7 @@ class Product extends Model
         $this->getDbo()->query(sprintf("SELECT `pr`.`related_id` FROM `product_related` AS `pr` WHERE `pr`.`product_id` = %d", $this->getId()));
         $related = null;
         foreach ($this->getDbo()->fetchAssocList() as $relatedId) {
-            $related[] = new static((int)$relatedId);
+            $related[] = new static((int) $relatedId);
         }
         return $related;
     }
@@ -412,7 +408,6 @@ class Product extends Model
     public function getProductAttributes()
     {
         return $this->attributeValues;
-
     }
 
     /**
@@ -422,7 +417,7 @@ class Product extends Model
     {
         $productAttributeConfigurations = [];
         if (count($this->getProductAttributes())) {
-            foreach($this->getProductAttributes() as $productAttribute) {
+            foreach ($this->getProductAttributes() as $productAttribute) {
                 $productAttributeConfigurations[] = $productAttribute->getProductAttributeConfigurations();
             }
         }

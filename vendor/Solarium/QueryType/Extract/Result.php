@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Extract;
 
 use Solarium\QueryType\Update\Result as UpdateResult;
@@ -46,5 +47,5 @@ use Solarium\QueryType\Update\Result as UpdateResult;
  */
 class Result extends UpdateResult
 {
-
+    
 }

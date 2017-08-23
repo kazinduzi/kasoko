@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Configurable;
@@ -49,6 +50,7 @@ use Solarium\Exception\HttpException;
  */
 class Http extends Configurable implements AdapterInterface
 {
+
     /**
      * Handle Solr communication
      *
@@ -97,29 +99,23 @@ class Http extends Configurable implements AdapterInterface
     {
         $method = $request->getMethod();
         $context = stream_context_create(
-            array('http' => array(
-                'method' => $method,
-                'timeout' => $endpoint->getTimeout()
-            ))
+                array('http' => array(
+                        'method' => $method,
+                        'timeout' => $endpoint->getTimeout()
+                    ))
         );
 
         if ($method == Request::METHOD_POST) {
             if ($request->getFileUpload()) {
                 stream_context_set_option(
-                    $context,
-                    'http',
-                    'content',
-                    file_get_contents($request->getFileUpload())
+                        $context, 'http', 'content', file_get_contents($request->getFileUpload())
                 );
                 $request->addHeader('Content-Type: multipart/form-data');
             } else {
                 $data = $request->getRawData();
                 if (null !== $data) {
                     stream_context_set_option(
-                        $context,
-                        'http',
-                        'content',
-                        $data
+                            $context, 'http', 'content', $data
                     );
 
                     $request->addHeader('Content-Type: text/xml; charset=UTF-8');
@@ -135,17 +131,14 @@ class Http extends Configurable implements AdapterInterface
 
         if (!empty($authData['username']) && !empty($authData['password'])) {
             $request->addHeader(
-                'Authorization: Basic ' . base64_encode($authData['username'] . ':' . $authData['password'])
+                    'Authorization: Basic ' . base64_encode($authData['username'] . ':' . $authData['password'])
             );
         }
 
         $headers = $request->getHeaders();
         if (count($headers) > 0) {
             stream_context_set_option(
-                $context,
-                'http',
-                'header',
-                implode("\r\n", $headers)
+                    $context, 'http', 'header', implode("\r\n", $headers)
             );
         }
 
@@ -173,4 +166,5 @@ class Http extends Configurable implements AdapterInterface
         return array($data, $headers);
         // @codeCoverageIgnoreEnd
     }
+
 }

@@ -69,18 +69,18 @@
         </div>
     </form>
     <script type="text/javascript">
-        //<![CDATA[
-        function setPasswordForm(cheched) {
-            if (cheched) {
-                $('#current_password').closest('#password_fieldset').show();
-            } else {
-                $('#password_fieldset').closest('#password_fieldset').hide();
-            }
-        }
-        <?php if ($this->changepassword): ?>
-        setPasswordForm(true);
-        <?php endif; ?>
-        //]]>
+		//<![CDATA[
+		function setPasswordForm(cheched) {
+			if (cheched) {
+				$('#current_password').closest('#password_fieldset').show();
+			} else {
+				$('#password_fieldset').closest('#password_fieldset').hide();
+			}
+		}
+<?php if ($this->changepassword): ?>
+    		setPasswordForm(true);
+<?php endif; ?>
+		//]]>
     </script>
 </div>
 

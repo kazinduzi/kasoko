@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result;
 
 use Solarium\Exception\RuntimeException;
@@ -48,6 +49,7 @@ use Solarium\Exception\RuntimeException;
  */
 class Document extends AbstractDocument implements DocumentInterface
 {
+
     /**
      * All fields in this document
      *
@@ -80,4 +82,5 @@ class Document extends AbstractDocument implements DocumentInterface
     {
         throw new RuntimeException('A readonly document cannot be altered');
     }
+
 }

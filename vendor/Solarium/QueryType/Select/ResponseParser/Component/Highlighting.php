@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -48,6 +49,7 @@ use Solarium\QueryType\Select\Result\Highlighting\Result;
  */
 class Highlighting implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -64,11 +66,12 @@ class Highlighting implements ComponentParserInterface
             $highlightResults = $data['highlighting'];
             foreach ($highlightResults as $key => $result) {
                 $results[$key] = new Result(
-                    $result
+                        $result
                 );
             }
         }
 
         return new HighlightingResult($results);
     }
+
 }

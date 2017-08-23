@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
  * All rights reserved.
@@ -33,10 +34,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\Configurable;
@@ -54,6 +55,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class PeclHttp extends Configurable implements AdapterInterface
 {
+
     /**
      * Initialization hook
      *
@@ -91,8 +93,7 @@ class PeclHttp extends Configurable implements AdapterInterface
         }
 
         return new Response(
-            $httpMessage->getBody(),
-            $this->toRawHeaders($httpMessage)
+                $httpMessage->getBody(), $this->toRawHeaders($httpMessage)
         );
     }
 
@@ -115,8 +116,8 @@ class PeclHttp extends Configurable implements AdapterInterface
     protected function toRawHeaders($message)
     {
         $headers[] = 'HTTP/' . $message->getHttpVersion()
-                   . ' ' . $message->getResponseCode()
-                   . ' ' . $message->getResponseStatus();
+                . ' ' . $message->getResponseCode()
+                . ' ' . $message->getResponseStatus();
 
         foreach ($message->getHeaders() as $header => $value) {
             $headers[] = "$header: $value";
@@ -158,7 +159,7 @@ class PeclHttp extends Configurable implements AdapterInterface
         }
 
         if (!empty($authData['username']) && !empty($authData['password'])) {
-            $headers['Authorization'] = 'Basic ' . base64_encode($authData['username']. ':' . $authData['password']);
+            $headers['Authorization'] = 'Basic ' . base64_encode($authData['username'] . ':' . $authData['password']);
         }
 
         switch ($request->getMethod()) {
@@ -169,9 +170,7 @@ class PeclHttp extends Configurable implements AdapterInterface
                 $method = HTTP_METH_POST;
                 if ($request->getFileUpload()) {
                     $httpRequest->addPostFile(
-                        'content',
-                        $request->getFileUpload(),
-                        'application/octet-stream; charset=binary'
+                            'content', $request->getFileUpload(), 'application/octet-stream; charset=binary'
                     );
                 } else {
                     $httpRequest->setBody($request->getRawData());
@@ -185,7 +184,7 @@ class PeclHttp extends Configurable implements AdapterInterface
                 break;
             default:
                 throw new InvalidArgumentException(
-                    'Unsupported method: ' . $request->getMethod()
+                'Unsupported method: ' . $request->getMethod()
                 );
         }
 
@@ -195,4 +194,5 @@ class PeclHttp extends Configurable implements AdapterInterface
 
         return $httpRequest;
     }
+
 }

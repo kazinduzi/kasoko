@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /*
  * To change this template, choose Tools | Templates
@@ -17,14 +19,17 @@ final class Config implements ArrayAccess
      * @staticvar For multiple instances of Config class
      */
     protected static $instances = array();
+
     /**
      * @staticvar For one configuration file to be loaded
      */
     protected static $instance = array();
+
     /**
      * @var $paths folders where the configs are stored
      */
     protected $paths = array(APP_PATH, KAZINDUZI_PATH);
+
     /**
      * @var $config variable to hold the configuration data
      */
@@ -37,7 +42,6 @@ final class Config implements ArrayAccess
         }
         // Try loading config data according to the provided configuration group
         $this->load($group);
-
     }
 
     public function load($filename)
@@ -46,8 +50,8 @@ final class Config implements ArrayAccess
         foreach ($this->paths as $path) {
             if (file_exists($file = $path . DS . 'configs' . DS . $filename . EXT)) {
                 require $file;
-                $this->config =& $config;
-                unset ($config);
+                $this->config = & $config;
+                unset($config);
             }
         }
     }
@@ -63,7 +67,8 @@ final class Config implements ArrayAccess
     public static function instance()
     {
         $groups = func_get_args();
-        if ($groups == array()) $groups = array('main');
+        if ($groups == array())
+            $groups = array('main');
         foreach ($groups as $key => $grp) {
             if (empty(self::$instance[$grp])) {
                 // We create a new instance of Config
@@ -94,7 +99,7 @@ final class Config implements ArrayAccess
         if ($groups == array())
             $groups = array('main');
         foreach ($groups as $key => $grp) {
-            if (is_array($grp) AND !empty($grp)) {
+            if (is_array($grp) AND ! empty($grp)) {
                 foreach ($grp as $key => $grp) {
                     if (empty(self::$instances[$grp])) {
                         // We create a new instance of Config
@@ -130,7 +135,7 @@ final class Config implements ArrayAccess
 
     public function as_array()
     {
-        return (array)$this->config;
+        return (array) $this->config;
     }
 
     /**
@@ -147,17 +152,19 @@ final class Config implements ArrayAccess
         return $this->offsetExists($key) ? $this->offsetGet($key) : $default;
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function offsetExists($offset)
     {
         return isset($this->config[$offset]);
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function offsetGet($offset)
     {
         return isset($this->config[$offset]) ? $this->config[$offset] : null;
@@ -178,9 +185,10 @@ final class Config implements ArrayAccess
         return $this;
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -190,13 +198,13 @@ final class Config implements ArrayAccess
         }
     }
 
-    /***
+    /*     * *
      *
      */
+
     public function offsetUnset($offset)
     {
         unset($this->config[$offset]);
     }
-
 
 }

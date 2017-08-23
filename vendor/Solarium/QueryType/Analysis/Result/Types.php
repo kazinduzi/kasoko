@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\QueryType\Analysis\Result;
  */
 class Types extends ResultList
 {
+
     /**
      * List items
      *
@@ -81,4 +83,5 @@ class Types extends ResultList
 
         return null;
     }
+
 }

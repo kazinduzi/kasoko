@@ -15,7 +15,6 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
 
     public $objectArray = Array();
 
-
     public function doSomething()
     {
         echo "I'm doing something";
@@ -25,25 +24,31 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
 
     public function &offsetGet($offset)
     {
-        if ($this->offsetExists($offset)) return $this->objectArray[$offset];
-        else return (false);
+        if ($this->offsetExists($offset))
+            return $this->objectArray[$offset];
+        else
+            return (false);
     }
 
     public function offsetExists($offset)
     {
-        if (isset($this->objectArray[$offset])) return true;
-        else return false;
+        if (isset($this->objectArray[$offset]))
+            return true;
+        else
+            return false;
     }
 
     public function offsetSet($offset, $value)
     {
-        if ($offset) $this->objectArray[$offset] = $value;
-        else  $this->objectArray[] = $value;
+        if ($offset)
+            $this->objectArray[$offset] = $value;
+        else
+            $this->objectArray[] = $value;
     }
 
     public function offsetUnset($offset)
     {
-        unset ($this->objectArray[$offset]);
+        unset($this->objectArray[$offset]);
     }
 
     public function count()
@@ -55,6 +60,5 @@ class Collection implements Countable, ArrayAccess, IteratorAggregate
     {
         return new ArrayIterator($this->objectArray);
     }
-
 
 }

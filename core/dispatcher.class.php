@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Kazinduzi Framework (http://framework.kazinduzi.com/)
@@ -11,6 +13,7 @@
  */
 class Dispatcher
 {
+
     public function dispatch()
     {
         $Front = FrontController::getInstance();
@@ -21,4 +24,5 @@ class Dispatcher
             $Front->getCallableController()->after();
         }
     }
+
 }

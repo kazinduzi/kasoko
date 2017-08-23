@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -48,6 +49,7 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
+
     /**
      * Build request for a select query
      *
@@ -60,11 +62,9 @@ class RequestBuilder extends BaseRequestBuilder
 
         // add basic params to request
         $request->addParam(
-            'q',
-            $this->renderLocalParams(
-                $query->getQuery(),
-                array('tag' => $query->getTags())
-            )
+                'q', $this->renderLocalParams(
+                        $query->getQuery(), array('tag' => $query->getTags())
+                )
         );
         $request->addParam('start', $query->getStart());
         $request->addParam('rows', $query->getRows());
@@ -86,8 +86,7 @@ class RequestBuilder extends BaseRequestBuilder
         if (count($filterQueries) !== 0) {
             foreach ($filterQueries as $filterQuery) {
                 $fq = $this->renderLocalParams(
-                    $filterQuery->getQuery(),
-                    array('tag' => $filterQuery->getTags())
+                        $filterQuery->getQuery(), array('tag' => $filterQuery->getTags())
                 );
                 $request->addParam('fq', $fq);
             }
@@ -103,4 +102,5 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
+
 }

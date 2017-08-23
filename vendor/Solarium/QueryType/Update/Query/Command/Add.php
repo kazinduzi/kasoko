@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update\Query\Command;
 
 use Solarium\QueryType\Update\Query\Query as UpdateQuery;
@@ -49,6 +50,7 @@ use Solarium\Exception\RuntimeException;
  */
 class Add extends Command
 {
+
     /**
      * Documents to add
      *
@@ -166,4 +168,5 @@ class Add extends Command
     {
         return $this->getOption('commitwithin');
     }
+
 }

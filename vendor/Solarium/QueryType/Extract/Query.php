@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  * Copyright 2012 Alexander Brausewetter. All rights reserved.
@@ -37,10 +38,10 @@
  * @package Solarium
  * @subpackage Query
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Query\Query as BaseQuery;
@@ -62,16 +63,17 @@ use Solarium\QueryType\Update\Query\Document\DocumentInterface;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Default options
      *
      * @var array
      */
     protected $options = array(
-        'handler'     => 'update/extract',
+        'handler' => 'update/extract',
         'resultclass' => 'Solarium\QueryType\Extract\Result',
         'documentclass' => 'Solarium\QueryType\Update\Query\Document\Document',
-        'omitheader'  => true,
+        'omitheader' => true,
     );
 
     /**
@@ -363,13 +365,13 @@ class Query extends BaseQuery
     }
 
     /**
-    * Set a custom document class for use in the createDocument method
-    *
-    * This class should implement the document interface
-    *
-    * @param string $value classname
-    * @return self Provides fluent interface
-    */
+     * Set a custom document class for use in the createDocument method
+     *
+     * This class should implement the document interface
+     *
+     * @param string $value classname
+     * @return self Provides fluent interface
+     */
     public function setDocumentClass($value)
     {
         return $this->setOption('documentclass', $value);
@@ -403,4 +405,5 @@ class Query extends BaseQuery
 
         return new $class($fields, $boosts);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Debug;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\QueryType\Select\Result\Debug;
  */
 class DocumentSet implements \IteratorAggregate, \Countable
 {
+
     /**
      * Docs array
      *
@@ -104,4 +106,5 @@ class DocumentSet implements \IteratorAggregate, \Countable
     {
         return count($this->docs);
     }
+
 }

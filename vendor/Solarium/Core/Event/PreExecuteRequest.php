@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -48,19 +49,20 @@ use Solarium\Core\Client\Endpoint;
  */
 class PreExecuteRequest extends Event
 {
+
     /**
      * @var Request
      */
     protected $request;
 
     /**
-    * @var Endpoint
-    */
+     * @var Endpoint
+     */
     protected $endpoint;
 
     /**
-    * @var Response
-    */
+     * @var Response
+     */
     protected $response;
 
     /**
@@ -126,4 +128,5 @@ class PreExecuteRequest extends Event
     {
         $this->response = $response;
     }
+
 }

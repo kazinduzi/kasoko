@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -49,6 +50,7 @@ use Solarium\QueryType\Select\ResponseParser\Component\Spellcheck as ResponsePar
  */
 class Spellcheck extends Component
 {
+
     /**
      * Used to further customize collation parameters
      * @var array
@@ -373,7 +375,6 @@ class Spellcheck extends Component
         return $this->getOption('accuracy');
     }
 
-
     /**
      * Set a collation param
      * @param string $param
@@ -394,4 +395,5 @@ class Spellcheck extends Component
     {
         return $this->collateParams;
     }
+
 }

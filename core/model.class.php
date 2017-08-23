@@ -6,8 +6,7 @@ defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
  * the model holds an array of values for easy access
  * @package default
  */
-abstract class Model /* extends DbActiveRecord */
-    implements IteratorAggregate
+abstract class Model /* extends DbActiveRecord */ implements IteratorAggregate
 {
 
     /**
@@ -18,53 +17,62 @@ abstract class Model /* extends DbActiveRecord */
     const HAS_MANY = '_has_many';
     const HAS_ONE = '_has_one';
     const MANY_MANY = '_many_many';
+
     /**
      * Stores column information for ORM models
      * @var array
      */
     protected static $_column_cache = array();
+
     /**
      * Hold all loaded models
      * @var array
      */
     protected static $models = array();
-
     protected static $db;
+
     /**
      * Oject of the current model
      * @var array
      */
     public $values = array();
+
     /**
      * Related relations to the model
      * @var array
      */
     public $relationships = array();
+
     /**
      * 'Belongs_to' relations
      * @var array
      */
     public $belongsTo = array();
+
     /**
      * 'Has_one' relations
      * @var array
      */
     public $hasOne = array();
+
     /**
      * 'Has_many' relations
      * @var array
      */
     public $hasMany = array();
+
     /**
      * 'Many_many' relations
      * @var array
      */
     public $manyMany = array();
+
     /**
      * Table name for the current model
      * @var string
      */
     protected $table = null;
+
     /**
      * Table columns
      * @var array
@@ -81,62 +89,75 @@ abstract class Model /* extends DbActiveRecord */
      * @var string
      */
     protected $_updated_column = null;
+
     /**
      * Auto-update columns for creation
      * @var string
      */
     protected $_created_column = null;
+
     /**
      * Model name
      * @var string
      */
     protected $modelName;
+
     /**
      * Current object
      * @var array
      */
     protected $_object = array();
+
     /**
      * @var array
      */
     protected $_changed = array();
+
     /**
      * Table primary key
      * @var string
      */
     protected $pk = 'id';
+
     /**
      * Primary key value
      * @var mixed
      */
     protected $pkValue;
+
     /**
      * Foreign key suffix
      * @var string
      */
     protected $foreign_key_suffix = '_id';
+
     /**
      * The id for the current model
      * @var mixed
      */
     protected $id = false;
+
     /**
      * Data to be loaded into the model from a database call cast
      * @var array
      */
     protected $_cast_data = array();
+
     /**
      * @var bool
      */
     protected $_loaded = false;
+
     /**
      * @var bool
      */
     protected $_saved = false;
+
     /**
      * @var bool
      */
     protected $_valid = false;
+
     /**
      * Active Record Object
      * @var DbActiveRecord
@@ -161,8 +182,8 @@ abstract class Model /* extends DbActiveRecord */
                 }
             } else {
                 self::$db->select('*')
-                    ->from($this->table)
-                    ->where($this->table . '.' . $this->pk . '=' . $id)->buildQuery();
+                        ->from($this->table)
+                        ->where($this->table . '.' . $this->pk . '=' . $id)->buildQuery();
                 $this->values = $this->_object = self::$db->fetchAssocRow();
                 if (empty($this->values)) {
                     throw new \Exception($this->table . ' with PK:' . $this->pk . ' = ' . $id . ' does not exist');
@@ -369,8 +390,8 @@ abstract class Model /* extends DbActiveRecord */
             $col = key($id);
             self::$db->clear();
             self::$db->select('*')
-                ->from(self::$db->quoteTable(strtolower($modelname)))
-                ->where(self::$db->quoteColumn($col) . "=" . self::$db->quote($id[$col]))->buildQuery();
+                    ->from(self::$db->quoteTable(strtolower($modelname)))
+                    ->where(self::$db->quoteColumn($col) . "=" . self::$db->quote($id[$col]))->buildQuery();
             $row = self::$db->fetchAssocRow();
             return new $modelname($row);
         }
@@ -542,8 +563,8 @@ abstract class Model /* extends DbActiveRecord */
     {
         self::$db->clear();
         self::$db->select('*')
-            ->from($this->table)
-            ->where("id={$id}")->buildQuery();
+                ->from($this->table)
+                ->where("id={$id}")->buildQuery();
         $this->values = $this->_object = self::$db->fetchAssocRow();
         if (array_key_exists($this->pk, $this->values)) {
             $this->id = $this->pkValue = $this->values[$this->pk];
@@ -575,8 +596,8 @@ abstract class Model /* extends DbActiveRecord */
     {
         self::$db->clear();
         self::$db->select('*')
-            ->from($this->getTable())
-            ->limit(1)->buildQuery();
+                ->from($this->getTable())
+                ->limit(1)->buildQuery();
         $this->values = $this->_object = self::$db->fetchAssocRow();
         if (array_key_exists($this->pk, $this->values)) {
             $this->id = $this->pkValue = $this->values[$this->pk];
@@ -603,7 +624,7 @@ abstract class Model /* extends DbActiveRecord */
         $objects = array();
         $modelName = $this->getName();
         foreach ($rows as $row) {
-            $objects[] = clone new $modelName((array)$row);
+            $objects[] = clone new $modelName((array) $row);
         }
         return $objects;
     }
@@ -628,10 +649,10 @@ abstract class Model /* extends DbActiveRecord */
     public function findByPri($pri, $condition = null, $params = array())
     {
         self::$db->clear()
-            ->select('*')
-            ->from($this->getTable())
-            ->where($this->pk . '=' . $pri)
-            ->buildQuery();
+                ->select('*')
+                ->from($this->getTable())
+                ->where($this->pk . '=' . $pri)
+                ->buildQuery();
         $this->values = $this->_object = self::$db->fetchAssocRow();
         if (array_key_exists($this->pk, $this->values)) {
             $this->id = $this->pkValue = $this->values[$this->pk];
@@ -669,10 +690,10 @@ abstract class Model /* extends DbActiveRecord */
     {
         self::$db->reset();
         if (is_string($attrs)) {
-            $attrs = (array)$attrs;
+            $attrs = (array) $attrs;
         }
         self::$db->select($attrs)
-            ->from($this->getTable());
+                ->from($this->getTable());
         if (!empty($conds)) {
             self::$db->where($conds)->buildQuery();
         } else {
@@ -928,7 +949,7 @@ abstract class Model /* extends DbActiveRecord */
             $col = $model->table . '.' . $model->pk;
             $val = $this->values[$this->belongsTo[$column]['foreign_key']];
             self::$db->select($model->table . '.*')->from($model->table)
-                ->where($col . '=' . $val)->buildQuery();
+                    ->where($col . '=' . $val)->buildQuery();
             $model->values = self::$db->fetchAssocRow();
             $model->_object = self::$db->fetchAssocRow();
             $model->id = $model->pkValue = $model->values[$model->pk];
@@ -941,7 +962,7 @@ abstract class Model /* extends DbActiveRecord */
             //$val = $this->pk();
             $val = $this->values[$this->hasOne[$column]['foreign_key']];
             self::$db->select($model->table . '.*')->from($model->table)
-                ->where($col . '=' . $val)->buildQuery();
+                    ->where($col . '=' . $val)->buildQuery();
             $model->values = self::$db->fetchAssocRow();
             $model->_object = self::$db->fetchAssocRow();
             $model->id = $model->pkValue = $model->values[$model->pk];
@@ -957,25 +978,25 @@ abstract class Model /* extends DbActiveRecord */
                 $join_col2 = $model->table . '.' . $model->pk;
                 // Through table's source foreign key (foreign_key) should be this model's primary key
                 $col = $through . '.' . $this->hasMany[$column]['foreign_key'];
-                $val = $this->pk()?:'NULL';
+                $val = $this->pk() ?: 'NULL';
                 //AND for join conditions model's foreign key with {$this} primary key value
                 //$col1 = $model->table.'.'.$this->hasMany[$column]['foreign_key'];
                 //$val1 = $this->pk();
                 self::$db->select($model->table . '.*')
-                    ->from($model->table)
-                    ->innerjoin($through, $join_col1 . '=' . $join_col2)
-                    ->where($col . '=' . $val /* . ' AND '. $col1 . '=' . $val1 */)
-                    ->buildQuery();
+                        ->from($model->table)
+                        ->innerjoin($through, $join_col1 . '=' . $join_col2)
+                        ->where($col . '=' . $val /* . ' AND '. $col1 . '=' . $val1 */)
+                        ->buildQuery();
                 //echo self::$db->getQueryString();
             } else {
                 // Simple has_many relationship, search where target model's foreign key is this model's primary key
                 $col = $model->table . '.' . $this->hasMany[$column]['foreign_key'];
-                $val = $this->pk()?:'NULL';
+                $val = $this->pk() ?: 'NULL';
                 // Build and set query for Database
                 self::$db->select($model->table . '.*')
-                    ->from($model->table)
-                    ->where($col . '=' . $val)
-                    ->buildQuery();
+                        ->from($model->table)
+                        ->where($col . '=' . $val)
+                        ->buildQuery();
             }
 
             //
@@ -1054,10 +1075,10 @@ abstract class Model /* extends DbActiveRecord */
     public function __isset($column)
     {
         return (isset($this->values[$column]) OR
-            isset($this->relationships[$column]) OR
-            isset($this->hasOne[$column]) OR
-            isset($this->belongsTo[$column]) OR
-            isset($this->hasMany[$column]));
+                isset($this->relationships[$column]) OR
+                isset($this->hasOne[$column]) OR
+                isset($this->belongsTo[$column]) OR
+                isset($this->hasMany[$column]));
     }
 
     /**
@@ -1076,7 +1097,7 @@ abstract class Model /* extends DbActiveRecord */
      */
     public function __toString()
     {
-        return (string)$this->pk();
+        return (string) $this->pk();
     }
 
     /**
@@ -1159,8 +1180,8 @@ abstract class Model /* extends DbActiveRecord */
         if ($this->_loaded) {
             $this->clear_model();
             self::$db->select($this->table . '.*')
-                ->from($this->table)
-                ->where($this->table . '.' . $this->pk . '=' . $primary_key)->buildQuery();
+                    ->from($this->table)
+                    ->where($this->table . '.' . $this->pk . '=' . $primary_key)->buildQuery();
             $this->values = self::$db->fetchAssocRow();
             return $this;
         } else {
@@ -1226,18 +1247,18 @@ abstract class Model /* extends DbActiveRecord */
     {
         $far_keys = ($far_keys instanceof Model) ? $far_keys->pk() : $far_keys;
         // We need an array to simplify the logic
-        $far_keys = (array)$far_keys;
+        $far_keys = (array) $far_keys;
         self::$db->clear();
         self::$db->select('COUNT("*") as records_found')
-            ->from($this->hasMany[$alias]['through'])
-            ->where(array('AND', $this->hasMany[$alias]['foreign_key'] . '=' . $this->pk(), array('IN', $this->hasMany[$alias]['far_key'], $far_keys)))
-            //->where(array('and', 'type=1', array('in', 'id', array(1,2,3,4))))
-            ->buildQuery();
+                ->from($this->hasMany[$alias]['through'])
+                ->where(array('AND', $this->hasMany[$alias]['foreign_key'] . '=' . $this->pk(), array('IN', $this->hasMany[$alias]['far_key'], $far_keys)))
+                //->where(array('and', 'type=1', array('in', 'id', array(1,2,3,4))))
+                ->buildQuery();
         //echo self::$db->getQueryString();
         $count = self::$db->fetchAssocRow();
         //print_r($count);
         // Rows found need to match the rows searched
-        return (int)$count['records_found'] === count($far_keys);
+        return (int) $count['records_found'] === count($far_keys);
     }
 
     /**
@@ -1258,7 +1279,7 @@ abstract class Model /* extends DbActiveRecord */
     {
         $far_keys = ($far_keys instanceof Model) ? $far_keys->pk() : $far_keys;
         $foreign_key = $this->pk();
-        foreach ((array)$far_keys as $key) {
+        foreach ((array) $far_keys as $key) {
             $params = array(
                 $this->hasMany[$alias]['foreign_key'] => $foreign_key,
                 $this->hasMany[$alias]['far_key'] => $key,

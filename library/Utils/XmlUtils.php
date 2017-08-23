@@ -20,7 +20,7 @@ class XmlUtils
      */
     private function __construct()
     {
-
+        
     }
 
     /**
@@ -69,7 +69,7 @@ class XmlUtils
                 } catch (\Exception $e) {
                     $valid = false;
                 }
-            } elseif (!is_array($schemaOrCallable) && is_file((string)$schemaOrCallable)) {
+            } elseif (!is_array($schemaOrCallable) && is_file((string) $schemaOrCallable)) {
                 $valid = @$dom->schemaValidate($schemaOrCallable);
             } else {
                 libxml_use_internal_errors($internalErrors);
@@ -127,11 +127,11 @@ class XmlUtils
      */
     public static function convertDomElementToArray(\DomElement $element, $checkPrefix = true)
     {
-        $prefix = (string)$element->prefix;
+        $prefix = (string) $element->prefix;
         $empty = true;
         $config = array();
         foreach ($element->attributes as $name => $node) {
-            if ($checkPrefix && !in_array((string)$node->prefix, array('', $prefix), true)) {
+            if ($checkPrefix && !in_array((string) $node->prefix, array('', $prefix), true)) {
                 continue;
             }
             $config[$name] = static::phpize($node->value);
@@ -145,7 +145,7 @@ class XmlUtils
                     $nodeValue = trim($node->nodeValue);
                     $empty = false;
                 }
-            } elseif ($checkPrefix && $prefix != (string)$node->prefix) {
+            } elseif ($checkPrefix && $prefix != (string) $node->prefix) {
                 continue;
             } elseif (!$node instanceof \DOMComment) {
                 $value = static::convertDomElementToArray($node, $checkPrefix);
@@ -185,7 +185,7 @@ class XmlUtils
      */
     public static function phpize($value)
     {
-        $value = (string)$value;
+        $value = (string) $value;
         $lowercaseValue = strtolower($value);
 
         switch (true) {
@@ -195,7 +195,7 @@ class XmlUtils
                 $raw = $value;
                 $cast = intval($value);
 
-                return '0' == $value[0] ? octdec($value) : (((string)$raw == (string)$cast) ? $cast : $raw);
+                return '0' == $value[0] ? octdec($value) : (((string) $raw == (string) $cast) ? $cast : $raw);
             case 'true' === $lowercaseValue:
                 return true;
             case 'false' === $lowercaseValue:

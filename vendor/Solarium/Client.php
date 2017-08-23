@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium;
 
 use Solarium\Core\Client\Client as CoreClient;
@@ -46,6 +47,7 @@ use Solarium\Core\Client\Client as CoreClient;
  */
 class Client extends CoreClient
 {
+
     /**
      * Version number of the Solarium library
      *
@@ -130,4 +132,5 @@ class Client extends CoreClient
     {
         return version_compare(self::VERSION, $version, '>=');
     }
+
 }

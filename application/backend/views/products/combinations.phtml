@@ -11,34 +11,57 @@
 <form action="" method="post">
     <div class="row form-group" id="product-attribute-configuration">
         <div class="col-sm-6">
-            <?php foreach ($attributeGroups as $attributeGroup) :?>
-                <div>
-                    <label class="control-label" for=""><?php echo $attributeGroup->name?></label>
+            <?php foreach ($attributeGroups as $attributeGroup) : ?>
+
+                <?php
+                $already_selected_attribute = false;
+                foreach ($productAttributes->getAttributes() as $prodAttr) {
+                    if (in_array($prodAttr, $attributeGroup->getAttributes())) {
+                        $already_selected_attribute = true;
+                        break;
+                    }
+                }                
+                ?>
+            
+                <?php if (true === $already_selected_attribute) : ?>
+            
+                    <label class="control-label" for=""><?php echo $attributeGroup->name; ?></label>                    
+                    <select class="form-control" name="product[attributes][]">
+                        <?php foreach ($attributeGroup->getAttributes() as $attribute) : ?>
+                            <?php if (!empty($productAttributes->getAttributes()) && in_array($attribute, $productAttributes->getAttributes())) :?>
+                                <option selected value="<?php echo $attribute->getId(); ?>">
+                                    <?php echo (isset($attribute->value_label) ? $attribute->value_label : $attribute->value); ?>
+                                </option>                                
+                            <?php break; endif; ?>                            
+                        <?php endforeach; ?>
+                    </select>
+
+                <?php else : ?>
+                    
+                    <label class="control-label" for=""><?php echo $attributeGroup->name; ?></label>
                     <select name="product[attributes][]" class="form-control">
                         <option value="">--</option>
-                        <?php foreach($attributeGroup->getAttributes() as $attribute) :?>
-                            <?php
-                            $selected = !empty($productAttributes->getAttributes()) && in_array($attribute, $productAttributes->getAttributes()) ? 'selected="selected"' : '';
-                            ?>
-                            <option <?php echo $selected;?> value="<?php echo $attribute->getId();?>"><?php echo (isset($attribute->value_label) ? $attribute->value_label : $attribute->value);?></option>
-                        <?php endforeach;?>
+                        <?php foreach ($attributeGroup->getAttributes() as $attribute) : ?>
+                            <option value="<?php echo $attribute->getId(); ?>"><?php echo (isset($attribute->value_label) ? $attribute->value_label : $attribute->value); ?></option>
+                        <?php endforeach; ?>
                     </select>
-                </div>
-            <?php endforeach;?>
+                    
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
         <div class="col-sm-3">
             <label class="control-label" for="">Impact on price</label>
-            <input class="form-control" type="text" name="product[attribute_impact_price]" placeholder="0.00" value="<?php echo $productAttributes->getPriceImpact();?>">
+            <input class="form-control" type="text" name="product[attribute_impact_price]" placeholder="0.00" value="<?php echo $productAttributes->getPriceImpact(); ?>">
         </div>
         <div class="col-sm-3">
             <label class="control-label" for="">Impact on quantity</label>
-            <input class="form-control" type="text" name="product[attribute_impact_quantity]" placeholder="0.00" value="<?php echo $productAttributes->getQuantityImpact();?>">
+            <input class="form-control" type="text" name="product[attribute_impact_quantity]" placeholder="0.00" value="<?php echo $productAttributes->getQuantityImpact(); ?>">
         </div>
     </div>
 
     <div class="form-group row buttons">
         <div class="col-sm-12">
-            <input type="hidden" name="product_id" value="<?php echo $product->getId();?>">
+            <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
             <button class="btn btn-primary pull-right" type="submit" id="add-product-attribute-configuration"><i class="glyphicon glyphicon-plus-sign"></i> Add configuration</button>
         </div>
     </div>

@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ContainerAwareEventDispatcher extends EventDispatcher
 {
+
     /**
      * The container from where services are loaded
      * @var ContainerInterface
@@ -80,7 +81,7 @@ class ContainerAwareEventDispatcher extends EventDispatcher
             foreach ($this->listeners[$eventName] as $key => $l) {
                 foreach ($this->listenerIds[$eventName] as $i => $args) {
                     list($serviceId, $method, $priority) = $args;
-                    if ($key === $serviceId.'.'.$method) {
+                    if ($key === $serviceId . '.' . $method) {
                         if ($listener === array($l, $method)) {
                             unset($this->listeners[$eventName][$key]);
                             if (empty($this->listeners[$eventName])) {
@@ -187,7 +188,7 @@ class ContainerAwareEventDispatcher extends EventDispatcher
                 list($serviceId, $method, $priority) = $args;
                 $listener = $this->container->get($serviceId);
 
-                $key = $serviceId.'.'.$method;
+                $key = $serviceId . '.' . $method;
                 if (!isset($this->listeners[$eventName][$key])) {
                     $this->addListener($eventName, array($listener, $method), $priority);
                 } elseif ($listener !== $this->listeners[$eventName][$key]) {
@@ -199,4 +200,5 @@ class ContainerAwareEventDispatcher extends EventDispatcher
             }
         }
     }
+
 }

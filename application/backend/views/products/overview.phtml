@@ -34,9 +34,9 @@
                         <tr>
                             <td><?php echo $product->getId(); ?></td>
                             <td>
-                                <?php if ($product->getThumbImage()) :?>
-                                    <img class="img-thumbnail" src="<?php echo $product->getThumbImage();?>" width="50" alt="">
-                                <?php endif?>
+                                <?php if ($product->getThumbImage()) : ?>
+                                    <img class="img-thumbnail" src="<?php echo $product->getThumbImage(); ?>" width="50" alt="">
+                                <?php endif ?>
                             </td>
                             <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->name; ?></a></td>
                             <td><a href="/admin/products/edit/<?php echo $product->getId(); ?>"><?php echo $product->sku; ?></a></td>
@@ -48,14 +48,14 @@
                                 <?php endif; ?>
                             </td>                    
                             <td class="actions">
-                                <div class="btn-group btn-group-sm">
+                                <div class="btn-group">
                                     <a class="btn btn-default" title="Browse this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-folder-open"></i></a>
                                     <a class="btn btn-default" title="Edit this product" href="/admin/products/edit/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
                                     <a class="btn btn-default product-delete" title="Delete this product and all its contents" href="/admin/products/delete/<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
                                 </div>
                             </td>
                         </tr>                
-                    <?php
+                        <?php
                     endforeach;
                 endif;
                 ?>

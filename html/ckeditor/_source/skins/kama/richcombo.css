@@ -28,7 +28,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama .cke_browser_iequirks .cke_rcombopanel,
 .cke_skin_kama .cke_browser_ie6 .cke_rcombopanel
 {
-/*	width: 150px;*/
+	/*	width: 150px;*/
 }
 
 .cke_skin_kama .cke_rcombo a,
@@ -226,12 +226,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 .cke_skin_kama .cke_rtl .cke_rcombo span
 {
-/*	_zoom: 1;*/
+	/*	_zoom: 1;*/
 }
 
 .cke_skin_kama .cke_rtl .cke_rcombo .cke_text
 {
-/*	_float: left;*/
+	/*	_float: left;*/
 }
 
 /* Firefox 2 & WebKit Section */
@@ -248,7 +248,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 .cke_skin_kama .cke_browser_gecko .cke_rtl .cke_rcombo .cke_text,
 .cke_skin_kama .cke_browser_webkit .cke_rtl .cke_rcombo .cke_text
 {
-/*	float: right;*/
+	/*	float: right;*/
 }
 
 .cke_skin_kama .cke_browser_gecko .cke_rcombo .cke_label,

@@ -1,27 +1,27 @@
-<div class="product-options" data-product-id="<?php echo $product->getId();?>">
-    <?php if (!empty($associatedAttributesWithGroups)) :?>
+<div class="product-options" data-product-id="<?php echo $product->getId(); ?>">
+    <?php if (!empty($associatedAttributesWithGroups)) : ?>
         <dl>
-        <?php foreach($associatedAttributesWithGroups as $attributeGroupId => $attributes) :?>
-            <?php $attributeGroup = new \models\AttributeGroup($attributeGroupId); ?>
-            <div class="attribute-group" data-attributegroup-id="<?php echo $attributeGroup->getId()?>">
-                <dt>
-                    <label for="" class="required">
-                        <?php echo $attributeGroup->name;?>
-                        <?php echo $attributeGroup->isRequired() ? '<em class="required">*</em>' : '';?>
-                    </label>
-                </dt>
-                <dd>
-                    <select class="option-input" name="options[<?php echo $attributeGroup->getId();?>]" id="select_<?php echo $attributeGroup->getId();?>" onchange="opConfig.reloadPrice();">
-                        <?php if (! $attributeGroup->isRequired()) :?>
-                            <option value="">-- Please Select --</option>
-                        <?php endif;?>
-                        <?php foreach($attributes as $attrId => $attribute) :?>
-                            <option value="<?php echo $attribute->getId();?>"><?php echo $attribute->getValueLabel();?></option>
-                        <?php endforeach;?>
-                    </select>
-                </dd>
-            </div>
-        <?php endforeach; ?>
+            <?php foreach ($associatedAttributesWithGroups as $attributeGroupId => $attributes) : ?>
+                <?php $attributeGroup = new \models\AttributeGroup($attributeGroupId); ?>
+                <div class="attribute-group" data-attributegroup-id="<?php echo $attributeGroup->getId() ?>">
+                    <dt>
+                        <label for="" class="required">
+                            <?php echo $attributeGroup->name; ?>
+                            <?php echo $attributeGroup->isRequired() ? '<em class="required">*</em>' : ''; ?>
+                        </label>
+                    </dt>
+                    <dd>
+                        <select class="option-input" name="options[<?php echo $attributeGroup->getId(); ?>]" id="select_<?php echo $attributeGroup->getId(); ?>" onchange="opConfig.reloadPrice();">
+                            <?php if (!$attributeGroup->isRequired()) : ?>
+                                <option value="">-- Please Select --</option>
+                            <?php endif; ?>
+                            <?php foreach ($attributes as $attrId => $attribute) : ?>
+                                <option value="<?php echo $attribute->getId(); ?>"><?php echo $attribute->getValueLabel(); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </dd>
+                </div>
+            <?php endforeach; ?>
         </dl>
-    <?php endif;?>
+    <?php endif; ?>
 </div>

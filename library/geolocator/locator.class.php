@@ -1,7 +1,10 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Locator
 {
+
     private $yqlUrl = 'http://query.yahooapis.com/v1/public/yql';
     private $locationReflClass;
     private $locationReflProperties = array();
@@ -53,10 +56,11 @@ class Locator
         return new Location($ip, $this);
     }
 
-    public function  getGoogleMapImageForIp($ip)
+    public function getGoogleMapImageForIp($ip)
     {
         $image = new GoogleMapImage();
         $image->addLocation($this->getGeoLocation($ip));
         return $image;
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Query;
 
 use Solarium\Core\Query\Query as BaseQuery;
@@ -45,6 +46,7 @@ use Solarium\Core\Query\Query as BaseQuery;
  */
 abstract class Query extends BaseQuery
 {
+
     /**
      * Set the query string
      *
@@ -93,4 +95,5 @@ abstract class Query extends BaseQuery
     {
         return $this->getOption('showmatch');
     }
+
 }

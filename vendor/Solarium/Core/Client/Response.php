@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client;
 
 use Solarium\Exception\HttpException;
@@ -45,6 +46,7 @@ use Solarium\Exception\HttpException;
  */
 class Response
 {
+
     /**
      * Headers
      *
@@ -158,4 +160,5 @@ class Response
         $this->statusCode = $statusInfo[1];
         $this->statusMessage = $statusInfo[2];
     }
+
 }

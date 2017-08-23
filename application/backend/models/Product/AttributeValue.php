@@ -1,21 +1,21 @@
 <?php
+
 namespace models\Product;
 
 use models\Attribute;
 
 class AttributeValue extends \Model
 {
+
     /**
      * @var array
      */
     public $belongsTo = [
-
         'product' => [
             'model' => '\\Product',
             'foreign_key' => 'product_id',
         ],
     ];
-
     public $hasMany = [
         'product_attribute_configurations' => [
             'model' => '\\models\\Product\\ProductAttributeConfiguration',
@@ -33,7 +33,7 @@ class AttributeValue extends \Model
      */
     public function hasPriceImpact()
     {
-        return !empty((float)$this->price_impact);
+        return !empty((float) $this->price_impact);
     }
 
     /**
@@ -41,7 +41,7 @@ class AttributeValue extends \Model
      */
     public function hasQuantityImpact()
     {
-        return !empty((float)$this->quantity_impact);
+        return !empty((float) $this->quantity_impact);
     }
 
     /**
@@ -49,7 +49,7 @@ class AttributeValue extends \Model
      */
     public function getPriceImpact()
     {
-        return isset($this->price_impact) ? (float)$this->price_impact : 0.00 ;
+        return isset($this->price_impact) ? (float) $this->price_impact : 0.00;
     }
 
     /**
@@ -57,7 +57,7 @@ class AttributeValue extends \Model
      */
     public function getQuantityImpact()
     {
-        return isset($this->quantity_impact) ? (float)$this->quantity_impact : 0.00;
+        return isset($this->quantity_impact) ? (float) $this->quantity_impact : 0.00;
     }
 
     /**
@@ -75,7 +75,7 @@ class AttributeValue extends \Model
     {
         $attributes = [];
         if (0 < count($this->getProductAttributeConfigurations())) {
-            foreach($this->getProductAttributeConfigurations() as $variation) {
+            foreach ($this->getProductAttributeConfigurations() as $variation) {
                 $attributes[] = $variation->attribute;
             }
         }

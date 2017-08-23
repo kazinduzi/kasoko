@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 
 /**
@@ -14,6 +16,7 @@
  */
 class DbActiveRecordElement
 {
+
     /**
      * @var        string    The name of the element.
      */
@@ -73,4 +76,5 @@ class DbActiveRecordElement
     {
         return PHP_EOL . trim($this->name) . ' ' . implode($this->sep, $this->elements);
     }
+
 }

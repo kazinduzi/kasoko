@@ -30,24 +30,24 @@
         height: auto;
     }
     .existing-image #image-cover {
-	position: absolute;
-	top: 5px;
-	left: 20px;
-	font-size: 1.5em;
-	color: goldenrod;
-	z-index: 1;
+        position: absolute;
+        top: 5px;
+        left: 20px;
+        font-size: 1.5em;
+        color: goldenrod;
+        z-index: 1;
     }
 </style>
 <script>
-    var imageListUrl = '/admin/products/image_list/<?php echo $product->getId(); ?>';
+	var imageListUrl = '/admin/products/image_list/<?php echo $product->getId(); ?>';
 </script>
 
 <div class="form-container">    
     <form method="post" action="" class="clearfix">
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
-            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
-            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
-            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>        
         <div style="display: inline-block; width:100%;">
             <ul class="nav nav-tabs" id="tabbed-menu">
@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label for="category" class="control-label">Associated categories * :</label>
                     <?php foreach ($allCategories as $category) : ?>
-                    <?php $checked = count($product->getCategories()) && in_array($category, $product->getCategories()) ?  'checked="checked"' : ''; ?>
+                        <?php $checked = count($product->getCategories()) && in_array($category, $product->getCategories()) ? 'checked="checked"' : ''; ?>
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" id="category_field" name="product[category][]" value="<?php echo $category->getId(); ?>" <?php echo $checked; ?> /> <?php echo $category->name; ?>
@@ -128,7 +128,7 @@
                     <label for="visible_create" class="control-label">Visibility</label>
                     <div class="checkbox">
                         <label>
-			    <?php $checked = $product->status ? 'checked="checked"' : ''; ?>
+                            <?php $checked = $product->status ? 'checked="checked"' : ''; ?>
                             <input type="checkbox" id="visible_create" name="product[visible]" value="1" <?php echo $checked; ?>>
                             This product is online.
                         </label>
@@ -150,33 +150,33 @@
                     </div>
                 </div>
                 <div class="existing-image">
-		    <?php if (!count($product->getProductImages())) : ?>
-    		    <p><?php echo __('No images for this product'); ?></p>
-		    <?php else: ?>
-    		    <ul id="js-sort-image" class="row list-unstyled ui-sortable">
-			    <?php foreach ($product->getProductImages() as $image): ?>                    
-				<li class="col-sm-6 col-md-3 ui-state-default" data-sort-id="<?php echo $image->getId(); ?>">
-				    <?php if ($image->isCover()) : ?>
-	    			    <span id="image-cover" class="glyphicon glyphicon-star"></span>	            
-				    <?php endif; ?>
-				    <a href="" class="thumbnail">
-					<img src="<?php echo $image->getThumb(); ?>" alt="" width="150" />
-				    </a>
-				    <div class="btn-group pull-right">
-                        <a class="image-update-btn btn btn-default disabled js-sorted-position" href="#<?php echo $image->getId(); ?>">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </a>
-                        <a class="image-update-btn btn btn-default" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
-                            <i class="glyphicon glyphicon-edit"></i>
-                        </a>
-                        <a class="image-delete-btn btn btn-default" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </a>
-				    </div>
-				</li>                    
-			    <?php endforeach; ?>
-    		    </ul>
-		    <?php endif; ?>                    
+                    <?php if (!count($product->getProductImages())) : ?>
+                        <p><?php echo __('No images for this product'); ?></p>
+                    <?php else: ?>
+                        <ul id="js-sort-image" class="row list-unstyled ui-sortable">
+                            <?php foreach ($product->getProductImages() as $image): ?>                    
+                                <li class="col-sm-6 col-md-3 ui-state-default" data-sort-id="<?php echo $image->getId(); ?>">
+                                    <?php if ($image->isCover()) : ?>
+                                        <span id="image-cover" class="glyphicon glyphicon-star"></span>	            
+                                    <?php endif; ?>
+                                    <a href="" class="thumbnail">
+                                        <img src="<?php echo $image->getThumb(); ?>" alt="" width="150" />
+                                    </a>
+                                    <div class="btn-group pull-right">
+                                        <a class="image-update-btn btn btn-default disabled js-sorted-position" href="#<?php echo $image->getId(); ?>">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                        </a>
+                                        <a class="image-update-btn btn btn-default" href="/admin/products/update_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </a>
+                                        <a class="image-delete-btn btn btn-default" id="image-9" href="/admin/products/delete_image/<?php echo $product->getId(); ?>/<?php echo $image->getId(); ?>" data-error-message="Please retry">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </div>
+                                </li>                    
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>                    
                 </div>
             </div>
 
@@ -209,13 +209,13 @@
             <div class="tab-pane" id="options">
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <a class="btn btn-default"  id="add-product-attribute-configuration" href="/admin/products/build-attribute-combinations?product_id=<?php echo $product->getId();?>">
+                        <a class="btn btn-default"  id="add-product-attribute-configuration" href="/admin/products/build-attribute-combinations?product_id=<?php echo $product->getId(); ?>">
                             <i class="glyphicon glyphicon-plus-sign"></i> Add combination
                         </a>
                     </div>
                 </div>
 
-                <?php if (count($productAttributes)) :?>
+                <?php if (count($productAttributes)) : ?>
                     <div class="table-responsive">
                         <table class="table table-striped table-condensed">
                             <tr>
@@ -225,43 +225,44 @@
                                 <th>Impact on qty</th>
                                 <th class="actions">Actions</th>
                             </tr>
-                            <?php foreach($productAttributes as $productAttribute) :?>
+                            <?php foreach ($productAttributes as $productAttribute) : ?>
                                 <tr>
-                                    <td><?php echo $productAttribute->getId();?></td>
+                                    <td><?php echo $productAttribute->getId(); ?></td>
                                     <td>
-                                        <?php $variation_label = '';
-                                        foreach($productAttribute->getAttributes() as $attribute) {
+                                        <?php
+                                        $variation_label = '';
+                                        foreach ($productAttribute->getAttributes() as $attribute) {
                                             $variation_label .= $attribute->getValueLabel() . '-';
                                         }
                                         print trim($variation_label, '-');
                                         ?>
                                     </td>
-                                    <td><?php echo $productAttribute->getPriceImpact();?></td>
-                                    <td><?php echo $productAttribute->getQuantityImpact();?></td>
+                                    <td><?php echo $productAttribute->getPriceImpact(); ?></td>
+                                    <td><?php echo $productAttribute->getQuantityImpact(); ?></td>
                                     <td class="actions">
                                         <div class="btn-group btn-group-sm">
-                                            <a class="btn btn-default" title="" href="/admin/products/build-attribute-combinations/<?php echo $productAttribute->getId();?>?product_id=<?php echo $product->getId();?>"><i class="glyphicon glyphicon-edit"></i></a>
-                                            <a class="btn btn-default product-delete" title="Delete this product and all its contents" href="/admin/products/delete-attribute-combinations/<?php echo $productAttribute->getId();?>?product_id=<?php echo $product->getId();?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                            <a class="btn btn-default" title="" href="/admin/products/build-attribute-combinations/<?php echo $productAttribute->getId(); ?>?product_id=<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                            <a class="btn btn-default product-delete" title="Delete this product and all its contents" href="/admin/products/delete-attribute-combinations/<?php echo $productAttribute->getId(); ?>?product_id=<?php echo $product->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>
                     </div>
-                <?php else:?>
+                <?php else: ?>
                     <div class="row">
                         <div class="col-sm-6 col-md-6">
                             <div class="alert alert-info" roles="alert"><strong>Product has no attribute-combinations</strong></div>
                         </div>
                     </div>
-                <?php endif;?>
+                <?php endif; ?>
             </div>
         </div>
 
         <div class="inner-actions" style="width:100%; display: inline-block; text-align: right; margin: 1em 0;">
-            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-sm btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
-            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-sm btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
-            <a href="/admin/products" class="page-close-button btn btn-sm btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
+            <button type="submit" name="save_mode" value="stay" class="form-submit-button btn btn-default btn-success" title="Save">Save <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="submit" name="save_mode" value="close" class="form-submit-button btn btn-default btn-info" title="Save and close">Save and close <span class="glyphicon glyphicon-remove"></span></button>
+            <a href="/admin/products" class="page-close-button btn btn-default">Close <span class="glyphicon glyphicon-remove"></span></a>
         </div>
 
     </form>       

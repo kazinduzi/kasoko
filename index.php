@@ -37,6 +37,9 @@ defined('DB_PATH') OR define('DB_PATH', realpath(KAZINDUZI_PATH . DS . 'database
 defined('WIDGETS_PATH') OR define('WIDGETS_PATH', realpath(KAZINDUZI_PATH . DS . 'widgets'));
 defined('LAYOUT_PATH') OR define('LAYOUT_PATH', realpath(KAZINDUZI_PATH . DS . 'elements' . DS . 'layouts'));
 defined('APP_PATH') OR define('APP_PATH', realpath(KAZINDUZI_PATH . DS . 'application/front'));
+defined('MODULES_PATH') OR define('MODULES_PATH', realpath(KAZINDUZI_PATH . '/modules'));
+defined('PLUGINS_PATH') OR define('PLUGINS_PATH', realpath(KAZINDUZI_PATH . '/plugins'));
+
 defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', realpath(APP_PATH . DS . 'controllers'));
 defined('VIEWS_PATH') OR define('VIEWS_PATH', realpath(APP_PATH . DS . 'views'));
 defined('MODELS_PATH') OR define('MODELS_PATH', realpath(APP_PATH . DS . 'models'));
@@ -70,6 +73,8 @@ $includePaths = array(
     CONTROLLERS_PATH,
     VIEWS_PATH,
     LIB_PATH,
+    MODULES_PATH,
+    PLUGINS_PATH,
     CORE_PATH,
     APP_PATH,
     DB_PATH,
@@ -106,36 +111,36 @@ $session->start();
 require_once APP_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 /*
-$solrConfig = \Kazinduzi::getConfig('solr');
-$client = new Solarium\Client($solrConfig);
-var_dump($client);
+  $solrConfig = \Kazinduzi::getConfig('solr');
+  $client = new Solarium\Client($solrConfig);
+  var_dump($client);
  * 
  */
 
 /*
-echo formatBytes(KAZINDUZI_START_MEMORY) . ' <=> ' . formatBytes(memory_get_usage()) . "\n";
-echo 'Executed in ', round(microtime(true) - KAZINDUZI_START_TIME, 2), 's';
+  echo formatBytes(KAZINDUZI_START_MEMORY) . ' <=> ' . formatBytes(memory_get_usage()) . "\n";
+  echo 'Executed in ', round(microtime(true) - KAZINDUZI_START_TIME, 2), 's';
 
-// Zend 2 XSS Protection
-use library\Escaper\Escaper as Escaper;
+  // Zend 2 XSS Protection
+  use library\Escaper\Escaper as Escaper;
 
-$escaper = new Escaper('utf-8');
-var_dump($escaper->escapeHtml('<script>alert(\'Hello\')</script>'));
+  $escaper = new Escaper('utf-8');
+  var_dump($escaper->escapeHtml('<script>alert(\'Hello\')</script>'));
 
-echo __('Dutch');
+  echo __('Dutch');
 
-use library\Currency as Currency;
+  use library\Currency as Currency;
 
-$currency = Currency::getInstance()->getCurrent();
-var_dump($currency->code, $currency->getRate());
+  $currency = Currency::getInstance()->getCurrent();
+  var_dump($currency->code, $currency->getRate());
 
-echo $hash = password_hash("chispa", PASSWORD_BCRYPT, array("cost" => 10));
+  echo $hash = password_hash("chispa", PASSWORD_BCRYPT, array("cost" => 10));
 
-$i18n = new I18n();
-echo $i18n->translate('messages.dutch');
+  $i18n = new I18n();
+  echo $i18n->translate('messages.dutch');
 
-print_r(opcache_get_configuration());
-*/
+  print_r(opcache_get_configuration());
+ */
 
 //Configuration::set('shop_name', 'Kasoko');
 //Configuration::set('frontend_baseUrl', HOME_URL);
@@ -205,12 +210,11 @@ print_r(opcache_get_configuration());
  * echo '<br/>method: ',$ajax = get_request_method();
  *
  */
-
 $params = $session->getCookieParams();
 var_dump($params);
 die;
 
-$cookie =  new \library\Cookie\Cookie('test-cookie');
+$cookie = new \library\Cookie\Cookie('test-cookie');
 $cookie->setDomain('kasoko.hp.kazinduzidev.com');
 $cookie->setValue('dfsdfjasd;lfásjkdfáf!');
 $cookie->setHttpOnly(true);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\ResponseParser;
 
 use Solarium\Core\Query\Result\Result;
@@ -51,6 +52,7 @@ use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
  */
 class Field extends ResponseParserAbstract implements ResponseParserInterface
 {
+
     /**
      * Parse response data
      *
@@ -118,18 +120,17 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
                     if (is_string($analysis)) {
 
                         $item = new Item(
-                            array(
-                                'text' => $analysis,
-                                'start' => null,
-                                'end' => null,
-                                'position' => null,
-                                'positionHistory' => null,
-                                'type' => null,
-                            )
+                                array(
+                            'text' => $analysis,
+                            'start' => null,
+                            'end' => null,
+                            'position' => null,
+                            'positionHistory' => null,
+                            'type' => null,
+                                )
                         );
 
                         $classes[] = new ResultList($class, array($item));
-
                     } else {
 
                         $items = array();
@@ -149,4 +150,5 @@ class Field extends ResponseParserAbstract implements ResponseParserInterface
 
         return $results;
     }
+
 }

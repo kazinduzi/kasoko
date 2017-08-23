@@ -1,15 +1,15 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
-
-/**
- * @fileOverview Contains the third and last part of the {@link CKEDITOR} object
- *		definition.
+ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+		/**
+		 * @fileOverview Contains the third and last part of the {@link CKEDITOR} object
+		 *		definition.
+		 */
+
 // Remove the CKEDITOR.loadFullCore reference defined on ckeditor_basic.
-delete CKEDITOR.loadFullCore;
+		delete CKEDITOR.loadFullCore;
 
 /**
  * Holds references to all editor instances created. The name of the properties
@@ -27,7 +27,7 @@ CKEDITOR.instances = {};
  * @example
  * alert( <b>CKEDITOR.document</b>.getBody().getName() );  // "body"
  */
-CKEDITOR.document = new CKEDITOR.dom.document( document );
+CKEDITOR.document = new CKEDITOR.dom.document(document);
 
 /**
  * Adds an editor instance to the global {@link CKEDITOR} object. This function
@@ -35,27 +35,27 @@ CKEDITOR.document = new CKEDITOR.dom.document( document );
  * @param {CKEDITOR.editor} editor The editor instance to be added.
  * @example
  */
-CKEDITOR.add = function( editor )
+CKEDITOR.add = function (editor)
 {
 	CKEDITOR.instances[ editor.name ] = editor;
 
-	editor.on( 'focus', function()
+	editor.on('focus', function ()
+	{
+		if (CKEDITOR.currentInstance != editor)
 		{
-			if ( CKEDITOR.currentInstance != editor )
-			{
-				CKEDITOR.currentInstance = editor;
-				CKEDITOR.fire( 'currentInstance' );
-			}
-		});
+			CKEDITOR.currentInstance = editor;
+			CKEDITOR.fire('currentInstance');
+		}
+	});
 
-	editor.on( 'blur', function()
+	editor.on('blur', function ()
+	{
+		if (CKEDITOR.currentInstance == editor)
 		{
-			if ( CKEDITOR.currentInstance == editor )
-			{
-				CKEDITOR.currentInstance = null;
-				CKEDITOR.fire( 'currentInstance' );
-			}
-		});
+			CKEDITOR.currentInstance = null;
+			CKEDITOR.fire('currentInstance');
+		}
+	});
 };
 
 /**
@@ -64,7 +64,7 @@ CKEDITOR.add = function( editor )
  * @param {CKEDITOR.editor} editor The editor instance to be added.
  * @example
  */
-CKEDITOR.remove = function( editor )
+CKEDITOR.remove = function (editor)
 {
 	delete CKEDITOR.instances[ editor.name ];
 };
@@ -73,14 +73,14 @@ CKEDITOR.remove = function( editor )
  * Perform global clean up to free as much memory as possible
  * when there are no instances left
  */
-CKEDITOR.on( 'instanceDestroyed', function ()
-	{
-		if ( CKEDITOR.tools.isEmpty( this.instances ) )
-			CKEDITOR.fire( 'reset' );
-	});
+CKEDITOR.on('instanceDestroyed', function ()
+{
+	if (CKEDITOR.tools.isEmpty(this.instances))
+		CKEDITOR.fire('reset');
+});
 
 // Load the bootstrap script.
-CKEDITOR.loader.load( 'core/_bootstrap' );		// @Packager.RemoveLine
+CKEDITOR.loader.load('core/_bootstrap');		// @Packager.RemoveLine
 
 // Tri-state constants.
 

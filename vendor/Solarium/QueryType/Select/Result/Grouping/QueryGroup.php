@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Grouping;
 
 /**
@@ -45,6 +46,7 @@ namespace Solarium\QueryType\Select\Result\Grouping;
  */
 class QueryGroup implements \IteratorAggregate, \Countable
 {
+
     /**
      * Match count
      *
@@ -167,4 +169,5 @@ class QueryGroup implements \IteratorAggregate, \Countable
     {
         return count($this->documents);
     }
+
 }

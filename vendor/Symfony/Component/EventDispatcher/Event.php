@@ -29,6 +29,7 @@ namespace Symfony\Component\EventDispatcher;
  */
 class Event
 {
+
     /**
      * @var Boolean Whether no further event listeners should be triggered
      */
@@ -118,4 +119,5 @@ class Event
     {
         $this->name = $name;
     }
+
 }

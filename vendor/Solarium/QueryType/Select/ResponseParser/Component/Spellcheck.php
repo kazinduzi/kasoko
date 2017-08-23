@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -44,7 +45,6 @@ use Solarium\QueryType\Select\Result\Spellcheck as SpellcheckResult;
 use Solarium\QueryType\Select\Result\Spellcheck\Result;
 use Solarium\QueryType\Select\Result\Spellcheck\Collation;
 use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
-
 use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
 
 /**
@@ -52,6 +52,7 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
  */
 class Spellcheck extends ResponseParserAbstract implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -63,8 +64,8 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
     public function parse($query, $spellcheck, $data)
     {
         if (isset($data['spellcheck']['suggestions']) &&
-            is_array($data['spellcheck']['suggestions']) &&
-            count($data['spellcheck']['suggestions']) > 0
+                is_array($data['spellcheck']['suggestions']) &&
+                count($data['spellcheck']['suggestions']) > 0
         ) {
 
             $spellcheckResults = $data['spellcheck']['suggestions'];
@@ -109,13 +110,11 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
         if (is_string($values)) {
 
             $collations[] = new Collation($values, null, array());
-
         } elseif (is_array($values) && isset($values[0]) && is_string($values[0]) && $values[0] !== 'collationQuery') {
 
             foreach ($values as $value) {
                 $collations[] = new Collation($value, null, array());
             }
-
         } else {
 
             if ($queryObject->getResponseWriter() == $queryObject::WT_JSON) {
@@ -195,4 +194,5 @@ class Spellcheck extends ResponseParserAbstract implements ComponentParserInterf
 
         return new Suggestion($numFound, $startOffset, $endOffset, $originalFrequency, $words);
     }
+
 }

@@ -8,11 +8,11 @@ $this->title = $product->model;
                 <img src="<?php echo $product->getCoverProductImage()->getImage(); ?>"
                      title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>" id="image"
                      class="img-responsive"/>
-            <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                 <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
                 <img src="<?php echo $product->getFirstProductImage()->getImage(); ?>"
                      title="<?php echo $product->name ?>" alt="<?php echo $product->name ?>" id="image"
                      class="img-responsive">
-            <?php else: ?>
+                 <?php else: ?>
                 <img src="/html/images/kasoko/280x196.png" alt="<?php echo $product->model; ?>" width="100%">
             <?php endif; ?>
         </div>
@@ -36,7 +36,7 @@ $this->title = $product->model;
             <div class="product-manifacturer">
                 <span>Brand: </span>
                 <?php if ($product_manufacturer): ?>
-                    <a href="/manufacturer/view_products/<?php echo Stringify::slugify($product_manufacturer->slug); ?>"><?php echo $product_manufacturer->name; ?></a>
+                    <a href="/manufacturer/view_products/<?php echo Helpers\Stringify::slugify($product_manufacturer->slug); ?>"><?php echo $product_manufacturer->name; ?></a>
                 <?php endif; ?>
             </div>
             <div class="product-upc">
@@ -50,19 +50,19 @@ $this->title = $product->model;
             </div>
         </div>
         <div class="price">
-            <span>Price:</span> <?php echo Stringify::currency_format($product->price); ?>
+            <span>Price:</span> <?php echo Helpers\Stringify::currency_format($product->price); ?>
         </div>
         <div class="cart">
             <div class="qty">
                 <label for="qty">Quantity:</label>
                 <input type="number" min="1" step="1" id="qty" name="quantity" class="w50" size="2" value="1">
             </div>
-	    <span>
-		<input type="hidden" name="product_id" size="2" value="<?php echo $product->getId(); ?>">
-		<button type="button" value="Add to Cart" id="button-cart" class="btn btn-default">
-            <span><span>Add to Cart</span></span>
-        </button>
-	    </span>
+            <span>
+                <input type="hidden" name="product_id" size="2" value="<?php echo $product->getId(); ?>">
+                <button type="button" value="Add to Cart" id="button-cart" class="btn btn-default">
+                    <span><span>Add to Cart</span></span>
+                </button>
+            </span>
         </div>
         <div class="action-box clearfix">
             <ul>
@@ -92,20 +92,20 @@ $this->title = $product->model;
                                 href="/product/item/<?php echo $relatedProduct->slug; ?>"><span><?php echo $relatedProduct->name; ?></span></a>
                         </div>
                         <div class="image">
-                            <a href="/product/item/<?php echo Stringify::slugify($relatedProduct->slug); ?>">
+                            <a href="/product/item/<?php echo Helpers\Stringify::slugify($relatedProduct->slug); ?>">
                                 <?php if ($relatedProduct->getCoverProductImage() instanceof \library\Product\Image) : ?>
                                     <img src="<?php echo $relatedProduct->getCoverProductImage()->getThumb(); ?>"
                                          title="<?php echo $relatedProduct->name; ?>"
                                          alt="<?php echo $relatedProduct->name; ?>">
-                                <?php elseif ($relatedProduct->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                     <?php elseif ($relatedProduct->getFirstProductImage() instanceof \library\Product\Image) : ?>
                                     <img src="<?php echo $relatedProduct->getFirstProductImage()->getThumb(); ?>"
                                          title="<?php echo $relatedProduct->name; ?>"
                                          alt="<?php echo $relatedProduct->name; ?>">
-                                <?php endif; ?>
+                                     <?php endif; ?>
                             </a>
                         </div>
                         <div class="price">
-                            <span><?php echo Stringify::currency_format($relatedProduct->price); ?></span>
+                            <span><?php echo Helpers\Stringify::currency_format($relatedProduct->price); ?></span>
                         </div>
                         <div class="cart">
                             <a onclick="addToCart('<?php echo $relatedProduct->getId(); ?>');"

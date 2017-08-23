@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * Description of file
@@ -113,4 +115,5 @@ final class SessionFile extends Session
         }
         return true;
     }
+
 }

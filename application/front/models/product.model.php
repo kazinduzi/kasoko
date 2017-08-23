@@ -26,18 +26,19 @@ class Product extends Model
     const MANUFACTURER_PRODUCT_TABLE = 'product_manufacturer';
     const CATEGORY_PRODUCT_TABLE = 'category_product';
     const SPECIAL_PRODUCT_TABLE = 'product_special';
-
     //
     const SORT_ALPHA = 'alpha';
     const SORT_ALPHA_REV = 'alpha_reverse';
     const SORT_PRICE_MIN = 'price_min';
     const SORT_PRICE_MAX = 'price_max';
+
     /**
      * Table name of the product
      *
      * @var string
      */
     public $table = self::PRODUCT_TABLE;
+
     /**
      * Place for relations of our models
      *
@@ -51,7 +52,6 @@ class Product extends Model
             'foreign_key' => 'product_id',
             'far_key' => 'category_id'
         ],
-
         /**
          * Simple HAS-MANY, without join through table, @see \Model::_get()
          */
@@ -59,14 +59,12 @@ class Product extends Model
             'model' => '\\models\\Product\\AttributeValue',
             //'through' => 'product_attributes',
             'foreign_key' => 'product_id',
-            //'far_key' => 'attribute_id'
+        //'far_key' => 'attribute_id'
         ],
-
         'product_attribute_configurations' => [
             'model' => '\\models\\Product\\ProductAttributeConfiguration',
             'foreign_key' => 'product_id',
         ],
-
     );
     public $belongsTo = array(
         'manufacturer' => [
@@ -76,26 +74,31 @@ class Product extends Model
             'far_key' => 'manufacturer_id'
         ],
     );
+
     /**
      * The primary key product table
      *
      * @var string
      */
     protected $pk = 'product_id';
+
     /**
      * The product id for this model
      *
      * @var integer
      */
     protected $id;
+
     /**
      * @var integer
      */
     protected $manufacturer_id;
+
     /**
      * @var array
      */
     protected $categories = array();
+
     /**
      * @var ProductImageProvider
      */
@@ -151,7 +154,7 @@ class Product extends Model
      */
     public static function getLatest($limit = self::LIMIT_DEFAULT)
     {
-        $products = self::model()->findBySql('SELECT * FROM `product` ORDER BY `product_id` DESC LIMIT 0, ' . (int)$limit);
+        $products = self::model()->findBySql('SELECT * FROM `product` ORDER BY `product_id` DESC LIMIT 0, ' . (int) $limit);
         return new \ArrayIterator($products);
     }
 
@@ -172,8 +175,8 @@ class Product extends Model
     public static function getSpecialBySlug($slug)
     {
         return static::model()->findBySql(sprintf("SELECT `p`.*, "
-            . "(SELECT `ps`.`price` FROM `product_special` AS `ps` WHERE `ps`.`product_id` = `p`.`product_id`) as special_price "
-            . "FROM `product` AS `p` WHERE `p`.`slug` = '%s' LIMIT 1;", self::$db->real_escape_string($slug)));
+                                . "(SELECT `ps`.`price` FROM `product_special` AS `ps` WHERE `ps`.`product_id` = `p`.`product_id`) as special_price "
+                                . "FROM `product` AS `p` WHERE `p`.`slug` = '%s' LIMIT 1;", self::$db->real_escape_string($slug)));
     }
 
     /**
@@ -183,8 +186,8 @@ class Product extends Model
     public static function getSpecial(Product $product)
     {
         return static::model()->findBySql(sprintf("SELECT `p`.*, "
-            . "(SELECT `ps`.`price` FROM `product_special` AS `ps` WHERE `ps`.`product_id` = `p`.`product_id`) as special_price "
-            . "FROM `product` AS `p` WHERE `p`.`product_id` = '%d';", $product->getId()));
+                                . "(SELECT `ps`.`price` FROM `product_special` AS `ps` WHERE `ps`.`product_id` = `p`.`product_id`) as special_price "
+                                . "FROM `product` AS `p` WHERE `p`.`product_id` = '%d';", $product->getId()));
     }
 
     /**
@@ -233,7 +236,7 @@ class Product extends Model
             $this->getDbo()->autocommit(false);
             try {
                 foreach ($this->categories as $categoryId) {
-                    $this->getDbo()->setQuery(sprintf("INSERT INTO `category_product` SET `category_id` = %d, `product_id` = %d;", (int)$categoryId, $this->getId()));
+                    $this->getDbo()->setQuery(sprintf("INSERT INTO `category_product` SET `category_id` = %d, `product_id` = %d;", (int) $categoryId, $this->getId()));
                     $this->getDbo()->execute();
                 }
                 $this->getDbo()->commit();
@@ -357,7 +360,7 @@ class Product extends Model
         $this->getDbo()->query(sprintf("SELECT `pr`.`related_id` FROM `product_related` AS `pr` WHERE `pr`.`product_id` = %d", $this->getId()));
         $related = null;
         foreach ($this->getDbo()->fetchAssocList() as $relatedId) {
-            $related[] = new static((int)$relatedId);
+            $related[] = new static((int) $relatedId);
         }
         return $related;
     }
@@ -400,7 +403,6 @@ class Product extends Model
         if (count($this->getProductAttributes())) {
             foreach ($this->getProductAttributes() as $productAttribute) {
                 $productAttributeConfigurations = array_merge($productAttributeConfigurations, $productAttribute->getProductAttributeConfigurations());
-
             }
         }
         return $productAttributeConfigurations;
@@ -412,7 +414,6 @@ class Product extends Model
     public function getProductAttributes()
     {
         return $this->attributeValues;
-
     }
 
 }

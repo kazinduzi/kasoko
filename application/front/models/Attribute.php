@@ -1,14 +1,17 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
  * Date: 12-6-2016
  * Time: 23:52
  */
+
 namespace models;
 
 class Attribute extends \Model
 {
+
     public $belongsTo = [
         'AttributeGroup' => array(
             'model' => '\models\AttributeGroup',
@@ -45,4 +48,5 @@ class Attribute extends \Model
             return $this->value_label;
         }
     }
+
 }

@@ -35,4 +35,5 @@ class A extends Model
         }
         return $Instance;
     }
+
 }

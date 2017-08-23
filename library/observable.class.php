@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Description of Observable
@@ -7,6 +9,7 @@
  */
 abstract class Observable
 {
+
     /**
      * Array of Observers
      * @access private
@@ -40,4 +43,5 @@ abstract class Observable
     {
         $this->observers[] = $observer;
     }
+
 }

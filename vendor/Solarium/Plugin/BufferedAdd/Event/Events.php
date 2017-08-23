@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\BufferedAdd\Event;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\Plugin\BufferedAdd\Event;
  */
 class Events
 {
+
     /**
      * This event is called before a buffer flush
      *
@@ -87,4 +89,5 @@ class Events
      * @var string
      */
     const ADD_DOCUMENT = 'solarium.bufferedAdd.addDocument';
+
 }

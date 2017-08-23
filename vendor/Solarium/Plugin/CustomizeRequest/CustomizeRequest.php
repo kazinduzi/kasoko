@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Plugin\CustomizeRequest;
 
 use Solarium\Core\Plugin\Plugin;
@@ -53,6 +54,7 @@ use Solarium\Core\Event\preExecuteRequest as preExecuteRequestEvent;
  */
 class CustomizeRequest extends Plugin
 {
+
     /**
      * Holds customizations added to this plugin
      *
@@ -267,9 +269,7 @@ class CustomizeRequest extends Plugin
             switch ($customization->getType()) {
                 case Customization::TYPE_PARAM:
                     $request->addParam(
-                        $customization->getName(),
-                        $customization->getValue(),
-                        $customization->getOverwrite()
+                            $customization->getName(), $customization->getValue(), $customization->getOverwrite()
                     );
                     break;
                 case Customization::TYPE_HEADER:
@@ -285,4 +285,5 @@ class CustomizeRequest extends Plugin
 
         $event->setRequest($request);
     }
+
 }

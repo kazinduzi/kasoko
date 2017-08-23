@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Client\Adapter;
 
 use Solarium\Core\ConfigurableInterface;
@@ -60,6 +61,7 @@ use Solarium\Core\Client\Endpoint;
  */
 interface AdapterInterface extends ConfigurableInterface
 {
+
     /**
      * Execute a request
      *

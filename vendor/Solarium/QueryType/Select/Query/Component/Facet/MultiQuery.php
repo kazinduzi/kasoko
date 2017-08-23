@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\QueryType\Select\Query\Component\FacetSet;
@@ -50,6 +51,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class MultiQuery extends Facet
 {
+
     /**
      * Facet query objects
      *
@@ -304,4 +306,5 @@ class MultiQuery extends Facet
 
         return parent::clearExcludes();
     }
+
 }

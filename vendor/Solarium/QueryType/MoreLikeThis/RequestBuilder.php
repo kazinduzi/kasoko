@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer.
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
@@ -35,10 +36,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\Core\Client\Request;
@@ -50,6 +51,7 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends SelectRequestBuilder
 {
+
     /**
      * Build request for a MoreLikeThis query
      *
@@ -84,4 +86,5 @@ class RequestBuilder extends SelectRequestBuilder
 
         return $request;
     }
+
 }

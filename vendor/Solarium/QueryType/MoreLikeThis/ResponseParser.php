@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
  * All rights reserved.
@@ -33,10 +34,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\MoreLikeThis;
 
 use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponseParser;
@@ -46,6 +47,7 @@ use Solarium\QueryType\Select\ResponseParser\ResponseParser as SelectResponsePar
  */
 class ResponseParser extends SelectResponseParser
 {
+
     /**
      * Get result data for the response
      *
@@ -78,4 +80,5 @@ class ResponseParser extends SelectResponseParser
 
         return $parseResult;
     }
+
 }

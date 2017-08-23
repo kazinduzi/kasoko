@@ -15,5 +15,5 @@ require 'PHPMailer/PHPMailerAutoload.php';
 
 class Mailer extends PHPMailer
 {
-
+    
 }

@@ -1,32 +1,32 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
-*/
-
-/**
- * @fileOverview Defines the {@link CKEDITOR.dom.comment} class, which represents
- *		a DOM comment node.
+ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+ For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
-CKEDITOR.dom.comment = CKEDITOR.tools.createClass(
-{
-	base : CKEDITOR.dom.node,
+		/**
+		 * @fileOverview Defines the {@link CKEDITOR.dom.comment} class, which represents
+		 *		a DOM comment node.
+		 */
 
-	$ : function( text, ownerDocument )
-	{
-		if ( typeof text == 'string' )
-			text = ( ownerDocument ? ownerDocument.$ : document ).createComment( text );
+		CKEDITOR.dom.comment = CKEDITOR.tools.createClass(
+				{
+					base: CKEDITOR.dom.node,
 
-		this.base( text );
-	},
+					$: function (text, ownerDocument)
+					{
+						if (typeof text == 'string')
+							text = (ownerDocument ? ownerDocument.$ : document).createComment(text);
 
-	proto :
-	{
-		type : CKEDITOR.NODE_COMMENT,
+						this.base(text);
+					},
 
-		getOuterHtml : function()
-		{
-			return '<!--' + this.$.nodeValue + '-->';
-		}
-	}
-});
+					proto:
+							{
+								type: CKEDITOR.NODE_COMMENT,
+
+								getOuterHtml: function ()
+								{
+									return '<!--' + this.$.nodeValue + '-->';
+								}
+							}
+				});

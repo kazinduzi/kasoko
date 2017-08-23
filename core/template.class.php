@@ -13,6 +13,7 @@ defined('KAZINDUZI_PATH') || exit('No direct script access allowed');
  */
 class Template
 {
+
     const DEFAULT_LAYOUT = 'default';
     const DEFAULT_LAYOUT_SUFFIX = 'phtml';
     const DEFAULT_VIEW_SUFFIX = 'tpl';
@@ -23,33 +24,40 @@ class Template
      * @var type
      */
     protected $FrontController;
+
     /**
      *
      * @var type
      */
     private $data = array();
+
     /**
      *
      * @var type
      */
     private $file = false;
+
     /**
      * @var \Theme
      */
     private $Theme;
+
     /**
      *
      * @var type
      */
     private $layout = self::DEFAULT_LAYOUT;
+
     /**
      * @var string
      */
     private $viewSuffix = self::DEFAULT_VIEW_SUFFIX;
+
     /**
      * @var string
      */
     private $layoutSuffix = self::DEFAULT_LAYOUT_SUFFIX;
+
     /**
      * @var string
      */

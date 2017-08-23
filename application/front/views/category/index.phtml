@@ -11,29 +11,29 @@
             <div class="product-holder">
                 <?php if (count($product->getProductImages())): ?>
                     <div class="img-box">
-                        <a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>">
+                        <a href="/product/item/<?php echo Helpers\Stringify::slugify($product->slug); ?>">
                             <?php if ($product->getCoverProductImage() instanceof \library\Product\Image) : ?>
                                 <img src="<?php echo $product->getCoverProductImage()->getThumb(); ?>"
                                      title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
-                            <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
+                                 <?php elseif ($product->getFirstProductImage() instanceof \library\Product\Image) : ?>
                                 <img src="<?php echo $product->getFirstProductImage()->getThumb(); ?>"
                                      title="<?php echo $product->name; ?>" alt="<?php echo $product->name; ?>"/>
-                            <?php else : ?>
+                                 <?php else : ?>
                                 <img itemprop="image" src="/html/images/kasoko/280x196.png"
                                      alt="<?php echo $product->name; ?>" width="150">
-                            <?php endif; ?>
+                                 <?php endif; ?>
                         </a>
                     </div>
                 <?php endif; ?>
                 <div class="product-meta">
                     <div class="name">
-                        <a href="/product/item/<?php echo Stringify::slugify($product->slug); ?>"><?php echo $product->name ?></a>
+                        <a href="/product/item/<?php echo Helpers\Stringify::slugify($product->slug); ?>"><?php echo $product->name ?></a>
                     </div>
                     <div class="product-description">
                         <p class="description"
-                           itemprop="description"><?php echo \Stringify::truncate($product->description, 100); ?></p>
+                           itemprop="description"><?php echo \Helpers\Stringify::truncate($product->description, 100); ?></p>
                     </div>
-                    <div class="price"><?php echo Stringify::currency_format($product->price); ?></div>
+                    <div class="price"><?php echo Helpers\Stringify::currency_format($product->price); ?></div>
                     <div class="cart">
                         <a href="javascript:void(0)" class="btn btn-default"
                            onclick="addToCart('<?php echo $product->product_id; ?>');">Add to Cart</a>
@@ -48,7 +48,7 @@
     <ul>
     <?php /* foreach ($categories as $category) :?>
       <li>
-      <a href="/category/view/<?php echo Stringify::slugify($category->name);?>"><?php echo $category->name;?></a> (<strong><?php echo count($category->product);?></strong> products)
+      <a href="/category/view/<?php echo Helpers\Stringify::slugify($category->name);?>"><?php echo $category->name;?></a> (<strong><?php echo count($category->product);?></strong> products)
       </li>
       <?php endforeach; */ ?>
     </ul>

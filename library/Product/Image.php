@@ -106,7 +106,7 @@ class Image
         if (true === $cover) {
             $this->resetProductCover();
         }
-        $this->cover = (bool)$cover;
+        $this->cover = (bool) $cover;
         return $this;
     }
 
@@ -181,18 +181,18 @@ class Image
     {
         if (!empty($this->id)) {
             $queryStatement = "update `" . $this->productImageTable . "` SET "
-                . "`product_id` = %d,"
-                . "`image` = '%s',"
-                . "`thumb` = '%s', "
-                . "`cover` = %d,"
-                . "`title` = '%s',"
-                . "`description` = '%s',"
-                . "`short_description` = '%s',"
-                . "`postscriptum` = '%s' WHERE `id` = %d";
+                    . "`product_id` = %d,"
+                    . "`image` = '%s',"
+                    . "`thumb` = '%s', "
+                    . "`cover` = %d,"
+                    . "`title` = '%s',"
+                    . "`description` = '%s',"
+                    . "`short_description` = '%s',"
+                    . "`postscriptum` = '%s' WHERE `id` = %d";
             $this->getDbo()->autocommit(false);
             try {
                 $this->getDbo()->setQuery(
-                    sprintf($queryStatement, $this->product->getId(), $this->getImage(), $this->getThumb(), (int)$this->isCover(), $this->getTitle(), $this->getDescription(), $this->getShort(), $this->getPostscriptum(), $this->id)
+                        sprintf($queryStatement, $this->product->getId(), $this->getImage(), $this->getThumb(), (int) $this->isCover(), $this->getTitle(), $this->getDescription(), $this->getShort(), $this->getPostscriptum(), $this->id)
                 );
                 $this->getDbo()->execute();
                 $this->getDbo()->commit();
@@ -202,19 +202,19 @@ class Image
             }
         } else {
             $queryStatement = "replace into `" . $this->productImageTable . "` set "
-                . "`product_id` = %d, "
-                . "`image` = '%s',"
-                . "`thumb` = '%s', "
-                . "`cover` = %d,"
-                . "`title` = '%s',"
-                . "`description` = '%s',"
-                . "`short_description` = '%s',"
-                . "`postscriptum` = '%s'";
+                    . "`product_id` = %d, "
+                    . "`image` = '%s',"
+                    . "`thumb` = '%s', "
+                    . "`cover` = %d,"
+                    . "`title` = '%s',"
+                    . "`description` = '%s',"
+                    . "`short_description` = '%s',"
+                    . "`postscriptum` = '%s'";
             $this->getDbo()->autocommit(false);
             try {
                 $this->getDbo()->setQuery(
-                    sprintf($queryStatement, $this->product->getId(), $this->getImage(), $this->getThumb(), (int)$this->isCover(), $this->getTitle(), $this->getDescription(), $this->getShort(), $this->getPostscriptum()
-                    )
+                        sprintf($queryStatement, $this->product->getId(), $this->getImage(), $this->getThumb(), (int) $this->isCover(), $this->getTitle(), $this->getDescription(), $this->getShort(), $this->getPostscriptum()
+                        )
                 );
                 $this->getDbo()->execute();
                 $this->getDbo()->commit();
@@ -271,7 +271,7 @@ class Image
      */
     public function isCover()
     {
-        return (bool)$this->cover;
+        return (bool) $this->cover;
     }
 
     /**

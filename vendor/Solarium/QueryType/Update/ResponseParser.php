@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Update;
 
 use Solarium\Core\Query\ResponseParserInterface;
@@ -46,6 +47,7 @@ use Solarium\Core\Query\ResponseParser as ResponseParserAbstract;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
+
     /**
      * Parse response data
      *
@@ -58,4 +60,5 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $this->addHeaderInfo($data, array());
     }
+
 }

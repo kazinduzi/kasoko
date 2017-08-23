@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Suggester;
 
 use Solarium\Core\Query\Query as BaseQuery;
@@ -50,16 +51,17 @@ use Solarium\QueryType\Suggester\ResponseParser;
  */
 class Query extends BaseQuery
 {
+
     /**
      * Default options
      *
      * @var array
      */
     protected $options = array(
-        'handler'       => 'suggest',
-        'resultclass'   => 'Solarium\QueryType\Suggester\Result\Result',
-        'termclass'     => 'Solarium\QueryType\Suggester\Result\Term',
-        'omitheader'    => true,
+        'handler' => 'suggest',
+        'resultclass' => 'Solarium\QueryType\Suggester\Result\Result',
+        'termclass' => 'Solarium\QueryType\Suggester\Result\Term',
+        'omitheader' => true,
     );
 
     /**
@@ -204,4 +206,5 @@ class Query extends BaseQuery
     {
         return $this->getOption('collate');
     }
+
 }

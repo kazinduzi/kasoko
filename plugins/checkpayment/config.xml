@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>checkpayment</name>
+	<category><![CDATA[payments_gateways]]></category>
+	<displayName><![CDATA[Check payment]]></displayName>
+	<version><![CDATA[0.0.1]]></version>
+	<description><![CDATA[This plugin allows you to accept payments by check.]]></description>
+	<author><![CDATA[Kasoko]]></author>	
+	<confirmUninstall>Are you sure you want to delete these details?</confirmUninstall>
+	<is_configurable>1</is_configurable>	
+	<limited_countries></limited_countries>
+</module>

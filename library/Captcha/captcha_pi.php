@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CodeIgniter
  *
@@ -12,137 +13,135 @@
  * @since        Version 1.0
  * @filesource
  */
-
 // ------------------------------------------------------------------------
 
 /*
-Instructions:
+  Instructions:
 
-Load the plugin using:
+  Load the plugin using:
 
- 	$this->load->plugin('captcha');
+  $this->load->plugin('captcha');
 
-Once loaded you can generate a captcha like this:
-	
-	$vals = array(
-					'word'		 => 'Random word',
-					'img_path'	 => './captcha/',
-					'img_url'	 => 'http://example.com/captcha/',
-					'font_path'	 => './system/fonts/texb.ttf',
-					'img_width'	 => '150',
-					'img_height' => 30,
-					'expiration' => 7200
-				);
-	
-	$cap = create_captcha($vals);
-	echo $cap['image'];
-	
+  Once loaded you can generate a captcha like this:
 
-NOTES:
-	
-	The captcha function requires the GD image library.
-	
-	Only the img_path and img_url are required.
-	
-	If a "word" is not supplied, the function will generate a random
-	ASCII string.  You might put together your own word library that
-	you can draw randomly from.
-	
-	If you do not specify a path to a true TYPE font, the native ugly GD
-	font will be used.
-	
-	The "captcha" folder must be writable (666, or 777)
-	
-	The "expiration" (in seconds) signifies how long an image will
-	remain in the captcha folder before it will be deleted.  The default
-	is two hours.
+  $vals = array(
+  'word'		 => 'Random word',
+  'img_path'	 => './captcha/',
+  'img_url'	 => 'http://example.com/captcha/',
+  'font_path'	 => './system/fonts/texb.ttf',
+  'img_width'	 => '150',
+  'img_height' => 30,
+  'expiration' => 7200
+  );
 
-RETURNED DATA
+  $cap = create_captcha($vals);
+  echo $cap['image'];
 
-The create_captcha() function returns an associative array with this data:
+
+  NOTES:
+
+  The captcha function requires the GD image library.
+
+  Only the img_path and img_url are required.
+
+  If a "word" is not supplied, the function will generate a random
+  ASCII string.  You might put together your own word library that
+  you can draw randomly from.
+
+  If you do not specify a path to a true TYPE font, the native ugly GD
+  font will be used.
+
+  The "captcha" folder must be writable (666, or 777)
+
+  The "expiration" (in seconds) signifies how long an image will
+  remain in the captcha folder before it will be deleted.  The default
+  is two hours.
+
+  RETURNED DATA
+
+  The create_captcha() function returns an associative array with this data:
 
   [array]
   (
-	'image' => IMAGE TAG
-	'time'	=> TIMESTAMP (in microtime)
-	'word'	=> CAPTCHA WORD
+  'image' => IMAGE TAG
+  'time'	=> TIMESTAMP (in microtime)
+  'word'	=> CAPTCHA WORD
   )
 
-The "image" is the actual image tag:
-<img src="http://example.com/captcha/12345.jpg" width="140" height="50" />
+  The "image" is the actual image tag:
+  <img src="http://example.com/captcha/12345.jpg" width="140" height="50" />
 
-The "time" is the micro timestamp used as the image name without the file
-extension.  It will be a number like this:  1139612155.3422
+  The "time" is the micro timestamp used as the image name without the file
+  extension.  It will be a number like this:  1139612155.3422
 
-The "word" is the word that appears in the captcha image, which if not
-supplied to the function, will be a random string.
-
-
-ADDING A DATABASE
-
-In order for the captcha function to prevent someone from posting, you will need
-to add the information returned from create_captcha() function to your database.
-Then, when the data from the form is submitted by the user you will need to verify
-that the data exists in the database and has not expired.
-
-Here is a table prototype:
-
-	CREATE TABLE captcha (
-	 captcha_id bigint(13) unsigned NOT null auto_increment,
-	 captcha_time int(10) unsigned NOT null,
-	 ip_address varchar(16) default '0' NOT null,
-	 word varchar(20) NOT null,
-	 PRIMARY KEY `captcha_id` (`captcha_id`),
-	 KEY `word` (`word`)
-	)
+  The "word" is the word that appears in the captcha image, which if not
+  supplied to the function, will be a random string.
 
 
-Here is an example of usage with a DB.
+  ADDING A DATABASE
 
-On the page where the captcha will be shown you'll have something like this:
+  In order for the captcha function to prevent someone from posting, you will need
+  to add the information returned from create_captcha() function to your database.
+  Then, when the data from the form is submitted by the user you will need to verify
+  that the data exists in the database and has not expired.
 
-	$this->load->plugin('captcha');
-	$vals = array(
-					'img_path'	 => './captcha/',
-					'img_url'	 => 'http://example.com/captcha/'
-				);
-	
-	$cap = create_captcha($vals);
+  Here is a table prototype:
 
-	$data = array(
-					'captcha_id'	=> '',
-					'captcha_time'	=> $cap['time'],
-					'ip_address'	=> $this->input->ip_address(),
-					'word'			=> $cap['word']
-				);
-
-	$query = $this->db->insert_string('captcha', $data);
-	$this->db->query($query);
-		
-	echo 'Submit the word you see below:';
-	echo $cap['image'];
-	echo '<input type="text" name="captcha" value="" />';
+  CREATE TABLE captcha (
+  captcha_id bigint(13) unsigned NOT null auto_increment,
+  captcha_time int(10) unsigned NOT null,
+  ip_address varchar(16) default '0' NOT null,
+  word varchar(20) NOT null,
+  PRIMARY KEY `captcha_id` (`captcha_id`),
+  KEY `word` (`word`)
+  )
 
 
-Then, on the page that accepts the submission you'll have something like this:
+  Here is an example of usage with a DB.
 
-	// First, delete old captchas
-	$expiration = time()-7200; // Two hour limit
-	$DB->query("DELETE FROM captcha WHERE captcha_time < ".$expiration);		
+  On the page where the captcha will be shown you'll have something like this:
 
-	// Then see if a captcha exists:
-	$sql = "SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND date > ?";
-	$binds = array($_POST['captcha'], $this->input->ip_address(), $expiration);
-	$query = $this->db->query($sql, $binds);
-	$row = $query->row();
+  $this->load->plugin('captcha');
+  $vals = array(
+  'img_path'	 => './captcha/',
+  'img_url'	 => 'http://example.com/captcha/'
+  );
 
-	if ($row->count == 0)
-	{
-		echo "You must submit the word that appears in the image";
-	}
+  $cap = create_captcha($vals);
 
-*/
+  $data = array(
+  'captcha_id'	=> '',
+  'captcha_time'	=> $cap['time'],
+  'ip_address'	=> $this->input->ip_address(),
+  'word'			=> $cap['word']
+  );
 
+  $query = $this->db->insert_string('captcha', $data);
+  $this->db->query($query);
+
+  echo 'Submit the word you see below:';
+  echo $cap['image'];
+  echo '<input type="text" name="captcha" value="" />';
+
+
+  Then, on the page that accepts the submission you'll have something like this:
+
+  // First, delete old captchas
+  $expiration = time()-7200; // Two hour limit
+  $DB->query("DELETE FROM captcha WHERE captcha_time < ".$expiration);
+
+  // Then see if a captcha exists:
+  $sql = "SELECT COUNT(*) AS count FROM captcha WHERE word = ? AND ip_address = ? AND date > ?";
+  $binds = array($_POST['captcha'], $this->input->ip_address(), $expiration);
+  $query = $this->db->query($sql, $binds);
+  $row = $query->row();
+
+  if ($row->count == 0)
+  {
+  echo "You must submit the word that appears in the image";
+  }
+
+ */
 
 /**
  * |==========================================================
@@ -156,7 +155,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
 
     foreach ($defaults as $key => $val) {
         if (!is_array($data)) {
-            if (!isset($$key) OR $$key == '') {
+            if (!isset($$key) OR $ $key == '') {
                 $$key = $val;
             }
         } else {
@@ -185,7 +184,7 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
     // -----------------------------------
 
     list($usec, $sec) = explode(" ", microtime());
-    $now = ((float)$usec + (float)$sec);
+    $now = ((float) $usec + (float) $sec);
 
     $current_dir = @opendir($img_path);
 
@@ -228,7 +227,6 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
     // -----------------------------------
     // Create image
     // -----------------------------------
-
     // PHP.net recommends imagecreatetruecolor(), but it isn't always available
     if (function_exists('imagecreatetruecolor')) {
         $im = imagecreatetruecolor($img_width, $img_height);
@@ -325,7 +323,6 @@ function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = 
     return array('word' => $word, 'time' => $now, 'image' => $img);
 }
 
-
 /* End of file captcha_pi.php */
 /* Location: ./system/plugins/captcha_pi.php */
 
@@ -343,5 +340,4 @@ $cap = create_captcha($vals);
 echo $cap['image'] . '<br/>';
 echo $cap['time'] . '<br/>';
 echo $cap['word'] . '<br/>';
-
 ?>

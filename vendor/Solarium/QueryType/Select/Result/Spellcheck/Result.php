@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Spellcheck;
 
 use Solarium\QueryType\Select\Result\Spellcheck\Collation;
@@ -46,6 +47,7 @@ use Solarium\QueryType\Select\Result\Spellcheck\Suggestion;
  */
 class Result implements \IteratorAggregate, \Countable
 {
+
     /**
      * Suggestions array
      *
@@ -168,4 +170,5 @@ class Result implements \IteratorAggregate, \Countable
     {
         return count($this->suggestions);
     }
+
 }

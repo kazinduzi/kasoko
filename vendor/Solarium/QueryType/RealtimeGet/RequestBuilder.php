@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\RealtimeGet;
 
 use Solarium\Core\Client\Request;
@@ -47,6 +48,7 @@ use Solarium\Core\Query\QueryInterface;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
+
     /**
      * Build request for a ping query
      *
@@ -61,4 +63,5 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
+
 }

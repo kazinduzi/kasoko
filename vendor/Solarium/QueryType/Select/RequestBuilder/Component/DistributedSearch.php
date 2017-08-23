@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\RequestBuilder\Component;
 
 use Solarium\QueryType\Select\Query\Component\DistributedSearch as DistributedSearchComponent;
@@ -46,6 +47,7 @@ use Solarium\Core\Client\Request;
  */
 class DistributedSearch implements ComponentRequestBuilderInterface
 {
+
     /**
      * Add request settings for DistributedSearch
      *
@@ -71,4 +73,5 @@ class DistributedSearch implements ComponentRequestBuilderInterface
 
         return $request;
     }
+
 }

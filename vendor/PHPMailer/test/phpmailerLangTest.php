@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPMailer - language file tests
  * Requires PHPUnit 3.3 or later.
@@ -12,7 +13,6 @@
  * @copyright 2010 Marcus Bointon
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
-
 require_once '../PHPMailerAutoload.php';
 
 /**
@@ -21,6 +21,7 @@ require_once '../PHPMailerAutoload.php';
  */
 class PHPMailerLangTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * Holds a phpmailer instance.
      * @private
@@ -73,4 +74,5 @@ class PHPMailerLangTest extends PHPUnit_Framework_TestCase
         }
         $this->assertEmpty($err, $err);
     }
+
 }

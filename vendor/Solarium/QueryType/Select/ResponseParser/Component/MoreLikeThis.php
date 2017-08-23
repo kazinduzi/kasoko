@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\ResponseParser\Component;
 
 use Solarium\QueryType\Select\Query\Query;
@@ -48,6 +49,7 @@ use Solarium\QueryType\Select\Result\MoreLikeThis\MoreLikeThis as MoreLikeThisRe
  */
 class MoreLikeThis implements ComponentParserInterface
 {
+
     /**
      * Parse result data into result objects
      *
@@ -73,13 +75,12 @@ class MoreLikeThis implements ComponentParserInterface
                 }
 
                 $results[$key] = new Result(
-                    $result['numFound'],
-                    isset($result['maxScore']) ? $result['maxScore'] : null,
-                    $docs
+                        $result['numFound'], isset($result['maxScore']) ? $result['maxScore'] : null, $docs
                 );
             }
         }
 
         return new MoreLikeThisResult($results);
     }
+
 }

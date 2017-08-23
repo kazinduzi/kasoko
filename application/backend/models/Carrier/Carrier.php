@@ -1,4 +1,5 @@
 <?php
+
 namespace models\Carrier;
 
 defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
@@ -15,7 +16,7 @@ class Carrier extends \Model
      */
     public function setActive($active)
     {
-        $this->active = (bool)$active;
+        $this->active = (bool) $active;
         return $this;
     }
 

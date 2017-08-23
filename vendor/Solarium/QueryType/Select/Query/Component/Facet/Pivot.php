@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component\Facet;
 
 use Solarium\QueryType\Select\Query\Component\FacetSet;
@@ -47,6 +48,7 @@ use Solarium\QueryType\Select\Query\Component\FacetSet;
  */
 class Pivot extends Facet
 {
+
     /**
      * Fields to use
      *
@@ -96,7 +98,6 @@ class Pivot extends Facet
     {
         return $this->getOption('mincount');
     }
-
 
     /**
      * Specify a field to return in the resultset
@@ -185,4 +186,5 @@ class Pivot extends Facet
 
         return $this;
     }
+
 }

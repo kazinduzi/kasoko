@@ -1,0 +1,23 @@
+<div>
+    <h3>Edit a new currency</h3>
+</div>
+<form method="POST">
+    <div class="">
+        <div class="form-group">
+            <label for="code" class="control-label">Code</label>
+            <input type="text" id="code" required="required" name="currency_creation[code]" class="form-control" value="<?php echo $currency->getCode(); ?>" title="Currency code" placeholder="Code">
+        </div>
+        <div class="form-group">
+            <label for="symbol" class="control-label">Symbol</label>
+            <input type="text" id="symbol" required="required" name="currency_creation[symbol]" class="form-control" value="<?php echo $currency->symbol; ?>" title="Currency symbol" placeholder="Symbol">
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label">Exchange rate</label>
+            <input type="text" id="name" required="required" name="currency_creation[rate]" class="form-control" value="<?php echo $currency->rate; ?>" title="Currency exchange rate" placeholder="Exchange rate">
+        </div>
+    </div>    
+    <div class="">
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Edit this currency</button>
+    </div>
+</form>

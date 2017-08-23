@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 use Solarium\Core\Query\QueryInterface;
@@ -46,6 +47,7 @@ use Solarium\Core\Client\Request;
  */
 interface RequestBuilderInterface
 {
+
     /**
      * Build request for a select query
      *

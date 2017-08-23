@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  * Copyright 2012 Alexander Brausewetter. All rights reserved.
@@ -37,10 +38,10 @@
  * @package Solarium
  * @subpackage Client
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Extract;
 
 use Solarium\Core\Query\QueryInterface;
@@ -56,6 +57,7 @@ use Solarium\Exception\RuntimeException;
  */
 class RequestBuilder extends BaseRequestBuilder
 {
+
     /**
      * Build the request
      *
@@ -107,4 +109,5 @@ class RequestBuilder extends BaseRequestBuilder
 
         return $request;
     }
+
 }

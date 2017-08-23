@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: User
@@ -8,20 +9,18 @@
 
 namespace models\Product;
 
-
 class ProductAttributeConfiguration extends \Model
 {
+
     public $belongsTo = [
         'attribute' => [
             'model' => '\\models\\Attribute',
             'foreign_key' => 'attribute_id',
         ],
-
         'product' => [
             'model' => '\\Product',
             'foreign_key' => 'product_id',
         ],
-
         'product_attributes' => [
             'model' => '\\model\\Product\\AttributeValue',
             'foreign_key' => 'product_attributes_id',

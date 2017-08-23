@@ -22,27 +22,29 @@
                 </tr>
             </thead>
             <tbody>
-            <?php if (null === $allManufacturers) :?>                
-                <tr><td colspan="5">No manufacturer is found</td></tr>                    
-            <?php else: foreach($allManufacturers as $manufacturer) :?>
-                <tr>
-                    <td><?php echo $manufacturer->getId();?></td>
-                    <td><a href="/admin/manufacturers/edit/<?php echo $manufacturer->getId();?>"><?php echo $manufacturer->name;?></a></td>
-                    <td>
-                        <?php if ($manufacturer->isActive()) :?>
-                            <i class="glyphicon glyphicon-ok"></i>
-                        <?php else :?>
-                            <i class="glyphicon glyphicon-remove"></i>
-                        <?php endif;?>
-                    </td>                    
-                    <td class="actions">
-                        <div class="btn-group">
-                            <a class="btn btn-default btn-xs" title="Edit this product" href="/admin/manufacturers/edit/<?php echo $manufacturer->getId();?>"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a class="btn btn-default btn-xs product-delete" title="Delete this product and all its contents" href="/admin/manufacturers/delete/<?php echo $manufacturer->getId();?>"><i class="glyphicon glyphicon-trash"></i></a>
-                        </div>
-                     </td>
-                </tr>                
-            <?php endforeach; endif; ?>
+                <?php if (null === $allManufacturers) : ?>                
+                    <tr><td colspan="5">No manufacturer is found</td></tr>                    
+                <?php else: foreach ($allManufacturers as $manufacturer) : ?>
+                        <tr>
+                            <td><?php echo $manufacturer->getId(); ?></td>
+                            <td><a href="/admin/manufacturers/edit/<?php echo $manufacturer->getId(); ?>"><?php echo $manufacturer->name; ?></a></td>
+                            <td>
+                                <?php if ($manufacturer->isActive()) : ?>
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                <?php else : ?>
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                <?php endif; ?>
+                            </td>                    
+                            <td class="actions">
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-xs" title="Edit this product" href="/admin/manufacturers/edit/<?php echo $manufacturer->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default btn-xs product-delete" title="Delete this product and all its contents" href="/admin/manufacturers/delete/<?php echo $manufacturer->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>                
+                    <?php endforeach;
+                endif;
+                ?>
             </tbody>
         </table>
     </div>

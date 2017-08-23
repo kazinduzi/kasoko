@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Result\Stats;
 
 /**
@@ -43,6 +44,7 @@ namespace Solarium\QueryType\Select\Result\Stats;
  */
 class Result
 {
+
     /**
      * Field name
      *
@@ -168,4 +170,5 @@ class Result
     {
         return $this->stats['facets'];
     }
+
 }

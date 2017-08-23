@@ -123,8 +123,8 @@ abstract class Editor
     protected function updateSize($width = null, $height = null)
     {
         $this->size = array(
-            'width' => (int)$width,
-            'height' => (int)$height
+            'width' => (int) $width,
+            'height' => (int) $height
         );
         return $this;
     }

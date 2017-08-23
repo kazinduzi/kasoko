@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Analysis\Result;
 
 use Solarium\Core\Query\Result\QueryType as BaseResult;
@@ -45,6 +46,7 @@ use Solarium\Core\Query\Result\QueryType as BaseResult;
  */
 class Field extends BaseResult implements \IteratorAggregate, \Countable
 {
+
     /**
      * List instances array
      *
@@ -133,4 +135,5 @@ class Field extends BaseResult implements \IteratorAggregate, \Countable
 
         return count($this->items);
     }
+
 }

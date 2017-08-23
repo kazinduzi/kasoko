@@ -1,15 +1,17 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 /**
  * Description of customer
  *
  * @author Emmanuel_Leonie
  */
-class customer extends Model
+class Customer extends Model
 {
+
     const MODEL_TABLE_NAME = 'customer';
     const PRIMARY_KEY_FIELD = 'customer_id';
-
 
     /**
      * Table name

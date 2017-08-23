@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Gasol Wu. PIXNET Digital Media Corporation.
  * All rights reserved.
@@ -33,10 +34,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Terms;
 
 use Solarium\QueryType\Terms\Query;
@@ -48,6 +49,7 @@ use Solarium\Core\Query\ResponseParserInterface as ResponseParserInterface;
  */
 class ResponseParser extends ResponseParserAbstract implements ResponseParserInterface
 {
+
     /**
      * Get result data for the response
      *
@@ -84,4 +86,5 @@ class ResponseParser extends ResponseParserAbstract implements ResponseParserInt
 
         return $this->addHeaderInfo($data, array('results' => $termResults));
     }
+
 }

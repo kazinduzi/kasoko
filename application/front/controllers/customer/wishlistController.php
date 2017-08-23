@@ -53,7 +53,7 @@ class CustomerWishlistController extends BaseController
         if (!empty($wishlist)) {
             $products = array();
             foreach ($wishlist as $productId) {
-                $products[] = new Product((int)$productId);
+                $products[] = new Product((int) $productId);
             }
             $this->getTemplate()->set('wishlistProducts', $products);
         }
@@ -75,10 +75,10 @@ class CustomerWishlistController extends BaseController
             $wishlist[] = $productId;
             $this->getSession()->add('wishlist', $wishlist);
             echo json_encode(
-                array(
-                    'success' => true,
-                    'total' => count($wishlist)
-                )
+                    array(
+                        'success' => true,
+                        'total' => count($wishlist)
+                    )
             );
         }
         exit();
@@ -100,10 +100,10 @@ class CustomerWishlistController extends BaseController
             unset($wishlist[$key]);
             $this->getSession()->add('wishlist', $wishlist);
             echo json_encode(
-                array(
-                    'success' => true,
-                    'total' => count($wishlist)
-                )
+                    array(
+                        'success' => true,
+                        'total' => count($wishlist)
+                    )
             );
         }
         exit();

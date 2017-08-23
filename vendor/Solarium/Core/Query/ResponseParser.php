@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core\Query;
 
 /**
@@ -45,6 +46,7 @@ namespace Solarium\Core\Query;
  */
 abstract class ResponseParser
 {
+
     /**
      * Converts a flat key-value array (alternating rows) as used in Solr JSON results to a real key value array
      *
@@ -59,14 +61,14 @@ abstract class ResponseParser
         $result = array();
         for ($i = 0; $i < count($data); $i += 2) {
 
-            $key  = $data[$i];
-            $value = $data[$i+1];
+            $key = $data[$i];
+            $value = $data[$i + 1];
             if (array_key_exists($key, $keys)) {
                 if ($keys[$key] == 1) {
                     $result[$key] = array($result[$key]);
                 }
                 $result[$key][] = $value;
-                $keys[$key]++;
+                $keys[$key] ++;
             } else {
                 $keys[$key] = 1;
                 $result[$key] = $value;
@@ -98,4 +100,5 @@ abstract class ResponseParser
 
         return $result;
     }
+
 }

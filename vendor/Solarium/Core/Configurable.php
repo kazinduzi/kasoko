@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 Bas de Nooijer. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\Core;
 
 use Solarium\Exception\InvalidArgumentException;
@@ -49,6 +50,7 @@ use Solarium\Exception\InvalidArgumentException;
  */
 class Configurable implements ConfigurableInterface
 {
+
     /**
      * Default options
      *
@@ -100,7 +102,7 @@ class Configurable implements ConfigurableInterface
                     $options = $options->toArray();
                 } else {
                     throw new InvalidArgumentException(
-                        'Options value given to the setOptions() method must be an array or a Zend_Config object'
+                    'Options value given to the setOptions() method must be an array or a Zend_Config object'
                     );
                 }
             }
@@ -134,7 +136,7 @@ class Configurable implements ConfigurableInterface
      */
     protected function init()
     {
-
+        
     }
 
     /**
@@ -177,4 +179,5 @@ class Configurable implements ConfigurableInterface
     {
         return $this->options;
     }
+
 }

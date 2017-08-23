@@ -1,4 +1,6 @@
-<?php defined('KAZINDUZI_PATH') or die('No direct access script allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or die('No direct access script allowed');
 
 /**
  * Session provides session-level data management and the related configurations.
@@ -46,42 +48,52 @@
  */
 abstract class Session implements ArrayAccess, IteratorAggregate, Countable
 {
+
     /**
      * @var  array  session instances
      */
     public static $instances = array();
+
     /**
      * @var type of session to be used (default|database)
      */
     public static $default = 'default';
+
     /**
      * @var type
      */
     protected static $configs = array();
+
     /**
      * @var type
      */
-    public $ip = false;    
+    public $ip = false;
+
     /**
      * @var type
      */
     public $ua = false;
+
     /**
      *
      * @var type
      */
     private $sessionData = array();
+
     /**
      *
      * @var type
      */
-    private $_encrypted = false;	
-	
+    private $_encrypted = false;
+
     /**
      * This abstract may not have been instantiated
      * @throws Exception
      */
-    private function __construct() {}
+    private function __construct()
+    {
+        
+    }
 
     /**
      * Get the singleton Object for the session
@@ -153,7 +165,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
         }
         $this->init();
         $this->open();
-		
+
         # check security
         $this->security_check();
         register_shutdown_function(array($this, 'close'));
@@ -180,10 +192,10 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
             session_destroy();
         }
         // Set the name of the session which is used as cookie name.
-        ini_set('session.name', (string)self::$configs['session_name']);
+        ini_set('session.name', (string) self::$configs['session_name']);
 
         // Set session lifetime of the cookie in seconds
-        ini_set('session.cookie_lifetime', (int)self::$configs['session_lifetime']);
+        ini_set('session.cookie_lifetime', (int) self::$configs['session_lifetime']);
 
         // Set Session property to use cookies ONLY
         if (!ini_get('session.use_only_cookies')) {
@@ -200,66 +212,59 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
 
         // Use a strong session hash identifier
         (version_compare(PHP_VERSION, '5.3.0') >= 0) ? ini_set('session.hash_function', self::$configs['hash_function']) : ini_set('session.hash_function', '1');
-
     }
 
     /**
      * Starts the session if it has not started yet
-	 * 
+     * 
      * @return boolean
      */
     private function open()
-    {        
+    {
         if ($this->isStarted()) {
-			return true;
-		}
-		
-		// Sync up the session cookie with Cookie parameters
+            return true;
+        }
+
+        // Sync up the session cookie with Cookie parameters
         $this->getCookieParams();
 
         if ($this->getUseCustomStorage()) {
             // use this object as the session handler
             session_set_save_handler(
-                array(&$this, 'openSession'),
-                array(&$this, 'closeSession'),
-                array(&$this, 'readSession'),
-                array(&$this, 'writeSession'),
-                array(&$this, 'destroySession'),
-                array(&$this, 'gcSession')
+                    array(&$this, 'openSession'), array(&$this, 'closeSession'), array(&$this, 'readSession'), array(&$this, 'writeSession'), array(&$this, 'destroySession'), array(&$this, 'gcSession')
             );
         }
-		
-		/**
-		 *  Start normally the session
-		 */
-		if (\PHP_SESSION_ACTIVE === session_status()) {
-			throw new \RuntimeException('Failed to start the session: already started by PHP.');
-		}
-		if (ini_get('session.use_cookies') && headers_sent($file, $line)) {
-			throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
-		}
-		// ok to try and start the session
-		if (!session_start()) {
-			throw new \RuntimeException('Failed to start the session');
-		}
-		
-		/**
-		 * If {session_match_ip} is set in the session's configuration file, and
-		 * it is not yet set in $_SESSION global, set it.
-		 */
-		if (self::$configs['session_match_ip'] && !isset($_SESSION['ip'])) {
-			$_SESSION['ip'] = Request::getInstance()->ip_address();
-		}
-		/**
-		 * If {session_match_useragent} is set in the session's configuration file, and
-		 * it is not yet set in $_SESSION global, set it.
-		 */
-		if (self::$configs['session_match_useragent'] && !isset($_SESSION['ua'])) {
-			$_SESSION['ua'] = Request::getInstance()->user_agent();
-		}
-		
-		return true;
-        
+
+        /**
+         *  Start normally the session
+         */
+        if (\PHP_SESSION_ACTIVE === session_status()) {
+            throw new \RuntimeException('Failed to start the session: already started by PHP.');
+        }
+        if (ini_get('session.use_cookies') && headers_sent($file, $line)) {
+            throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
+        }
+        // ok to try and start the session
+        if (!session_start()) {
+            throw new \RuntimeException('Failed to start the session');
+        }
+
+        /**
+         * If {session_match_ip} is set in the session's configuration file, and
+         * it is not yet set in $_SESSION global, set it.
+         */
+        if (self::$configs['session_match_ip'] && !isset($_SESSION['ip'])) {
+            $_SESSION['ip'] = Request::getInstance()->ip_address();
+        }
+        /**
+         * If {session_match_useragent} is set in the session's configuration file, and
+         * it is not yet set in $_SESSION global, set it.
+         */
+        if (self::$configs['session_match_useragent'] && !isset($_SESSION['ua'])) {
+            $_SESSION['ua'] = Request::getInstance()->user_agent();
+        }
+
+        return true;
     }
 
     /**
@@ -317,9 +322,9 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
             @session_destroy();
             if (ini_get('session.use_cookies')) {
                 $params = $this->getCookieParams();
-                extract($params);				
+                extract($params);
                 if ($httponly) {
-					\library\Cookie\Cookie::setcookie($this->name(), '', time() - 42000, $path, $domain, $secure, $httponly, 'Lax');                    
+                    \library\Cookie\Cookie::setcookie($this->name(), '', time() - 42000, $path, $domain, $secure, $httponly, 'Lax');
                 } else {
                     \library\Cookie\Cookie::setcookie($this->name(), '', time() - 42000, $path, $domain, $secure, false, 'Lax');
                 }
@@ -340,7 +345,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
 
     /**
      * Restarts the current session.
-	 * 
+     * 
      * @return  boolean
      */
     public function restart()
@@ -352,7 +357,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
 
     /**
      * Generate a new session id and return it.
-	 * 
+     * 
      * @return  string
      */
     public function regenerate($delete_old_session = true)
@@ -387,7 +392,8 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
     public function setId($value)
     {
         session_id($value);
-        return $this;;
+        return $this;
+        ;
     }
 
     /**
@@ -444,7 +450,6 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
         } else {
             session_set_cookie_params($lifetime, $path, $domain, $secure);
         }
-
     }
 
     /**
@@ -452,9 +457,12 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
      */
     public function getCookieMode()
     {
-        if (ini_get('session.use_cookies') === '0') return 'none';
-        else if (ini_get('session.use_only_cookies') === '0') return 'allow';
-        else return 'only';
+        if (ini_get('session.use_cookies') === '0')
+            return 'none';
+        else if (ini_get('session.use_only_cookies') === '0')
+            return 'allow';
+        else
+            return 'only';
     }
 
     /**
@@ -482,7 +490,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
      */
     public function getGCProbability()
     {
-        return (int)ini_get('session.gc_probability');
+        return (int) ini_get('session.gc_probability');
     }
 
     /**
@@ -491,7 +499,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
      */
     public function setGCProbability($value)
     {
-        $value = (int)$value;
+        $value = (int) $value;
         if ($value >= 0 && $value <= 100) {
             ini_set('session.gc_probability', $value);
             ini_set('session.gc_divisor', '100');
@@ -521,7 +529,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
      */
     public function getTimeout()
     {
-        return (int)ini_get('session.gc_maxlifetime');
+        return (int) ini_get('session.gc_maxlifetime');
     }
 
     /**
@@ -793,7 +801,7 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
         if ($key === '') {
             throw new Exception("The '$key' key must be a non-empty string");
         }
-        unset($this->sessionData[(string)$key]);
+        unset($this->sessionData[(string) $key]);
     }
 
     /**
@@ -834,7 +842,6 @@ abstract class Session implements ArrayAccess, IteratorAggregate, Countable
         $this->sessionData[$key] = $value;
         return $this;
     }
-
 
     /**
      * Removes a session variable.

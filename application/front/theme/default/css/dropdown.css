@@ -4,7 +4,7 @@
 }
 .nav {
     list-style: none;
-     *zoom: 1;     
+	*zoom: 1;     
 }
 .nav:before,
 .nav:after {
@@ -86,7 +86,7 @@
     .nav > li > .parent {
         background: none;
     }
-    
+
     .nav > li > .touch-button {
         position:absolute;
         top: 0;
@@ -100,12 +100,12 @@
     .nav > li > .touch-button:after{
         content: " ";
     }
-    
+
     .nav ul {
         display: block;
         width: 100%;
     }
-   .nav > li.hover > ul , .nav li li.hover ul {
+	.nav > li.hover > ul , .nav li li.hover ul {
         position: static;
     }
 

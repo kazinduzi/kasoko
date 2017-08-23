@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2012 Marc Morera. All rights reserved.
  *
@@ -32,10 +33,10 @@
  * @license http://github.com/basdenooijer/solarium/raw/master/COPYING
  * @link http://www.solarium-project.org/
  */
-
 /**
  * @namespace
  */
+
 namespace Solarium\QueryType\Select\Query\Component;
 
 use Solarium\QueryType\Select\Query\Query as SelectQuery;
@@ -48,6 +49,7 @@ use Solarium\QueryType\Select\RequestBuilder\Component\EdisMax as RequestBuilder
  */
 class EdisMax extends DisMax
 {
+
     /**
      * Default options
      *
@@ -231,4 +233,5 @@ class EdisMax extends DisMax
     {
         return $this->getOption('userfields');
     }
+
 }

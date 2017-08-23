@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPMailer SPL autoloader.
  * PHP Version 5
@@ -38,6 +39,7 @@ if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
         spl_autoload_register('PHPMailerAutoload');
     }
 } else {
+
     /**
      * Fall back to traditional autoload for old PHP versions
      * @param string $classname The name of the class to load
@@ -46,4 +48,5 @@ if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
     {
         PHPMailerAutoload($classname);
     }
+
 }

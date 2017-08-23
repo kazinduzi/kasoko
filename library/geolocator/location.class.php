@@ -1,12 +1,13 @@
-<?php defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+<?php
+
+defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
 
 class Location
 {
-    private $yqlUrl = 'http://query.yahooapis.com/v1/public/yql';
 
+    private $yqlUrl = 'http://query.yahooapis.com/v1/public/yql';
     private $locator;
     private $initialized = false;
-
     private $ip;
     private $status;
     private $countryCode;
@@ -125,4 +126,5 @@ class Location
         $this->initialize();
         return $this->dstoffset;
     }
+
 }

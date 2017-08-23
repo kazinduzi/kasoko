@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="table-responsive">
         <table class="table table-striped table-condensed" id="customer_list">
-            <caption><?php echo __('List of customers');?>
+            <caption><?php echo __('List of customers'); ?>
                 <a class="btn btn-default btn-primary action-btn" title="Add a new customer" href="/admin/customers/add" data-toggle="modal">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                 </a>
@@ -9,40 +9,42 @@
             <thead>
                 <tr>
                     <th class="object-title">ID</th>
-                    <th class="object-title"><?php echo _('Firstname');?></th>
-                    <th class="object-title"><?php echo _('Lastname');?></th>
-                    <th class="object-title"><?php echo _('Status');?></th>
-                    <th class="object-title"><?php echo _('Date of registration');?></th>
-                    <th class="object-title"><?php echo _('Date of last order');?></th>                                       
+                    <th class="object-title"><?php echo _('Firstname'); ?></th>
+                    <th class="object-title"><?php echo _('Lastname'); ?></th>
+                    <th class="object-title"><?php echo _('Status'); ?></th>
+                    <th class="object-title"><?php echo _('Date of registration'); ?></th>
+                    <th class="object-title"><?php echo _('Date of last order'); ?></th>                                       
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
-            <?php if (count($customers) < 1) :?>                
-                <tr><td colspan="7">No category is found</td></tr>                    
-            <?php else: foreach($customers as $customer) :?>
-                <tr>
-                    <td><a href=""><?php echo $customer->getId();?></a></td>
-                    <td><?php echo $customer->firstname;?></td>
-                    <td><?php echo $customer->lastname;?></td>
-                    <td>
-                        <?php if ($customer->status) :?>
-                            <i class="glyphicon glyphicon-ok"></i>
-                        <?php else :?>
-                            <i class="glyphicon glyphicon-remove"></i>
-                        <?php endif;?>
-                    </td>
-                    <td><?php echo date('d-m-Y H:i:s', strtotime($customer->date_added));?></td>
-                    <td></td>
-                    <td class="actions">
-                        <div class="btn-group">
-                            <a class="btn btn-default btn-xs" title="Edit customer" href="/admin/customers/edit/<?php echo $customer->getId();?>"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a class="btn btn-default btn-xs" title="Customer mail" href="mailto:<?php echo $customer->email;?>"><span class="glyphicon glyphicon-envelope"></span></a>
-                            <a class="btn btn-default btn-xs category-delete" title="Delete customer" href="/admin/customers/delete/<?php echo $customer->getId();?>"><i class="glyphicon glyphicon-trash"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; endif;?>
+                <?php if (count($customers) < 1) : ?>                
+                    <tr><td colspan="7">No category is found</td></tr>                    
+                <?php else: foreach ($customers as $customer) : ?>
+                        <tr>
+                            <td><a href=""><?php echo $customer->getId(); ?></a></td>
+                            <td><?php echo $customer->firstname; ?></td>
+                            <td><?php echo $customer->lastname; ?></td>
+                            <td>
+                                <?php if ($customer->status) : ?>
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                <?php else : ?>
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo date('d-m-Y H:i:s', strtotime($customer->date_added)); ?></td>
+                            <td></td>
+                            <td class="actions">
+                                <div class="btn-group">
+                                    <a class="btn btn-default btn-xs" title="Edit customer" href="/admin/customers/edit/<?php echo $customer->getId(); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a class="btn btn-default btn-xs" title="Customer mail" href="mailto:<?php echo $customer->email; ?>"><span class="glyphicon glyphicon-envelope"></span></a>
+                                    <a class="btn btn-default btn-xs category-delete" title="Delete customer" href="/admin/customers/delete/<?php echo $customer->getId(); ?>"><i class="glyphicon glyphicon-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach;
+                endif;
+                ?>
             </tbody>            
         </table>
     </div>
