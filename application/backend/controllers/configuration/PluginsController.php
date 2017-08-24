@@ -12,8 +12,7 @@
  * @author Emmanuel Ndayiragije <endayiragije@gmail.com>
  */
 class ConfigurationPluginsController extends Admin_controller
-{
-    
+{    
     /**
      * Constructor
      * 

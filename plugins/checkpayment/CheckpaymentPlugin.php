@@ -16,18 +16,15 @@ class CheckpaymentPlugin extends Plugin
      */
     public function __construct()
     {
-        $this->name = 'ps_checkpayment';
+        $this->name = 'kasoko_checkpayment';
         $this->category = 'payments_gateways';
         $this->version = '1.0.0';
         $this->author = 'Kasoko';
-        $this->controllers = array('payment', 'validation');
-
+        $this->controllers = array('CheckpaymentController', 'CheckpaymentValidation');
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
-
         $this->checkName = '';
         $this->address = '';
-
         $this->bootstrap = true;
         parent::__construct();
     }

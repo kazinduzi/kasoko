@@ -20,14 +20,11 @@ class IdealPlugin extends Plugin
         $this->category = 'payments_methode';
         $this->version = '1.0.0';
         $this->author = 'Kasoko';
-        $this->controllers = array('payment', 'validation');
-
+        $this->controllers = array('IdealController', 'IdealValidation');
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
-
         $this->checkName = '';
         $this->address = '';
-
         $this->bootstrap = true;
         parent::__construct();
     }
