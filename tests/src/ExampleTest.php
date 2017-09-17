@@ -41,6 +41,7 @@ class ExampleTest extends TestCase
         $this->assertEquals(0, count($stack));
 
         array_push($stack, 'foo');
+        var_dump($stack);
         $this->assertEquals('foo', $stack[count($stack)-1]);
         $this->assertEquals(1, count($stack));
 
