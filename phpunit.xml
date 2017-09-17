@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./tests/bootstrap.php"
+		backupGlobals="true"
+		colors="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		stopOnFailure="false">
+		<testsuites>
+			<testsuite name="Kasoko Test Suite">
+				<directory>./tests/src</directory>
+			</testsuite>
+		</testsuites>
+		<filter>            
+			<blacklist>
+				<directory suffix="Exception.php">./</directory>				
+				<directory>database</directory>
+				<directory>vendor</directory>
+			</blacklist>
+		</filter>
+</phpunit>
