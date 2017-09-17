@@ -13,7 +13,7 @@
 		</testsuites>
 		<filter>
             <whitelist>
-                <directory suffix=".php">frontend/</directory>
+                <directory suffix=".php">front/</directory>
             </whitelist>
 			<blacklist>
 				<directory suffix="Exception.php">classes</directory>				
