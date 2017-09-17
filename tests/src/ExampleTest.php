@@ -18,10 +18,14 @@ class ExampleTest extends TestCase
         parent::setUp();        
     }
     
+    /**
+     * 
+     */
     public function tearDown()
     {
         parent::tearDown();        
     }
+    
     /**
      * 
      */
@@ -39,13 +43,11 @@ class ExampleTest extends TestCase
     {     
         $stack = [];
         $this->assertEquals(0, count($stack));
-
-        array_push($stack, 'foo');
-        var_dump($stack);
+        array_push($stack, 'foo');        
         $this->assertEquals('foo', $stack[count($stack)-1]);
         $this->assertEquals(1, count($stack));
-
         $this->assertEquals('foo', array_pop($stack));
         $this->assertEquals(0, count($stack));
     }
+    
 }
