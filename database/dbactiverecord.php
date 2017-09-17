@@ -146,15 +146,6 @@ class DbActiveRecord
 
     /**
      *
-     * @return type
-     */
-    public function getDbox()
-    {
-        return $this->db = Database::getInstance();
-    }
-
-    /**
-     *
      * @param type $columns
      * @return \DbActiveRecord
      */
