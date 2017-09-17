@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-	<name>kasoko_ideal</name>
-	<category><![CDATA[payments_gateways]]></category>
+	<name>kasoko_ideal</name>	
 	<displayName><![CDATA[iDeal payment]]></displayName>
 	<version><![CDATA[0.0.1]]></version>
+	<type><![CDATA[payment_method]]></type>
 	<description><![CDATA[This module allows you to accept payments by iDeal.]]></description>
 	<author><![CDATA[Kasoko]]></author>
 	<confirmUninstall>Are you sure you want to delete these details?</confirmUninstall>

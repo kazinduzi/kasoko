@@ -1,6 +1,8 @@
 <?php
 
-defined('KAZINDUZI_PATH') or exit('No direct script access allowed');
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require __DIR__ . '/vendor/autoload.php';
+}
 
 /**
  *  nullify any existing autoloads
@@ -70,7 +72,7 @@ function autoloader_controller($className)
 
 function autoloader_module($className)
 {
-    $file = MODULES_PATH . '/' . str_replace('\\', '/', $className) . '.php';    
+    $file = MODULES_PATH . '/' . str_replace('\\', '/', $className) . '.php';
     if (file_exists($file)) {
         require $file;
     }
@@ -78,7 +80,7 @@ function autoloader_module($className)
 
 function autoloader_plugin($className)
 {
-    $file = PLUGINS_PATH . '/' . str_replace('\\', '/', $className) . '.php';    
+    $file = PLUGINS_PATH . '/' . str_replace('\\', '/', $className) . '.php';
     if (file_exists($file)) {
         require $file;
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-	<name>checkpayment</name>
-	<category><![CDATA[payments_gateways]]></category>
+	<name>checkpayment</name>	
 	<displayName><![CDATA[Check payment]]></displayName>
 	<version><![CDATA[0.0.1]]></version>
+	<type><![CDATA[payment_method]]></type>
 	<description><![CDATA[This plugin allows you to accept payments by check.]]></description>
 	<author><![CDATA[Kasoko]]></author>	
 	<confirmUninstall>Are you sure you want to delete these details?</confirmUninstall>

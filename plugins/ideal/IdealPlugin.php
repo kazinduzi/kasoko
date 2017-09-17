@@ -14,10 +14,10 @@ class IdealPlugin extends Plugin
     /**
      * 
      */
-    public function __construct()
+    public function __construct($id = null)
     {
         $this->name = 'kasoko_ideal';
-        $this->category = 'payments_methode';
+        $this->type = 'payments_methode';
         $this->version = '1.0.0';
         $this->author = 'Kasoko';
         $this->controllers = array('IdealController', 'IdealValidation');
@@ -26,7 +26,7 @@ class IdealPlugin extends Plugin
         $this->checkName = '';
         $this->address = '';
         $this->bootstrap = true;
-        parent::__construct();
+        parent::__construct($id);
     }
 
     /**

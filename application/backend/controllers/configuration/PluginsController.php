@@ -32,12 +32,12 @@ class ConfigurationPluginsController extends Admin_controller
     {
         $this->Template->setFilename('plugins/overview');
         $this->title = __('plugins overview');
-        $allPlugins = \library\Plugin::getList();
+        $listPlugins = \library\Plugin::getList();
         $allInstalledPlugins = \library\Plugin::getAllInstalled();
         $allActivePlugins = \library\Plugin::getAllActive();
-        print_r($allPlugins);
-        print_r($allActivePlugins);
-        print_r($allInstalledPlugins);
+        $this->listPlugins = $listPlugins;
+        $this->allActivePlugins = $allActivePlugins;
+        $this->allInstalledPlugins = $allInstalledPlugins;        
     }
 
 }

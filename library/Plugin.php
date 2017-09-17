@@ -18,14 +18,13 @@ use library\Utils\XmlUtils;
 
 class Plugin
 {
-
     const TABLE_MODULE = 'plugin';
     const MODULE_CATEGORY_PAYMENT = 'payments_gateways';
 
     protected $id;
     protected $name;
     protected $path;
-    protected $category;
+    protected $type;
     protected $active;
     protected $installed;
     protected $attributes = [
@@ -37,9 +36,9 @@ class Plugin
         'author' => '',
         'img' => '',
         'confirmUninstall' => '',
-        'category' => '',
+        'type' => '',
     ];
-    
+
     /**
      * @var Database instance
      */
@@ -74,15 +73,17 @@ class Plugin
      */
     private function loadFromDatabase($moduleId)
     {
-        if (is_string($moduleId)) {
+        if (is_numeric($moduleId)) {
+            $query = $this->getDbo()->select('*')->from(self::TABLE_MODULE)->where(sprintf("id = '%d'", (int)$moduleId))->buildQuery();
+        }
+        elseif (is_string($moduleId)) {
             $query = $this->getDbo()->select('*')->from(self::TABLE_MODULE)->where(sprintf("name = '%s'", $moduleId))->buildQuery();
-        } elseif (is_numeric($moduleId)) {            
-            $query = $this->getDbo()->select('*')->from(self::TABLE_MODULE)->where(sprintf("id = '%d'", $moduleId))->buildQuery();
-        }        
-        if (null !== $row = $query->fetchAssocRow()) {            
+        }
+        
+        if (null !== $row = $query->fetchAssocRow()) {
             $this->id = $row['id'];
             $this->name = $row['name'];
-            $this->category = $row['category'];
+            $this->type = $row['type'];
             $this->version = $row['version'];
             $this->active = $row['active'];
             $this->installed = $row['installed'];
@@ -96,7 +97,7 @@ class Plugin
      */
     public function getDbo()
     {
-        if (! $this->dbo) {
+        if (!$this->dbo) {
             $this->dbo = \Kazinduzi::db()->clear();
         }
         return $this->dbo;
@@ -135,13 +136,13 @@ class Plugin
     }
 
     /**
-     * Get module's category
+     * Get module's type
      * 
      * @return string
      */
-    public function getCategory()
+    public function getType()
     {
-        return $this->category;
+        return $this->type;
     }
 
     /**
@@ -215,29 +216,6 @@ class Plugin
     }
 
     /**
-     * Parse the settings into array
-     * 
-     * @return stdClass
-     */
-    public function parseSettings()
-    {
-        return (object) $this->parseConfigToArray();
-    }
-
-    /**
-     * Get module settings as array
-     * 
-     * @return array
-     */
-    public function parseConfigToArray()
-    {
-        $xml = file_get_contents($this->getPath() . '/config.xml');
-        $dom = new \DOMDocument();
-        $dom->loadXML($xml);
-        return XmlUtils::convertDomElementToArray($dom->documentElement);
-    }
-
-    /**
      * Install module
      * 
      * @return boolean
@@ -288,7 +266,7 @@ class Plugin
             throw new \Exception('Can\'t the module #' . $this->getName() . '# uninstall an uninstalled module.');
         }
     }
-    
+
     /**
      * Check if module can be upgraded
      * 
@@ -335,7 +313,7 @@ class Plugin
         if (null !== $rows = $dbo->fetchAssocList()) {
             foreach ($rows as $row) {
                 $moduleClassName = $row['classname'];
-                $installedPlugins[] = new $moduleClassName($row['name']);
+                $installedPlugins[] = new $moduleClassName($row['id']);
             }
         }
         return $installedPlugins;
@@ -353,7 +331,7 @@ class Plugin
         $dbo = Kazinduzi::db();
         $query = $dbo->select('*')->from(self::TABLE_MODULE)->where('active = 1')->buildQuery();
         $activated = array();
-        if (null !== $rows = $dbo->fetchAssocList()) {            
+        if (null !== $rows = $dbo->fetchAssocList()) {
             foreach ($rows as $row) {
                 $moduleClassName = $row['classname'];
                 $activated[] = new $moduleClassName($row['id']);

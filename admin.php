@@ -21,35 +21,35 @@ if (!empty($_GET['rt']) && $_GET['rt'] == 'favicon.ico') {
  * NOTE: If you change these, also change the error_reporting() code below
  */
 define('ENVIRONMENT', getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development');
-defined('DS') OR define('DS', DIRECTORY_SEPARATOR);
-defined('PS') OR define('PS', PATH_SEPARATOR);
-defined('EXT') OR define('EXT', '.php');
-defined('CLASS_EXT') OR define('CLASS_EXT', '.class.php');
-defined('MODEL_EXT') OR define('MODEL_EXT', '.model.php');
+defined('DS') || define('DS', DIRECTORY_SEPARATOR);
+defined('PS') || define('PS', PATH_SEPARATOR);
+defined('EXT') || define('EXT', '.php');
+defined('CLASS_EXT') || define('CLASS_EXT', '.class.php');
+defined('MODEL_EXT') || define('MODEL_EXT', '.model.php');
 /**
  *  define the site path
  */
-defined('KAZINDUZI_PATH') OR define('KAZINDUZI_PATH', realpath(dirname(__FILE__)));
-defined('CORE_PATH') OR define('CORE_PATH', realpath(KAZINDUZI_PATH . '/core'));
-defined('LIB_PATH') OR define('LIB_PATH', realpath(KAZINDUZI_PATH . '/library'));
-defined('DB_PATH') OR define('DB_PATH', realpath(KAZINDUZI_PATH . '/database'));
-defined('WIDGETS_PATH') OR define('WIDGETS_PATH', realpath(KAZINDUZI_PATH . '/widgets'));
-defined('LAYOUT_PATH') OR define('LAYOUT_PATH', realpath(KAZINDUZI_PATH . '/elements' . '/layouts'));
-defined('APP_PATH') OR define('APP_PATH', realpath(KAZINDUZI_PATH . '/application/backend'));
-defined('MODULES_PATH') OR define('MODULES_PATH', realpath(KAZINDUZI_PATH . '/modules'));
-defined('PLUGINS_PATH') OR define('PLUGINS_PATH', realpath(KAZINDUZI_PATH . '/plugins'));
+defined('KAZINDUZI_PATH') || define('KAZINDUZI_PATH', __DIR__);
+defined('CORE_PATH') || define('CORE_PATH', (KAZINDUZI_PATH . '/core'));
+defined('LIB_PATH') || define('LIB_PATH', (KAZINDUZI_PATH . '/library'));
+defined('DB_PATH') || define('DB_PATH', (KAZINDUZI_PATH . '/database'));
+defined('WIDGETS_PATH') || define('WIDGETS_PATH', (KAZINDUZI_PATH . '/widgets'));
+defined('LAYOUT_PATH') || define('LAYOUT_PATH', (KAZINDUZI_PATH . '/elements' . '/layouts'));
+defined('APP_PATH') || define('APP_PATH', (KAZINDUZI_PATH . '/application/backend'));
+defined('MODULES_PATH') || define('MODULES_PATH', (KAZINDUZI_PATH . '/modules'));
+defined('PLUGINS_PATH') || define('PLUGINS_PATH', (KAZINDUZI_PATH . '/plugins'));
 
-defined('CONTROLLERS_PATH') OR define('CONTROLLERS_PATH', realpath(APP_PATH . '/controllers'));
-defined('VIEWS_PATH') OR define('VIEWS_PATH', realpath(APP_PATH . '/views'));
-defined('MODELS_PATH') OR define('MODELS_PATH', realpath(APP_PATH . '/models'));
-defined('THEME_PATH') || define('THEME_PATH', realpath(APP_PATH . DIRECTORY_SEPARATOR . 'theme'));
+defined('CONTROLLERS_PATH') || define('CONTROLLERS_PATH', (APP_PATH . '/controllers'));
+defined('VIEWS_PATH') || define('VIEWS_PATH', (APP_PATH . '/views'));
+defined('MODELS_PATH') || define('MODELS_PATH', (APP_PATH . '/models'));
+defined('THEME_PATH') || define('THEME_PATH', (APP_PATH . '/theme'));
 
-defined('CURRENT_URL') OR define('CURRENT_URL', (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-defined('HOME_URL') OR define('HOME_URL', (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST']);
-defined('SITE_URL') OR define('SITE_URL', '/');
-defined('KAZINDUZI_DEBUG') OR define('KAZINDUZI_DEBUG', true);
-defined('KAZINDUZI_START_TIME') OR define('KAZINDUZI_START_TIME', microtime(true));
-defined('KAZINDUZI_START_MEMORY') OR define('KAZINDUZI_START_MEMORY', memory_get_usage());
+defined('CURRENT_URL') || define('CURRENT_URL', (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+defined('HOME_URL') || define('HOME_URL', (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST']);
+defined('SITE_URL') || define('SITE_URL', '/');
+defined('KAZINDUZI_DEBUG') || define('KAZINDUZI_DEBUG', true);
+defined('KAZINDUZI_START_TIME') || define('KAZINDUZI_START_TIME', microtime(true));
+defined('KAZINDUZI_START_MEMORY') || define('KAZINDUZI_START_MEMORY', memory_get_usage());
 
 require_once 'loader.php';
 
@@ -73,14 +73,10 @@ set_include_path(
         . PS . KAZINDUZI_PATH . '/html'
 );
 
-require_once 'Kazinduzi.php';
-require_once 'init.php';
-require_once 'common_functions.php';
-
-if (file_exists('install.php')) {
-    require_once 'install.php';
-}
+require 'Kazinduzi.php';
+require 'init.php';
+require 'common_functions.php';
 
 $session = Kazinduzi::session();
 $session->start();
-require_once APP_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
+require_once APP_PATH . '/bootstrap.php';
